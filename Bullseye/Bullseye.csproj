@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>For describing and running targets and their dependencies.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>latest</LangVersion>
+    <PackageIconUrl>https://raw.githubusercontent.com/adamralph/bullseye/master/assets/bullseye.png</PackageIconUrl>
+    <PackageLicenseUrl>https://github.com/adamralph/bullseye/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/adamralph/bullseye/releases</PackageReleaseNotes>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>$(VERSION_SUFFIX)</VersionSuffix>
+  </PropertyGroup>
+
+</Project>
