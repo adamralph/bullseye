@@ -23,10 +23,12 @@ namespace Bullseye
         public static int Run(IEnumerable<string> args) => RunAsync(args).GetAwaiter().GetResult();
 
         private static Func<Task> ToAsync(this Action action) =>
-            () =>
-            {
-                action?.Invoke();
-                return Task.FromResult(0);
-            };
+            action == null
+            ? default(Func<Task>)
+            : () =>
+                {
+                    action?.Invoke();
+                    return Task.FromResult(0);
+                };
     }
 }
