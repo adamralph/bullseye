@@ -57,7 +57,7 @@ Add("make-tea", () => Console.Out.WriteLineAsync("Tea made."));
 Add("drink-tea", DependsOn("make-tea"), () => Console.Out.WriteLineAsync("Ahh... lovely!"));
 Add("walk-dog", () => Console.Out.WriteLineAsync("Walkies!"));
 ```
-<img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-dependencies-output.png" width="384px" />
+<img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-dependencies-output.png" width="387px" />
 
 ---
 
