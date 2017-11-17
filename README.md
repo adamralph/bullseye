@@ -12,27 +12,52 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
 
 ## Quick start
 
-```PowerShell
-Install-Package Bullseye
-```
+- Install [.NET Core SDK 2.0.0](https://dot.net/core) or later.
+- In a console:
+  ```PowerShell
+  mkdir Targets
+  cd .\Targets\
+  dotnet new console
+  dotnet add package Bullseye -v 1.0.0-alpha0001
+  ```
+- Add to `Targets.csproj`:
+  ```xml
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  ```
+- Replace `Program.cs`:
+  ```C#
+  using System;
+  using System.Threading.Tasks;
+  using static Bullseye.Targets;
 
-```C#
-using static Bullseye.Targets;
-
-namespace MyTargets
-{
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            Add("default", () => Console.Out.WriteLineAsync("Hello, world!"));
-            return await RunAsync(args);
-        }
-    }
-}
-```
+  class Program
+  {
+      static async Task<int> Main(string[] args)
+      {
+          Add("default", () => Console.Out.WriteLineAsync("Hello, world!"));
+          return await RunAsync(args);
+      }
+  }
+  ```
+- In a console:
+  ```PowerShell
+  dotnet run
+  ```
+  <img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-hello-world-output.png" width="384px" />
 
 For help, pass `"--help"` as an argument.
+
+## Defining dependencies
+
+```C#
+Add("default", DependsOn("drink-tea", "walk-dog"));
+Add("make-tea", () => Console.Out.WriteLineAsync("Tea made."));
+Add("drink-tea", DependsOn("make-tea"), () => Console.Out.WriteLineAsync("Ahh... lovely!"));
+Add("walk-dog", () => Console.Out.WriteLineAsync("Walkies!"));
+```
+<img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-dependencies-output.png" width="384px" />
 
 ---
 
