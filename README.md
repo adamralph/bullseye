@@ -18,7 +18,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   mkdir Targets
   cd .\Targets\
   dotnet new console
-  dotnet add package Bullseye -v 1.0.0-alpha0001
+  dotnet add package Bullseye -v 1.0.0-alpha0002
   ```
 - Add to `Targets.csproj`:
   ```xml
