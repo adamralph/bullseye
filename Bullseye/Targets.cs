@@ -13,7 +13,7 @@ namespace Bullseye
         public static string[] DependsOn(params string[] dependencies) => dependencies;
 
         public static void Add(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
-            targets.Add(ValidateName(name), new Target(dependsOn.Sanitize().ToList(), action.Sanitize()));
+            targets.Add(ValidateName(name), new Target(dependsOn.Sanitize().ToList(), action));
 
         public static Task<int> RunAsync(IEnumerable<string> args) =>
             targets.RunAsync(args.Sanitize().ToList(), new SystemConsole());
@@ -27,8 +27,6 @@ namespace Bullseye
 
             return name;
         }
-
-        private static Func<Task> Sanitize(this Func<Task> action) => action ?? (() => Task.FromResult(0));
 
         private static IEnumerable<T> Sanitize<T>(this IEnumerable<T> items) =>
             (items?.Where(item => item != null) ?? Enumerable.Empty<T>());

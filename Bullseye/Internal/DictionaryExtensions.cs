@@ -3,9 +3,7 @@ namespace Bullseye.Internal
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
     using static Color;
@@ -143,23 +141,26 @@ namespace Bullseye.Internal
                 }
             }
 
-            await console.Out.WriteLineAsync(name.ToTargetStarting(options));
-            var stopWatch = Stopwatch.StartNew();
-
-            if (!options.DryRun)
+            if (target.Action != default)
             {
-                try
-                {
-                    await target.Action();
-                }
-                catch (Exception ex)
-                {
-                    await console.Out.WriteLineAsync(name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds));
-                    throw;
-                }
-            }
+                await console.Out.WriteLineAsync(name.ToTargetStarting(options));
+                var stopWatch = Stopwatch.StartNew();
 
-            await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds));
+                if (!options.DryRun)
+                {
+                    try
+                    {
+                        await target.Action();
+                    }
+                    catch (Exception ex)
+                    {
+                        await console.Out.WriteLineAsync(name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds));
+                        throw;
+                    }
+                }
+
+                await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds));
+            }
         }
 
         public static string ToListString(this IDictionary<string, Target> targets)
