@@ -61,25 +61,25 @@ namespace Bullseye.Internal
 
             if (unknownOptions.Any())
             {
-                await console.Error.WriteLineAsync($"Unknown options {unknownOptions.Quote()}. \"--help\" for usage.");
+                await console.Error.WriteLineAsync($"Unknown options {unknownOptions.Quote()}. \"--help\" for usage.").ConfigureAwait(false);
                 return 1;
             }
 
             if (showHelp)
             {
-                await console.Out.WriteLineAsync(GetUsage(options.NoColor));
+                await console.Out.WriteLineAsync(GetUsage(options.NoColor)).ConfigureAwait(false);
                 return 0;
             }
 
             if (listDependencies)
             {
-                await console.Out.WriteLineAsync(targets.ToDependencyString(options.NoColor));
+                await console.Out.WriteLineAsync(targets.ToDependencyString(options.NoColor)).ConfigureAwait(false);
                 return 0;
             }
 
             if (listTargets)
             {
-                await console.Out.WriteLineAsync(targets.ToListString());
+                await console.Out.WriteLineAsync(targets.ToListString()).ConfigureAwait(false);
                 return 0;
             }
 
@@ -89,7 +89,7 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await console.Out.WriteLineAsync(names.ToTargetsRunning(options));
+            await console.Out.WriteLineAsync(names.ToTargetsRunning(options)).ConfigureAwait(false);
             var stopWatch = Stopwatch.StartNew();
 
             try
@@ -98,12 +98,12 @@ namespace Bullseye.Internal
             }
             catch (Exception ex)
             {
-                await console.Out.WriteLineAsync(names.ToTargetsFailed(options, stopWatch.Elapsed.TotalMilliseconds));
-                await console.Error.WriteLineAsync(ex.ToString());
+                await console.Out.WriteLineAsync(names.ToTargetsFailed(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+                await console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
                 return 1;
             }
 
-            await console.Out.WriteLineAsync(names.ToTargetsSucceeded(options, stopWatch.Elapsed.TotalMilliseconds));
+            await console.Out.WriteLineAsync(names.ToTargetsSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
 
             return 0;
         }
@@ -143,23 +143,23 @@ namespace Bullseye.Internal
 
             if (target.Action != default)
             {
-                await console.Out.WriteLineAsync(name.ToTargetStarting(options));
+                await console.Out.WriteLineAsync(name.ToTargetStarting(options)).ConfigureAwait(false);
                 var stopWatch = Stopwatch.StartNew();
 
                 if (!options.DryRun)
                 {
                     try
                     {
-                        await target.Action();
+                        await target.Action().ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
-                        await console.Out.WriteLineAsync(name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds));
+                        await console.Out.WriteLineAsync(name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
                         throw;
                     }
                 }
 
-                await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds));
+                await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
             }
         }
 
