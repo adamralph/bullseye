@@ -4,6 +4,7 @@
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>
