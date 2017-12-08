@@ -38,8 +38,10 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   dotnet run
   ```
   <img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-hello-world-output.png" width="384px" />
-
-For help, pass `"--help"` as an argument.
+- For help:
+  ```PowerShell
+  dotnet run -- --help
+  ```
 
 Also see the [async quick start](https://github.com/adamralph/bullseye/wiki/Async-quick-start).
 
