@@ -20,24 +20,16 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   dotnet new console
   dotnet add package Bullseye -v 1.0.0-alpha0002
   ```
-- Add to `Targets.csproj`:
-  ```xml
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  ```
 - Replace `Program.cs`:
   ```C#
-  using System;
-  using System.Threading.Tasks;
   using static Bullseye.Targets;
 
   class Program
   {
-      static async Task<int> Main(string[] args)
+      static int Main(string[] args)
       {
-          Add("default", () => Console.Out.WriteLineAsync("Hello, world!"));
-          return await RunAsync(args);
+          Add("default", () => System.Console.WriteLine("Hello, world!"));
+          return Run(args);
       }
   }
   ```
@@ -49,13 +41,15 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
 
 For help, pass `"--help"` as an argument.
 
+Also see the [async quick start](https://github.com/adamralph/bullseye/wiki/Async-quick-start).
+
 ## Defining dependencies
 
 ```C#
 Add("default", DependsOn("drink-tea", "walk-dog"));
-Add("make-tea", () => Console.Out.WriteLineAsync("Tea made."));
-Add("drink-tea", DependsOn("make-tea"), () => Console.Out.WriteLineAsync("Ahh... lovely!"));
-Add("walk-dog", () => Console.Out.WriteLineAsync("Walkies!"));
+Add("make-tea", () => Console.WriteLine("Tea made."));
+Add("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
+Add("walk-dog", () => Console.WriteLine("Walkies!"));
 ```
 <img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-dependencies-output.png" width="387px" />
 
