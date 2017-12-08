@@ -15,8 +15,8 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
 - Install [.NET Core SDK 2.0.0](https://dot.net/core) or later.
 - In a console:
   ```PowerShell
-  mkdir Targets
-  cd .\Targets\
+  mkdir targets
+  cd targets
   dotnet new console
   dotnet add package Bullseye -v 1.0.0-alpha0002
   ```
