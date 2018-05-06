@@ -12,11 +12,19 @@ popd
 
 echo %~nx0: Smoke testing...
 @echo On
-dotnet run -c Release --project BullseyeSmokeTester -- --unknown-option --another-unknown-option
-dotnet run -c Release --project BullseyeSmokeTester -- --help || exit /b
-dotnet run -c Release --project BullseyeSmokeTester -- --list-targets || exit /b
-dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies || exit /b
-dotnet run -c Release --project BullseyeSmokeTester -- || exit /b
-dotnet run -c Release --project BullseyeSmokeTester -- --dry-run || exit /b
-dotnet run -c Release --project BullseyeSmokeTester -- --skip-dependencies || exit /b
-dotnet run -c Release --project BullseyeSmokeTester -- --dry-run --skip-dependencies || exit /b
+:try
+dotnet run -c Release --project BullseyeSmokeTester -- --help || goto :catch
+dotnet run -c Release --project BullseyeSmokeTester -- --list-targets || goto :catch
+dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies || goto :catch
+dotnet run -c Release --project BullseyeSmokeTester -- || goto :catch
+dotnet run -c Release --project BullseyeSmokeTester -- --dry-run || goto :catch
+dotnet run -c Release --project BullseyeSmokeTester -- --skip-dependencies || goto :catch
+dotnet run -c Release --project BullseyeSmokeTester -- --dry-run --skip-dependencies || goto :catch
+@echo Off
+goto :finally
+
+:catch
+@echo Off
+exit /b %errorlevel%
+
+:finally
