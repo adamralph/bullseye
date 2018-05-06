@@ -232,7 +232,11 @@ namespace Bullseye.Internal
         public static string GetUsage(bool noColor) =>
 $@"{Cyan(noColor)}Usage:{Default(noColor)} {BrightYellow(noColor)}<command-line>{Default(noColor)} {White(noColor)}[<options>]{Default(noColor)} [<targets>]
 
-{Cyan(noColor)}command-line: {Default(noColor)}The command line which invokes the application. E.g. {BrightYellow(noColor)}dotnet exec Foo.dll{Default(noColor)}.
+{Cyan(noColor)}command-line: {Default(noColor)}The command line which invokes the build targets.{Default(noColor)}
+  {Cyan(noColor)}Examples:{Default(noColor)}
+    {BrightYellow(noColor)}build.cmd{Default(noColor)}
+    {BrightYellow(noColor)}build.sh{Default(noColor)}
+    {BrightYellow(noColor)}dotnet run --project targets --{Default(noColor)}
 
 {Cyan(noColor)}options:{Default(noColor)}
  {White(noColor)}-D, --list-dependencies    {Default(noColor)}Display the targets and dependencies, then exit
@@ -244,9 +248,9 @@ $@"{Cyan(noColor)}Usage:{Default(noColor)} {BrightYellow(noColor)}<command-line>
 {Cyan(noColor)}targets: {Default(noColor)}A list of targets to run. If not specified, the ""default"" target will be run.
 
 {Cyan(noColor)}Examples:{Default(noColor)}
-  {BrightYellow(noColor)}dotnet exec Foo.dll{Default(noColor)}
-  {BrightYellow(noColor)}dotnet exec Foo.dll --{Default(noColor)} {White(noColor)}-T{Default(noColor)}
-  {BrightYellow(noColor)}dotnet exec Foo.dll --{Default(noColor)} test pack
-  {BrightYellow(noColor)}dotnet exec Foo.dll --{Default(noColor)} {White(noColor)}-n{Default(noColor)} build";
+  {BrightYellow(noColor)}build.cmd{Default(noColor)}
+  {BrightYellow(noColor)}build.cmd{Default(noColor)} {White(noColor)}-D{Default(noColor)}
+  {BrightYellow(noColor)}build.sh{Default(noColor)} test pack
+  {BrightYellow(noColor)}dotnet run --project targets --{Default(noColor)} {White(noColor)}-n{Default(noColor)} build";
     }
 }
