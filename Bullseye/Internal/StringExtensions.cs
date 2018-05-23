@@ -29,7 +29,6 @@ namespace Bullseye.Internal
 
         public static string Quote(this string @string) => $"\"{(@string.Replace("\"", "\"\""))}\"";
 
-
         public static string ToTargetsRunning(this IList<string> names, Options options) =>
             Message(MessageType.Start, $"Running {Quote(names)}...", options.DryRun, options.SkipDependencies, options.NoColor, null);
 
