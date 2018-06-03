@@ -5,9 +5,7 @@ echo %~nx0: Restoring...
 dotnet restore || goto :error
 
 echo %~nx0: Building and testing...
-pushd BullseyeTests
-dotnet xunit -configuration Release || goto :error
-popd
+dotnet test ./BullseyeTests/BullseyeTests.csproj --configuration Release || goto :error
 
 echo %~nx0: Smoke testing...
 @echo On
