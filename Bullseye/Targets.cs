@@ -15,7 +15,7 @@ namespace Bullseye
         public static void Add(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
             targets.Add(ValidateName(name), new Target(dependsOn.Sanitize().ToList(), action));
 
-        public static Task<int> RunAsync(IEnumerable<string> args) =>
+        public static Task RunAsync(IEnumerable<string> args) =>
             targets.RunAsync(args.Sanitize().ToList(), new SystemConsole());
 
         private static string ValidateName(string name)

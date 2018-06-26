@@ -10,7 +10,7 @@ namespace Bullseye.Internal
 
     public static class DictionaryExtensions
     {
-        public static async Task<int> RunAsync(this IDictionary<string, Target> targets, List<string> args, IConsole console)
+        public static async Task RunAsync(this IDictionary<string, Target> targets, List<string> args, IConsole console)
         {
             var listDependencies = false;
             var listTargets = false;
@@ -61,26 +61,25 @@ namespace Bullseye.Internal
 
             if (unknownOptions.Any())
             {
-                await console.Error.WriteLineAsync($"Unknown options {unknownOptions.Quote()}. \"--help\" for usage.").ConfigureAwait(false);
-                return 1;
+                throw new Exception("Unknown options {unknownOptions.Quote()}. \"--help\" for usage.");
             }
 
             if (showHelp)
             {
                 await console.Out.WriteLineAsync(GetUsage(options.NoColor)).ConfigureAwait(false);
-                return 0;
+                return;
             }
 
             if (listDependencies)
             {
                 await console.Out.WriteLineAsync(targets.ToDependencyString(options.NoColor)).ConfigureAwait(false);
-                return 0;
+                return;
             }
 
             if (listTargets)
             {
                 await console.Out.WriteLineAsync(targets.ToListString()).ConfigureAwait(false);
-                return 0;
+                return;
             }
 
             var names = args.Where(arg => !arg.StartsWith("-")).ToList();
@@ -96,16 +95,13 @@ namespace Bullseye.Internal
             {
                 await RunAsync(targets, names, options, console);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await console.Out.WriteLineAsync(names.ToTargetsFailed(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
-                await console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
-                return 1;
+                throw;
             }
 
             await console.Out.WriteLineAsync(names.ToTargetsSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
-
-            return 0;
         }
 
         private static async Task RunAsync(IDictionary<string, Target> targets, List<string> names, Options options, IConsole console)

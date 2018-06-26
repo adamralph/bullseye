@@ -6,7 +6,7 @@ namespace BullseyeSmokeTester
 
     class Program
     {
-        static Task<int> Main(string[] args)
+        static Task Main(string[] args)
         {
             Add("default", DependsOn("worl:d", "exclai: m"));
 
