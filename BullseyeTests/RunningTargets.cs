@@ -54,19 +54,19 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void SingleNonExistent(Dictionary<string, Target> targets, TestConsole console, bool existing, int exitCode)
+        public void SingleNonExistent(Dictionary<string, Target> targets, TestConsole console, bool existing, Exception exception)
         {
             "Given an existing target"
                 .x(() => Ensure(ref targets)[nameof(existing)] = CreateTarget(() => existing = true));
 
             "When I run that target and a non-existent target"
-                .x(async () => exitCode = await targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, console = new TestConsole()));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, console = new TestConsole())));
 
             "Then the operation fails"
-                .x(() => Assert.NotEqual(0, exitCode));
+                .x(() => Assert.NotNull(exception));
 
             "Then I am told that the non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing", console.Error.Read()));
+                .x(() => Assert.Contains("non-existing", exception.Message));
 
             "And the existing target is not run"
                 .x(() => Assert.False(existing));
@@ -74,24 +74,24 @@ namespace BullseyeTests
 
         [Scenario]
         public void MultipleNonExistent(
-            Dictionary<string, Target> targets, TestConsole console, bool existing, int exitCode)
+            Dictionary<string, Target> targets, TestConsole console, bool existing, Exception exception)
         {
             "Given an existing target"
                 .x(() => Ensure(ref targets)[nameof(existing)] = CreateTarget(() => existing = true));
 
             "When I run that target and two non-existent targets"
-                .x(async () => exitCode = await targets.RunAsync(
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(
                     new List<string> { nameof(existing), "non-existing", "also-non-existing" },
-                    console = new TestConsole()));
+                    console = new TestConsole())));
 
             "Then the operation fails"
-                .x(() => Assert.NotEqual(0, exitCode));
+                .x(() => Assert.NotNull(exception));
 
             "Then I am told that the first non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing", console.Error.Read()));
+                .x(() => Assert.Contains("non-existing", exception.Message));
 
             "Then I am told that the second non-existent target could not be found"
-                .x(() => Assert.Contains("also-non-existing", console.Error.Read()));
+                .x(() => Assert.Contains("also-non-existing", exception.Message));
 
             "And the existing target is not run"
                 .x(() => Assert.False(existing));
