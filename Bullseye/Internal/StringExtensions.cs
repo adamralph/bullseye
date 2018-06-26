@@ -66,16 +66,10 @@ namespace Bullseye.Internal
 
         private static string ToStringFromMilliseconds(double milliseconds)
         {
-            // nanoseconds
-            if (milliseconds < 0.001D)
-            {
-                return (milliseconds * 1_000_000D).ToString("G3", provider) + " ns";
-            }
-
-            // microseconds
+            // less than one millisecond
             if (milliseconds < 1D)
             {
-                return (milliseconds * 1_000D).ToString("G3", provider) + " \u00B5s"; // µs
+                return "<1 ms";
             }
 
             // milliseconds
