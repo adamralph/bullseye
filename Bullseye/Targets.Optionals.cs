@@ -14,8 +14,8 @@ namespace Bullseye
 
         public static void Add(string name, Action action) => Add(name, default, action);
 
-        public static Task<int> RunAsync() => RunAsync(default);
+        public static Task RunAsync() => RunAsync(default);
 
-        public static int Run() => Run(default);
+        public static void Run() => Run(default);
     }
 }

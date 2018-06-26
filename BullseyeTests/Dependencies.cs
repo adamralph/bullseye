@@ -180,7 +180,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void NotExistentDependencies(Dictionary<string, Target> targets, TestConsole console, int exitCode, bool anyRan)
+        public void NotExistentDependencies(Dictionary<string, Target> targets, TestConsole console, bool anyRan, Exception exception)
         {
             "Given a target"
                 .x(() => Ensure(ref targets)["first"] = CreateTarget(() => anyRan = true));
@@ -192,16 +192,16 @@ namespace BullseyeTests
                 .x(() => targets["third"] = CreateTarget(new[] { "second", "also-non-existing" }, () => anyRan = true));
 
             "When I run the third target"
-                .x(async () => exitCode = await targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole())));
 
             "Then the operation fails"
-                .x(() => Assert.NotEqual(0, exitCode));
+                .x(() => Assert.NotNull(exception));
 
             "And I am told that the first non-existent target could not be found"
-                .x(() => Assert.Contains("\"non-existing\", required by \"second\"", console.Error.Read()));
+                .x(() => Assert.Contains("\"non-existing\", required by \"second\"", exception.Message));
 
             "And I am told that the second non-existent target could not be found"
-                .x(() => Assert.Contains("\"also-non-existing\", required by \"third\"", console.Error.Read()));
+                .x(() => Assert.Contains("\"also-non-existing\", required by \"third\"", exception.Message));
 
             "And the other targets are not run"
                 .x(() => Assert.False(anyRan));

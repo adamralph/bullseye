@@ -18,6 +18,6 @@ namespace Bullseye
                             return Task.FromResult(0);
                         });
 
-        public static int Run(IEnumerable<string> args) => RunAsync(args).GetAwaiter().GetResult();
+        public static void Run(IEnumerable<string> args) => RunAsync(args).GetAwaiter().GetResult();
     }
 }
