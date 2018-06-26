@@ -7,8 +7,7 @@ namespace BullseyeTests
     public class MessageTests
     {
         [Scenario]
-        [Example(0.000_001D, "1 ns")]
-        [Example(0.001D, "1 \u00B5s")] // µs
+        [Example(0.001D, "<1 ms")]
         [Example(1D, "1 ms")]
         [Example(1_000D, "1 s")]
         [Example(119_000D, "1 min 59 s")]
