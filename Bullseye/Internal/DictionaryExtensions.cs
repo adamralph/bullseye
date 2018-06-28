@@ -137,26 +137,26 @@ namespace Bullseye.Internal
                 }
             }
 
-            if (target.Action != default)
-            {
-                await console.Out.WriteLineAsync(name.ToTargetStarting(options)).ConfigureAwait(false);
-                var stopWatch = Stopwatch.StartNew();
+            await console.Out.WriteLineAsync(name.ToTargetStarting(options)).ConfigureAwait(false);
+            var stopWatch = Stopwatch.StartNew();
 
-                if (!options.DryRun)
+            if (!options.DryRun)
+            {
+                try
                 {
-                    try
+                    if (target.Action != default)
                     {
                         await target.Action().ConfigureAwait(false);
                     }
-                    catch (Exception ex)
-                    {
-                        await console.Out.WriteLineAsync(name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
-                        throw;
-                    }
                 }
-
-                await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+                catch (Exception ex)
+                {
+                    await console.Out.WriteLineAsync(name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+                    throw;
+                }
             }
+
+            await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
         }
 
         private static string ToListString(this IDictionary<string, Target> targets)
