@@ -159,7 +159,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public static string ToListString(this IDictionary<string, Target> targets)
+        private static string ToListString(this IDictionary<string, Target> targets)
         {
             var value = new StringBuilder();
             foreach (var target in targets.OrderBy(pair => pair.Key))
@@ -170,7 +170,7 @@ namespace Bullseye.Internal
             return value.ToString();
         }
 
-        public static string ToDependencyString(this IDictionary<string, Target> targets, bool noColor)
+        private static string ToDependencyString(this IDictionary<string, Target> targets, bool noColor)
         {
             var value = new StringBuilder();
             foreach (var target in targets.OrderBy(pair => pair.Key))
