@@ -2,13 +2,14 @@ namespace Bullseye.Internal
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class Target
     {
-        public Target(List<string> dependencies, Func<Task> action)
+        public Target(IEnumerable<string> dependencies, Func<Task> action)
         {
-            this.Dependencies = dependencies;
+            this.Dependencies = dependencies.Sanitize().ToList();
             this.Action = action;
         }
 

@@ -2,7 +2,6 @@ namespace Bullseye
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Bullseye.Internal;
 
@@ -13,10 +12,10 @@ namespace Bullseye
         public static string[] DependsOn(params string[] dependencies) => dependencies;
 
         public static void Add(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
-            targets.Add(ValidateName(name), new Target(dependsOn.Sanitize().ToList(), action));
+            targets.Add(ValidateName(name), new Target(dependsOn, action));
 
         public static Task RunAsync(IEnumerable<string> args) =>
-            targets.RunAsync(args.Sanitize().ToList(), new SystemConsole());
+            targets.RunAsync(args, new SystemConsole());
 
         private static string ValidateName(string name)
         {
@@ -27,8 +26,5 @@ namespace Bullseye
 
             return name;
         }
-
-        private static IEnumerable<T> Sanitize<T>(this IEnumerable<T> items) =>
-            (items?.Where(item => item != null) ?? Enumerable.Empty<T>());
     }
 }

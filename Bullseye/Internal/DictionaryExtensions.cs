@@ -10,7 +10,10 @@ namespace Bullseye.Internal
 
     public static class DictionaryExtensions
     {
-        public static async Task RunAsync(this IDictionary<string, Target> targets, List<string> args, IConsole console)
+        public static Task RunAsync(this IDictionary<string, Target> targets, IEnumerable<string> args, IConsole console) =>
+            RunAsync(targets ?? new Dictionary<string, Target>(), args.Sanitize().ToList(), console ?? new SystemConsole());
+
+        private static async Task RunAsync(this IDictionary<string, Target> targets, List<string> args, IConsole console)
         {
             var listDependencies = false;
             var listTargets = false;
