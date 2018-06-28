@@ -7,11 +7,14 @@ namespace Bullseye.Internal
 
     public class Target
     {
-        public Target(IEnumerable<string> dependencies, Func<Task> action)
+        public Target(string name, IEnumerable<string> dependencies, Func<Task> action)
         {
+            this.Name = name ?? throw new Exception("A target name cannot be null.");
             this.Dependencies = dependencies.Sanitize().ToList();
             this.Action = action;
         }
+
+        public string Name { get; }
 
         public List<string> Dependencies { get; }
 

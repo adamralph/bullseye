@@ -8,12 +8,12 @@ namespace Bullseye.Internal
     using System.Threading.Tasks;
     using static Color;
 
-    public static class DictionaryExtensions
+    public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this IDictionary<string, Target> targets, IEnumerable<string> args, IConsole console) =>
-            RunAsync(targets ?? new Dictionary<string, Target>(), args.Sanitize().ToList(), console ?? new SystemConsole());
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, IConsole console) =>
+            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), console ?? new SystemConsole());
 
-        private static async Task RunAsync(this IDictionary<string, Target> targets, List<string> args, IConsole console)
+        private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
         {
             var listDependencies = false;
             var listTargets = false;
@@ -107,7 +107,7 @@ namespace Bullseye.Internal
             await console.Out.WriteLineAsync(names.ToTargetsSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
         }
 
-        private static async Task RunAsync(IDictionary<string, Target> targets, List<string> names, Options options, IConsole console)
+        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, IConsole console)
         {
             if (!options.SkipDependencies)
             {
@@ -123,7 +123,7 @@ namespace Bullseye.Internal
             }
         }
 
-        private static async Task RunAsync(this IDictionary<string, Target> targets, string name, Options options, ISet<string> targetsRan, IConsole console)
+        private static async Task RunAsync(this TargetCollection targets, string name, Options options, ISet<string> targetsRan, IConsole console)
         {
             if (!targetsRan.Add(name))
             {
@@ -162,24 +162,24 @@ namespace Bullseye.Internal
             await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
         }
 
-        private static string ToListString(this IDictionary<string, Target> targets)
+        private static string ToListString(this TargetCollection targets)
         {
             var value = new StringBuilder();
-            foreach (var target in targets.OrderBy(pair => pair.Key))
+            foreach (var target in targets.OrderBy(target => target.Name))
             {
-                value.AppendLine(target.Key);
+                value.AppendLine(target.Name);
             }
 
             return value.ToString();
         }
 
-        private static string ToDependencyString(this IDictionary<string, Target> targets, bool noColor)
+        private static string ToDependencyString(this TargetCollection targets, bool noColor)
         {
             var value = new StringBuilder();
-            foreach (var target in targets.OrderBy(pair => pair.Key))
+            foreach (var target in targets.OrderBy(target => target.Name))
             {
-                value.AppendLine(target.Key);
-                foreach (var dependency in target.Value.Dependencies)
+                value.AppendLine(target.Name);
+                foreach (var dependency in target.Dependencies)
                 {
                     value.AppendLine($"  {White(noColor)}{dependency}{Default(noColor)}");
                 }
@@ -188,19 +188,19 @@ namespace Bullseye.Internal
             return value.ToString();
         }
 
-        private static void ValidateDependencies(this IDictionary<string, Target> targets)
+        private static void ValidateDependencies(this TargetCollection targets)
         {
             var unknownDependencies = new SortedDictionary<string, SortedSet<string>>();
 
-            foreach (var targetEntry in targets)
+            foreach (var target in targets)
             {
-                foreach (var dependency in targetEntry.Value.Dependencies
-                    .Where(dependency => !targets.ContainsKey(dependency)))
+                foreach (var dependency in target.Dependencies
+                    .Where(dependency => !targets.Contains(dependency)))
                 {
                     (unknownDependencies.TryGetValue(dependency, out var set)
                             ? set
                             : unknownDependencies[dependency] = new SortedSet<string>())
-                        .Add(targetEntry.Key);
+                        .Add(target.Name);
                 }
             }
 
@@ -218,9 +218,9 @@ namespace Bullseye.Internal
             throw new Exception(message);
         }
 
-        private static void Validate(this IDictionary<string, Target> targets, List<string> names)
+        private static void Validate(this TargetCollection targets, List<string> names)
         {
-            var unknownNames = new SortedSet<string>(names.Except(targets.Keys));
+            var unknownNames = new SortedSet<string>(names.Except(targets.Select(target => target.Name)));
             if (unknownNames.Any())
             {
                 var message = $"The following target{(unknownNames.Count > 1 ? "s were" : " was")} not found: {unknownNames.Quote()}.";
