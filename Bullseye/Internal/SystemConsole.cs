@@ -5,8 +5,6 @@ namespace Bullseye.Internal
 
     public class SystemConsole : IConsole
     {
-        public TextWriter Error => Console.Error;
-
         public TextWriter Out => Console.Out;
     }
 }
