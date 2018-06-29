@@ -140,26 +140,7 @@ namespace Bullseye.Internal
                 }
             }
 
-            await console.Out.WriteLineAsync(name.ToTargetStarting(options)).ConfigureAwait(false);
-            var stopWatch = Stopwatch.StartNew();
-
-            if (!options.DryRun)
-            {
-                try
-                {
-                    if (target.Action != default)
-                    {
-                        await target.Action().ConfigureAwait(false);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await console.Out.WriteLineAsync(name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
-                    throw;
-                }
-            }
-
-            await console.Out.WriteLineAsync(name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+            await target.RunAsync(options, console);
         }
 
         private static string ToListString(this TargetCollection targets)
