@@ -96,7 +96,7 @@ namespace Bullseye.Internal
 
             try
             {
-                await RunAsync(targets, names, options, console);
+                await RunAsync(targets, names, options, console).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -119,7 +119,7 @@ namespace Bullseye.Internal
             var targetsRan = new HashSet<string>();
             foreach (var name in names)
             {
-                await targets.RunAsync(name, options, targetsRan, console);
+                await targets.RunAsync(name, options, targetsRan, console).ConfigureAwait(false);
             }
         }
 
@@ -136,11 +136,11 @@ namespace Bullseye.Internal
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await targets.RunAsync(dependency, options, targetsRan, console);
+                    await targets.RunAsync(dependency, options, targetsRan, console).ConfigureAwait(false);
                 }
             }
 
-            await target.RunAsync(options, console);
+            await target.RunAsync(options, console).ConfigureAwait(false);
         }
 
         private static string ToListString(this TargetCollection targets)
