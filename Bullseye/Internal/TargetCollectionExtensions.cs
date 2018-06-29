@@ -91,25 +91,27 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await console.Out.WriteLineAsync(names.ToTargetsRunning(options)).ConfigureAwait(false);
+            var log = new Logger(console, options);
+
+            await log.Running(names).ConfigureAwait(false);
             var stopWatch = Stopwatch.StartNew();
 
             try
             {
-                await RunAsync(targets, names, options, console).ConfigureAwait(false);
+                await RunAsync(targets, names, options.SkipDependencies, options.DryRun, log).ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await console.Out.WriteLineAsync(names.ToTargetsFailed(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+                await log.Failed(names, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
                 throw;
             }
 
-            await console.Out.WriteLineAsync(names.ToTargetsSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+            await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, IConsole console)
+        private static async Task RunAsync(TargetCollection targets, List<string> names, bool skipDependencies, bool dryRun, Logger log)
         {
-            if (!options.SkipDependencies)
+            if (!skipDependencies)
             {
                 targets.ValidateDependencies();
             }
@@ -119,11 +121,11 @@ namespace Bullseye.Internal
             var targetsRan = new HashSet<string>();
             foreach (var name in names)
             {
-                await targets.RunAsync(name, options, targetsRan, console).ConfigureAwait(false);
+                await targets.RunAsync(name, skipDependencies, dryRun, targetsRan, log).ConfigureAwait(false);
             }
         }
 
-        private static async Task RunAsync(this TargetCollection targets, string name, Options options, ISet<string> targetsRan, IConsole console)
+        private static async Task RunAsync(this TargetCollection targets, string name, bool skipDependencies, bool dryRun, ISet<string> targetsRan, Logger log)
         {
             if (!targetsRan.Add(name))
             {
@@ -132,15 +134,15 @@ namespace Bullseye.Internal
 
             var target = targets[name];
 
-            if (!options.SkipDependencies)
+            if (!skipDependencies)
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await targets.RunAsync(dependency, options, targetsRan, console).ConfigureAwait(false);
+                    await targets.RunAsync(dependency, skipDependencies, dryRun, targetsRan, log).ConfigureAwait(false);
                 }
             }
 
-            await target.RunAsync(options, console).ConfigureAwait(false);
+            await target.RunAsync(dryRun, log).ConfigureAwait(false);
         }
 
         private static string ToListString(this TargetCollection targets)

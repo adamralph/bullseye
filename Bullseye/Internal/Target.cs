@@ -21,12 +21,13 @@ namespace Bullseye.Internal
 
         public List<string> Dependencies { get; }
 
-        public async Task RunAsync(Options options, IConsole console)
+        public async Task RunAsync(bool dryRun, Logger log)
         {
-            await console.Out.WriteLineAsync(this.Name.ToTargetStarting(options)).ConfigureAwait(false);
+            await log.Starting(this.Name).ConfigureAwait(false);
+
             var stopWatch = Stopwatch.StartNew();
 
-            if (!options.DryRun)
+            if (!dryRun)
             {
                 try
                 {
@@ -37,12 +38,12 @@ namespace Bullseye.Internal
                 }
                 catch (Exception ex)
                 {
-                    await console.Out.WriteLineAsync(this.Name.ToTargetFailed(ex, options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
                     throw;
                 }
             }
 
-            await console.Out.WriteLineAsync(this.Name.ToTargetSucceeded(options, stopWatch.Elapsed.TotalMilliseconds)).ConfigureAwait(false);
+            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
     }
 }
