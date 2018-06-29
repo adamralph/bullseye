@@ -33,42 +33,40 @@ namespace Bullseye.Internal
             this.options = options;
         }
 
-        internal Task Running(List<string> targets) =>
-            this.console.Out.WriteLineAsync(
-                Message(MessageType.Start, $"Running {targets.Quote()}...", options.DryRun, options.SkipDependencies, options.NoColor, null));
+        public Task Running(List<string> targets) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Start, $"Running {targets.Quote()}...", null));
 
-        internal Task Failed(List<string> targets, Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(
-                Message(MessageType.Failure, $"Failed to run {targets.Quote()}!", options.DryRun, options.SkipDependencies, options.NoColor, elapsedMilliseconds));
+        public Task Failed(List<string> targets, Exception ex, double elapsedMilliseconds) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed to run {targets.Quote()}!", elapsedMilliseconds));
 
-        internal Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"{targets.Quote()} succeeded.", options.DryRun, options.SkipDependencies, options.NoColor, elapsedMilliseconds));
+        public Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"{targets.Quote()} succeeded.", elapsedMilliseconds));
 
         public Task Starting(string target) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Start, "Starting...", target, options.DryRun, options.SkipDependencies, options.NoColor, null));
+            this.console.Out.WriteLineAsync(Message(MessageType.Start, "Starting...", target, null));
 
         public Task Failed(string target, Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed! {ex.Message}", target, options.DryRun, options.SkipDependencies, options.NoColor, elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed! {ex.Message}", target, elapsedMilliseconds));
 
         public Task Succeeded(string target, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Success, "Succeeded.", target, options.DryRun, options.SkipDependencies, options.NoColor, elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(Message(MessageType.Success, "Succeeded.", target, elapsedMilliseconds));
 
-        private static string Message(MessageType messageType, string text, bool dryRun, bool skipDependencies, bool noColor, double? elapsedMilliseconds) =>
-            $"{GetPrefix(noColor)}{colors[messageType](noColor)}{text}{Default(noColor)}{GetSuffix(messageType, false, dryRun, skipDependencies, noColor, elapsedMilliseconds)}";
+        private string Message(MessageType messageType, string text, double? elapsedMilliseconds) =>
+            $"{GetPrefix()}{colors[messageType](this.options.NoColor)}{text}{Default(this.options.NoColor)}{GetSuffix(messageType, false, elapsedMilliseconds)}";
 
-        private static string Message(MessageType messageType, string text, string name, bool dryRun, bool skipDependencies, bool noColor, double? elapsedMilliseconds) =>
-            $"{GetPrefix(name, noColor)}{colors[messageType](noColor)}{text}{Default(noColor)}{GetSuffix(messageType, true, dryRun, skipDependencies, noColor, elapsedMilliseconds)}";
+        private string Message(MessageType messageType, string text, string target, double? elapsedMilliseconds) =>
+            $"{GetPrefix(target)}{colors[messageType](this.options.NoColor)}{text}{Default(this.options.NoColor)}{GetSuffix(messageType, true, elapsedMilliseconds)}";
 
-        private static string GetPrefix(bool noColor) =>
-            $"{Cyan(noColor)}Bullseye{Default(noColor)}{White(noColor)}: {Default(noColor)}";
+        private string GetPrefix() =>
+            $"{Cyan(this.options.NoColor)}Bullseye{Default(this.options.NoColor)}{White(this.options.NoColor)}: {Default(this.options.NoColor)}";
 
-        private static string GetPrefix(string name, bool noColor) =>
-            $"{Cyan(noColor)}Bullseye{Default(noColor)}{White(noColor)}/{Default(noColor)}{Cyan(noColor)}{name.Replace(": ", ":: ").Replace("/", "//")}{Default(noColor)}{White(noColor)}: {Default(noColor)}";
+        private string GetPrefix(string target) =>
+            $"{Cyan(this.options.NoColor)}Bullseye{Default(this.options.NoColor)}{White(this.options.NoColor)}/{Default(this.options.NoColor)}{Cyan(this.options.NoColor)}{target.Replace(": ", ":: ").Replace("/", "//")}{Default(this.options.NoColor)}{White(this.options.NoColor)}: {Default(this.options.NoColor)}";
 
-        private static string GetSuffix(MessageType messageType, bool specific, bool dryRun, bool skipDependencies, bool noColor, double? elapsedMilliseconds) =>
-            (!specific && dryRun ? $"{BrightMagenta(noColor)} (dry run){Default(noColor)}" : "") +
-                (!specific && skipDependencies ? $"{BrightMagenta(noColor)} (skip dependencies){Default(noColor)}" : "") +
-                (!dryRun && elapsedMilliseconds.HasValue ? $"{Magenta(noColor)} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){Default(noColor)}" : "");
+        private string GetSuffix(MessageType messageType, bool specific, double? elapsedMilliseconds) =>
+            (!specific && this.options.DryRun ? $"{BrightMagenta(this.options.NoColor)} (dry run){Default(this.options.NoColor)}" : "") +
+                (!specific && this.options.SkipDependencies ? $"{BrightMagenta(this.options.NoColor)} (skip dependencies){Default(this.options.NoColor)}" : "") +
+                (!this.options.DryRun && elapsedMilliseconds.HasValue ? $"{Magenta(this.options.NoColor)} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){Default(this.options.NoColor)}" : "");
 
         private static string ToStringFromMilliseconds(double milliseconds)
         {
