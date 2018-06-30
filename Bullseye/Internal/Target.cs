@@ -6,15 +6,12 @@ namespace Bullseye.Internal
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Target
+    public abstract class Target
     {
-        private readonly Func<Task> action;
-
-        public Target(string name, IEnumerable<string> dependencies, Func<Task> action)
+        public Target(string name, IEnumerable<string> dependencies)
         {
             this.Name = name ?? throw new Exception("A target name cannot be null.");
             this.Dependencies = dependencies.Sanitize().ToList();
-            this.action = action;
         }
 
         public string Name { get; }
@@ -27,23 +24,19 @@ namespace Bullseye.Internal
 
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun)
+            try
             {
-                try
-                {
-                    if (this.action != default)
-                    {
-                        await this.action().ConfigureAwait(false);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
-                    throw;
-                }
+                await this.InvokeAsync(dryRun, log);
+            }
+            catch (Exception ex)
+            {
+                await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                throw;
             }
 
             await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
+
+        protected abstract Task InvokeAsync(bool dryRun, Logger log);
     }
 }

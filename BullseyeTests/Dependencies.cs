@@ -225,6 +225,5 @@ namespace BullseyeTests
             "But the first target is not run"
                 .x(() => Assert.DoesNotContain("first", ran));
         }
-
     }
 }
