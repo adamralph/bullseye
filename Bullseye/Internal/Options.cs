@@ -4,8 +4,6 @@ namespace Bullseye.Internal
     {
         public bool DryRun { get; set; }
 
-        public bool NoColor { get; set; }
-
         public bool SkipDependencies { get; set; }
     }
 }

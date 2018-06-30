@@ -13,10 +13,10 @@ namespace BullseyeTests.Infra
             return ref t;
         }
 
-        public static Target CreateTarget(Action action) => CreateTarget(new string[0], action);
+        public static Target CreateTarget(string name, Action action) => CreateTarget(name, new string[0], action);
 
-        public static Target CreateTarget(string[] dependencies, Action action) =>
-            new Target(dependencies.ToList(), action.ToAsync());
+        public static Target CreateTarget(string name, string[] dependencies, Action action) =>
+            new Target(name, dependencies.ToList(), action.ToAsync());
 
         private static Func<Task> ToAsync(this Action action) =>
             () =>

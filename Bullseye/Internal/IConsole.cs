@@ -4,8 +4,6 @@ namespace Bullseye.Internal
 
     public interface IConsole
     {
-        TextWriter Error { get; }
-
         TextWriter Out { get; }
     }
 }
