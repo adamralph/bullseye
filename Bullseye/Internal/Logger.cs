@@ -52,17 +52,32 @@ namespace Bullseye.Internal
         public Task Succeeded(string target, double elapsedMilliseconds) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Success, "Succeeded.", target, elapsedMilliseconds));
 
+        public Task Starting<TInput>(string target, TInput input) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Start, "Starting...", target, input, null));
+
+        public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
+
+        public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Success, "Succeeded.", target, input, elapsedMilliseconds));
+
         private string Message(MessageType messageType, string text, double? elapsedMilliseconds) =>
             $"{GetPrefix()}{colors[messageType]}{text}{p.Default}{GetSuffix(messageType, false, elapsedMilliseconds)}";
 
         private string Message(MessageType messageType, string text, string target, double? elapsedMilliseconds) =>
             $"{GetPrefix(target)}{colors[messageType]}{text}{p.Default}{GetSuffix(messageType, true, elapsedMilliseconds)}";
 
+        private string Message<TInput>(MessageType messageType, string text, string target, TInput input, double? elapsedMilliseconds) =>
+            $"{GetPrefix(target, input)}{colors[messageType]}{text}{p.Default}{GetSuffix(messageType, true, elapsedMilliseconds)}";
+
         private string GetPrefix() =>
             $"{p.Cyan}Bullseye{p.Default}{p.White}: {p.Default}";
 
         private string GetPrefix(string target) =>
             $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target.Replace(": ", ":: ").Replace("/", "//")}{p.Default}{p.White}: {p.Default}";
+
+        private string GetPrefix<TInput>(string target, TInput input) =>
+            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target.Replace(": ", ":: ").Replace("/", "//")}{p.Default}{p.White}/{p.Default}{p.BrightCyan}{input?.ToString().Replace(": ", ":: ").Replace("/", "//")}{p.Default}{p.White}: {p.Default}";
 
         private string GetSuffix(MessageType messageType, bool specific, double? elapsedMilliseconds) =>
             (!specific && this.options.DryRun ? $"{p.BrightMagenta} (dry run){p.Default}" : "") +
