@@ -33,11 +33,11 @@ namespace Bullseye.Internal
             }
             catch (Exception ex)
             {
-                await log.Failed(names, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                await log.Failed(ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
                 throw;
             }
 
-            await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+            await log.Succeeded(stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
 
         private async Task RunAsync(string name, bool skipDependencies, bool dryRun, ISet<string> targetsRan, Logger log)
