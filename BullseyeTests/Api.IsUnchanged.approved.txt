@@ -1,0 +1,23 @@
+﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v2.0", FrameworkDisplayName="")]
+namespace Bullseye
+{
+    public class static Targets
+    {
+        public static void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Add(string name) { }
+        public static void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        public static void Add(string name, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Add(string name, System.Action action) { }
+        public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static string[] DependsOn(params string[] dependencies) { }
+        public static TInput[] ForEach<TInput>(params TInput[] inputs) { }
+        public static void Run() { }
+        public static void Run(System.Collections.Generic.IEnumerable<string> args) { }
+        public static System.Threading.Tasks.Task RunAsync(System.Collections.Generic.IEnumerable<string> args) { }
+        public static System.Threading.Tasks.Task RunAsync() { }
+    }
+}
