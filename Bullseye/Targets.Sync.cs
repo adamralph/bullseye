@@ -18,6 +18,19 @@ namespace Bullseye
                             return Task.FromResult(0);
                         });
 
+        public static void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
+            Add(
+                name,
+                dependsOn,
+                forEach,
+                action == null
+                    ? default(Func<TInput, Task>)
+                    : input =>
+                    {
+                        action?.Invoke(input);
+                        return Task.FromResult(0);
+                    });
+
         public static void Run(IEnumerable<string> args) => RunAsync(args).GetAwaiter().GetResult();
     }
 }

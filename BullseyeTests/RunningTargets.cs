@@ -11,13 +11,13 @@ namespace BullseyeTests
     public class RunningTargets
     {
         [Scenario]
-        public void Default(Dictionary<string, Target> targets, TestConsole console, bool @default, bool other)
+        public void Default(TargetCollection targets, TestConsole console, bool @default, bool other)
         {
             "Given a default target"
-                .x(() => Ensure(ref targets)["default"] = CreateTarget(() => @default = true));
+                .x(() => Ensure(ref targets).Add(CreateTarget("default", () => @default = true)));
 
             "And another target"
-                .x(() => targets[nameof(other)] = CreateTarget(() => other = true));
+                .x(() => targets.Add(CreateTarget(nameof(other), () => other = true)));
 
             "When I run without specifying any target names"
                 .x(() => targets.RunAsync(new List<string>(), console = new TestConsole()));
@@ -30,14 +30,14 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void Specific(Dictionary<string, Target> targets, TestConsole console, bool first, bool second, bool third)
+        public void Specific(TargetCollection targets, TestConsole console, bool first, bool second, bool third)
         {
             "Given three targets"
-                .x(() => targets = new Dictionary<string, Target>
+                .x(() => targets = new TargetCollection
                 {
-                    [nameof(first)] = CreateTarget(() => first = true),
-                    [nameof(second)] = CreateTarget(() => second = true),
-                    [nameof(third)] = CreateTarget(() => third = true),
+                    CreateTarget(nameof(first), () => first = true),
+                    CreateTarget(nameof(second), () => second = true),
+                    CreateTarget(nameof(third), () => third = true),
                 });
 
             "When I run the first two targets"
@@ -54,10 +54,10 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void SingleNonExistent(Dictionary<string, Target> targets, TestConsole console, bool existing, Exception exception)
+        public void SingleNonExistent(TargetCollection targets, TestConsole console, bool existing, Exception exception)
         {
             "Given an existing target"
-                .x(() => Ensure(ref targets)[nameof(existing)] = CreateTarget(() => existing = true));
+                .x(() => Ensure(ref targets).Add(CreateTarget(nameof(existing), () => existing = true)));
 
             "When I run that target and a non-existent target"
                 .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, console = new TestConsole())));
@@ -74,10 +74,10 @@ namespace BullseyeTests
 
         [Scenario]
         public void MultipleNonExistent(
-            Dictionary<string, Target> targets, TestConsole console, bool existing, Exception exception)
+            TargetCollection targets, TestConsole console, bool existing, Exception exception)
         {
             "Given an existing target"
-                .x(() => Ensure(ref targets)[nameof(existing)] = CreateTarget(() => existing = true));
+                .x(() => Ensure(ref targets).Add(CreateTarget(nameof(existing), () => existing = true)));
 
             "When I run that target and two non-existent targets"
                 .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(
@@ -98,10 +98,10 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void DryRun(Dictionary<string, Target> targets, TestConsole console, bool ran)
+        public void DryRun(TargetCollection targets, TestConsole console, bool ran)
         {
             "Given a target"
-                .x(() => Ensure(ref targets)["target"] = CreateTarget(() => ran = true));
+                .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
 
             "When I run the target specifying a dry run"
                 .x(() => targets.RunAsync(new List<string> { "target", "-n" }, console = new TestConsole()));

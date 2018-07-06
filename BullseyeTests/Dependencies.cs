@@ -11,16 +11,16 @@ namespace BullseyeTests
     public class Dependencies
     {
         [Scenario]
-        public void FlatDependencies(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void FlatDependencies(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(() => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
 
             "And a second target"
-                .x(() => targets["second"] = CreateTarget(() => Ensure(ref ran).Add("second")));
+                .x(() => targets.Add(CreateTarget("second", () => Ensure(ref ran).Add("second"))));
 
             "And a third target which depends on the first and second target"
-                .x(() => targets["third"] = CreateTarget(new[] { "first", "second" }, () => Ensure(ref ran).Add("third")));
+                .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
                 .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
@@ -39,16 +39,16 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void NestedDependencies(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void NestedDependencies(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(() => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
 
             "And a second target which depends on the first target"
-                .x(() => targets["second"] = CreateTarget(new[] { "first" }, () => Ensure(ref ran).Add("second")));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
 
             "And a third target which depends on the second target"
-                .x(() => targets["third"] = CreateTarget(new[] { "second" }, () => Ensure(ref ran).Add("third")));
+                .x(() => targets.Add(CreateTarget("third", new[] { "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
                 .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
@@ -67,13 +67,13 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void DoubleDependency(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void DoubleDependency(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(() => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
 
             "And a second target which depends on the first target twice"
-                .x(() => targets["second"] = CreateTarget(new[] { "first", "first" }, () => Ensure(ref ran).Add("second")));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first", "first" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target"
                 .x(() => targets.RunAsync(new List<string> { "second" }, console = new TestConsole()));
@@ -89,10 +89,10 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void SelfDependency(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void SelfDependency(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target which depends on itself"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(new[] { "first" }, () => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "first" }, () => Ensure(ref ran).Add("first"))));
 
             "When I run the target"
                 .x(() => targets.RunAsync(new List<string> { "first" }, console = new TestConsole()));
@@ -102,13 +102,13 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void MutualDependency(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void MutualDependency(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target which depends on a second target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(new[] { "second" }, () => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "second" }, () => Ensure(ref ran).Add("first"))));
 
             "And the other target depends on the first target"
-                .x(() => targets["second"] = CreateTarget(new[] { "first" }, () => Ensure(ref ran).Add("second")));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target"
                 .x(() => targets.RunAsync(new List<string> { "second" }, console = new TestConsole()));
@@ -124,16 +124,16 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void CircularDependency(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void CircularDependency(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target which depends on a third target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(new[] { "third" }, () => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "third" }, () => Ensure(ref ran).Add("first"))));
 
             "And a second target which depends on the first target"
-                .x(() => targets["second"] = CreateTarget(new[] { "first" }, () => Ensure(ref ran).Add("second")));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
 
             "And a third target which depends on the second target"
-                .x(() => targets["third"] = CreateTarget(new[] { "second" }, () => Ensure(ref ran).Add("third")));
+                .x(() => targets.Add(CreateTarget("third", new[] { "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
                 .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
@@ -152,16 +152,16 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void DoubleTransitiveDependency(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void DoubleTransitiveDependency(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(() => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
 
             "And a second target which depends on the first target"
-                .x(() => targets["second"] = CreateTarget(new[] { "first" }, () => Ensure(ref ran).Add("second")));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
 
             "And a third target which depends on the first target and the second target"
-                .x(() => targets["third"] = CreateTarget(new[] { "first", "second" }, () => Ensure(ref ran).Add("third")));
+                .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
                 .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
@@ -180,16 +180,16 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void NotExistentDependencies(Dictionary<string, Target> targets, TestConsole console, bool anyRan, Exception exception)
+        public void NotExistentDependencies(TargetCollection targets, TestConsole console, bool anyRan, Exception exception)
         {
             "Given a target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(() => anyRan = true));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => anyRan = true)));
 
             "And a second target which depends on the first target and a non-existent target"
-                .x(() => targets["second"] = CreateTarget(new[] { "first", "non-existing" }, () => anyRan = true));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existing" }, () => anyRan = true)));
 
             "And a third target which depends on the second target and another non-existent target"
-                .x(() => targets["third"] = CreateTarget(new[] { "second", "also-non-existing" }, () => anyRan = true));
+                .x(() => targets.Add(CreateTarget("third", new[] { "second", "also-non-existing" }, () => anyRan = true)));
 
             "When I run the third target"
                 .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole())));
@@ -208,13 +208,13 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void SkippingDependencies(Dictionary<string, Target> targets, TestConsole console, List<string> ran)
+        public void SkippingDependencies(TargetCollection targets, TestConsole console, List<string> ran)
         {
             "Given a target"
-                .x(() => Ensure(ref targets)["first"] = CreateTarget(() => Ensure(ref ran).Add("first")));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
 
             "And a second target which depends on the first target and a non-existent target"
-                .x(() => targets["second"] = CreateTarget(new[] { "first", "non-existent" }, () => Ensure(ref ran).Add("second")));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target, skipping dependencies"
                 .x(() => targets.RunAsync(new List<string> { "second", "-s" }, console = new TestConsole()));
@@ -225,6 +225,5 @@ namespace BullseyeTests
             "But the first target is not run"
                 .x(() => Assert.DoesNotContain("first", ran));
         }
-
     }
 }
