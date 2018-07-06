@@ -19,7 +19,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   mkdir targets
   cd targets
   dotnet new console
-  dotnet add package Bullseye -v 1.0.0-rc.1
+  dotnet add package Bullseye -v 1.0.0-rc.5
   ```
 - Replace `Program.cs`:
   ```C#
@@ -27,10 +27,10 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
 
   class Program
   {
-      static int Main(string[] args)
+      static void Main(string[] args)
       {
           Add("default", () => System.Console.WriteLine("Hello, world!"));
-          return Run(args);
+          Run(args);
       }
   }
   ```
@@ -38,7 +38,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   ```PowerShell
   dotnet run
   ```
-  <img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-hello-world-output.png" width="384px" />
+  <img src="https://raw.githubusercontent.com/adamralph/assets/10ad80273809e587eaa732e552fbf59ddc087cea/bullseye-hello-world-output.png" width="384px" />
 - For help:
   ```PowerShell
   dotnet run -- --help
@@ -54,7 +54,7 @@ Add("make-tea", () => Console.WriteLine("Tea made."));
 Add("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
 Add("walk-dog", () => Console.WriteLine("Walkies!"));
 ```
-<img src="https://raw.githubusercontent.com/adamralph/assets/master/bullseye-dependencies-output.png" width="387px" />
+<img src="https://raw.githubusercontent.com/adamralph/assets/10ad80273809e587eaa732e552fbf59ddc087cea/bullseye-dependencies-output.png" width="384px" />
 
 ---
 
