@@ -6,8 +6,8 @@ namespace Bullseye
 
     public static partial class Targets
     {
-        public static void Add(string name, IEnumerable<string> dependsOn, Action action) =>
-            Add(
+        public static void Target(string name, IEnumerable<string> dependsOn, Action action) =>
+            Target(
                 name,
                 dependsOn,
                 action == null
@@ -18,8 +18,8 @@ namespace Bullseye
                             return Task.FromResult(0);
                         });
 
-        public static void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
-            Add(
+        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
+            Target(
                 name,
                 dependsOn,
                 forEach,
@@ -31,6 +31,6 @@ namespace Bullseye
                         return Task.FromResult(0);
                     });
 
-        public static void Run(IEnumerable<string> args) => RunAsync(args).GetAwaiter().GetResult();
+        public static void RunTargets(IEnumerable<string> args) => RunTargetsAsync(args).GetAwaiter().GetResult();
     }
 }

@@ -3,21 +3,50 @@ namespace Bullseye
 {
     public class static Targets
     {
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0. Will be removed in versio" +
+            "n 2.0.0.")]
         public static void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add(string name) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add(string name, System.Func<System.Threading.Tasks.Task> action) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add(string name, System.Action action) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0.")]
         public static void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
         public static string[] DependsOn(params string[] dependencies) { }
         public static TInput[] ForEach<TInput>(params TInput[] inputs) { }
+        [System.ObsoleteAttribute("Use RunTargets() instead. Will be removed in version 2.0.0.")]
         public static void Run() { }
+        [System.ObsoleteAttribute("Use RunTargets() instead. Will be removed in version 2.0.0.")]
         public static void Run(System.Collections.Generic.IEnumerable<string> args) { }
+        [System.ObsoleteAttribute("Use RunTargetsAsync() instead. Will be removed in version 2.0.0.")]
         public static System.Threading.Tasks.Task RunAsync(System.Collections.Generic.IEnumerable<string> args) { }
+        [System.ObsoleteAttribute("Use RunTargetsAsync() instead. Will be removed in version 2.0.0.")]
         public static System.Threading.Tasks.Task RunAsync() { }
+        public static void RunTargets() { }
+        public static void RunTargets(System.Collections.Generic.IEnumerable<string> args) { }
+        public static System.Threading.Tasks.Task RunTargetsAsync(System.Collections.Generic.IEnumerable<string> args) { }
+        public static System.Threading.Tasks.Task RunTargetsAsync() { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Target(string name) { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        public static void Target(string name, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Target(string name, System.Action action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
     }
 }
