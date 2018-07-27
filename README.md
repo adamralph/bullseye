@@ -19,7 +19,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   mkdir targets
   cd targets
   dotnet new console
-  dotnet add package Bullseye -v 1.0.0-rc.5
+  dotnet add package Bullseye
   ```
 - Replace `Program.cs`:
   ```C#
