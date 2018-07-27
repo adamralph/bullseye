@@ -33,7 +33,7 @@ namespace BullseyeTests
 
         class WindowsFactStackTraceParser : XUnitStackTraceParser
         {
-            protected override string GetAttributeType() => "BullseyeTests.Api+WindowsFactAttribute";
+            public override string GetAttributeType() => "BullseyeTests.Api+WindowsFactAttribute";
         }
     }
 }
