@@ -61,7 +61,7 @@ namespace Bullseye.Internal
 
             if (unknownOptions.Any())
             {
-                throw new Exception("Unknown options {unknownOptions.Quote()}. \"--help\" for usage.");
+                throw new Exception($"Unknown options {unknownOptions.Quote()}. \"--help\" for usage.");
             }
 
             if (showHelp)
