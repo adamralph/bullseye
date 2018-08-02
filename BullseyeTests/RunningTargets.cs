@@ -109,5 +109,27 @@ namespace BullseyeTests
             "Then the target is not run"
                 .x(() => Assert.False(ran));
         }
+
+        [Scenario]
+        public void UnknownOption(TargetCollection targets, TestConsole console, bool ran, Exception exception)
+        {
+            "Given a target"
+                .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
+
+            "When I run the target specifying an unknown option"
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, console = new TestConsole())));
+
+            "Then the operation fails"
+                .x(() => Assert.NotNull(exception));
+
+            "Then I am told that the option is unknown"
+                .x(() => Assert.Contains("Unknown options \"-b\"", exception.Message));
+
+            "Then I am told how to get help"
+                .x(() => Assert.Contains(". \"--help\" for usage", exception.Message));
+
+            "And the target is not run"
+                .x(() => Assert.False(ran));
+        }
     }
 }
