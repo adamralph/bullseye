@@ -7,7 +7,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/adamralph/bullseye/master/assets/bullseye.png</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/adamralph/bullseye/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/adamralph/bullseye/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/adamralph/bullseye/milestones?state=closed</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <TargetFrameworks>netstandard1.3;netstandard2.0</TargetFrameworks>
     <VersionPrefix>1.1.0</VersionPrefix>
