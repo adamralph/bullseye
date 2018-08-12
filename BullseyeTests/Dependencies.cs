@@ -198,10 +198,10 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "And I am told that the first non-existent target could not be found"
-                .x(() => Assert.Contains("\"non-existing\", required by \"second\"", exception.Message));
+                .x(() => Assert.Contains("non-existing, required by second", exception.Message));
 
             "And I am told that the second non-existent target could not be found"
-                .x(() => Assert.Contains("\"also-non-existing\", required by \"third\"", exception.Message));
+                .x(() => Assert.Contains("also-non-existing, required by third", exception.Message));
 
             "And the other targets are not run"
                 .x(() => Assert.False(anyRan));

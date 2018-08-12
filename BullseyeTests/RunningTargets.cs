@@ -123,7 +123,7 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "Then I am told that the option is unknown"
-                .x(() => Assert.Contains("Unknown options \"-b\"", exception.Message));
+                .x(() => Assert.Contains("Unknown options -b", exception.Message));
 
             "Then I am told how to get help"
                 .x(() => Assert.Contains(". \"--help\" for usage", exception.Message));

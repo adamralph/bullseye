@@ -35,13 +35,13 @@ namespace Bullseye.Internal
         }
 
         public Task Running(List<string> targets) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Start, $"Running {targets.Quote()}...", null));
+            this.console.Out.WriteLineAsync(Message(MessageType.Start, $"Starting... ({targets.Spaced()})", null));
 
         public Task Failed(List<string> targets, Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed to run {targets.Quote()}!", elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed! ({targets.Spaced()})", elapsedMilliseconds));
 
         public Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"{targets.Quote()} succeeded.", elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"Succeeded. ({targets.Spaced()})", elapsedMilliseconds));
 
         public Task Starting(string target) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Start, "Starting...", target, null));
@@ -74,10 +74,10 @@ namespace Bullseye.Internal
             $"{p.Cyan}Bullseye{p.Default}{p.White}: {p.Default}";
 
         private string GetPrefix(string target) =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target.Replace(": ", ":: ").Replace("/", "//")}{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target}{p.Default}{p.White}: {p.Default}";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target.Replace(": ", ":: ").Replace("/", "//")}{p.Default}{p.White}/{p.Default}{p.BrightCyan}{input?.ToString().Replace(": ", ":: ").Replace("/", "//")}{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target}{p.Default}{p.White}/{p.Default}{p.BrightCyan}{input}{p.Default}{p.White}: {p.Default}";
 
         private string GetSuffix(MessageType messageType, bool specific, double? elapsedMilliseconds) =>
             (!specific && this.options.DryRun ? $"{p.BrightMagenta} (dry run){p.Default}" : "") +
