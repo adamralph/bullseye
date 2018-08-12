@@ -85,7 +85,7 @@ namespace Bullseye.Internal
                 string.Join(
                     "; ",
                     unknownDependencies.Select(missingDependency =>
-                        $@"{missingDependency.Key.Quote()}, required by {missingDependency.Value.Quote()}"));
+                        $@"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
 
             throw new Exception(message);
         }
@@ -95,7 +95,7 @@ namespace Bullseye.Internal
             var unknownNames = new SortedSet<string>(names.Except(this.Select(target => target.Name)));
             if (unknownNames.Any())
             {
-                var message = $"The following target{(unknownNames.Count > 1 ? "s were" : " was")} not found: {unknownNames.Quote()}.";
+                var message = $"The following target{(unknownNames.Count > 1 ? "s were" : " was")} not found: {unknownNames.Spaced()}.";
                 throw new Exception(message);
             }
         }
