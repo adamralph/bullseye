@@ -10,6 +10,10 @@ namespace BullseyeTests.Infra
 
         public TextWriter Out => this.@out;
 
+        public void Clear()
+        {
+        }
+
         public void Dispose() => this.@out.Dispose();
     }
 }

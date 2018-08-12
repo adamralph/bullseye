@@ -18,6 +18,7 @@ namespace Bullseye.Internal
             var showHelp = false;
             var options = new Options();
             var noColor = false;
+            var clear = false;
 
             var helpOptions = new[] { "--help", "-h", "-?" };
             var optionsArgs = args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
@@ -47,6 +48,10 @@ namespace Bullseye.Internal
                     case "--skip-dependencies":
                         options.SkipDependencies = true;
                         break;
+                    case "-c":
+                    case "--clear":
+                        clear = true;
+                        break;
                     default:
                         if (helpOptions.Contains(option, StringComparer.OrdinalIgnoreCase))
                         {
@@ -64,6 +69,11 @@ namespace Bullseye.Internal
             if (unknownOptions.Any())
             {
                 throw new Exception($"Unknown options {unknownOptions.Spaced()}. \"--help\" for usage.");
+            }
+
+            if (clear)
+            {
+                console.Clear();
             }
 
             var palette = new Palette(noColor);
@@ -136,6 +146,7 @@ $@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}
  {p.White}-n, --dry-run              {p.Default}Do a dry run without executing actions
  {p.White}-N, --no-color             {p.Default}Disable colored output
  {p.White}-s, --skip-dependencies    {p.Default}Do not run targets' dependencies
+ {p.White}-c, --clear                {p.Default}Clear the console before execution
 
 {p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the ""default"" target will be run.
 

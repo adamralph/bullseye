@@ -5,5 +5,7 @@ namespace Bullseye.Internal
     public interface IConsole
     {
         TextWriter Out { get; }
+
+        void Clear();
     }
 }

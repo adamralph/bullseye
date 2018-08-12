@@ -6,5 +6,7 @@ namespace Bullseye.Internal
     public class SystemConsole : IConsole
     {
         public TextWriter Out => Console.Out;
+
+        public void Clear() => Console.Clear();
     }
 }
