@@ -35,13 +35,13 @@ namespace Bullseye.Internal
         }
 
         public Task Running(List<string> targets) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Start, $"Starting... ({targets.Spaced()})", null));
+            this.console.Out.WriteLineAsync(Message(MessageType.Start, $"Starting...", targets, null));
 
         public Task Failed(List<string> targets, Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed! ({targets.Spaced()})", elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed!", targets, elapsedMilliseconds));
 
         public Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"Succeeded. ({targets.Spaced()})", elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"Succeeded.", targets, elapsedMilliseconds));
 
         public Task Starting(string target) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Start, "Starting...", target, null));
@@ -61,8 +61,8 @@ namespace Bullseye.Internal
         public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Success, "Succeeded.", target, input, elapsedMilliseconds));
 
-        private string Message(MessageType messageType, string text, double? elapsedMilliseconds) =>
-            $"{GetPrefix()}{colors[messageType]}{text}{p.Default}{GetSuffix(messageType, false, elapsedMilliseconds)}";
+        private string Message(MessageType messageType, string text, List<string> targets, double? elapsedMilliseconds) =>
+            $"{GetPrefix()}{colors[messageType]}{text}{p.Cyan} ({targets.Spaced()}){p.Default}{GetSuffix(messageType, false, elapsedMilliseconds)}";
 
         private string Message(MessageType messageType, string text, string target, double? elapsedMilliseconds) =>
             $"{GetPrefix(target)}{colors[messageType]}{text}{p.Default}{GetSuffix(messageType, true, elapsedMilliseconds)}";
