@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <TargetFrameworks>netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp1.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
     <PackageReference Include="AlphaFS" Version="2.2.5" NoWarn="NU1701" />
     <PackageReference Include="ApprovalTests" Version="3.0.15" NoWarn="NU1701" />
     <PackageReference Include="ApprovalUtilities" Version="3.0.15" NoWarn="NU1701" />
