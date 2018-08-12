@@ -37,11 +37,11 @@ namespace Bullseye.Internal
         public Task Running(List<string> targets) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Start, $"Running {targets.Quote()}...", null));
 
-        public Task Failed(Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed!", elapsedMilliseconds));
+        public Task Failed(List<string> targets, Exception ex, double elapsedMilliseconds) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed to run {targets.Quote()}!", elapsedMilliseconds));
 
-        public Task Succeeded(double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"Succeeded.", elapsedMilliseconds));
+        public Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
+            this.console.Out.WriteLineAsync(Message(MessageType.Success, $"{targets.Quote()} succeeded.", elapsedMilliseconds));
 
         public Task Starting(string target) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Start, "Starting...", target, null));
