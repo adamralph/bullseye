@@ -37,7 +37,7 @@ namespace Bullseye.Internal
         public Task Running(List<string> targets) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Start, $"Starting...", targets, null));
 
-        public Task Failed(List<string> targets, Exception ex, double elapsedMilliseconds) =>
+        public Task Failed(List<string> targets, double elapsedMilliseconds) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed!", targets, elapsedMilliseconds));
 
         public Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
@@ -62,13 +62,13 @@ namespace Bullseye.Internal
             this.console.Out.WriteLineAsync(Message(MessageType.Success, "Succeeded.", target, input, elapsedMilliseconds));
 
         private string Message(MessageType messageType, string text, List<string> targets, double? elapsedMilliseconds) =>
-            $"{GetPrefix()}{colors[messageType]}{text}{p.Cyan} ({targets.Spaced()}){p.Default}{GetSuffix(messageType, false, elapsedMilliseconds)}";
+            $"{GetPrefix()}{colors[messageType]}{text}{p.Cyan} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}";
 
         private string Message(MessageType messageType, string text, string target, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target)}{colors[messageType]}{text}{p.Default}{GetSuffix(messageType, true, elapsedMilliseconds)}";
+            $"{GetPrefix(target)}{colors[messageType]}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}";
 
         private string Message<TInput>(MessageType messageType, string text, string target, TInput input, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target, input)}{colors[messageType]}{text}{p.Default}{GetSuffix(messageType, true, elapsedMilliseconds)}";
+            $"{GetPrefix(target, input)}{colors[messageType]}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}";
 
         private string GetPrefix() =>
             $"{p.Cyan}Bullseye{p.Default}{p.White}: {p.Default}";
@@ -79,7 +79,7 @@ namespace Bullseye.Internal
         private string GetPrefix<TInput>(string target, TInput input) =>
             $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target}{p.Default}{p.White}/{p.Default}{p.BrightCyan}{input}{p.Default}{p.White}: {p.Default}";
 
-        private string GetSuffix(MessageType messageType, bool specific, double? elapsedMilliseconds) =>
+        private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
             (!specific && this.options.DryRun ? $"{p.BrightMagenta} (dry run){p.Default}" : "") +
                 (!specific && this.options.SkipDependencies ? $"{p.BrightMagenta} (skip dependencies){p.Default}" : "") +
                 (!this.options.DryRun && elapsedMilliseconds.HasValue ? $"{p.Magenta} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Default}" : "");
