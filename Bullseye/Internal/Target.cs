@@ -26,7 +26,7 @@ namespace Bullseye.Internal
 
             try
             {
-                await this.InvokeAsync(dryRun, log);
+                await this.InvokeAsync(dryRun, log).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

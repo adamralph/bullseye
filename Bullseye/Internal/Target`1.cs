@@ -27,14 +27,14 @@ namespace Bullseye.Internal
 
             foreach (var input in this.inputs)
             {
-                await log.Starting(this.Name, input);
+                await log.Starting(this.Name, input).ConfigureAwait(false);
                 var stopWatch = Stopwatch.StartNew();
 
                 if (!dryRun)
                 {
                     try
                     {
-                        await this.action(input);
+                        await this.action(input).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {

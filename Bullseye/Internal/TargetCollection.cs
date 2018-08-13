@@ -31,9 +31,9 @@ namespace Bullseye.Internal
                     await this.RunAsync(name, skipDependencies, dryRun, targetsRan, log).ConfigureAwait(false);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await log.Failed(names, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                await log.Failed(names, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
                 throw;
             }
 
