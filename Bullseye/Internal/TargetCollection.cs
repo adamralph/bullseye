@@ -85,7 +85,7 @@ namespace Bullseye.Internal
                 string.Join(
                     "; ",
                     unknownDependencies.Select(missingDependency =>
-                        $@"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
+                        $"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
 
             throw new Exception(message);
         }

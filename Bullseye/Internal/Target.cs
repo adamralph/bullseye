@@ -8,7 +8,7 @@ namespace Bullseye.Internal
 
     public abstract class Target
     {
-        public Target(string name, IEnumerable<string> dependencies)
+        protected Target(string name, IEnumerable<string> dependencies)
         {
             this.Name = name ?? throw new Exception("A target name cannot be null.");
             this.Dependencies = dependencies.Sanitize().ToList();
