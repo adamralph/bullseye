@@ -102,7 +102,7 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, new Logger(console, options, palette));
+            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, new Logger(console, options, palette)).ConfigureAwait(false);
         }
 
         private static string ToListString(this TargetCollection targets)
