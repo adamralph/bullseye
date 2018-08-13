@@ -76,7 +76,7 @@ namespace Bullseye.Internal
                 }
             }
 
-            if (!unknownDependencies.Any())
+            if (unknownDependencies.Count == 0)
             {
                 return;
             }
@@ -85,7 +85,7 @@ namespace Bullseye.Internal
                 string.Join(
                     "; ",
                     unknownDependencies.Select(missingDependency =>
-                        $@"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
+                        $"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
 
             throw new Exception(message);
         }
@@ -93,7 +93,7 @@ namespace Bullseye.Internal
         private void Validate(List<string> names)
         {
             var unknownNames = new SortedSet<string>(names.Except(this.Select(target => target.Name)));
-            if (unknownNames.Any())
+            if (unknownNames.Count > 0)
             {
                 var message = $"The following target{(unknownNames.Count > 1 ? "s were" : " was")} not found: {unknownNames.Spaced()}.";
                 throw new Exception(message);

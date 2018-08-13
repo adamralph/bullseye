@@ -66,7 +66,7 @@ namespace Bullseye.Internal
                 }
             }
 
-            if (unknownOptions.Any())
+            if (unknownOptions.Count > 0)
             {
                 throw new Exception($"Unknown options {unknownOptions.Spaced()}. \"--help\" for usage.");
             }
@@ -97,7 +97,7 @@ namespace Bullseye.Internal
             }
 
             var names = args.Where(arg => !arg.StartsWith("-")).ToList();
-            if (!names.Any())
+            if (names.Count == 0)
             {
                 names.Add("default");
             }
