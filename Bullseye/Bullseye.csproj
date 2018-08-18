@@ -4,6 +4,7 @@
     <Description>For describing and running targets and their dependencies.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);NU5105</NoWarn>
     <PackageIconUrl>https://raw.githubusercontent.com/adamralph/bullseye/master/assets/bullseye.png</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/adamralph/bullseye/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>
