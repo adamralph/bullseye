@@ -13,7 +13,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
 
 ## Quick start
 
-- Install [.NET Core SDK 2.0.0](https://dot.net/core) or later.
+- Install [.NET Core SDK 2.0.0](https://dot.net) or later.
 - In a console:
   ```PowerShell
   mkdir targets
@@ -21,7 +21,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   dotnet new console
   dotnet add package Bullseye
   ```
-- Replace `Program.cs`:
+- Using your favourite text editor or IDE, replace the contents of `Program.cs` with:
   ```C#
   using static Bullseye.Targets;
 
@@ -29,16 +29,16 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   {
       static void Main(string[] args)
       {
-          Add("default", () => System.Console.WriteLine("Hello, world!"));
-          Run(args);
+          Target("default", () => System.Console.WriteLine("Hello, world!"));
+          RunTargets(args);
       }
   }
   ```
-- In a console:
+- Back in your console:
   ```PowerShell
   dotnet run
   ```
-  <img src="https://raw.githubusercontent.com/adamralph/assets/10ad80273809e587eaa732e552fbf59ddc087cea/bullseye-hello-world-output.png" width="384px" />
+  <img src="https://user-images.githubusercontent.com/677704/44547332-084cb300-a71b-11e8-974b-5f16975c3d75.png" width="384px" />
 - For help:
   ```PowerShell
   dotnet run -- --help
@@ -49,12 +49,23 @@ Also see the [async quick start](https://github.com/adamralph/bullseye/wiki/Asyn
 ## Defining dependencies
 
 ```C#
-Add("default", DependsOn("drink-tea", "walk-dog"));
-Add("make-tea", () => Console.WriteLine("Tea made."));
-Add("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
-Add("walk-dog", () => Console.WriteLine("Walkies!"));
+Target("default", DependsOn("drink-tea", "walk-dog"));
+Target("make-tea", () => Console.WriteLine("Tea made."));
+Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
+Target("walk-dog", () => Console.WriteLine("Walkies!"));
 ```
-<img src="https://raw.githubusercontent.com/adamralph/assets/10ad80273809e587eaa732e552fbf59ddc087cea/bullseye-dependencies-output.png" width="384px" />
+<img src="https://user-images.githubusercontent.com/677704/44547521-aa6c9b00-a71b-11e8-8d25-013f18b3453c.png" width="384px" />
+
+## Enumerable inputs
+
+```C#
+Target(
+    "eat-biscuits",
+    DependsOn("drink-tea"),
+    ForEach("digestives", "chocolate hob nobs"),
+    biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
+```
+<img src="https://user-images.githubusercontent.com/677704/44548441-64fd9d00-a71e-11e8-8585-03d20e3dbdfd.png" width="512px" />
 
 ---
 
