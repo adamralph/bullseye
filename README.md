@@ -61,7 +61,6 @@ Target("walk-dog", () => Console.WriteLine("Walkies!"));
 ```C#
 Target(
     "eat-biscuits",
-    DependsOn("drink-tea"),
     ForEach("digestives", "chocolate hob nobs"),
     biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
 ```
