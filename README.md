@@ -66,6 +66,36 @@ Target(
 ```
 <img src="https://user-images.githubusercontent.com/677704/44548441-64fd9d00-a71e-11e8-8585-03d20e3dbdfd.png" width="512px" />
 
+## Sample wrapper scripts
+
+- `build.ps1`
+```PowerShell
+dotnet run --project targets -- $args
+```
+- `build.sh`
+```Shell
+#!/usr/bin/env bash
+set -euo pipefail
+dotnet run --project targets -- "$@"
+```
+- `build.cmd`
+```Batchfile
+@echo Off
+dotnet run --project targets -- %*
+```
+
+## Command line arguments
+
+Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargets(args);`). This is because Bullseye effectively provides a shell, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help`(/`-h`/`-?`) option:
+
+```
+./build.ps1 --help
+./build.sh -h
+./build.cmd -?
+```
+
+You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along on to Bullseye.
+
 ---
 
 <sub>[Target](https://thenounproject.com/term/target/345443) by [Franck Juncker](https://thenounproject.com/franckjuncker/) from [the Noun Project](https://thenounproject.com/).</sub>
