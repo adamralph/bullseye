@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "BullseyeSmokeTester": {
-      "commandName": "Project",
-      "commandLineArgs": "--no-color"
-    }
-  }
-}

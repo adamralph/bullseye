@@ -3,6 +3,7 @@ namespace Bullseye.Internal
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@ namespace Bullseye.Internal
             var options = new Options();
             var noColor = false;
             var clear = false;
+            var verbose = false;
 
             var helpOptions = new[] { "--help", "-h", "-?" };
             var optionsArgs = args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
@@ -52,6 +54,10 @@ namespace Bullseye.Internal
                     case "--clear":
                         clear = true;
                         break;
+                    case "-v":
+                    case "--verbose":
+                        verbose = true;
+                        break;
                     default:
                         if (helpOptions.Contains(option, StringComparer.OrdinalIgnoreCase))
                         {
@@ -74,6 +80,11 @@ namespace Bullseye.Internal
             if (clear)
             {
                 console.Clear();
+            }
+
+            if (!noColor && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(console.Out, verbose).ConfigureAwait(false);
             }
 
             var palette = new Palette(noColor);
@@ -147,6 +158,7 @@ $@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}
  {p.White}-N, --no-color             {p.Default}Disable colored output
  {p.White}-s, --skip-dependencies    {p.Default}Do not run targets' dependencies
  {p.White}-c, --clear                {p.Default}Clear the console before execution
+ {p.White}-v, --verbose              {p.Default}Enable verbose output
 
 {p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the ""default"" target will be run.
 

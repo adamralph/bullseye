@@ -17,3 +17,5 @@ dotnet run -c Release --project BullseyeSmokeTester --
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run
 dotnet run -c Release --project BullseyeSmokeTester -- --skip-dependencies
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run --skip-dependencies
+dotnet run -c Release --project BullseyeSmokeTester -- -h --verbose
+dotnet run -c Release --project BullseyeSmokeTester -- -h --verbose --no-color
