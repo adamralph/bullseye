@@ -54,7 +54,7 @@ namespace Bullseye.Internal
                 if (verbose)
                 {
                     await @out.WriteLineAsync(
-                       $"Failed to set the output mode of the console screen buffer (SetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").ConfigureAwait(false);
+                       $"Bullseye: Failed to set the output mode of the console screen buffer (SetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").ConfigureAwait(false);
                 }
             }
 
