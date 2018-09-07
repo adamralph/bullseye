@@ -68,10 +68,10 @@ Target(
 
 ## Sample wrapper scripts
 
-- `build.ps1`
-```PowerShell
-$ErrorActionPreference = "Stop";
-dotnet run --project targets -- $args
+- `build.cmd`
+```Batchfile
+@echo Off
+dotnet run --project targets -- %*
 ```
 - `build.sh`
 ```Shell
@@ -79,10 +79,10 @@ dotnet run --project targets -- $args
 set -euo pipefail
 dotnet run --project targets -- "$@"
 ```
-- `build.cmd`
-```Batchfile
-@echo Off
-dotnet run --project targets -- %*
+- `build.ps1`
+```PowerShell
+$ErrorActionPreference = "Stop";
+dotnet run --project targets -- $args
 ```
 
 ## Command line arguments
