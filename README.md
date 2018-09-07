@@ -70,6 +70,7 @@ Target(
 
 - `build.ps1`
 ```PowerShell
+$ErrorActionPreference = "Stop";
 dotnet run --project targets -- $args
 ```
 - `build.sh`
