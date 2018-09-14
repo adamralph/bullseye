@@ -14,12 +14,12 @@ namespace Bullseye.Internal
 
         private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
         {
+            var clear = false;
             var listDependencies = false;
             var listTargets = false;
             var showHelp = false;
-            var options = new Options();
             var noColor = false;
-            var clear = false;
+            var options = new Options();
             var verbose = false;
 
             var helpOptions = new[] { "--help", "-h", "-?" };
@@ -30,6 +30,14 @@ namespace Bullseye.Internal
             {
                 switch (option)
                 {
+                    case "-c":
+                    case "--clear":
+                        clear = true;
+                        break;
+                    case "-n":
+                    case "--dry-run":
+                        options.DryRun = true;
+                        break;
                     case "-D":
                     case "--list-dependencies":
                         listDependencies = true;
@@ -38,10 +46,6 @@ namespace Bullseye.Internal
                     case "--list-targets":
                         listTargets = true;
                         break;
-                    case "-n":
-                    case "--dry-run":
-                        options.DryRun = true;
-                        break;
                     case "-N":
                     case "--no-color":
                         noColor = true;
@@ -49,10 +53,6 @@ namespace Bullseye.Internal
                     case "-s":
                     case "--skip-dependencies":
                         options.SkipDependencies = true;
-                        break;
-                    case "-c":
-                    case "--clear":
-                        clear = true;
                         break;
                     case "-v":
                     case "--verbose":
@@ -152,12 +152,12 @@ $@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}
     {p.BrightYellow}dotnet run --project targets --{p.Default}
 
 {p.Cyan}options:{p.Default}
- {p.White}-D, --list-dependencies    {p.Default}Display the targets and dependencies, then exit
- {p.White}-T, --list-targets         {p.Default}Display the targets, then exit
+ {p.White}-c, --clear                {p.Default}Clear the console before execution
  {p.White}-n, --dry-run              {p.Default}Do a dry run without executing actions
+ {p.White}-D, --list-dependencies    {p.Default}List the targets and dependencies, then exit
+ {p.White}-T, --list-targets         {p.Default}List the targets, then exit
  {p.White}-N, --no-color             {p.Default}Disable colored output
  {p.White}-s, --skip-dependencies    {p.Default}Do not run targets' dependencies
- {p.White}-c, --clear                {p.Default}Clear the console before execution
  {p.White}-v, --verbose              {p.Default}Enable verbose output
 
 {p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the {p.BrightWhite}""default""{p.Default} target will be run.
