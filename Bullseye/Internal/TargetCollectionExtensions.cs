@@ -103,7 +103,7 @@ namespace Bullseye.Internal
 
             if (listTargets)
             {
-                await console.Out.WriteLineAsync(targets.ToListString()).ConfigureAwait(false);
+                await console.Out.WriteLineAsync(targets.ToListString(palette)).ConfigureAwait(false);
                 return;
             }
 
@@ -116,12 +116,12 @@ namespace Bullseye.Internal
             await targets.RunAsync(names, options.SkipDependencies, options.DryRun, new Logger(console, options, palette)).ConfigureAwait(false);
         }
 
-        private static string ToListString(this TargetCollection targets)
+        private static string ToListString(this TargetCollection targets, Palette p)
         {
             var value = new StringBuilder();
             foreach (var target in targets.OrderBy(target => target.Name))
             {
-                value.AppendLine(target.Name);
+                value.AppendLine($"{p.BrightWhite}{target.Name}{p.Default}");
             }
 
             return value.ToString();
@@ -132,7 +132,7 @@ namespace Bullseye.Internal
             var value = new StringBuilder();
             foreach (var target in targets.OrderBy(target => target.Name))
             {
-                value.AppendLine(target.Name);
+                value.AppendLine($"{p.BrightWhite}{target.Name}{p.Default}");
                 foreach (var dependency in target.Dependencies)
                 {
                     value.AppendLine($"  {p.White}{dependency}{p.Default}");
@@ -143,7 +143,7 @@ namespace Bullseye.Internal
         }
 
         public static string GetUsage(Palette p) =>
-$@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}[<options>]{p.Default} [<targets>]
+$@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}[<options>]{p.Default} {p.BrightWhite}[<targets>]{p.Default}
 
 {p.Cyan}command-line: {p.Default}The command line which invokes the build targets.{p.Default}
   {p.Cyan}Examples:{p.Default}
@@ -160,12 +160,12 @@ $@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}
  {p.White}-c, --clear                {p.Default}Clear the console before execution
  {p.White}-v, --verbose              {p.Default}Enable verbose output
 
-{p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the ""default"" target will be run.
+{p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the {p.BrightWhite}""default""{p.Default} target will be run.
 
 {p.Cyan}Examples:{p.Default}
   {p.BrightYellow}build.cmd{p.Default}
   {p.BrightYellow}build.cmd{p.Default} {p.White}-D{p.Default}
-  {p.BrightYellow}build.sh{p.Default} test pack
-  {p.BrightYellow}dotnet run --project targets --{p.Default} {p.White}-n{p.Default} build";
+  {p.BrightYellow}build.sh{p.Default} {p.BrightWhite}test pack{p.Default}
+  {p.BrightYellow}dotnet run --project targets --{p.Default} {p.White}-n{p.Default} {p.BrightWhite}build{p.Default}";
     }
 }

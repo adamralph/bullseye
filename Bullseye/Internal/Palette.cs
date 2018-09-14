@@ -13,6 +13,7 @@ namespace Bullseye.Internal
             this.BrightYellow = noColor ? "" : "\x1b[93m";
             this.BrightMagenta = noColor ? "" : "\x1b[95m";
             this.BrightCyan = noColor ? "" : "\x1b[96m";
+            this.BrightWhite = noColor ? "" : "\x1b[97m";
         }
 
         public string Default { get; }
@@ -32,5 +33,7 @@ namespace Bullseye.Internal
         public string BrightMagenta { get; }
 
         public string BrightCyan { get; }
+
+        public string BrightWhite { get; }
     }
 }
