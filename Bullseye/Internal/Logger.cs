@@ -73,13 +73,13 @@ namespace Bullseye.Internal
             $"{GetPrefix(target, input)}{colors[messageType]}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}";
 
         private string GetPrefix() =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.White}: {p.Default}";
 
         private string GetPrefix(string target) =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target}{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.White}/{p.Cyan}{target}{p.White}: {p.Default}";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target}{p.Default}{p.White}/{p.Default}{p.BrightCyan}{input}{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.White}/{p.Cyan}{target}{p.White}/{p.BrightCyan}{input}{p.White}: {p.Default}";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
             (!specific && this.dryRun ? $"{p.BrightMagenta} (dry run){p.Default}" : "") +

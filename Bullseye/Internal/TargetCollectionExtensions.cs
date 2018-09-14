@@ -163,15 +163,15 @@ namespace Bullseye.Internal
         }
 
         public static string GetUsage(Palette p) =>
-$@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}[<options>]{p.Default} {p.BrightWhite}[<targets>]{p.Default}
+$@"{p.Cyan}Usage: {p.BrightYellow}<command-line> {p.White}[<options>] {p.BrightWhite}[<targets>]
 
-{p.Cyan}command-line: {p.Default}The command line which invokes the build targets.{p.Default}
-  {p.Cyan}Examples:{p.Default}
-    {p.BrightYellow}build.cmd{p.Default}
-    {p.BrightYellow}build.sh{p.Default}
-    {p.BrightYellow}dotnet run --project targets --{p.Default}
+{p.Cyan}command-line: {p.Default}The command line which invokes the build targets.
+  {p.Cyan}Examples:
+    {p.BrightYellow}build.cmd
+    {p.BrightYellow}build.sh
+    {p.BrightYellow}dotnet run --project targets --
 
-{p.Cyan}options:{p.Default}
+{p.Cyan}options:
  {p.White}-c, --clear                {p.Default}Clear the console before execution
  {p.White}-n, --dry-run              {p.Default}Do a dry run without executing actions
  {p.White}-D, --list-dependencies    {p.Default}List the targets and dependencies, then exit
@@ -184,10 +184,10 @@ $@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}
 
 {p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the {p.BrightWhite}""default""{p.Default} target will be run.
 
-{p.Cyan}Examples:{p.Default}
-  {p.BrightYellow}build.cmd{p.Default}
-  {p.BrightYellow}build.cmd{p.Default} {p.White}-D{p.Default}
-  {p.BrightYellow}build.sh{p.Default} {p.BrightWhite}test pack{p.Default}
-  {p.BrightYellow}dotnet run --project targets --{p.Default} {p.White}-n{p.Default} {p.BrightWhite}build{p.Default}";
+{p.Cyan}Examples:
+  {p.BrightYellow}build.cmd
+  {p.BrightYellow}build.cmd {p.White}-D
+  {p.BrightYellow}build.sh {p.BrightWhite}test pack
+  {p.BrightYellow}dotnet run --project targets -- {p.White}-n {p.BrightWhite}build{p.Default}";
     }
 }
