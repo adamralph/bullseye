@@ -6,7 +6,7 @@ namespace Bullseye.Internal
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Target<TInput> : Target
+    public class Target<TInput> : Target, IHaveInputs
     {
         private readonly Func<TInput, Task> action;
         private readonly IEnumerable<TInput> inputs;
@@ -16,6 +16,17 @@ namespace Bullseye.Internal
         {
             this.action = action;
             this.inputs = inputs ?? Enumerable.Empty<TInput>();
+        }
+
+        public IEnumerable<object> Inputs
+        {
+            get
+            {
+                foreach (var input in this.inputs)
+                {
+                    yield return input;
+                }
+            }
         }
 
         protected override async Task InvokeAsync(bool dryRun, Logger log)
