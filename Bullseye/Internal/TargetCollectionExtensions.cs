@@ -15,11 +15,12 @@ namespace Bullseye.Internal
         private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
         {
             var clear = false;
+            var dryRun = false;
             var listDependencies = false;
             var listInputs = false;
             var listTargets = false;
             var noColor = false;
-            var options = new Options();
+            var skipDependencies = false;
             var verbose = false;
             var showHelp = false;
 
@@ -37,7 +38,7 @@ namespace Bullseye.Internal
                         break;
                     case "-n":
                     case "--dry-run":
-                        options.DryRun = true;
+                        dryRun = true;
                         break;
                     case "-D":
                     case "--list-dependencies":
@@ -57,7 +58,7 @@ namespace Bullseye.Internal
                         break;
                     case "-s":
                     case "--skip-dependencies":
-                        options.SkipDependencies = true;
+                        skipDependencies = true;
                         break;
                     case "-v":
                     case "--verbose":
@@ -112,7 +113,7 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, new Logger(console, options, palette)).ConfigureAwait(false);
+            await targets.RunAsync(names, skipDependencies, dryRun, new Logger(console, skipDependencies, dryRun, palette)).ConfigureAwait(false);
         }
 
         private static string ToString(this TargetCollection targets, bool listDependencies, bool listInputs, Palette p)

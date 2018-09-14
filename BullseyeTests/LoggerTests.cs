@@ -17,7 +17,7 @@ namespace BullseyeTests
         public void Timings(double elapsed, string expectedSubstring, Logger log, TestConsole console)
         {
             "Given a logger"
-                .x(() => log = new Logger(console = new TestConsole(), new Options(), new Palette(false)));
+                .x(() => log = new Logger(console = new TestConsole(), false, false, new Palette(false)));
 
             $"When logging a message with an elapsed time in milliseconds of {elapsed}"
                 .x(() => log.Succeeded("foo", elapsed));
