@@ -16,6 +16,7 @@ namespace Bullseye.Internal
         {
             var clear = false;
             var listDependencies = false;
+            var listInputs = false;
             var listTargets = false;
             var noColor = false;
             var options = new Options();
@@ -41,6 +42,10 @@ namespace Bullseye.Internal
                     case "-D":
                     case "--list-dependencies":
                         listDependencies = true;
+                        break;
+                    case "-I":
+                    case "--list-inputs":
+                        listInputs = true;
                         break;
                     case "-T":
                     case "--list-targets":
@@ -95,15 +100,9 @@ namespace Bullseye.Internal
                 return;
             }
 
-            if (listDependencies)
+            if (listDependencies || listInputs || listTargets)
             {
-                await console.Out.WriteLineAsync(targets.ToDependencyString(palette)).ConfigureAwait(false);
-                return;
-            }
-
-            if (listTargets)
-            {
-                await console.Out.WriteLineAsync(targets.ToListString(palette)).ConfigureAwait(false);
+                await console.Out.WriteLineAsync(targets.ToString(listDependencies, listInputs, palette)).ConfigureAwait(false);
                 return;
             }
 
@@ -116,26 +115,46 @@ namespace Bullseye.Internal
             await targets.RunAsync(names, options.SkipDependencies, options.DryRun, new Logger(console, options, palette)).ConfigureAwait(false);
         }
 
-        private static string ToListString(this TargetCollection targets, Palette p)
+        private static string ToString(this TargetCollection targets, bool listDependencies, bool listInputs, Palette p)
         {
             var value = new StringBuilder();
             foreach (var target in targets.OrderBy(target => target.Name))
             {
                 value.AppendLine($"{p.BrightWhite}{target.Name}{p.Default}");
-            }
 
-            return value.ToString();
-        }
-
-        private static string ToDependencyString(this TargetCollection targets, Palette p)
-        {
-            var value = new StringBuilder();
-            foreach (var target in targets.OrderBy(target => target.Name))
-            {
-                value.AppendLine($"{p.BrightWhite}{target.Name}{p.Default}");
-                foreach (var dependency in target.Dependencies)
+                if (listDependencies)
                 {
-                    value.AppendLine($"  {p.White}{dependency}{p.Default}");
+                    var writeHeader = listInputs;
+                    var indent = writeHeader ? "    " : "  ";
+                    foreach (var dependency in target.Dependencies)
+                    {
+                        if (writeHeader)
+                        {
+                            value.AppendLine($"  {p.Cyan}Dependencies:{p.Default}");
+                            writeHeader = false;
+                        }
+
+                        value.AppendLine($"{indent}{p.White}{dependency}{p.Default}");
+                    }
+                }
+
+                if (listInputs)
+                {
+                    var writeHeader = listDependencies;
+                    var indent = writeHeader ? "    " : "  ";
+                    if (target is IHaveInputs hasInputs)
+                    {
+                        foreach (var input in hasInputs.Inputs)
+                        {
+                            if (writeHeader)
+                            {
+                                value.AppendLine($"  {p.Cyan}Inputs:{p.Default}");
+                                writeHeader = false;
+                            }
+
+                            value.AppendLine($"{indent}{p.BrightCyan}{input}{p.Default}");
+                        }
+                    }
                 }
             }
 
@@ -155,6 +174,7 @@ $@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}
  {p.White}-c, --clear                {p.Default}Clear the console before execution
  {p.White}-n, --dry-run              {p.Default}Do a dry run without executing actions
  {p.White}-D, --list-dependencies    {p.Default}List the targets and dependencies, then exit
+ {p.White}-I, --list-inputs          {p.Default}List the targets and inputs, then exit
  {p.White}-T, --list-targets         {p.Default}List the targets, then exit
  {p.White}-N, --no-color             {p.Default}Disable colored output
  {p.White}-s, --skip-dependencies    {p.Default}Do not run targets' dependencies
