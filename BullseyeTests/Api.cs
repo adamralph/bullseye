@@ -2,6 +2,7 @@
 namespace BullseyeTests
 {
     using System;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
     using ApprovalTests;
@@ -21,7 +22,10 @@ namespace BullseyeTests
         [UseReporter(typeof(QuietReporter))]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public void IsUnchanged() =>
-            Approvals.Verify(ApiGenerator.GeneratePublicApi(typeof(Targets).Assembly, new[] { typeof(Targets) }));
+            Approvals.Verify(
+                ApiGenerator.GeneratePublicApi(
+                    typeof(Targets).Assembly,
+                    typeof(Targets).Assembly.GetExportedTypes().Where(type => !type.Namespace.Contains("Internal")).ToArray()));
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
         [XunitTestCaseDiscoverer("Xunit.Sdk.FactDiscoverer", "xunit.execution.{Platform}")]
