@@ -17,14 +17,16 @@ namespace Bullseye.Internal
         }
 
         private readonly IConsole console;
-        private readonly Options options;
+        private readonly bool skipDependencies;
+        private readonly bool dryRun;
         private readonly Palette p;
         private readonly Dictionary<MessageType, string> colors;
 
-        public Logger(IConsole console, Options options, Palette palette)
+        public Logger(IConsole console, bool skipDependencies, bool dryRun, Palette palette)
         {
             this.console = console;
-            this.options = options;
+            this.skipDependencies = skipDependencies;
+            this.dryRun = dryRun;
             this.p = palette;
             this.colors  = new Dictionary<MessageType, string>
             {
@@ -71,18 +73,18 @@ namespace Bullseye.Internal
             $"{GetPrefix(target, input)}{colors[messageType]}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}";
 
         private string GetPrefix() =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.White}: {p.Default}";
 
         private string GetPrefix(string target) =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target}{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.White}/{p.Cyan}{target}{p.White}: {p.Default}";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Cyan}Bullseye{p.Default}{p.White}/{p.Default}{p.Cyan}{target}{p.Default}{p.White}/{p.Default}{p.BrightCyan}{input}{p.Default}{p.White}: {p.Default}";
+            $"{p.Cyan}Bullseye{p.White}/{p.Cyan}{target}{p.White}/{p.BrightCyan}{input}{p.White}: {p.Default}";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
-            (!specific && this.options.DryRun ? $"{p.BrightMagenta} (dry run){p.Default}" : "") +
-                (!specific && this.options.SkipDependencies ? $"{p.BrightMagenta} (skip dependencies){p.Default}" : "") +
-                (!this.options.DryRun && elapsedMilliseconds.HasValue ? $"{p.Magenta} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Default}" : "");
+            (!specific && this.dryRun ? $"{p.BrightMagenta} (dry run){p.Default}" : "") +
+                (!specific && this.skipDependencies ? $"{p.BrightMagenta} (skip dependencies){p.Default}" : "") +
+                (!this.dryRun && elapsedMilliseconds.HasValue ? $"{p.Magenta} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Default}" : "");
 
         private static string ToStringFromMilliseconds(double milliseconds)
         {
