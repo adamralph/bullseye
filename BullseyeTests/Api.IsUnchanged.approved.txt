@@ -1,23 +1,33 @@
 ﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v2.0", FrameworkDisplayName="")]
 namespace Bullseye
 {
+    public interface ITarget
+    {
+        string Name { get; }
+    }
     public class static Targets
     {
         public static string[] DependsOn(params string[] dependencies) { }
+        public static Bullseye.ITarget[] DependsOn(params Bullseye.ITarget[] dependencies) { }
         public static TInput[] ForEach<TInput>(params TInput[] inputs) { }
         public static void RunTargets() { }
         public static void RunTargets(System.Collections.Generic.IEnumerable<string> args) { }
         public static System.Threading.Tasks.Task RunTargetsAsync(System.Collections.Generic.IEnumerable<string> args) { }
         public static System.Threading.Tasks.Task RunTargetsAsync() { }
-        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
-        public static void Target(string name) { }
-        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
-        public static void Target(string name, System.Func<System.Threading.Tasks.Task> action) { }
-        public static void Target(string name, System.Action action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
-        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static Bullseye.ITarget Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public static Bullseye.ITarget Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static Bullseye.ITarget Target(string name, System.Collections.Generic.IEnumerable<Bullseye.ITarget> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public static Bullseye.ITarget Target<TInput>(string name, System.Collections.Generic.IEnumerable<Bullseye.ITarget> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static Bullseye.ITarget Target(string name, System.Collections.Generic.IEnumerable<Bullseye.ITarget> dependsOn, System.Action action) { }
+        public static Bullseye.ITarget Target<TInput>(string name, System.Collections.Generic.IEnumerable<Bullseye.ITarget> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static Bullseye.ITarget Target(string name) { }
+        public static Bullseye.ITarget Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        public static Bullseye.ITarget Target(string name, System.Func<System.Threading.Tasks.Task> action) { }
+        public static Bullseye.ITarget Target(string name, System.Action action) { }
+        public static Bullseye.ITarget Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static Bullseye.ITarget Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static Bullseye.ITarget Target(string name, System.Collections.Generic.IEnumerable<Bullseye.ITarget> dependsOn) { }
+        public static Bullseye.ITarget Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        public static Bullseye.ITarget Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
     }
 }

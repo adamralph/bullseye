@@ -11,13 +11,23 @@ namespace Bullseye
 
         public static string[] DependsOn(params string[] dependencies) => dependencies;
 
+        public static ITarget[] DependsOn(params ITarget[] dependencies) => dependencies;
+
         public static TInput[] ForEach<TInput>(params TInput[] inputs) => inputs;
 
-        public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
-            targets.Add(new TargetWithoutInput(name, dependsOn, action));
+        public static ITarget Target(string name, IEnumerable<string> dependsOn, Func<Task> action)
+        {
+            var target = new TargetWithoutInput(name, dependsOn, action);
+            targets.Add(target);
+            return target;
+        }
 
-        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            targets.Add(new Target<TInput>(name, dependsOn, forEach, action));
+        public static ITarget Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action)
+        {
+            var target = new Target<TInput>(name, dependsOn, forEach, action);
+            targets.Add(target);
+            return target;
+        }
 
         public static Task RunTargetsAsync(IEnumerable<string> args) =>
             targets.RunAsync(args, new SystemConsole());

@@ -6,7 +6,7 @@ namespace Bullseye
 
     public static partial class Targets
     {
-        public static void Target(string name, IEnumerable<string> dependsOn, Action action) =>
+        public static ITarget Target(string name, IEnumerable<string> dependsOn, Action action) =>
             Target(
                 name,
                 dependsOn,
@@ -14,7 +14,7 @@ namespace Bullseye
                     ? default(Func<Task>)
                     : () => Task.Run(() => action?.Invoke()));
 
-        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
+        public static ITarget Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
             Target(
                 name,
                 dependsOn,

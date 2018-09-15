@@ -6,7 +6,7 @@ namespace Bullseye.Internal
     using System.Linq;
     using System.Threading.Tasks;
 
-    public abstract class Target
+    public abstract class Target : ITarget
     {
         protected Target(string name, IEnumerable<string> dependencies)
         {
