@@ -17,10 +17,10 @@ namespace Bullseye.Internal
             var clear = false;
             var listDependencies = false;
             var listTargets = false;
-            var showHelp = false;
             var noColor = false;
             var options = new Options();
             var verbose = false;
+            var showHelp = false;
 
             var helpOptions = new[] { "--help", "-h", "-?" };
             var optionsArgs = args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
@@ -159,6 +159,7 @@ $@"{p.Cyan}Usage:{p.Default} {p.BrightYellow}<command-line>{p.Default} {p.White}
  {p.White}-N, --no-color             {p.Default}Disable colored output
  {p.White}-s, --skip-dependencies    {p.Default}Do not run targets' dependencies
  {p.White}-v, --verbose              {p.Default}Enable verbose output
+ {p.White}-h, --help                 {p.Default}Show this help (case insensitive) (or -?)
 
 {p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the {p.BrightWhite}""default""{p.Default} target will be run.
 
