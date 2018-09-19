@@ -18,8 +18,8 @@ namespace Bullseye
 
         public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) => Target(name, default, forEach, action);
 
-        public static Task RunTargetsAsync() => RunTargetsAsync(default);
+        public static Task RunTargetsAsync() => RunTargetsAsync(new Options());
 
-        public static void RunTargets() => RunTargets(default);
+        public static void RunTargets() => RunTargets(new Options());
     }
 }

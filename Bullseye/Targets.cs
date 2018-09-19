@@ -21,5 +21,8 @@ namespace Bullseye
 
         public static Task RunTargetsAsync(IEnumerable<string> args) =>
             targets.RunAsync(args, new SystemConsole());
+
+        public static Task RunTargetsAsync(Options options) =>
+            targets.RunAsync(options, new SystemConsole());
     }
 }

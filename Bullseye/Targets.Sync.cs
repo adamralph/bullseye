@@ -32,5 +32,7 @@ namespace Bullseye
                     });
 
         public static void RunTargets(IEnumerable<string> args) => RunTargetsAsync(args).GetAwaiter().GetResult();
+
+        public static void RunTargets(Options options) => RunTargetsAsync(options).GetAwaiter().GetResult();
     }
 }
