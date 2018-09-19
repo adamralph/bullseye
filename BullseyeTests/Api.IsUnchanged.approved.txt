@@ -1,6 +1,22 @@
 ﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v2.0", FrameworkDisplayName="")]
 namespace Bullseye
 {
+    public class Options
+    {
+        public Options() { }
+        public bool Clear { get; set; }
+        public bool DryRun { get; set; }
+        public bool ListDependencies { get; set; }
+        public bool ListInputs { get; set; }
+        public bool ListTargets { get; set; }
+        public bool NoColor { get; set; }
+        public bool ShowHelp { get; set; }
+        public bool SkipDependencies { get; set; }
+        public System.Collections.Generic.ICollection<string> Targets { get; }
+        public bool Verbose { get; set; }
+        public static string GetUsage(Bullseye.Internal.Palette p) { }
+        public static Bullseye.Options Parse(System.Collections.Generic.IEnumerable<string> args) { }
+    }
     public class static Targets
     {
         [System.ObsoleteAttribute("Use Target() instead. Will be removed in version 2.0.0. Will be removed in versio" +
@@ -36,7 +52,9 @@ namespace Bullseye
         public static System.Threading.Tasks.Task RunAsync() { }
         public static void RunTargets() { }
         public static void RunTargets(System.Collections.Generic.IEnumerable<string> args) { }
+        public static void RunTargets(Bullseye.Options options) { }
         public static System.Threading.Tasks.Task RunTargetsAsync(System.Collections.Generic.IEnumerable<string> args) { }
+        public static System.Threading.Tasks.Task RunTargetsAsync(Bullseye.Options options) { }
         public static System.Threading.Tasks.Task RunTargetsAsync() { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
         public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
