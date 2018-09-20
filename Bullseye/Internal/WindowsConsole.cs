@@ -36,7 +36,7 @@ namespace Bullseye.Internal
                 if (verbose)
                 {
                     await @out.WriteLineAsync(
-                        $"Bullseye: Failed to retrieve the current output mode of the console screen buffer (GetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").ConfigureAwait(false);
+                        $"Bullseye: Failed to get the current output mode of the console screen buffer (GetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").ConfigureAwait(false);
                 }
 
                 return;
@@ -44,7 +44,7 @@ namespace Bullseye.Internal
 
             if (verbose)
             {
-                await @out.WriteLineAsync($"Bullseye: Retreived the current output mode of the console screen buffer (GetConsoleMode): {consoleMode}").ConfigureAwait(false);
+                await @out.WriteLineAsync($"Bullseye: Got the current output mode of the console screen buffer (GetConsoleMode): {consoleMode}").ConfigureAwait(false);
             }
 
             consoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
