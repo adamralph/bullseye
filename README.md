@@ -87,15 +87,16 @@ dotnet run --project targets -- $args
 
 ## Command line arguments
 
-Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargets(args);`). This is because Bullseye effectively provides a command line, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help`(/`-h`/`-?`) option:
+Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargets(args);`). This is because Bullseye effectively provides a command line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
 
 ```PowerShell
+dotnet run --project targets -- --help
 ./build.cmd --help
 ./build.sh -h
 ./build.ps1 -?
 ```
 
-You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along on to Bullseye.
+You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye. A good way to do this is to use [McMaster.Extensions.CommandLineUtils](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils/) to parse your custom arguments, and pass the [remaining arguments](https://natemcmaster.github.io/CommandLineUtils/docs/arguments.html?tabs=using-attributes#remaining-arguments) to Bullseye.
 
 ---
 
