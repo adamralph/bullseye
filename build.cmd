@@ -12,6 +12,8 @@ echo %~nx0: Smoke testing...
 dotnet run -c Release --project BullseyeSmokeTester -- --help || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --list-targets || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies || goto :error
+dotnet run -c Release --project BullseyeSmokeTester -- --list-inputs || goto :error
+dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies --list-inputs || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --skip-dependencies || goto :error
