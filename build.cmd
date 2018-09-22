@@ -15,6 +15,7 @@ dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies || go
 dotnet run -c Release --project BullseyeSmokeTester -- --list-inputs || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies --list-inputs || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- || goto :error
+dotnet run -c Release --project BullseyeSmokeTester -- --parallel || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --skip-dependencies || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run --skip-dependencies || goto :error

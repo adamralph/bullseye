@@ -1,6 +1,7 @@
 namespace Bullseye.Internal
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
@@ -11,7 +12,7 @@ namespace Bullseye.Internal
     {
         protected override string GetKeyForItem(Target item) => item.Name;
 
-        public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, Logger log)
+        public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log)
         {
             await log.Running(names).ConfigureAwait(false);
             var stopWatch = Stopwatch.StartNew();
@@ -25,10 +26,18 @@ namespace Bullseye.Internal
 
                 this.Validate(names);
 
-                var targetsRan = new HashSet<string>();
-                foreach (var name in names)
+                var targetsRan = new ConcurrentDictionary<string, Task>();
+                if (parallel)
                 {
-                    await this.RunAsync(name, skipDependencies, dryRun, targetsRan, log).ConfigureAwait(false);
+                    var tasks = names.Select(name => this.RunAsync(name, skipDependencies, dryRun, parallel, targetsRan, log));
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                }
+                else
+                {
+                    foreach (var name in names)
+                    {
+                        await this.RunAsync(name, skipDependencies, dryRun, parallel, targetsRan, log).ConfigureAwait(false);
+                    }
                 }
             }
             catch (Exception)
@@ -40,24 +49,27 @@ namespace Bullseye.Internal
             await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
 
-        private async Task RunAsync(string name, bool skipDependencies, bool dryRun, ISet<string> targetsRan, Logger log)
+        private async Task RunAsync(string name, bool skipDependencies, bool dryRun, bool parallel, ConcurrentDictionary<string, Task> targetsRan, Logger log)
         {
-            if (!targetsRan.Add(name))
-            {
-                return;
-            }
-
             var target = this[name];
 
             if (!skipDependencies)
             {
-                foreach (var dependency in target.Dependencies)
+                if (parallel)
                 {
-                    await this.RunAsync(dependency, skipDependencies, dryRun, targetsRan, log).ConfigureAwait(false);
+                    var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, skipDependencies, dryRun, parallel, targetsRan, log));
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                }
+                else
+                {
+                    foreach (var dependency in target.Dependencies)
+                    {
+                        await this.RunAsync(dependency, skipDependencies, dryRun, parallel, targetsRan, log).ConfigureAwait(false);
+                    }
                 }
             }
 
-            await target.RunAsync(dryRun, log).ConfigureAwait(false);
+            await targetsRan.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log)).ConfigureAwait(false);
         }
 
         private void ValidateDependencies()

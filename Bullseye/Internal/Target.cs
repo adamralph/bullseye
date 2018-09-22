@@ -18,7 +18,7 @@ namespace Bullseye.Internal
 
         public List<string> Dependencies { get; }
 
-        public async Task RunAsync(bool dryRun, Logger log)
+        public async Task RunAsync(bool dryRun, bool parallel, Logger log)
         {
             await log.Starting(this.Name).ConfigureAwait(false);
 
@@ -26,7 +26,7 @@ namespace Bullseye.Internal
 
             try
             {
-                await this.InvokeAsync(dryRun, log).ConfigureAwait(false);
+                await this.InvokeAsync(dryRun, parallel, log).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -37,6 +37,6 @@ namespace Bullseye.Internal
             await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
 
-        protected abstract Task InvokeAsync(bool dryRun, Logger log);
+        protected abstract Task InvokeAsync(bool dryRun, bool parallel, Logger log);
     }
 }

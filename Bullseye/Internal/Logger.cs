@@ -19,14 +19,16 @@ namespace Bullseye.Internal
         private readonly IConsole console;
         private readonly bool skipDependencies;
         private readonly bool dryRun;
+        private readonly bool parallel;
         private readonly Palette p;
         private readonly Dictionary<MessageType, string> colors;
 
-        public Logger(IConsole console, bool skipDependencies, bool dryRun, Palette palette)
+        public Logger(IConsole console, bool skipDependencies, bool dryRun, bool parallel, Palette palette)
         {
             this.console = console;
             this.skipDependencies = skipDependencies;
             this.dryRun = dryRun;
+            this.parallel = parallel;
             this.p = palette;
             this.colors  = new Dictionary<MessageType, string>
             {
@@ -83,6 +85,7 @@ namespace Bullseye.Internal
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
             (!specific && this.dryRun ? $"{p.BrightMagenta} (dry run){p.Default}" : "") +
+                (!specific && this.parallel ? $"{p.BrightMagenta} (parallel){p.Default}" : "") +
                 (!specific && this.skipDependencies ? $"{p.BrightMagenta} (skip dependencies){p.Default}" : "") +
                 (!this.dryRun && elapsedMilliseconds.HasValue ? $"{p.Magenta} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Default}" : "");
 

@@ -29,33 +29,46 @@ namespace Bullseye.Internal
             }
         }
 
-        protected override async Task InvokeAsync(bool dryRun, Logger log)
+        protected override async Task InvokeAsync(bool dryRun, bool parallel, Logger log)
         {
             if (this.action == default)
             {
                 return;
             }
 
-            foreach (var input in this.inputs)
+            if (parallel)
             {
-                await log.Starting(this.Name, input).ConfigureAwait(false);
-                var stopWatch = Stopwatch.StartNew();
-
-                if (!dryRun)
-                {
-                    try
-                    {
-                        await this.action(input).ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        await log.Failed(this.Name, input, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
-                        throw;
-                    }
-                }
-
-                await log.Succeeded(this.Name, input, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                var tasks = this.inputs.Select(input => this.InvokeAsync(input, dryRun, log));
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             }
+            else
+            {
+                foreach (var input in this.inputs)
+                {
+                    await this.InvokeAsync(input, dryRun, log).ConfigureAwait(false);
+                }
+            }
+        }
+
+        private async Task InvokeAsync(TInput input, bool dryRun, Logger log)
+        {
+            await log.Starting(this.Name, input).ConfigureAwait(false);
+            var stopWatch = Stopwatch.StartNew();
+
+            if (!dryRun)
+            {
+                try
+                {
+                    await this.action(input).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                    throw;
+                }
+            }
+
+            await log.Succeeded(this.Name, input, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
     }
 }
