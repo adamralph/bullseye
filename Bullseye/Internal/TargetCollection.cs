@@ -76,18 +76,40 @@ namespace Bullseye.Internal
                 }
             }
 
-            if (unknownDependencies.Count == 0)
+            if (unknownDependencies.Count != 0)
             {
-                return;
+                var message = $"Missing {(unknownDependencies.Count > 1 ? "dependencies" : "dependency")} detected: " +
+                    string.Join(
+                        "; ",
+                        unknownDependencies.Select(missingDependency =>
+                            $"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
+
+                throw new Exception(message);
             }
 
-            var message = $"Missing {(unknownDependencies.Count > 1 ? "dependencies" : "dependency")} detected: " +
-                string.Join(
-                    "; ",
-                    unknownDependencies.Select(missingDependency =>
-                        $"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
+            var dependencyChain = new Stack<string>();
+            foreach (var target in this)
+            {
+                WalkDependencies(target, dependencyChain);
+            }
+        }
 
-            throw new Exception(message);
+        private void WalkDependencies(Target target, Stack<string> dependencyChain)
+        {
+            if (dependencyChain.Contains(target.Name))
+            {
+                dependencyChain.Push(target.Name);
+                throw new Exception($"Circular reference detected: {string.Join(" -> ", dependencyChain.Reverse())}");
+            }
+
+            dependencyChain.Push(target.Name);
+
+            foreach (var dependency in target.Dependencies)
+            {
+                WalkDependencies(this[dependency], dependencyChain);
+            }
+
+            dependencyChain.Pop();
         }
 
         private void Validate(List<string> names)
