@@ -89,66 +89,60 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void SelfDependency(TargetCollection targets, TestConsole console, List<string> ran)
+        public void SelfDependency(TargetCollection targets, Exception exception)
         {
             "Given a target which depends on itself"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "first" }, () => Ensure(ref ran).Add("first"))));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "first" })));
 
             "When I run the target"
-                .x(() => targets.RunAsync(new List<string> { "first" }, console = new TestConsole()));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, null)));
 
-            "Then the target is run once"
-                .x(() => Assert.Single(ran));
+            "Then the operation fails"
+                .x(() => Assert.NotNull(exception));
+
+            "And I am told that the circular dependency was detected"
+                .x(() => Assert.Contains("first -> first", exception.Message));
         }
 
         [Scenario]
-        public void MutualDependency(TargetCollection targets, TestConsole console, List<string> ran)
+        public void MutualDependency(TargetCollection targets, Exception exception)
         {
             "Given a target which depends on a second target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "second" }, () => Ensure(ref ran).Add("first"))));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "second" })));
 
             "And the other target depends on the first target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" })));
 
             "When I run the second target"
-                .x(() => targets.RunAsync(new List<string> { "second" }, console = new TestConsole()));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, null)));
 
-            "Then both targets are run once"
-                .x(() => Assert.Equal(2, ran.Count));
+            "Then the operation fails"
+                .x(() => Assert.NotNull(exception));
 
-            "And the first target is run first"
-                .x(() => Assert.Equal("first", ran[0]));
-
-            "And the second target is run second"
-                .x(() => Assert.Equal("second", ran[1]));
+            "And I am told that the circular dependency was detected"
+                .x(() => Assert.Contains("first -> second -> first", exception.Message));
         }
 
         [Scenario]
-        public void CircularDependency(TargetCollection targets, TestConsole console, List<string> ran)
+        public void CircularDependency(TargetCollection targets, Exception exception)
         {
             "Given a target which depends on a third target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "third" }, () => Ensure(ref ran).Add("first"))));
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "third" })));
 
             "And a second target which depends on the first target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" })));
 
             "And a third target which depends on the second target"
-                .x(() => targets.Add(CreateTarget("third", new[] { "second" }, () => Ensure(ref ran).Add("third"))));
+                .x(() => targets.Add(CreateTarget("third", new[] { "second" })));
 
             "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, null)));
 
-            "Then all targets are run"
-                .x(() => Assert.Equal(3, ran.Count));
+            "Then the operation fails"
+                .x(() => Assert.NotNull(exception));
 
-            "And the first target is run first"
-                .x(() => Assert.Equal("first", ran[0]));
-
-            "And the second target is run second"
-                .x(() => Assert.Equal("second", ran[1]));
-
-            "And the third target is run third"
-                .x(() => Assert.Equal("third", ran[2]));
+            "And I am told that the circular dependency was detected"
+                .x(() => Assert.Contains("first -> third -> second -> first", exception.Message));
         }
 
         [Scenario]
@@ -213,8 +207,8 @@ namespace BullseyeTests
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
 
-            "And a second target which depends on the first target and a non-existent target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent" }, () => Ensure(ref ran).Add("second"))));
+            "And a second target which depends on the first target, a non-existent target, and itself"
+                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent", "second" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target, skipping dependencies"
                 .x(() => targets.RunAsync(new List<string> { "second", "-s" }, console = new TestConsole()));

@@ -19,6 +19,9 @@ namespace BullseyeTests.Infra
         public static Target CreateTarget(string name, string[] dependencies, Action action) =>
             new TargetWithoutInput(name, dependencies.ToList(), action.ToAsync());
 
+        public static Target CreateTarget(string name, string[] dependencies) =>
+            new TargetWithoutInput(name, dependencies.ToList(), null);
+
         public static Target CreateTarget<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
             new Target<TInput>(name, new string[0], forEach, action.ToAsync());
 
@@ -28,6 +31,7 @@ namespace BullseyeTests.Infra
                 action();
                 return Task.FromResult(0);
             };
+
         private static Func<TInput, Task> ToAsync<TInput>(this Action<TInput> action) =>
             input =>
             {
