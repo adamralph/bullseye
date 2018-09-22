@@ -12,11 +12,7 @@ namespace Bullseye
                 dependsOn,
                 action == null
                     ? default(Func<Task>)
-                    : () =>
-                        {
-                            action?.Invoke();
-                            return Task.FromResult(0);
-                        });
+                    : () => Task.Run(() => action?.Invoke()));
 
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
             Target(
@@ -25,11 +21,7 @@ namespace Bullseye
                 forEach,
                 action == null
                     ? default(Func<TInput, Task>)
-                    : input =>
-                    {
-                        action?.Invoke(input);
-                        return Task.FromResult(0);
-                    });
+                    : input => Task.Run(() => action?.Invoke(input)));
 
         public static void RunTargets(IEnumerable<string> args) => RunTargetsAsync(args).GetAwaiter().GetResult();
     }

@@ -20,6 +20,7 @@ namespace Bullseye.Internal
             var listInputs = false;
             var listTargets = false;
             var noColor = false;
+            var parallel = false;
             var skipDependencies = false;
             var verbose = false;
             var showHelp = false;
@@ -55,6 +56,10 @@ namespace Bullseye.Internal
                     case "-N":
                     case "--no-color":
                         noColor = true;
+                        break;
+                    case "-p":
+                    case "--parallel":
+                        parallel = true;
                         break;
                     case "-s":
                     case "--skip-dependencies":
@@ -113,7 +118,7 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await targets.RunAsync(names, skipDependencies, dryRun, new Logger(console, skipDependencies, dryRun, palette)).ConfigureAwait(false);
+            await targets.RunAsync(names, skipDependencies, dryRun, parallel, new Logger(console, skipDependencies, dryRun, parallel, palette)).ConfigureAwait(false);
         }
 
         private static string ToString(this TargetCollection targets, bool listDependencies, bool listInputs, Palette p)
@@ -178,6 +183,7 @@ $@"{p.Cyan}Usage: {p.BrightYellow}<command-line> {p.White}[<options>] {p.BrightW
  {p.White}-I, --list-inputs          {p.Default}List the targets and inputs, then exit
  {p.White}-T, --list-targets         {p.Default}List the targets, then exit
  {p.White}-N, --no-color             {p.Default}Disable colored output
+ {p.White}-p, --parallel             {p.Default}Run targets in parallel
  {p.White}-s, --skip-dependencies    {p.Default}Do not run targets' dependencies
  {p.White}-v, --verbose              {p.Default}Enable verbose output
  {p.White}-h, --help                 {p.Default}Show this help (case insensitive) (or -?)

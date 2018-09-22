@@ -11,7 +11,7 @@ namespace Bullseye.Internal
         public TargetWithoutInput(string name, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, dependencies) => this.action = action;
 
-        protected override Task InvokeAsync(bool dryRun, Logger log) => !dryRun && this.action != default
+        protected override Task InvokeAsync(bool dryRun, bool parallel, Logger log) => !dryRun && this.action != default
             ? this.action()
             : Task.CompletedTask;
     }
