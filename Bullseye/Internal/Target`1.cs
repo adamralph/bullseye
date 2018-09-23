@@ -31,11 +31,6 @@ namespace Bullseye.Internal
 
         protected override async Task InvokeAsync(bool dryRun, bool parallel, Logger log)
         {
-            if (this.action == default)
-            {
-                return;
-            }
-
             if (parallel)
             {
                 var tasks = this.inputs.Select(input => this.InvokeAsync(input, dryRun, log));
@@ -59,7 +54,10 @@ namespace Bullseye.Internal
             {
                 try
                 {
-                    await this.action(input).ConfigureAwait(false);
+                    if (this.action != default)
+                    {
+                        await this.action(input).ConfigureAwait(false);
+                    }
                 }
                 catch (Exception ex)
                 {
