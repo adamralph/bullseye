@@ -9,9 +9,9 @@ namespace Bullseye
         public static void RunTargets(System.Collections.Generic.IEnumerable<string> args) { }
         public static System.Threading.Tasks.Task RunTargetsAsync(System.Collections.Generic.IEnumerable<string> args) { }
         public static System.Threading.Tasks.Task RunTargetsAsync() { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
         public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
-        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
         public static void Target(string name, System.Func<System.Threading.Tasks.Task> action) { }
         public static void Target(string name, System.Action action) { }
         public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }

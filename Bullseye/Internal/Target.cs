@@ -2,13 +2,12 @@ namespace Bullseye.Internal
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public abstract class Target
+    public class Target
     {
-        protected Target(string name, IEnumerable<string> dependencies)
+        public Target(string name, IEnumerable<string> dependencies)
         {
             this.Name = name ?? throw new Exception("A target name cannot be null.");
             this.Dependencies = dependencies.Sanitize().ToList();
@@ -18,25 +17,6 @@ namespace Bullseye.Internal
 
         public List<string> Dependencies { get; }
 
-        public async Task RunAsync(bool dryRun, bool parallel, Logger log)
-        {
-            await log.Starting(this.Name).ConfigureAwait(false);
-
-            var stopWatch = Stopwatch.StartNew();
-
-            try
-            {
-                await this.InvokeAsync(dryRun, parallel, log).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
-                throw;
-            }
-
-            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
-        }
-
-        protected abstract Task InvokeAsync(bool dryRun, bool parallel, Logger log);
+        public virtual Task RunAsync(bool dryRun, bool parallel, Logger log) => log.NoAction(this.Name);
     }
 }

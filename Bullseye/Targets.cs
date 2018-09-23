@@ -13,6 +13,9 @@ namespace Bullseye
 
         public static TInput[] ForEach<TInput>(params TInput[] inputs) => inputs;
 
+        public static void Target(string name, IEnumerable<string> dependsOn) =>
+            targets.Add(new Target(name, dependsOn));
+
         public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
             targets.Add(new TargetWithoutInput(name, dependsOn, action));
 

@@ -6,8 +6,6 @@ namespace Bullseye
 
     public static partial class Targets
     {
-        public static void Target(string name, IEnumerable<string> dependsOn) => Target(name, dependsOn, default(Func<Task>));
-
         public static void Target(string name, Func<Task> action) => Target(name, default, action);
 
         public static void Target(string name, Action action) => Target(name, default, action);
