@@ -5,11 +5,11 @@ namespace Bullseye.Internal
     using System.Diagnostics;
     using System.Threading.Tasks;
 
-    public class TargetWithoutInput : Target
+    public class ActionTarget : Target
     {
         private readonly Func<Task> action;
 
-        public TargetWithoutInput(string name, IEnumerable<string> dependencies, Func<Task> action)
+        public ActionTarget(string name, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, dependencies) => this.action = action;
 
         public override async Task RunAsync(bool dryRun, bool parallel, Logger log)

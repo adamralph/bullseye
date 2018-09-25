@@ -6,12 +6,12 @@ namespace Bullseye.Internal
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Target<TInput> : Target, IHaveInputs
+    public class ActionTarget<TInput> : Target, IHaveInputs
     {
         private readonly Func<TInput, Task> action;
         private readonly IEnumerable<TInput> inputs;
 
-        public Target(string name, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
+        public ActionTarget(string name, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
             : base(name, dependencies)
         {
             this.action = action;

@@ -17,13 +17,13 @@ namespace BullseyeTests.Infra
         public static Target CreateTarget(string name, Action action) => CreateTarget(name, new string[0], action);
 
         public static Target CreateTarget(string name, string[] dependencies, Action action) =>
-            new TargetWithoutInput(name, dependencies.ToList(), action.ToAsync());
+            new ActionTarget(name, dependencies.ToList(), action.ToAsync());
 
         public static Target CreateTarget(string name, string[] dependencies) =>
-            new TargetWithoutInput(name, dependencies.ToList(), null);
+            new ActionTarget(name, dependencies.ToList(), null);
 
         public static Target CreateTarget<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
-            new Target<TInput>(name, new string[0], forEach, action.ToAsync());
+            new ActionTarget<TInput>(name, new string[0], forEach, action.ToAsync());
 
         private static Func<Task> ToAsync(this Action action) =>
             () =>
