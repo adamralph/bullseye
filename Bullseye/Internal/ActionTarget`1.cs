@@ -6,12 +6,12 @@ namespace Bullseye.Internal
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Target<TInput> : Target, IHaveInputs
+    public class ActionTarget<TInput> : Target, IHaveInputs
     {
         private readonly Func<TInput, Task> action;
         private readonly IEnumerable<TInput> inputs;
 
-        public Target(string name, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
+        public ActionTarget(string name, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
             : base(name, dependencies)
         {
             this.action = action;
@@ -29,20 +29,40 @@ namespace Bullseye.Internal
             }
         }
 
-        protected override async Task InvokeAsync(bool dryRun, bool parallel, Logger log)
+        public override async Task RunAsync(bool dryRun, bool parallel, Logger log)
         {
-            if (parallel)
+            var inputsList = this.inputs.ToList();
+            if (inputsList.Count == 0)
             {
-                var tasks = this.inputs.Select(input => this.InvokeAsync(input, dryRun, log));
-                await Task.WhenAll(tasks).ConfigureAwait(false);
+                await log.NoInputs(this.Name).ConfigureAwait(false);
+                return;
             }
-            else
+
+            await log.Starting(this.Name).ConfigureAwait(false);
+            var stopWatch = Stopwatch.StartNew();
+
+            try
             {
-                foreach (var input in this.inputs)
+                if (parallel)
                 {
-                    await this.InvokeAsync(input, dryRun, log).ConfigureAwait(false);
+                    var tasks = inputsList.Select(input => this.InvokeAsync(input, dryRun, log)).ToList();
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                }
+                else
+                {
+                    foreach (var input in inputsList)
+                    {
+                        await this.InvokeAsync(input, dryRun, log).ConfigureAwait(false);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                throw;
+            }
+
+            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
 
         private async Task InvokeAsync(TInput input, bool dryRun, Logger log)

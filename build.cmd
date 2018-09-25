@@ -19,6 +19,7 @@ dotnet run -c Release --project BullseyeSmokeTester -- --parallel || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --skip-dependencies || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run --skip-dependencies || goto :error
+dotnet run -c Release --project BullseyeSmokeTester -- --verbose || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- -h --verbose || goto :error
 dotnet run -c Release --project BullseyeSmokeTester -- -h --verbose --no-color || goto :error
 @echo Off
