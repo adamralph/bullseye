@@ -11,7 +11,6 @@ namespace Bullseye.Internal
 
         private enum MessageType
         {
-            Verbose,
             Start,
             Success,
             Warning,
@@ -24,9 +23,8 @@ namespace Bullseye.Internal
         private readonly bool parallel;
         private readonly Palette p;
         private readonly Dictionary<MessageType, string> colors;
-        private readonly bool verbose;
 
-        public Logger(IConsole console, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
+        public Logger(IConsole console, bool skipDependencies, bool dryRun, bool parallel, Palette palette)
         {
             this.console = console;
             this.skipDependencies = skipDependencies;
@@ -35,14 +33,11 @@ namespace Bullseye.Internal
             this.p = palette;
             this.colors  = new Dictionary<MessageType, string>
             {
-                [MessageType.Verbose] = palette.BrightBlack,
                 [MessageType.Start] = palette.White,
                 [MessageType.Success] = palette.Green,
                 [MessageType.Warning] = palette.BrightYellow,
                 [MessageType.Failure] = palette.BrightRed,
             };
-
-            this.verbose = verbose;
         }
 
         public Task Running(List<string> targets) =>
@@ -60,7 +55,7 @@ namespace Bullseye.Internal
         public Task Failed(string target, Exception ex, double elapsedMilliseconds) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Failure, $"Failed! {ex.Message}", target, elapsedMilliseconds));
 
-        public Task Succeeded(string target, double elapsedMilliseconds) =>
+        public Task Succeeded(string target, double? elapsedMilliseconds) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Success, "Succeeded.", target, elapsedMilliseconds));
 
         public Task Starting<TInput>(string target, TInput input) =>
@@ -74,11 +69,6 @@ namespace Bullseye.Internal
 
         public Task NoInputs(string target) =>
             this.console.Out.WriteLineAsync(Message(MessageType.Warning, "No inputs!", target, null));
-
-        public Task NoAction(string target) =>
-            this.verbose
-            ? this.console.Out.WriteLineAsync(Message(MessageType.Verbose, "No action.", target, null))
-            : Task.CompletedTask;
 
         private string Message(MessageType messageType, string text, List<string> targets, double? elapsedMilliseconds) =>
             $"{GetPrefix()}{colors[messageType]}{text}{p.Cyan} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}";
