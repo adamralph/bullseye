@@ -126,7 +126,7 @@ namespace Bullseye.Internal
             var value = new StringBuilder();
             foreach (var target in targets.OrderBy(target => target.Name))
             {
-                value.AppendLine($"{p.BrightWhite}{target.Name}{p.Default}");
+                value.AppendLine($"{p.Target}{target.Name}{p.Default}");
 
                 if (listDependencies)
                 {
@@ -136,11 +136,11 @@ namespace Bullseye.Internal
                     {
                         if (writeHeader)
                         {
-                            value.AppendLine($"  {p.Cyan}Dependencies:{p.Default}");
+                            value.AppendLine($"  {p.Label}Dependencies:{p.Default}");
                             writeHeader = false;
                         }
 
-                        value.AppendLine($"{indent}{p.White}{dependency}{p.Default}");
+                        value.AppendLine($"{indent}{p.Dependency}{dependency}{p.Default}");
                     }
                 }
 
@@ -154,11 +154,11 @@ namespace Bullseye.Internal
                         {
                             if (writeHeader)
                             {
-                                value.AppendLine($"  {p.Cyan}Inputs:{p.Default}");
+                                value.AppendLine($"  {p.Label}Inputs:{p.Default}");
                                 writeHeader = false;
                             }
 
-                            value.AppendLine($"{indent}{p.BrightCyan}{input}{p.Default}");
+                            value.AppendLine($"{indent}{p.Input}{input}{p.Default}");
                         }
                     }
                 }
@@ -168,32 +168,32 @@ namespace Bullseye.Internal
         }
 
         public static string GetUsage(Palette p) =>
-$@"{p.Cyan}Usage: {p.BrightYellow}<command-line> {p.White}[<options>] {p.BrightWhite}[<targets>]
+$@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target}[<targets>]
 
-{p.Cyan}command-line: {p.Default}The command line which invokes the build targets.
-  {p.Cyan}Examples:
-    {p.BrightYellow}build.cmd
-    {p.BrightYellow}build.sh
-    {p.BrightYellow}dotnet run --project targets --
+{p.Label}command-line: {p.Text}The command line which invokes the build targets.
+  {p.Label}Examples:
+    {p.CommandLine}build.cmd
+    {p.CommandLine}build.sh
+    {p.CommandLine}dotnet run --project targets --
 
-{p.Cyan}options:
- {p.White}-c, --clear                {p.Default}Clear the console before execution
- {p.White}-n, --dry-run              {p.Default}Do a dry run without executing actions
- {p.White}-D, --list-dependencies    {p.Default}List the targets and dependencies, then exit
- {p.White}-I, --list-inputs          {p.Default}List the targets and inputs, then exit
- {p.White}-T, --list-targets         {p.Default}List the targets, then exit
- {p.White}-N, --no-color             {p.Default}Disable colored output
- {p.White}-p, --parallel             {p.Default}Run targets in parallel
- {p.White}-s, --skip-dependencies    {p.Default}Do not run targets' dependencies
- {p.White}-v, --verbose              {p.Default}Enable verbose output
- {p.White}-h, --help                 {p.Default}Show this help (case insensitive) (or -?)
+{p.Label}options:
+ {p.Option}-c, --clear                {p.Text}Clear the console before execution
+ {p.Option}-n, --dry-run              {p.Text}Do a dry run without executing actions
+ {p.Option}-D, --list-dependencies    {p.Text}List the targets and dependencies, then exit
+ {p.Option}-I, --list-inputs          {p.Text}List the targets and inputs, then exit
+ {p.Option}-T, --list-targets         {p.Text}List the targets, then exit
+ {p.Option}-N, --no-color             {p.Text}Disable colored output
+ {p.Option}-p, --parallel             {p.Text}Run targets in parallel
+ {p.Option}-s, --skip-dependencies    {p.Text}Do not run targets' dependencies
+ {p.Option}-v, --verbose              {p.Text}Enable verbose output
+ {p.Option}-h, --help                 {p.Text}Show this help (case insensitive) (or -?)
 
-{p.Cyan}targets: {p.Default}A list of targets to run. If not specified, the {p.BrightWhite}""default""{p.Default} target will be run.
+{p.Label}targets: {p.Text}A list of targets to run. If not specified, the {p.Target}""default""{p.Text} target will be run.
 
-{p.Cyan}Examples:
-  {p.BrightYellow}build.cmd
-  {p.BrightYellow}build.cmd {p.White}-D
-  {p.BrightYellow}build.sh {p.BrightWhite}test pack
-  {p.BrightYellow}dotnet run --project targets -- {p.White}-n {p.BrightWhite}build{p.Default}";
+{p.Label}Examples:
+  {p.CommandLine}build.cmd
+  {p.CommandLine}build.cmd {p.Option}-D
+  {p.CommandLine}build.sh {p.Target}test pack
+  {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}";
     }
 }
