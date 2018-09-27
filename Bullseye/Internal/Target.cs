@@ -17,6 +17,6 @@ namespace Bullseye.Internal
 
         public List<string> Dependencies { get; }
 
-        public virtual Task RunAsync(bool dryRun, bool parallel, Logger log) => log.NoAction(this.Name);
+        public virtual Task RunAsync(bool dryRun, bool parallel, Logger log) => log.Succeeded(this.Name, null);
     }
 }
