@@ -1,0 +1,7 @@
+os:
+  - linux
+  - osx
+language: csharp
+mono: none
+dotnet: 2.1.402
+script: "./build.sh"
