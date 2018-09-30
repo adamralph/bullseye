@@ -4,4 +4,8 @@ os:
 language: csharp
 mono: none
 dotnet: 2.1.402
+branches:
+  only:
+  - master
+  - /release-.*/
 script: "./build.sh"
