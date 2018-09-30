@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace Bullseye.Internal
 {
@@ -50,6 +51,7 @@ namespace Bullseye.Internal
             this.red = Console.BackgroundColor == ConsoleColor.DarkRed ? this.brightRed : this.red;
             this.green = Console.BackgroundColor == ConsoleColor.DarkGreen ? this.brightGreen : this.green;
             this.yellow = Console.BackgroundColor == ConsoleColor.DarkYellow ? this.brightYellow : this.yellow;
+            this.blue = Console.BackgroundColor == ConsoleColor.DarkBlue ? this.brightBlue : this.blue;
             this.magenta = Console.BackgroundColor == ConsoleColor.DarkMagenta ? this.brightMagenta : this.magenta;
             this.cyan = Console.BackgroundColor == ConsoleColor.DarkCyan ? this.brightCyan : this.cyan;
             this.white = Console.BackgroundColor == ConsoleColor.Gray ? this.brightWhite : this.white;
@@ -58,6 +60,7 @@ namespace Bullseye.Internal
             this.brightRed = Console.BackgroundColor == ConsoleColor.Red ? this.red : this.brightRed;
             this.brightGreen = Console.BackgroundColor == ConsoleColor.Green ? this.green : this.brightGreen;
             this.brightYellow = Console.BackgroundColor == ConsoleColor.Yellow ? this.yellow : this.brightYellow;
+            this.brightBlue = Console.BackgroundColor == ConsoleColor.Blue ? this.blue : this.brightBlue;
             this.brightMagenta = Console.BackgroundColor == ConsoleColor.Magenta ? this.magenta : this.brightMagenta;
             this.brightCyan = Console.BackgroundColor == ConsoleColor.Cyan ? this.cyan : this.brightCyan;
             this.brightWhite = Console.BackgroundColor == ConsoleColor.White ? this.white : this.brightWhite;
@@ -76,6 +79,47 @@ namespace Bullseye.Internal
             this.Text = this.white;
             this.Timing = this.magenta;
             this.Warning = this.brightYellow;
+
+            if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE" &&
+                (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ||
+                RuntimeInformation.IsOSPlatform(OSPlatform.Linux)))
+            {
+                this.Dependency = this.brightBlack;
+                this.Label = this.brightBlue;
+                this.Starting = this.brightBlack;
+                this.Symbol = this.brightBlack;
+                this.Text = this.brightBlack;
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    this.Timing = this.brightMagenta;
+                }
+            }
+
+            var travisOSName = Environment.GetEnvironmentVariable("TRAVIS_OS_NAME");
+            if (travisOSName == "linux" || travisOSName == "osx")
+            {
+                this.CommandLine = this.yellow;
+                this.Dependency = this.brightBlack;
+                this.Failed = this.red;
+                this.Input = this.cyan;
+                this.Label = this.blue;
+                this.Option = this.magenta;
+                this.Starting = this.brightBlack;
+                this.Symbol = this.brightBlack;
+                this.Target = this.white;
+                this.Text = this.brightBlack;
+                this.Warning = this.yellow;
+            }
+
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
+            {
+                this.Dependency = this.brightBlack;
+                this.Label = this.brightBlue;
+                this.Starting = this.brightBlack;
+                this.Symbol = this.brightBlack;
+                this.Text = this.brightBlack;
+            }
         }
 
         public string CommandLine { get; }
