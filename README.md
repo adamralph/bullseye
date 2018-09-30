@@ -4,6 +4,7 @@
 
 _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](https://www.nuget.org/packages/Bullseye)_
 _[![Build status](https://ci.appveyor.com/api/projects/status/9qrp4gp31oy4ixh2/branch/master?svg=true)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_
+_[![Build Status](https://travis-ci.org/adamralph/bullseye.svg?branch=master)](https://travis-ci.org/adamralph/bullseye)_
 
 Bullseye is a [.NET package](https://www.nuget.org/packages/Bullseye) for describing and running targets and their dependencies.
 
