@@ -1,6 +1,7 @@
 namespace BullseyeTests
 {
     using System;
+    using System.Threading;
     using System.Collections.Generic;
     using Bullseye.Internal;
     using BullseyeTests.Infra;
@@ -207,8 +208,8 @@ namespace BullseyeTests
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
 
-            "And a second target which depends on the first target, a non-existent target, and itself"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent", "second" }, () => Ensure(ref ran).Add("second"))));
+            "And a second target which depends on the first target and a non-existent target"
+                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target, skipping dependencies"
                 .x(() => targets.RunAsync(new List<string> { "second", "-s" }, console = new TestConsole()));
@@ -218,6 +219,61 @@ namespace BullseyeTests
 
             "But the first target is not run"
                 .x(() => Assert.DoesNotContain("first", ran));
+        }
+
+        [Scenario]
+        public void DependencyOrderWhenSkipping(TargetCollection targets, TestConsole console, List<string> ran)
+        {
+            "Given a target"
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
+
+            "And a second target which depends on the first target"
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
+
+            "When I run the second and first targets, skipping dependencies"
+                .x(() => targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, console = new TestConsole()));
+
+            "Then all targets are run"
+                .x(() => Assert.Equal(2, ran.Count));
+
+            "And the first target is run first"
+                .x(() => Assert.Equal("first", ran[0]));
+
+            "And the second target is run second"
+                .x(() => Assert.Equal("second", ran[1]));
+        }
+
+        [Scenario]
+        public void DependencyOrderWhenParallelAndSkipping(
+            TargetCollection targets,
+            TestConsole console,
+            int clock,
+            int buildStartTime,
+            int test1StartTime,
+            int test2StartTime)
+        {
+            "Given a target that takes a long time to start up"
+                .x(() => Ensure(ref targets).Add(CreateTarget(
+                    "build", 
+                    () => {
+                        Thread.Sleep(TimeSpan.FromSeconds(1)); // a weak way to encourage the tests to run first
+                        buildStartTime = Interlocked.Increment(ref clock);
+                    })));
+
+            "And a second target which depends on the first target"
+                .x(() => targets.Add(CreateTarget("test1", new[] { "build" }, () => test1StartTime = Interlocked.Increment(ref clock))));
+
+            "And a third target which depends on the first target"
+                .x(() => targets.Add(CreateTarget("test2", new[] { "build" }, () => test2StartTime = Interlocked.Increment(ref clock))));
+
+            "When I run all the targets with parallelism, skipping dependencies"
+                .x(() => targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, console = new TestConsole()));
+
+            "Then the first target is run first"
+                .x(() => Assert.Equal(1, buildStartTime));
+
+            "And the other targets are run later"
+                .x(() => Assert.Equal(5, test1StartTime + test2StartTime));
         }
     }
 }
