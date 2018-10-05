@@ -12,9 +12,6 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <PackageReference Include="AlphaFS" Version="2.2.6" NoWarn="NU1701" />
-    <PackageReference Include="ApprovalTests" Version="3.0.15" NoWarn="NU1701" />
-    <PackageReference Include="ApprovalUtilities" Version="3.0.16" NoWarn="NU1701" />
     <PackageReference Include="PublicApiGenerator" Version="8.0.1" />
   </ItemGroup>
 
