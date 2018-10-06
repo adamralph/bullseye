@@ -13,3 +13,5 @@ test: off
 artifacts:
 - path: ./**/*.nupkg
 deploy: off
+environment:
+  PROJECT_VERSION: %APPVEYOR_REPO_TAG_NAME%

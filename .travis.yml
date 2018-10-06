@@ -9,3 +9,5 @@ branches:
   - master
   - /release-.*/
 script: "./build.sh"
+env:
+  - PROJECT_VERSION=$TRAVIS_TAG
