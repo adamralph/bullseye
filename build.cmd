@@ -1,5 +1,4 @@
 @echo Off
-cd %~dp0
 
 echo %~nx0: Building...
 dotnet build --configuration Release || goto :error
