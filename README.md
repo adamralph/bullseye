@@ -39,7 +39,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
   ```PowerShell
   dotnet run
   ```
-  <img src="https://user-images.githubusercontent.com/677704/44547332-084cb300-a71b-11e8-974b-5f16975c3d75.png" width="384px" />
+  <img src="https://user-images.githubusercontent.com/677704/46696376-4beb7580-cc12-11e8-9e79-cad6f49e05d7.png" width="341px" />
 - For help:
   ```PowerShell
   dotnet run -- --help
@@ -55,7 +55,7 @@ Target("make-tea", () => Console.WriteLine("Tea made."));
 Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
 Target("walk-dog", () => Console.WriteLine("Walkies!"));
 ```
-<img src="https://user-images.githubusercontent.com/677704/44547521-aa6c9b00-a71b-11e8-8d25-013f18b3453c.png" width="384px" />
+<img src="https://user-images.githubusercontent.com/677704/46696573-c61bfa00-cc12-11e8-834a-e0dd4a5d8831.png" width="342px" />
 
 ## Enumerable inputs
 
@@ -65,7 +65,7 @@ Target(
     ForEach("digestives", "chocolate hob nobs"),
     biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
 ```
-<img src="https://user-images.githubusercontent.com/677704/44548441-64fd9d00-a71e-11e8-8585-03d20e3dbdfd.png" width="512px" />
+<img src="https://user-images.githubusercontent.com/677704/46696786-522e2180-cc13-11e8-8d91-bb31f80dcac8.png" width="511px" />
 
 ## Sample wrapper scripts
 
