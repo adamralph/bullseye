@@ -186,7 +186,7 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
  {p.Option}-p, --parallel             {p.Text}Run targets in parallel
  {p.Option}-s, --skip-dependencies    {p.Text}Do not run targets' dependencies
  {p.Option}-v, --verbose              {p.Text}Enable verbose output
- {p.Option}-h, --help                 {p.Text}Show this help (case insensitive) (or -?), then exit
+ {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)
 
 {p.Label}targets: {p.Text}A list of targets to run. If not specified, the {p.Target}""default""{p.Text} target will be run.
 
