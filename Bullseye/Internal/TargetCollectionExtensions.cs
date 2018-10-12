@@ -93,12 +93,41 @@ namespace Bullseye.Internal
                 console.Clear();
             }
 
-            if (!noColor && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            var operatingSystem = OperatingSystem.Unknown;
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                operatingSystem = OperatingSystem.Windows;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                operatingSystem = OperatingSystem.Linux;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                operatingSystem = OperatingSystem.MacOS;
+            }
+
+            if (!noColor && operatingSystem == OperatingSystem.Windows)
             {
                 await WindowsConsole.TryEnableVirtualTerminalProcessing(console.Out, verbose).ConfigureAwait(false);
             }
 
-            var palette = new Palette(noColor);
+            var host = Host.Unknown;
+            if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
+            {
+                host = Host.Appveyor;
+            }
+            else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
+            {
+                host = Host.Travis;
+            }
+            else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
+            {
+                host = Host.TeamCity;
+            }
+
+            var palette = new Palette(noColor, host, operatingSystem);
 
             if (showHelp)
             {
