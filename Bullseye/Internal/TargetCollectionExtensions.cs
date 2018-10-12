@@ -23,6 +23,7 @@ namespace Bullseye.Internal
             var parallel = false;
             var skipDependencies = false;
             var verbose = false;
+            var host = Host.Unknown;
             var showHelp = false;
 
             var helpOptions = new[] { "--help", "-h", "-?" };
@@ -69,6 +70,15 @@ namespace Bullseye.Internal
                     case "--verbose":
                         verbose = true;
                         break;
+                    case "--appveyor":
+                        host = Host.Appveyor;
+                        break;
+                    case "--travis":
+                        host = Host.Travis;
+                        break;
+                    case "--teamcity":
+                        host = Host.TeamCity;
+                        break;
                     default:
                         if (helpOptions.Contains(option, StringComparer.OrdinalIgnoreCase))
                         {
@@ -93,12 +103,43 @@ namespace Bullseye.Internal
                 console.Clear();
             }
 
-            if (!noColor && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            var operatingSystem = OperatingSystem.Unknown;
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                operatingSystem = OperatingSystem.Windows;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                operatingSystem = OperatingSystem.Linux;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                operatingSystem = OperatingSystem.MacOS;
+            }
+
+            if (!noColor && operatingSystem == OperatingSystem.Windows)
             {
                 await WindowsConsole.TryEnableVirtualTerminalProcessing(console.Out, verbose).ConfigureAwait(false);
             }
 
-            var palette = new Palette(noColor);
+            if (host == Host.Unknown)
+            {
+                if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
+                {
+                    host = Host.Appveyor;
+                }
+                else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
+                {
+                    host = Host.Travis;
+                }
+                else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
+                {
+                    host = Host.TeamCity;
+                }
+            }
+
+            var palette = new Palette(noColor, host, operatingSystem);
 
             if (showHelp)
             {
@@ -186,6 +227,9 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
  {p.Option}-p, --parallel             {p.Text}Run targets in parallel
  {p.Option}-s, --skip-dependencies    {p.Text}Do not run targets' dependencies
  {p.Option}-v, --verbose              {p.Text}Enable verbose output
+ {p.Option}    --appveyor             {p.Text}Force Appveyor mode (normally auto-detected)
+ {p.Option}    --teamcity             {p.Text}Force TeamCity mode (normally auto-detected)
+ {p.Option}    --travis               {p.Text}Force Travis CI mode (normally auto-detected)
  {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)
 
 {p.Label}targets: {p.Text}A list of targets to run. If not specified, the {p.Target}""default""{p.Text} target will be run.

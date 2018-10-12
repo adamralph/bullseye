@@ -1,8 +1,7 @@
-using System;
-using System.Runtime.InteropServices;
-
 namespace Bullseye.Internal
 {
+    using System;
+
     public class Palette
     {
         private readonly string @default;
@@ -25,7 +24,7 @@ namespace Bullseye.Internal
         private readonly string brightCyan;
         private readonly string brightWhite;
 
-        public Palette(bool noColor)
+        public Palette(bool noColor, Host host, OperatingSystem operatingSystem)
         {
             this.@default = noColor ? "" : "\x1b[0m";
 
@@ -80,9 +79,8 @@ namespace Bullseye.Internal
             this.Timing = this.magenta;
             this.Warning = this.brightYellow;
 
-            if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE" &&
-                (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ||
-                RuntimeInformation.IsOSPlatform(OSPlatform.Linux)))
+            if (host == Host.Appveyor &&
+                (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
             {
                 this.Dependency = this.brightBlack;
                 this.Label = this.brightBlue;
@@ -90,14 +88,13 @@ namespace Bullseye.Internal
                 this.Symbol = this.brightBlack;
                 this.Text = this.brightBlack;
 
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                if (operatingSystem == OperatingSystem.Linux)
                 {
                     this.Timing = this.brightMagenta;
                 }
             }
 
-            var travisOSName = Environment.GetEnvironmentVariable("TRAVIS_OS_NAME");
-            if (travisOSName == "linux" || travisOSName == "osx")
+            if (host == Host.Travis)
             {
                 this.CommandLine = this.yellow;
                 this.Dependency = this.brightBlack;
@@ -112,7 +109,7 @@ namespace Bullseye.Internal
                 this.Warning = this.yellow;
             }
 
-            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
+            if (host == Host.TeamCity)
             {
                 this.Dependency = this.brightBlack;
                 this.Label = this.brightBlue;
