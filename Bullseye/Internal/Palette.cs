@@ -77,6 +77,7 @@ namespace Bullseye.Internal
             this.Target = this.brightWhite;
             this.Text = this.white;
             this.Timing = this.magenta;
+            this.Verbose = this.brightBlack;
             this.Warning = this.brightYellow;
 
             if (host == Host.Appveyor &&
@@ -144,6 +145,8 @@ namespace Bullseye.Internal
         public string Text { get; }
 
         public string Timing { get; }
+
+        public string Verbose { get; }
 
         public string Warning { get; }
     }

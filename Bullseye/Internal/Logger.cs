@@ -3,6 +3,10 @@ namespace Bullseye.Internal
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
+#if NETSTANDARD2_0
+    using System.Reflection;
+#endif
     using System.Threading.Tasks;
 
     public class Logger
@@ -14,14 +18,47 @@ namespace Bullseye.Internal
         private readonly bool dryRun;
         private readonly bool parallel;
         private readonly Palette p;
+        private readonly bool verbose;
 
-        public Logger(IConsole console, bool skipDependencies, bool dryRun, bool parallel, Palette palette)
+        public Logger(IConsole console, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
         {
             this.console = console;
             this.skipDependencies = skipDependencies;
             this.dryRun = dryRun;
             this.parallel = parallel;
             this.p = palette;
+            this.verbose = verbose;
+        }
+
+        public async Task Version()
+        {
+            if (this.verbose)
+            {
+                var version = "Unknown";
+#if NETSTANDARD2_0
+                version = typeof(TargetCollectionExtensions).Assembly.GetCustomAttributes(false)
+                    .OfType<AssemblyInformationalVersionAttribute>()
+                    .FirstOrDefault()
+                    ?.InformationalVersion ?? version;
+#endif
+                await this.console.Out.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).ConfigureAwait(false);
+            }
+        }
+
+        public async Task Verbose(string message)
+        {
+            if (this.verbose)
+            {
+                await this.console.Out.WriteLineAsync(Message(p.Verbose, message)).ConfigureAwait(false);
+            }
+        }
+
+        public async Task Verbose(Stack<string> targets, string message)
+        {
+            if (this.verbose)
+            {
+                await this.console.Out.WriteLineAsync(Message(targets, p.Verbose, message)).ConfigureAwait(false);
+            }
         }
 
         public Task Running(List<string> targets) =>
@@ -54,6 +91,10 @@ namespace Bullseye.Internal
         public Task NoInputs(string target) =>
             this.console.Out.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
 
+        private string Message(string color, string text) => $"{GetPrefix()}{color}{text}";
+
+        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}";
+
         private string Message(string color, string text, List<string> targets, double? elapsedMilliseconds) =>
             $"{GetPrefix()}{color}{text}{p.Target} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}";
 
@@ -65,6 +106,9 @@ namespace Bullseye.Internal
 
         private string GetPrefix() =>
             $"{p.Label}Bullseye{p.Symbol}: {p.Default}";
+
+        private string GetPrefix(Stack<string> targets) =>
+            $"{p.Label}Bullseye{p.Symbol}/{p.Label}{string.Join($"{p.Symbol}/{p.Label}", targets.Reverse())}{p.Symbol}: {p.Default}";
 
         private string GetPrefix(string target) =>
             $"{p.Label}Bullseye{p.Symbol}/{p.Label}{target}{p.Symbol}: {p.Default}";
