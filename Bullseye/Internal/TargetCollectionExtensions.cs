@@ -140,6 +140,12 @@ namespace Bullseye.Internal
             }
 
             var palette = new Palette(noColor, host, operatingSystem);
+            var log = new Logger(console, skipDependencies, dryRun, parallel, palette, verbose);
+
+            await log.Version().ConfigureAwait(false);
+            await log.Verbose($"Host: {host}").ConfigureAwait(false);
+            await log.Verbose($"OS: {operatingSystem}").ConfigureAwait(false);
+            await log.Verbose($"Args: {string.Join(" ", args)}").ConfigureAwait(false);
 
             if (showHelp)
             {
@@ -159,7 +165,7 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await targets.RunAsync(names, skipDependencies, dryRun, parallel, new Logger(console, skipDependencies, dryRun, parallel, palette)).ConfigureAwait(false);
+            await targets.RunAsync(names, skipDependencies, dryRun, parallel, log).ConfigureAwait(false);
         }
 
         private static string ToString(this TargetCollection targets, bool listDependencies, bool listInputs, Palette p)
