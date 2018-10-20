@@ -5,15 +5,15 @@ namespace BullseyeTests.Infra
 
     public static class AssertFile
     {
-        public static void Contains(string expected, string actualPath)
+        public static void Contains(string expectedPath, string actual)
         {
-            if (File.ReadAllText(actualPath) != expected)
+            if (actual != File.ReadAllText(expectedPath))
             {
-                var expectedPath = Path.Combine(
-                    Path.GetDirectoryName(actualPath),
-                    Path.GetFileNameWithoutExtension(actualPath) + "-expected" + Path.GetExtension(actualPath));
+                var actualPath = Path.Combine(
+                    Path.GetDirectoryName(expectedPath),
+                    Path.GetFileNameWithoutExtension(expectedPath) + "-actual" + Path.GetExtension(expectedPath));
 
-                File.WriteAllText(expectedPath, expected);
+                File.WriteAllText(actualPath, actual);
 
                 throw new Exception($"{actualPath} does not contain the contents of {expectedPath}.");
             }

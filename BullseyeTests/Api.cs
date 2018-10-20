@@ -13,12 +13,12 @@ namespace BullseyeTests
         [Fact]
         public void IsUnchanged() =>
             AssertFile.Contains(
+                "../../../api-netcoreapp2_1.txt",
                 ApiGenerator
                     .GeneratePublicApi(
                         typeof(Targets).Assembly,
                         typeof(Targets).Assembly.GetExportedTypes().Where(type => !type.Namespace.Contains("Internal")).ToArray())
-                    .Replace(Environment.NewLine, "\r\n"),
-                "../../../api-netcoreapp2_1.txt");
+                    .Replace(Environment.NewLine, "\r\n"));
     }
 }
 #endif
