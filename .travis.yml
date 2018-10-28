@@ -10,3 +10,5 @@ branches:
   - /release-.*/
   - /^\d+\.\d+\.\d+(-\S*)?$/
 script: "./build.sh"
+git:
+  depth: false
