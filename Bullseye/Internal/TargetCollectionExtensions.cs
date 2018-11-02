@@ -190,7 +190,7 @@ namespace Bullseye.Internal
                             writeHeader = false;
                         }
 
-                        value.AppendLine($"{indent}{p.Dependency}{dependency}{p.Default}");
+                        value.AppendLine($"{indent}{p.Dependency}{dependency}{(targets.Contains(dependency) ? "" : $" {p.Failed}(missing)")}{p.Default}");
                     }
                 }
 
