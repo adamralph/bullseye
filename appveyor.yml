@@ -10,7 +10,7 @@ branches:
   - /release-.*/
   - /^\d+\.\d+\.\d+(-\S*)?$/
 environment:
-  MINVER_BUILD_METADATA: build.%APPVEYOR_BUILD_NUMBER%
+  MINVERBUILDMETADATA: build.%APPVEYOR_BUILD_NUMBER%
 build_script:
 - cmd: ./build.cmd
 - sh: ./build.sh
