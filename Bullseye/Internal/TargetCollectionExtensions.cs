@@ -21,6 +21,7 @@ namespace Bullseye.Internal
             var listTargets = false;
             var noColor = false;
             var parallel = false;
+            var listTree = false;
             var skipDependencies = false;
             var verbose = false;
             var host = Host.Unknown;
@@ -53,6 +54,10 @@ namespace Bullseye.Internal
                     case "-T":
                     case "--list-targets":
                         listTargets = true;
+                        break;
+                    case "-t":
+                    case "--list-tree":
+                        listTree = true;
                         break;
                     case "-N":
                     case "--no-color":
@@ -156,13 +161,17 @@ namespace Bullseye.Internal
                 return;
             }
 
-            if (listDependencies || listInputs || listTargets)
+            var names = args.Where(arg => !arg.StartsWith("-")).ToList();
+
+            if (listTree || listDependencies || listInputs || listTargets)
             {
-                await console.Out.WriteLineAsync(targets.ToString(listDependencies, listInputs, palette)).ConfigureAwait(false);
+                var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
+                var maxDepth = listTree ? int.MaxValue : listDependencies ? 1 : 0;
+                var maxDepthToShowInputs = listTree ? int.MaxValue : 0;
+                await console.Out.WriteLineAsync(targets.ToString(rootTargets, maxDepth, maxDepthToShowInputs, listInputs, palette)).ConfigureAwait(false);
                 return;
             }
 
-            var names = args.Where(arg => !arg.StartsWith("-")).ToList();
             if (names.Count == 0)
             {
                 names.Add("default");
@@ -171,50 +180,78 @@ namespace Bullseye.Internal
             await targets.RunAsync(names, skipDependencies, dryRun, parallel, log).ConfigureAwait(false);
         }
 
-        private static string ToString(this TargetCollection targets, bool listDependencies, bool listInputs, Palette p)
+        private static string ToString(this TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, Palette p)
         {
             var value = new StringBuilder();
-            foreach (var target in targets.OrderBy(target => target.Name))
+
+            var corner = "└─";
+            var teeJunction = "├─";
+            var line = "│ ";
+
+            foreach (var rootTarget in rootTargets)
             {
-                value.AppendLine($"{p.Target}{target.Name}{p.Default}");
-
-                if (listDependencies)
-                {
-                    var writeHeader = listInputs;
-                    var indent = writeHeader ? "    " : "  ";
-                    foreach (var dependency in target.Dependencies)
-                    {
-                        if (writeHeader)
-                        {
-                            value.AppendLine($"  {p.Label}Dependencies:{p.Default}");
-                            writeHeader = false;
-                        }
-
-                        value.AppendLine($"{indent}{p.Dependency}{dependency}{(targets.Contains(dependency) ? "" : $" {p.Failed}(missing)")}{p.Default}");
-                    }
-                }
-
-                if (listInputs)
-                {
-                    var writeHeader = listDependencies;
-                    var indent = writeHeader ? "    " : "  ";
-                    if (target is IHaveInputs hasInputs)
-                    {
-                        foreach (var input in hasInputs.Inputs)
-                        {
-                            if (writeHeader)
-                            {
-                                value.AppendLine($"  {p.Label}Inputs:{p.Default}");
-                                writeHeader = false;
-                            }
-
-                            value.AppendLine($"{indent}{p.Input}{input}{p.Default}");
-                        }
-                    }
-                }
+                Append(new List<string> { rootTarget }, new Stack<string>(), true, "", 0);
             }
 
             return value.ToString();
+
+            void Append(List<string> names, Stack<string> seenTargets, bool isRoot, string previousPrefix, int depth)
+            {
+                if (depth > maxDepth)
+                {
+                    return;
+                }
+
+                foreach (var item in names.Select((name, index) => new { name, index }))
+                {
+                    var circularDependency = seenTargets.Contains(item.name);
+
+                    seenTargets.Push(item.name);
+
+                    try
+                    {
+                        var prefix = isRoot
+                            ? ""
+                            : $"{previousPrefix.Replace(corner, "  ").Replace(teeJunction, line)}{(item.index == names.Count - 1 ? corner : teeJunction)}";
+
+                        var isMissing = !targets.Contains(item.name);
+
+                        value.Append($"{p.Tree}{prefix}{(isRoot ? p.Target : p.Dependency)}{item.name}");
+
+                        if (isMissing)
+                        {
+                            value.AppendLine($" {p.Failed}(missing){p.Default}");
+                            continue;
+                        }
+
+                        if (circularDependency)
+                        {
+                            value.AppendLine($" {p.Failed}(circular dependency){p.Default}");
+                            continue;
+                        }
+
+                        value.AppendLine(p.Default);
+
+                        var target = targets[item.name];
+
+                        if (listInputs && depth <= maxDepthToShowInputs && target is IHaveInputs hasInputs)
+                        {
+                            foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
+                            {
+                                var inputPrefix = $"{prefix.Replace(corner, "  ").Replace(teeJunction, line)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? line : "  ")}";
+
+                                value.AppendLine($"{p.Tree}{inputPrefix}{p.Input}{inputItem.input}{p.Default}");
+                            }
+                        }
+
+                        Append(target.Dependencies, seenTargets, false, prefix, depth + 1);
+                    }
+                    finally
+                    {
+                        seenTargets.Pop();
+                    }
+                }
+            }
         }
 
         public static string GetUsage(Palette p) =>
@@ -229,9 +266,10 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
 {p.Label}options:
  {p.Option}-c, --clear                {p.Text}Clear the console before execution
  {p.Option}-n, --dry-run              {p.Text}Do a dry run without executing actions
- {p.Option}-D, --list-dependencies    {p.Text}List the targets and dependencies, then exit
- {p.Option}-I, --list-inputs          {p.Text}List the targets and inputs, then exit
- {p.Option}-T, --list-targets         {p.Text}List the targets, then exit
+ {p.Option}-D, --list-dependencies    {p.Text}List all (or specified) targets and dependencies, then exit
+ {p.Option}-I, --list-inputs          {p.Text}List all (or specified) targets and inputs, then exit
+ {p.Option}-T, --list-targets         {p.Text}List all (or specified) targets, then exit
+ {p.Option}-t, --list-tree            {p.Text}List all (or specified) targets and dependency trees, then exit
  {p.Option}-N, --no-color             {p.Text}Disable colored output
  {p.Option}-p, --parallel             {p.Text}Run targets in parallel
  {p.Option}-s, --skip-dependencies    {p.Text}Do not run targets' dependencies
@@ -241,11 +279,16 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
  {p.Option}    --travis               {p.Text}Force Travis CI mode (normally auto-detected)
  {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)
 
-{p.Label}targets: {p.Text}A list of targets to run. If not specified, the {p.Target}""default""{p.Text} target will be run.
+{p.Label}targets: {p.Text}A list of targets to run or list.
+  If not specified, the {p.Target}""default""{p.Text} target will be run, or all targets will be listed.
+
+{p.Label}Remarks:
+  {p.Text}The {p.Option}--list-xxx {p.Text}options can be combined.
 
 {p.Label}Examples:
   {p.CommandLine}build.cmd
   {p.CommandLine}build.cmd {p.Option}-D
+  {p.CommandLine}build.sh {p.Option}-t -I {p.Target}default
   {p.CommandLine}build.sh {p.Target}test pack
   {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}";
     }

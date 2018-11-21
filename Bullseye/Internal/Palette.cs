@@ -75,6 +75,7 @@ namespace Bullseye.Internal
             this.Succeeded = this.green;
             this.Symbol = this.white;
             this.Target = this.brightWhite;
+            this.Tree = this.green;
             this.Text = this.white;
             this.Timing = this.magenta;
             this.Verbose = this.brightBlack;
@@ -143,6 +144,8 @@ namespace Bullseye.Internal
         public string Target { get; }
 
         public string Text { get; }
+
+        public string Tree { get; }
 
         public string Timing { get; }
 

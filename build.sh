@@ -15,6 +15,7 @@ dotnet run -c Release --project BullseyeSmokeTester -- --list-targets
 dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies
 dotnet run -c Release --project BullseyeSmokeTester -- --list-inputs
 dotnet run -c Release --project BullseyeSmokeTester -- --list-dependencies --list-inputs
+dotnet run -c Release --project BullseyeSmokeTester -- --list-tree --list-inputs
 dotnet run -c Release --project BullseyeSmokeTester --
 dotnet run -c Release --project BullseyeSmokeTester -- --parallel
 dotnet run -c Release --project BullseyeSmokeTester -- --dry-run
