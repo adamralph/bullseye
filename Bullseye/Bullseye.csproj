@@ -7,7 +7,7 @@
     <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
     <PackageIconUrl>https://raw.githubusercontent.com/adamralph/bullseye/master/assets/bullseye.png</PackageIconUrl>
-    <PackageLicenseUrl>https://github.com/adamralph/bullseye/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/adamralph/bullseye/milestones?state=closed</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
