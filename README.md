@@ -55,6 +55,7 @@ Target("make-tea", () => Console.WriteLine("Tea made."));
 Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
 Target("walk-dog", () => Console.WriteLine("Walkies!"));
 ```
+
 <img src="https://user-images.githubusercontent.com/677704/46696573-c61bfa00-cc12-11e8-834a-e0dd4a5d8831.png" width="342px" />
 
 ## Enumerable inputs
@@ -65,6 +66,7 @@ Target(
     ForEach("digestives", "chocolate hob nobs"),
     biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
 ```
+
 <img src="https://user-images.githubusercontent.com/677704/46696786-522e2180-cc13-11e8-8d91-bb31f80dcac8.png" width="511px" />
 
 ## Sample wrapper scripts
