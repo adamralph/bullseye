@@ -9,7 +9,7 @@ namespace Bullseye.Internal
     {
         public Target(string name, IEnumerable<string> dependencies)
         {
-            this.Name = name ?? throw new Exception("A target name cannot be null.");
+            this.Name = name ?? throw new BullseyeException("A target name cannot be null.");
             this.Dependencies = dependencies.Sanitize().ToList();
         }
 

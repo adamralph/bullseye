@@ -110,7 +110,7 @@ namespace Bullseye.Internal
                         unknownDependencies.Select(missingDependency =>
                             $"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
 
-                throw new Exception(message);
+                throw new BullseyeException(message);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Bullseye.Internal
             if (dependencyChain.Contains(target.Name))
             {
                 dependencyChain.Push(target.Name);
-                throw new Exception($"Circular reference detected: {string.Join(" -> ", dependencyChain.Reverse())}");
+                throw new BullseyeException($"Circular reference detected: {string.Join(" -> ", dependencyChain.Reverse())}");
             }
 
             dependencyChain.Push(target.Name);
@@ -147,7 +147,7 @@ namespace Bullseye.Internal
             if (unknownNames.Count > 0)
             {
                 var message = $"The following target{(unknownNames.Count > 1 ? "s were" : " was")} not found: {unknownNames.Spaced()}.";
-                throw new Exception(message);
+                throw new BullseyeException(message);
             }
         }
     }

@@ -1,6 +1,12 @@
 ﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v2.0", FrameworkDisplayName="")]
 namespace Bullseye
 {
+    public class BullseyeException : System.Exception
+    {
+        public BullseyeException() { }
+        public BullseyeException(string message) { }
+        public BullseyeException(string message, System.Exception innerException) { }
+    }
     public class static Targets
     {
         public static string[] DependsOn(params string[] dependencies) { }
