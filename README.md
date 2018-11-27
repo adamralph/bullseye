@@ -12,6 +12,13 @@ Bullseye can be used to write targets that do anything. It is not coupled to bui
 
 Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
+- [Quick start](#quick-start)
+- [Defining dependencies](#defining-dependencies)
+- [Enumerable inputs](#enumerable-inputs)
+- [Sample wrapper scripts](#sample-wrapper-scripts)
+- [Command line arguments](#command-line-arguments)
+- [Who's using Bullseye?](#whos-using-bullseye)
+
 ## Quick start
 
 - Install [.NET Core SDK 2.0.0](https://dot.net) or later.
@@ -100,6 +107,27 @@ dotnet run --project targets -- --help
 ```
 
 You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye. A good way to do this is to use [McMaster.Extensions.CommandLineUtils](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils/) to parse your custom arguments, and pass the [remaining arguments](https://natemcmaster.github.io/CommandLineUtils/docs/arguments.html?tabs=using-attributes#remaining-arguments) to Bullseye. See this [gist](https://gist.github.com/adamralph/d6a3167c8fe0d4e24721d8d2b9c02989) as an example.
+
+## Who's using Bullseye?
+
+To name a few:
+
+- [ConfigR](https://github.com/config-r)
+- [FakeItEasy](https://github.com/FakeItEasy)
+- [Ibento](https://github.com/pgermishuys/Ibento)
+- [LiteGuard](https://github.com/adamralph/liteguard)
+- [LittleForker](https://github.com/damianh/LittleForker)
+- [Marten](https://github.com/JasperFx/marten)
+- [MinVer](https://github.com/adamralph/minver)
+- [Particular](https://github.com/Particular)
+- [Radical Framework](https://github.com/RadicalFx)
+- [SelfInitializingFakes](https://github.com/blairconrad/SelfInitializingFakes)
+- [SendComics](https://github.com/blairconrad/SendComics)
+- [SQLStreamStore](https://github.com/SQLStreamStore)
+- [Statik](https://github.com/pauldotknopf/statik)
+- [xBehave.net](https://github.com/xbehave)
+
+Feel free to send a pull request to add your repo or organisation to this list!
 
 ---
 
