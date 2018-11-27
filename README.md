@@ -21,7 +21,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
 
 ## Quick start
 
-- Install [.NET Core SDK 2.0.0](https://dot.net) or later.
+- Install the [.NET Core SDK](https://dot.net).
 - In a console:
   ```PowerShell
   mkdir targets
