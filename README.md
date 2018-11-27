@@ -12,6 +12,13 @@ Bullseye can be used to write targets that do anything. It is not coupled to bui
 
 Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
+- [Quick start](#quick-start)
+- [Defining dependencies](#defining-dependencies)
+- [Enumerable inputs](#enumerable-inputs)
+- [Sample wrapper scripts](#sample-wrapper-scripts)
+- [Command line arguments](#command-line-arguments)
+- [Who's using Bullseye?](#whos-using-bullseye)
+
 ## Quick start
 
 - Install [.NET Core SDK 2.0.0](https://dot.net) or later.
