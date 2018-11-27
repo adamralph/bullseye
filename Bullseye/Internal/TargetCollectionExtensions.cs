@@ -95,7 +95,7 @@ namespace Bullseye.Internal
 
             if (unknownOptions.Count > 0)
             {
-                throw new Exception($"Unknown options {unknownOptions.Spaced()}. \"--help\" for usage.");
+                throw new BullseyeException($"Unknown options {unknownOptions.Spaced()}. \"--help\" for usage.");
             }
 
             if (clear)
