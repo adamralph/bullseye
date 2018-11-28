@@ -11,9 +11,13 @@ namespace Bullseye
     {
         public static string[] DependsOn(params string[] dependencies) { }
         public static TInput[] ForEach<TInput>(params TInput[] inputs) { }
+        [System.ObsoleteAttribute("Use RunTargets(string args) instead. This method will be removed in version 3.0.0" +
+            ".")]
         public static void RunTargets() { }
         public static void RunTargets(System.Collections.Generic.IEnumerable<string> args) { }
         public static System.Threading.Tasks.Task RunTargetsAsync(System.Collections.Generic.IEnumerable<string> args) { }
+        [System.ObsoleteAttribute("Use RunTargetsAsync(string args) instead. This method will be removed in version " +
+            "3.0.0.")]
         public static System.Threading.Tasks.Task RunTargetsAsync() { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
