@@ -104,7 +104,7 @@ namespace Bullseye.Internal
 
             if (unknownDependencies.Count != 0)
             {
-                var message = $"Missing {(unknownDependencies.Count > 1 ? "dependencies" : "dependency")} detected: " +
+                var message = $"Missing {(unknownDependencies.Count > 1 ? "dependencies" : "dependency")}: " +
                     string.Join(
                         "; ",
                         unknownDependencies.Select(missingDependency =>
@@ -128,7 +128,7 @@ namespace Bullseye.Internal
             if (dependencyChain.Contains(target.Name))
             {
                 dependencyChain.Push(target.Name);
-                throw new BullseyeException($"Circular reference detected: {string.Join(" -> ", dependencyChain.Reverse())}");
+                throw new BullseyeException($"Circular dependency: {string.Join(" -> ", dependencyChain.Reverse())}");
             }
 
             dependencyChain.Push(target.Name);
@@ -146,7 +146,7 @@ namespace Bullseye.Internal
             var unknownNames = new SortedSet<string>(names.Except(this.Select(target => target.Name)));
             if (unknownNames.Count > 0)
             {
-                var message = $"The following target{(unknownNames.Count > 1 ? "s were" : " was")} not found: {unknownNames.Spaced()}.";
+                var message = $"Target{(unknownNames.Count > 1 ? "s" : "")} not found: {unknownNames.Spaced()}.";
                 throw new BullseyeException(message);
             }
         }
