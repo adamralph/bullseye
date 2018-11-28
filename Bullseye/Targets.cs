@@ -22,10 +22,6 @@ namespace Bullseye
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
             targets.Add(new ActionTarget<TInput>(name, dependsOn, forEach, action));
 
-        [Obsolete("Use RunTargetsAndExitAsync instead. This method will be removed in 3.0.0.")]
-        public static Task RunTargetsAsync(IEnumerable<string> args) =>
-            targets.RunAsync(args, new SystemConsole());
-
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
         /// Any code which follows a call to this method will not be executed.
