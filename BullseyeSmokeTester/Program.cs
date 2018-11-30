@@ -26,7 +26,8 @@ namespace BullseyeSmokeTester
 
             Target(
                 "foo",
-                () => Task.Delay(100));
+                ForEach(10, 20, 30),
+                delay => Task.Delay(delay));
 
             Target(
                 "bar",
@@ -52,6 +53,11 @@ namespace BullseyeSmokeTester
                 });
 
             Target("no-inputs", Enumerable.Empty<string>(), input => { });
+
+            Target("build", () => { });
+            Target("test", DependsOn("build"), () => { });
+            Target("pack", DependsOn("build"), () => { });
+            Target("publish", DependsOn("pack"), () => { });
 
             return RunTargetsAsync(args);
         }
