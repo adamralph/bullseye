@@ -10,7 +10,7 @@ Bullseye is a [.NET package](https://www.nuget.org/packages/Bullseye) for descri
 
 Bullseye can be used to write targets that do anything. It is not coupled to building .NET projects.
 
-Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
+Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
 - [Quick start](#quick-start)
 - [Defining dependencies](#defining-dependencies)
@@ -38,7 +38,7 @@ Platform support: [.NET Standard 1.3 and upwards](https://docs.microsoft.com/en-
       static void Main(string[] args)
       {
           Target("default", () => System.Console.WriteLine("Hello, world!"));
-          RunTargets(args);
+          RunTargetsAndExit(args);
       }
   }
   ```
@@ -97,7 +97,7 @@ dotnet run --project targets -- $args
 
 ## Command line arguments
 
-Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargets(args);`). This is because Bullseye effectively provides a command line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
+Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExit(args);`). This is because Bullseye effectively provides a command line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
 
 ```PowerShell
 dotnet run --project targets -- --help

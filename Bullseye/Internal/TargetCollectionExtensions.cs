@@ -12,6 +12,27 @@ namespace Bullseye.Internal
         public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, IConsole console) =>
             RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), console ?? new SystemConsole());
 
+        public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, IEnumerable<Type> exceptionMessageOnly) =>
+            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), new SystemConsole(), exceptionMessageOnly ?? Enumerable.Empty<Type>());
+
+        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, IConsole console, IEnumerable<Type> exceptionMessageOnly)
+        {
+            try
+            {
+                await RunAsync(targets, args, console).ConfigureAwait(false);
+            }
+            catch (Exception ex) when (exceptionMessageOnly.Concat(new[] { typeof(BullseyeException) }).Any(type => type.IsAssignableFrom(ex.GetType())))
+            {
+                await console.Out.WriteLineAsync(ex.Message).ConfigureAwait(false);
+                Environment.Exit(2);
+            }
+            catch (Exception ex)
+            {
+                await console.Out.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+                Environment.Exit(ex.HResult == 0 ? 1 : ex.HResult);
+            }
+        }
+
         private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
         {
             var clear = false;
