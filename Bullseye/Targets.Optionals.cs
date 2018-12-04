@@ -14,10 +14,10 @@ namespace Bullseye
 
         public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) => Target(name, default, forEach, action);
 
-        [Obsolete("Use RunTargetsAsync(string args) instead. This method will be removed in version 3.0.0.")]
+        [Obsolete("Use RunTargetsAsync(IEnumerable<string> args) instead. This method will be removed in version 3.0.0.")]
         public static Task RunTargetsAsync() => RunTargetsAsync(default);
 
-        [Obsolete("Use RunTargets(string args) instead. This method will be removed in version 3.0.0.")]
+        [Obsolete("Use RunTargets(IEnumerable<string> args) instead. This method will be removed in version 3.0.0.")]
         public static void RunTargets() => RunTargets(default);
     }
 }
