@@ -30,14 +30,14 @@ namespace Bullseye.Internal
                 var targetsRan = new ConcurrentDictionary<string, Task>();
                 if (parallel)
                 {
-                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, parallel, targetsRan, log, new Stack<string>()));
+                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, targetsRan, log, new Stack<string>()));
                     await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
                 else
                 {
                     foreach (var name in names)
                     {
-                        await this.RunAsync(name, names, skipDependencies, dryRun, parallel, targetsRan, log, new Stack<string>()).ConfigureAwait(false);
+                        await this.RunAsync(name, names, skipDependencies, dryRun, false, targetsRan, log, new Stack<string>()).ConfigureAwait(false);
                     }
                 }
             }
@@ -66,14 +66,14 @@ namespace Bullseye.Internal
 
             if (parallel)
             {
-                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, parallel, targetsRan, log, targets));
+                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, targetsRan, log, targets));
                 await Task.WhenAll(tasks).ConfigureAwait(false);
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, parallel, targetsRan, log, targets).ConfigureAwait(false);
+                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, targetsRan, log, targets).ConfigureAwait(false);
                 }
             }
 
