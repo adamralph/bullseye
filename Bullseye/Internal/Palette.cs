@@ -4,120 +4,100 @@ namespace Bullseye.Internal
 
     public class Palette
     {
-        private readonly string @default;
-
-        private readonly string black;
-        private readonly string red;
-        private readonly string green;
-        private readonly string yellow;
-        private readonly string blue;
-        private readonly string magenta;
-        private readonly string cyan;
-        private readonly string white;
-
-        private readonly string brightBlack;
-        private readonly string brightRed;
-        private readonly string brightGreen;
-        private readonly string brightYellow;
-        private readonly string brightBlue;
-        private readonly string brightMagenta;
-        private readonly string brightCyan;
-        private readonly string brightWhite;
-
         public Palette(bool noColor, Host host, OperatingSystem operatingSystem)
         {
-            this.@default = noColor ? "" : "\x1b[0m";
+            var @default = noColor ? "" : "\x1b[0m";
 
-            this.black = noColor ? "" : "\x1b[30m";
-            this.red = noColor ? "" : "\x1b[31m";
-            this.green = noColor ? "" : "\x1b[32m";
-            this.yellow = noColor ? "" : "\x1b[33m";
-            this.blue = noColor ? "" : "\x1b[34m";
-            this.magenta = noColor ? "" : "\x1b[35m";
-            this.cyan = noColor ? "" : "\x1b[36m";
-            this.white = noColor ? "" : "\x1b[37m";
+            var black = noColor ? "" : "\x1b[30m";
+            var red = noColor ? "" : "\x1b[31m";
+            var green = noColor ? "" : "\x1b[32m";
+            var yellow = noColor ? "" : "\x1b[33m";
+            var blue = noColor ? "" : "\x1b[34m";
+            var magenta = noColor ? "" : "\x1b[35m";
+            var cyan = noColor ? "" : "\x1b[36m";
+            var white = noColor ? "" : "\x1b[37m";
 
-            this.brightBlack = noColor ? "" : "\x1b[90m";
-            this.brightRed = noColor ? "" : "\x1b[91m";
-            this.brightGreen = noColor ? "" : "\x1b[92m";
-            this.brightYellow = noColor ? "" : "\x1b[93m";
-            this.brightBlue = noColor ? "" : "\x1b[94m";
-            this.brightMagenta = noColor ? "" : "\x1b[95m";
-            this.brightCyan = noColor ? "" : "\x1b[96m";
-            this.brightWhite = noColor ? "" : "\x1b[97m";
+            var brightBlack = noColor ? "" : "\x1b[90m";
+            var brightRed = noColor ? "" : "\x1b[91m";
+            var brightGreen = noColor ? "" : "\x1b[92m";
+            var brightYellow = noColor ? "" : "\x1b[93m";
+            var brightBlue = noColor ? "" : "\x1b[94m";
+            var brightMagenta = noColor ? "" : "\x1b[95m";
+            var brightCyan = noColor ? "" : "\x1b[96m";
+            var brightWhite = noColor ? "" : "\x1b[97m";
 
-            this.black = Console.BackgroundColor == ConsoleColor.Black ? this.brightBlack : this.black;
-            this.red = Console.BackgroundColor == ConsoleColor.DarkRed ? this.brightRed : this.red;
-            this.green = Console.BackgroundColor == ConsoleColor.DarkGreen ? this.brightGreen : this.green;
-            this.yellow = Console.BackgroundColor == ConsoleColor.DarkYellow ? this.brightYellow : this.yellow;
-            this.blue = Console.BackgroundColor == ConsoleColor.DarkBlue ? this.brightBlue : this.blue;
-            this.magenta = Console.BackgroundColor == ConsoleColor.DarkMagenta ? this.brightMagenta : this.magenta;
-            this.cyan = Console.BackgroundColor == ConsoleColor.DarkCyan ? this.brightCyan : this.cyan;
-            this.white = Console.BackgroundColor == ConsoleColor.Gray ? this.brightWhite : this.white;
+            black = Console.BackgroundColor == ConsoleColor.Black ? brightBlack : black;
+            red = Console.BackgroundColor == ConsoleColor.DarkRed ? brightRed : red;
+            green = Console.BackgroundColor == ConsoleColor.DarkGreen ? brightGreen : green;
+            yellow = Console.BackgroundColor == ConsoleColor.DarkYellow ? brightYellow : yellow;
+            blue = Console.BackgroundColor == ConsoleColor.DarkBlue ? brightBlue : blue;
+            magenta = Console.BackgroundColor == ConsoleColor.DarkMagenta ? brightMagenta : magenta;
+            cyan = Console.BackgroundColor == ConsoleColor.DarkCyan ? brightCyan : cyan;
+            white = Console.BackgroundColor == ConsoleColor.Gray ? brightWhite : white;
 
-            this.brightBlack = Console.BackgroundColor == ConsoleColor.DarkGray ? this.black : this.brightBlack;
-            this.brightRed = Console.BackgroundColor == ConsoleColor.Red ? this.red : this.brightRed;
-            this.brightGreen = Console.BackgroundColor == ConsoleColor.Green ? this.green : this.brightGreen;
-            this.brightYellow = Console.BackgroundColor == ConsoleColor.Yellow ? this.yellow : this.brightYellow;
-            this.brightBlue = Console.BackgroundColor == ConsoleColor.Blue ? this.blue : this.brightBlue;
-            this.brightMagenta = Console.BackgroundColor == ConsoleColor.Magenta ? this.magenta : this.brightMagenta;
-            this.brightCyan = Console.BackgroundColor == ConsoleColor.Cyan ? this.cyan : this.brightCyan;
-            this.brightWhite = Console.BackgroundColor == ConsoleColor.White ? this.white : this.brightWhite;
+            brightBlack = Console.BackgroundColor == ConsoleColor.DarkGray ? black : brightBlack;
+            brightRed = Console.BackgroundColor == ConsoleColor.Red ? red : brightRed;
+            brightGreen = Console.BackgroundColor == ConsoleColor.Green ? green : brightGreen;
+            brightYellow = Console.BackgroundColor == ConsoleColor.Yellow ? yellow : brightYellow;
+            brightBlue = Console.BackgroundColor == ConsoleColor.Blue ? blue : brightBlue;
+            brightMagenta = Console.BackgroundColor == ConsoleColor.Magenta ? magenta : brightMagenta;
+            brightCyan = Console.BackgroundColor == ConsoleColor.Cyan ? cyan : brightCyan;
+            brightWhite = Console.BackgroundColor == ConsoleColor.White ? white : brightWhite;
 
-            this.CommandLine = this.brightYellow;
-            this.Default = this.@default;
-            this.Dependency = this.white;
-            this.Failed = this.brightRed;
-            this.Input = this.brightCyan;
-            this.Label = this.cyan;
-            this.Option = this.brightMagenta;
-            this.Starting = this.white;
-            this.Succeeded = this.green;
-            this.Symbol = this.white;
-            this.Target = this.brightWhite;
-            this.Tree = this.green;
-            this.Text = this.white;
-            this.Timing = this.magenta;
-            this.Verbose = this.brightBlack;
-            this.Warning = this.brightYellow;
+            this.CommandLine = brightYellow;
+            this.Default = @default;
+            this.Dependency = white;
+            this.Failed = brightRed;
+            this.Input = brightCyan;
+            this.Label = cyan;
+            this.Option = brightMagenta;
+            this.Starting = white;
+            this.Succeeded = green;
+            this.Symbol = white;
+            this.Target = brightWhite;
+            this.Tree = green;
+            this.Text = white;
+            this.Timing = magenta;
+            this.Verbose = brightBlack;
+            this.Warning = brightYellow;
 
             if (host == Host.Appveyor &&
                 (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
             {
-                this.Dependency = this.brightBlack;
-                this.Label = this.brightBlue;
-                this.Starting = this.brightBlack;
-                this.Symbol = this.brightBlack;
-                this.Text = this.brightBlack;
+                this.Dependency = brightBlack;
+                this.Label = brightBlue;
+                this.Starting = brightBlack;
+                this.Symbol = brightBlack;
+                this.Text = brightBlack;
 
                 if (operatingSystem == OperatingSystem.Linux)
                 {
-                    this.Timing = this.brightMagenta;
+                    this.Timing = brightMagenta;
                 }
             }
 
             if (host == Host.Travis)
             {
-                this.CommandLine = this.yellow;
-                this.Dependency = this.brightBlack;
-                this.Failed = this.red;
-                this.Input = this.cyan;
-                this.Label = this.blue;
-                this.Option = this.magenta;
-                this.Starting = this.brightBlack;
-                this.Symbol = this.brightBlack;
-                this.Target = this.white;
-                this.Text = this.brightBlack;
-                this.Warning = this.yellow;
+                this.CommandLine = yellow;
+                this.Dependency = brightBlack;
+                this.Failed = red;
+                this.Input = cyan;
+                this.Label = blue;
+                this.Option = magenta;
+                this.Starting = brightBlack;
+                this.Symbol = brightBlack;
+                this.Target = white;
+                this.Text = brightBlack;
+                this.Warning = yellow;
             }
 
             if (host == Host.TeamCity)
             {
-                this.Dependency = this.brightBlack;
-                this.Label = this.brightBlue;
-                this.Starting = this.brightBlack;
-                this.Symbol = this.brightBlack;
-                this.Text = this.brightBlack;
+                this.Dependency = brightBlack;
+                this.Label = brightBlue;
+                this.Starting = brightBlack;
+                this.Symbol = brightBlack;
+                this.Text = brightBlack;
             }
         }
 
