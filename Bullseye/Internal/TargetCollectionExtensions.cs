@@ -287,7 +287,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public static string GetUsage(Palette p) =>
+        private static string GetUsage(Palette p) =>
 $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target}[<targets>]
 
 {p.Label}command-line: {p.Text}The command line which invokes the build targets.
