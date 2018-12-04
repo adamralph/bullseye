@@ -1,5 +1,7 @@
 namespace Bullseye.Internal
 {
+    using System.Collections.Generic;
+
     public class Options
     {
         public bool Clear { get; set; }
@@ -25,5 +27,7 @@ namespace Bullseye.Internal
         public Host Host { get; set; }
 
         public bool ShowHelp { get; set; }
+
+        public List<string> UnknownOptions { get; } = new List<string>();
     }
 }

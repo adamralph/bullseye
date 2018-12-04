@@ -15,28 +15,69 @@ namespace Bullseye.Internal
         public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, IEnumerable<Type> exceptionMessageOnly) =>
             RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), new SystemConsole(), exceptionMessageOnly ?? Enumerable.Empty<Type>());
 
+        private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
+        {
+            var (names, options) = Parse(args);
+            var (log, palette) = await InitializeLogger(options, console).ConfigureAwait(false);
+
+            await RunAsync(targets, names, options, log, palette, args, console).ConfigureAwait(false);
+        }
+
         private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, IConsole console, IEnumerable<Type> exceptionMessageOnly)
         {
+            var (names, options) = Parse(args);
+            var (log, palette) = await InitializeLogger(options, console).ConfigureAwait(false);
+
             try
             {
-                await RunAsync(targets, args, console).ConfigureAwait(false);
+                await RunAsync(targets, names, options, log, palette, args, console).ConfigureAwait(false);
             }
             catch (Exception ex) when (exceptionMessageOnly.Concat(new[] { typeof(BullseyeException) }).Any(type => type.IsAssignableFrom(ex.GetType())))
             {
-                await console.Out.WriteLineAsync(ex.Message).ConfigureAwait(false);
+                await log.Error(ex.Message).ConfigureAwait(false);
                 Environment.Exit(2);
             }
             catch (Exception ex)
             {
-                await console.Out.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+                await log.Error(ex.ToString()).ConfigureAwait(false);
                 Environment.Exit(ex.HResult == 0 ? 1 : ex.HResult);
             }
         }
 
-        private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
+        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Logger log, Palette palette, List<string> args, IConsole console)
         {
-            var (names, options) = Parse(args);
+            if (options.UnknownOptions.Count > 0)
+            {
+                throw new BullseyeException($"Unknown option{(options.UnknownOptions.Count > 1 ? "s" : "")} {options.UnknownOptions.Spaced()}. \"--help\" for usage.");
+            }
 
+            await log.Verbose($"Args: {string.Join(" ", args)}").ConfigureAwait(false);
+
+            if (options.ShowHelp)
+            {
+                await console.Out.WriteLineAsync(GetUsage(palette)).ConfigureAwait(false);
+                return;
+            }
+
+            if (options.ListTree || options.ListDependencies || options.ListInputs || options.ListTargets)
+            {
+                var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
+                var maxDepth = options.ListTree ? int.MaxValue : options.ListDependencies ? 1 : 0;
+                var maxDepthToShowInputs = options.ListTree ? int.MaxValue : 0;
+                await console.Out.WriteLineAsync(targets.ToString(rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs, palette)).ConfigureAwait(false);
+                return;
+            }
+
+            if (names.Count == 0)
+            {
+                names.Add("default");
+            }
+
+            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, options.Parallel, log).ConfigureAwait(false);
+        }
+
+        private static async Task<(Logger, Palette)> InitializeLogger(Options options, IConsole console)
+        {
             if (options.Clear)
             {
                 console.Clear();
@@ -87,29 +128,8 @@ namespace Bullseye.Internal
             await log.Version().ConfigureAwait(false);
             await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").ConfigureAwait(false);
             await log.Verbose($"OS: {operatingSystem}").ConfigureAwait(false);
-            await log.Verbose($"Args: {string.Join(" ", args)}").ConfigureAwait(false);
 
-            if (options.ShowHelp)
-            {
-                await console.Out.WriteLineAsync(GetUsage(palette)).ConfigureAwait(false);
-                return;
-            }
-
-            if (options.ListTree || options.ListDependencies || options.ListInputs || options.ListTargets)
-            {
-                var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
-                var maxDepth = options.ListTree ? int.MaxValue : options.ListDependencies ? 1 : 0;
-                var maxDepthToShowInputs = options.ListTree ? int.MaxValue : 0;
-                await console.Out.WriteLineAsync(targets.ToString(rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs, palette)).ConfigureAwait(false);
-                return;
-            }
-
-            if (names.Count == 0)
-            {
-                names.Add("default");
-            }
-
-            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, options.Parallel, log).ConfigureAwait(false);
+            return (log, palette);
         }
 
         private static (List<string>, Options) Parse(List<string> args)
@@ -118,7 +138,6 @@ namespace Bullseye.Internal
             var options = new Options();
 
             var helpOptions = new[] { "--help", "-h", "-?" };
-            var unknownOptions = new List<string>();
 
             foreach (var arg in args)
             {
@@ -180,7 +199,7 @@ namespace Bullseye.Internal
                         }
                         else if (arg.StartsWith("-"))
                         {
-                            unknownOptions.Add(arg);
+                            options.UnknownOptions.Add(arg);
                         }
                         else
                         {
@@ -189,11 +208,6 @@ namespace Bullseye.Internal
 
                         break;
                 }
-            }
-
-            if (unknownOptions.Count > 0)
-            {
-                throw new BullseyeException($"Unknown option{(unknownOptions.Count > 1 ? "s" : "")} {unknownOptions.Spaced()}. \"--help\" for usage.");
             }
 
             return (targetNames, options);
