@@ -12,7 +12,7 @@ namespace Bullseye
                 dependsOn,
                 action == null
                     ? default(Func<Task>)
-                    : () => Task.Run(() => action.Invoke()));
+                    : () => Task.Run(action.Invoke));
 
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
             Target(
