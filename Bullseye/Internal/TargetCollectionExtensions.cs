@@ -35,95 +35,9 @@ namespace Bullseye.Internal
 
         private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
         {
-            var clear = false;
-            var dryRun = false;
-            var listDependencies = false;
-            var listInputs = false;
-            var listTargets = false;
-            var noColor = false;
-            var parallel = false;
-            var listTree = false;
-            var skipDependencies = false;
-            var verbose = false;
-            var host = Host.Unknown;
-            var showHelp = false;
+            var (names, options) = Parse(args);
 
-            var helpOptions = new[] { "--help", "-h", "-?" };
-            var unknownOptions = new List<string>();
-
-            foreach (var option in args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList())
-            {
-                switch (option)
-                {
-                    case "-c":
-                    case "--clear":
-                        clear = true;
-                        break;
-                    case "-n":
-                    case "--dry-run":
-                        dryRun = true;
-                        break;
-                    case "-D":
-                    case "--list-dependencies":
-                        listDependencies = true;
-                        break;
-                    case "-I":
-                    case "--list-inputs":
-                        listInputs = true;
-                        break;
-                    case "-T":
-                    case "--list-targets":
-                        listTargets = true;
-                        break;
-                    case "-t":
-                    case "--list-tree":
-                        listTree = true;
-                        break;
-                    case "-N":
-                    case "--no-color":
-                        noColor = true;
-                        break;
-                    case "-p":
-                    case "--parallel":
-                        parallel = true;
-                        break;
-                    case "-s":
-                    case "--skip-dependencies":
-                        skipDependencies = true;
-                        break;
-                    case "-v":
-                    case "--verbose":
-                        verbose = true;
-                        break;
-                    case "--appveyor":
-                        host = Host.Appveyor;
-                        break;
-                    case "--travis":
-                        host = Host.Travis;
-                        break;
-                    case "--teamcity":
-                        host = Host.TeamCity;
-                        break;
-                    default:
-                        if (helpOptions.Contains(option, StringComparer.OrdinalIgnoreCase))
-                        {
-                            showHelp = true;
-                        }
-                        else
-                        {
-                            unknownOptions.Add(option);
-                        }
-
-                        break;
-                }
-            }
-
-            if (unknownOptions.Count > 0)
-            {
-                throw new BullseyeException($"Unknown option{(unknownOptions.Count > 1 ? "s" : "")} {unknownOptions.Spaced()}. \"--help\" for usage.");
-            }
-
-            if (clear)
+            if (options.Clear)
             {
                 console.Clear();
             }
@@ -143,52 +57,50 @@ namespace Bullseye.Internal
                 operatingSystem = OperatingSystem.MacOS;
             }
 
-            if (!noColor && operatingSystem == OperatingSystem.Windows)
+            if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
             {
-                await WindowsConsole.TryEnableVirtualTerminalProcessing(console.Out, verbose).ConfigureAwait(false);
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(console.Out, options.Verbose).ConfigureAwait(false);
             }
 
             var isHostDetected = false;
-            if (host == Host.Unknown)
+            if (options.Host == Host.Unknown)
             {
                 isHostDetected = true;
 
                 if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
                 {
-                    host = Host.Appveyor;
+                    options.Host = Host.Appveyor;
                 }
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
                 {
-                    host = Host.Travis;
+                    options.Host = Host.Travis;
                 }
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
                 {
-                    host = Host.TeamCity;
+                    options.Host = Host.TeamCity;
                 }
             }
 
-            var palette = new Palette(noColor, host, operatingSystem);
-            var log = new Logger(console, skipDependencies, dryRun, parallel, palette, verbose);
+            var palette = new Palette(options.NoColor, options.Host, operatingSystem);
+            var log = new Logger(console, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
             await log.Version().ConfigureAwait(false);
-            await log.Verbose($"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").ConfigureAwait(false);
+            await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").ConfigureAwait(false);
             await log.Verbose($"OS: {operatingSystem}").ConfigureAwait(false);
             await log.Verbose($"Args: {string.Join(" ", args)}").ConfigureAwait(false);
 
-            if (showHelp)
+            if (options.ShowHelp)
             {
                 await console.Out.WriteLineAsync(GetUsage(palette)).ConfigureAwait(false);
                 return;
             }
 
-            var names = args.Where(arg => !arg.StartsWith("-")).ToList();
-
-            if (listTree || listDependencies || listInputs || listTargets)
+            if (options.ListTree || options.ListDependencies || options.ListInputs || options.ListTargets)
             {
                 var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
-                var maxDepth = listTree ? int.MaxValue : listDependencies ? 1 : 0;
-                var maxDepthToShowInputs = listTree ? int.MaxValue : 0;
-                await console.Out.WriteLineAsync(targets.ToString(rootTargets, maxDepth, maxDepthToShowInputs, listInputs, palette)).ConfigureAwait(false);
+                var maxDepth = options.ListTree ? int.MaxValue : options.ListDependencies ? 1 : 0;
+                var maxDepthToShowInputs = options.ListTree ? int.MaxValue : 0;
+                await console.Out.WriteLineAsync(targets.ToString(rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs, palette)).ConfigureAwait(false);
                 return;
             }
 
@@ -197,7 +109,94 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await targets.RunAsync(names, skipDependencies, dryRun, parallel, log).ConfigureAwait(false);
+            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, options.Parallel, log).ConfigureAwait(false);
+        }
+
+        private static (List<string>, Options) Parse(List<string> args)
+        {
+            var targetNames = new List<string>();
+            var options = new Options();
+
+            var helpOptions = new[] { "--help", "-h", "-?" };
+            var unknownOptions = new List<string>();
+
+            foreach (var arg in args)
+            {
+                switch (arg)
+                {
+                    case "-c":
+                    case "--clear":
+                        options.Clear = true;
+                        break;
+                    case "-n":
+                    case "--dry-run":
+                        options.DryRun = true;
+                        break;
+                    case "-D":
+                    case "--list-dependencies":
+                        options.ListDependencies = true;
+                        break;
+                    case "-I":
+                    case "--list-inputs":
+                        options.ListInputs = true;
+                        break;
+                    case "-T":
+                    case "--list-targets":
+                        options.ListTargets = true;
+                        break;
+                    case "-t":
+                    case "--list-tree":
+                        options.ListTree = true;
+                        break;
+                    case "-N":
+                    case "--no-color":
+                        options.NoColor = true;
+                        break;
+                    case "-p":
+                    case "--parallel":
+                        options.Parallel = true;
+                        break;
+                    case "-s":
+                    case "--skip-dependencies":
+                        options.SkipDependencies = true;
+                        break;
+                    case "-v":
+                    case "--verbose":
+                        options.Verbose = true;
+                        break;
+                    case "--appveyor":
+                        options.Host = Host.Appveyor;
+                        break;
+                    case "--travis":
+                        options.Host = Host.Travis;
+                        break;
+                    case "--teamcity":
+                        options.Host = Host.TeamCity;
+                        break;
+                    default:
+                        if (helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase))
+                        {
+                            options.ShowHelp = true;
+                        }
+                        else if (arg.StartsWith("-"))
+                        {
+                            unknownOptions.Add(arg);
+                        }
+                        else
+                        {
+                            targetNames.Add(arg);
+                        }
+
+                        break;
+                }
+            }
+
+            if (unknownOptions.Count > 0)
+            {
+                throw new BullseyeException($"Unknown option{(unknownOptions.Count > 1 ? "s" : "")} {unknownOptions.Spaced()}. \"--help\" for usage.");
+            }
+
+            return (targetNames, options);
         }
 
         private static string ToString(this TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, Palette p)
