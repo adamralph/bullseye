@@ -45,6 +45,8 @@ namespace Bullseye.Internal
             }
         }
 
+        public Task Error(string message) => this.console.Out.WriteLineAsync(Message(p.Failed, message));
+
         public async Task Verbose(string message)
         {
             if (this.verbose)

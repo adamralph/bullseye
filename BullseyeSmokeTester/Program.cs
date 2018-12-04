@@ -59,7 +59,7 @@ namespace BullseyeSmokeTester
             Target("pack", DependsOn("build"), () => { });
             Target("publish", DependsOn("pack"), () => { });
 
-            return RunTargetsAsync(args);
+            return RunTargetsAndExitAsync(args);
         }
     }
 }
