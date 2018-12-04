@@ -5,9 +5,9 @@ namespace BullseyeSmokeTester
     using System.Threading.Tasks;
     using static Bullseye.Targets;
 
-    class Program
+    internal class Program
     {
-        static Task Main(string[] args)
+        private static Task Main(string[] args)
         {
             Target("default", DependsOn("worl:d", "exclai: m", "no-action", "echo", "combo", "no-inputs"));
 
