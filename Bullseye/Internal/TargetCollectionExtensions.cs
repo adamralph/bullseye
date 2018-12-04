@@ -49,10 +49,9 @@ namespace Bullseye.Internal
             var showHelp = false;
 
             var helpOptions = new[] { "--help", "-h", "-?" };
-            var optionsArgs = args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
             var unknownOptions = new List<string>();
 
-            foreach (var option in optionsArgs)
+            foreach (var option in args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList())
             {
                 switch (option)
                 {
@@ -149,10 +148,10 @@ namespace Bullseye.Internal
                 await WindowsConsole.TryEnableVirtualTerminalProcessing(console.Out, verbose).ConfigureAwait(false);
             }
 
-            var isHostForced = true;
+            var isHostDetected = false;
             if (host == Host.Unknown)
             {
-                isHostForced = false;
+                isHostDetected = true;
 
                 if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
                 {
@@ -172,7 +171,7 @@ namespace Bullseye.Internal
             var log = new Logger(console, skipDependencies, dryRun, parallel, palette, verbose);
 
             await log.Version().ConfigureAwait(false);
-            await log.Verbose($"Host: {host}{(host != Host.Unknown ? $" ({(isHostForced ? "forced" : "detected")})" : "")}").ConfigureAwait(false);
+            await log.Verbose($"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").ConfigureAwait(false);
             await log.Verbose($"OS: {operatingSystem}").ConfigureAwait(false);
             await log.Verbose($"Args: {string.Join(" ", args)}").ConfigureAwait(false);
 
