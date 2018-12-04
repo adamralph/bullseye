@@ -27,7 +27,7 @@ namespace BullseyeSmokeTester
             Target(
                 "foo",
                 ForEach(10, 20, 30),
-                delay => Task.Delay(delay));
+                Task.Delay);
 
             Target(
                 "bar",
