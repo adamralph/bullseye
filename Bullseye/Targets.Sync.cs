@@ -12,7 +12,7 @@ namespace Bullseye
                 dependsOn,
                 action == null
                     ? default(Func<Task>)
-                    : () => Task.Run(() => action?.Invoke()));
+                    : () => Task.Run(() => action.Invoke()));
 
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
             Target(
@@ -21,7 +21,7 @@ namespace Bullseye
                 forEach,
                 action == null
                     ? default(Func<TInput, Task>)
-                    : input => Task.Run(() => action?.Invoke(input)));
+                    : input => Task.Run(() => action.Invoke(input)));
 
         [Obsolete("Use RunTargetsAndExit(IEnumerable<string> args) instead. This method will be removed in version 3.0.0.")]
         public static void RunTargets(IEnumerable<string> args) => RunTargetsAsync(args).GetAwaiter().GetResult();
