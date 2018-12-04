@@ -4,9 +4,7 @@ namespace Bullseye.Internal
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-#if NETSTANDARD2_0
     using System.Reflection;
-#endif
     using System.Threading.Tasks;
 
     public class Logger
@@ -34,13 +32,11 @@ namespace Bullseye.Internal
         {
             if (this.verbose)
             {
-                var version = "Unknown";
-#if NETSTANDARD2_0
-                version = typeof(TargetCollectionExtensions).Assembly.GetCustomAttributes(false)
+                var version = typeof(TargetCollectionExtensions).Assembly.GetCustomAttributes(false)
                     .OfType<AssemblyInformationalVersionAttribute>()
                     .FirstOrDefault()
-                    ?.InformationalVersion ?? version;
-#endif
+                    ?.InformationalVersion ?? "Unknown";
+
                 await this.console.Out.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).ConfigureAwait(false);
             }
         }
