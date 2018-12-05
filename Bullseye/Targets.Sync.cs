@@ -28,6 +28,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
+        /// Any code which follows a call to this method will not be executed.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
         /// <param name="exceptionMessageOnly">The exception types for which to log the message only.</param>
@@ -36,6 +37,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
+        /// Any code which follows a call to this method will not be executed.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
         public static void RunTargetsAndExit(IEnumerable<string> args) =>
@@ -43,6 +45,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
+        /// Any code which follows a call to this method will not be executed.
         /// </summary>
         /// <typeparam name="T">The exception type for which to log the message only.</typeparam>
         /// <param name="args">The command line arguments.</param>
@@ -52,6 +55,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
+        /// Any code which follows a call to this method will not be executed.
         /// </summary>
         /// <typeparam name="T1">An exception type for which to log the message only.</typeparam>
         /// <typeparam name="T2">An exception type for which to log the message only.</typeparam>
@@ -62,6 +66,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
+        /// Any code which follows a call to this method will not be executed.
         /// </summary>
         /// <typeparam name="T1">An exception type for which to log the message only.</typeparam>
         /// <typeparam name="T2">An exception type for which to log the message only.</typeparam>
@@ -73,6 +78,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
+        /// Any code which follows a call to this method will not be executed.
         /// </summary>
         /// <typeparam name="T1">An exception type for which to log the message only.</typeparam>
         /// <typeparam name="T2">An exception type for which to log the message only.</typeparam>
