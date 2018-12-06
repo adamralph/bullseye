@@ -18,7 +18,7 @@ namespace Bullseye.Internal
             var (names, options) = args.Parse();
             var log = await console.Initialize(options).ConfigureAwait(false);
 
-            await RunAsync(targets, names, options, log, args, console).ConfigureAwait(false);
+            await RunAsync(targets, names, options, log, args).ConfigureAwait(false);
         }
 
         private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, IConsole console, IEnumerable<Type> exceptionMessageOnly)
@@ -28,7 +28,7 @@ namespace Bullseye.Internal
 
             try
             {
-                await RunAsync(targets, names, options, log, args, console).ConfigureAwait(false);
+                await RunAsync(targets, names, options, log, args).ConfigureAwait(false);
             }
             catch (Exception ex) when (exceptionMessageOnly.Concat(new[] { typeof(BullseyeException) }).Any(type => type.IsAssignableFrom(ex.GetType())))
             {
@@ -42,7 +42,7 @@ namespace Bullseye.Internal
             }
         }
 
-        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Logger log, List<string> args, IConsole console)
+        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Logger log, List<string> args)
         {
             if (options.UnknownOptions.Count > 0)
             {
