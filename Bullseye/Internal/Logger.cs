@@ -131,7 +131,7 @@ namespace Bullseye.Internal
 
                         var isMissing = !targets.Contains(item.name);
 
-                        value.Append($"{p.Tree}{prefix}{(isRoot ? p.Target : p.Dependency)}{item.name}");
+                        value.Append($"{p.Tree}{prefix}{(isRoot ? p.Target : p.Dependency)}{item.name}{p.Default}");
 
                         if (isMissing)
                         {
@@ -169,18 +169,18 @@ namespace Bullseye.Internal
             }
         }
 
-        private string Message(string color, string text) => $"{GetPrefix()}{color}{text}";
+        private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Default}";
 
-        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}";
+        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Default}";
 
         private string Message(string color, string text, List<string> targets, double? elapsedMilliseconds) =>
-            $"{GetPrefix()}{color}{text}{p.Target} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}";
+            $"{GetPrefix()}{color}{text}{p.Target} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}{p.Default}";
 
         private string Message(string color, string text, string target, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}";
+            $"{GetPrefix(target)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
 
         private string Message<TInput>(string color, string text, string target, TInput input, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target, input)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}";
+            $"{GetPrefix(target, input)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
 
         private string GetPrefix() =>
             $"{p.Label}Bullseye{p.Symbol}: {p.Default}";
