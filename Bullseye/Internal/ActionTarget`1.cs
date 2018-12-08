@@ -56,9 +56,10 @@ namespace Bullseye.Internal
                     }
                 }
             }
-            catch (Exception ex)
+
+            catch (Exception)
             {
-                await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                await log.Failed(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
                 throw;
             }
 
