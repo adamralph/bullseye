@@ -119,7 +119,7 @@ namespace Bullseye.Internal
             var dependencyChain = new Stack<string>();
             foreach (var target in this)
             {
-                WalkDependencies(target, dependencyChain);
+                this.WalkDependencies(target, dependencyChain);
             }
         }
 
@@ -135,7 +135,7 @@ namespace Bullseye.Internal
 
             foreach (var dependency in target.Dependencies.Where(this.Contains))
             {
-                WalkDependencies(this[dependency], dependencyChain);
+                this.WalkDependencies(this[dependency], dependencyChain);
             }
 
             dependencyChain.Pop();
