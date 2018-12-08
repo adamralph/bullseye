@@ -41,6 +41,8 @@ namespace Bullseye.Internal
                 await log.Error(ex.ToString()).ConfigureAwait(false);
                 Environment.Exit(ex.HResult == 0 ? 1 : ex.HResult);
             }
+
+            Environment.Exit(0);
         }
 
         private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Logger log, List<string> args)
