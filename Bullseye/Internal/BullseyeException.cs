@@ -2,17 +2,11 @@ namespace Bullseye.Internal
 {
     using System;
 
+#pragma warning disable CA1032 // Implement standard exception constructors
     public class BullseyeException : Exception
+#pragma warning restore CA1032 // Implement standard exception constructors
     {
-        public BullseyeException()
-        {
-        }
-
         public BullseyeException(string message) : base(message)
-        {
-        }
-
-        public BullseyeException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }
