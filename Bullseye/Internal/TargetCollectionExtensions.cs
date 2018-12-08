@@ -39,11 +39,6 @@ namespace Bullseye.Internal
             {
                 Environment.Exit(ex.InnerException.HResult == 0 ? 1 : ex.InnerException.HResult);
             }
-            catch (Exception ex)
-            {
-                await log.Error(ex.ToString()).ConfigureAwait(false);
-                Environment.Exit(ex.HResult == 0 ? 1 : ex.HResult);
-            }
 
             Environment.Exit(0);
         }
