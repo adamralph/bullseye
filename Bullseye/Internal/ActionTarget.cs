@@ -18,22 +18,22 @@ namespace Bullseye.Internal
 
             var stopWatch = Stopwatch.StartNew();
 
-            try
+            if (!dryRun && this.action != default)
             {
-                if (!dryRun && this.action != default)
+                try
                 {
                     await this.action().ConfigureAwait(false);
                 }
-            }
-            catch (Exception ex)
-            {
-                if (!messageOnly(ex))
+                catch (Exception ex)
                 {
-                    await log.Error(this.Name, ex).ConfigureAwait(false);
-                }
+                    if (!messageOnly(ex))
+                    {
+                        await log.Error(this.Name, ex).ConfigureAwait(false);
+                    }
 
-                await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
-                throw new TargetFailedException(ex);
+                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                    throw new TargetFailedException(ex);
+                }
             }
 
             await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);

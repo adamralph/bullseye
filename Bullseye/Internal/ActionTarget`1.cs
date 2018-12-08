@@ -71,14 +71,11 @@ namespace Bullseye.Internal
             await log.Starting(this.Name, input).ConfigureAwait(false);
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun)
+            if (!dryRun && this.action != default)
             {
                 try
                 {
-                    if (this.action != default)
-                    {
-                        await this.action(input).ConfigureAwait(false);
-                    }
+                    await this.action(input).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
