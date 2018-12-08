@@ -22,7 +22,7 @@ namespace Bullseye
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
             targets.Add(new ActionTarget<TInput>(name, dependsOn, forEach, action));
 
-        [Obsolete("Use RunTargetsAndExitAsync(IEnumerable<string> args) instead. This method will be removed in version 3.0.0.")]
+        [Obsolete("Use RunTargetsAndExitAsync instead. This method will be removed in 3.0.0.")]
         public static Task RunTargetsAsync(IEnumerable<string> args) =>
             targets.RunAsync(args, new SystemConsole());
 
