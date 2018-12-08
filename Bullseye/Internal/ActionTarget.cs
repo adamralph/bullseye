@@ -12,23 +12,28 @@ namespace Bullseye.Internal
         public ActionTarget(string name, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, dependencies) => this.action = action;
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Logger log)
+        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
             await log.Starting(this.Name).ConfigureAwait(false);
 
             var stopWatch = Stopwatch.StartNew();
 
-            try
+            if (!dryRun && this.action != default)
             {
-                if (!dryRun && this.action != default)
+                try
                 {
                     await this.action().ConfigureAwait(false);
                 }
-            }
-            catch (Exception ex)
-            {
-                await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
-                throw;
+                catch (Exception ex)
+                {
+                    if (!messageOnly(ex))
+                    {
+                        await log.Error(this.Name, ex).ConfigureAwait(false);
+                    }
+
+                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                    throw new TargetFailedException(ex);
+                }
             }
 
             await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);

@@ -29,7 +29,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Logger log)
+        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
             var inputsList = this.inputs.ToList();
             if (inputsList.Count == 0)
@@ -45,14 +45,14 @@ namespace Bullseye.Internal
             {
                 if (parallel)
                 {
-                    var tasks = inputsList.Select(input => this.InvokeAsync(input, dryRun, log)).ToList();
+                    var tasks = inputsList.Select(input => this.InvokeAsync(input, dryRun, log, messageOnly)).ToList();
                     await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
                 else
                 {
                     foreach (var input in inputsList)
                     {
-                        await this.InvokeAsync(input, dryRun, log).ConfigureAwait(false);
+                        await this.InvokeAsync(input, dryRun, log, messageOnly).ConfigureAwait(false);
                     }
                 }
             }
@@ -66,24 +66,26 @@ namespace Bullseye.Internal
             await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
         }
 
-        private async Task InvokeAsync(TInput input, bool dryRun, Logger log)
+        private async Task InvokeAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
         {
             await log.Starting(this.Name, input).ConfigureAwait(false);
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun)
+            if (!dryRun && this.action != default)
             {
                 try
                 {
-                    if (this.action != default)
-                    {
-                        await this.action(input).ConfigureAwait(false);
-                    }
+                    await this.action(input).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
+                    if (!messageOnly(ex))
+                    {
+                        await log.Error(this.Name, input, ex).ConfigureAwait(false);
+                    }
+
                     await log.Failed(this.Name, input, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
-                    throw;
+                    throw new TargetFailedException(ex);
                 }
             }
 

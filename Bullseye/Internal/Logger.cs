@@ -78,6 +78,9 @@ namespace Bullseye.Internal
         public Task Starting(string target) =>
             this.console.Out.WriteLineAsync(Message(p.Starting, "Starting...", target, null));
 
+        public Task Error(string target, Exception ex) =>
+            this.console.Out.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
+
         public Task Failed(string target, Exception ex, double elapsedMilliseconds) =>
             this.console.Out.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, elapsedMilliseconds));
 
@@ -88,13 +91,16 @@ namespace Bullseye.Internal
             this.console.Out.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, elapsedMilliseconds));
 
         public Task Starting<TInput>(string target, TInput input) =>
-            this.console.Out.WriteLineAsync(Message(p.Starting, "Starting...", target, input, null));
+            this.console.Out.WriteLineAsync(MessageWithInput(p.Starting, "Starting...", target, input, null));
+
+        public Task Error<TInput>(string target, TInput input, Exception ex) =>
+            this.console.Out.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
 
         public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
 
         public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
+            this.console.Out.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
 
         public Task NoInputs(string target) =>
             this.console.Out.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
@@ -180,10 +186,16 @@ namespace Bullseye.Internal
         private string Message(string color, string text, List<string> targets, double? elapsedMilliseconds) =>
             $"{GetPrefix()}{color}{text}{p.Target} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}{p.Default}";
 
+        private string Message(string color, string text, string target) =>
+            $"{GetPrefix(target)}{color}{text}{p.Default}";
+
         private string Message(string color, string text, string target, double? elapsedMilliseconds) =>
             $"{GetPrefix(target)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
 
-        private string Message<TInput>(string color, string text, string target, TInput input, double? elapsedMilliseconds) =>
+        private string MessageWithInput<TInput>(string color, string text, string target, TInput input) =>
+            $"{GetPrefix(target, input)}{color}{text}{p.Default}";
+
+        private string MessageWithInput<TInput>(string color, string text, string target, TInput input, double? elapsedMilliseconds) =>
             $"{GetPrefix(target, input)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
 
         private string GetPrefix() =>
