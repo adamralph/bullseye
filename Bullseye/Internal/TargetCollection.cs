@@ -110,7 +110,7 @@ namespace Bullseye.Internal
                         unknownDependencies.Select(missingDependency =>
                             $"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
 
-                throw new BullseyeException(message);
+                throw new InvalidUsageException(message);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Bullseye.Internal
             if (dependencyChain.Contains(target.Name))
             {
                 dependencyChain.Push(target.Name);
-                throw new BullseyeException($"Circular dependency: {string.Join(" -> ", dependencyChain.Reverse())}");
+                throw new InvalidUsageException($"Circular dependency: {string.Join(" -> ", dependencyChain.Reverse())}");
             }
 
             dependencyChain.Push(target.Name);
@@ -147,7 +147,7 @@ namespace Bullseye.Internal
             if (unknownNames.Count > 0)
             {
                 var message = $"Target{(unknownNames.Count > 1 ? "s" : "")} not found: {unknownNames.Spaced()}.";
-                throw new BullseyeException(message);
+                throw new InvalidUsageException(message);
             }
         }
     }
