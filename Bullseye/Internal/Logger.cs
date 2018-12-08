@@ -1,3 +1,4 @@
+#pragma warning disable IDE0009 // Member access should be qualified.
 namespace Bullseye.Internal
 {
     using System;
@@ -273,3 +274,4 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
   {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}";
     }
 }
+#pragma warning restore IDE0009 // Member access should be qualified.
