@@ -32,7 +32,7 @@ namespace Bullseye.Internal
             }
             catch (Exception ex)
             {
-                if (typeof(BullseyeException).IsAssignableFrom(ex.GetType()) || messageOnly(ex))
+                if (typeof(InvalidUsageException).IsAssignableFrom(ex.GetType()) || messageOnly(ex))
                 {
                     await log.Error(ex.Message).ConfigureAwait(false);
                     Environment.Exit(2);
@@ -47,7 +47,7 @@ namespace Bullseye.Internal
         {
             if (options.UnknownOptions.Count > 0)
             {
-                throw new BullseyeException($"Unknown option{(options.UnknownOptions.Count > 1 ? "s" : "")} {options.UnknownOptions.Spaced()}. \"--help\" for usage.");
+                throw new InvalidUsageException($"Unknown option{(options.UnknownOptions.Count > 1 ? "s" : "")} {options.UnknownOptions.Spaced()}. \"--help\" for usage.");
             }
 
             await log.Verbose($"Args: {string.Join(" ", args)}").ConfigureAwait(false);
