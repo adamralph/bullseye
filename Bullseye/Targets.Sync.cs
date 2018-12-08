@@ -23,7 +23,7 @@ namespace Bullseye
                     ? default(Func<TInput, Task>)
                     : input => Task.Run(() => action.Invoke(input)));
 
-        [Obsolete("Use RunTargetsAndExit(IEnumerable<string> args) instead. This method will be removed in version 3.0.0.")]
+        [Obsolete("Use RunTargetsAndExit instead. This method will be removed in 3.0.0.")]
         public static void RunTargets(IEnumerable<string> args) => RunTargetsAsync(args).GetAwaiter().GetResult();
 
         /// <summary>
