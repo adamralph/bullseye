@@ -10,8 +10,8 @@ namespace Bullseye.Internal
         public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, IConsole console) =>
             RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), console ?? new SystemConsole());
 
-        public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, IEnumerable<Type> exceptionMessageOnly) =>
-            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), new SystemConsole(), exceptionMessageOnly ?? Enumerable.Empty<Type>());
+        public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
+            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), new SystemConsole(), messageOnly ?? (ex => false));
 
         private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
         {
@@ -21,7 +21,7 @@ namespace Bullseye.Internal
             await RunAsync(targets, names, options, log, args).ConfigureAwait(false);
         }
 
-        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, IConsole console, IEnumerable<Type> exceptionMessageOnly)
+        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, IConsole console, Func<Exception, bool> messageOnly)
         {
             var (names, options) = args.Parse();
             var log = await console.Initialize(options).ConfigureAwait(false);
@@ -30,13 +30,14 @@ namespace Bullseye.Internal
             {
                 await RunAsync(targets, names, options, log, args).ConfigureAwait(false);
             }
-            catch (Exception ex) when (exceptionMessageOnly.Concat(new[] { typeof(BullseyeException) }).Any(type => type.IsAssignableFrom(ex.GetType())))
-            {
-                await log.Error(ex.Message).ConfigureAwait(false);
-                Environment.Exit(2);
-            }
             catch (Exception ex)
             {
+                if (typeof(BullseyeException).IsAssignableFrom(ex.GetType()) || messageOnly(ex))
+                {
+                    await log.Error(ex.Message).ConfigureAwait(false);
+                    Environment.Exit(2);
+                }
+
                 await log.Error(ex.ToString()).ConfigureAwait(false);
                 Environment.Exit(ex.HResult == 0 ? 1 : ex.HResult);
             }
