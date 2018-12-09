@@ -3,7 +3,7 @@ os:
   - osx
 language: csharp
 mono: none
-dotnet: 2.1.402
+dotnet: 2.1.500
 branches:
   only:
   - master
