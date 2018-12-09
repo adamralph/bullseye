@@ -112,19 +112,28 @@ You can also handle custom arguments in `Program.cs`, but you should ensure that
 
 To name a few:
 
+- [AspNetCore.AsyncInitialization](https://github.com/thomaslevesque/AspNetCore.AsyncInitialization)
+- [Config.SqlStreamStore](https://github.com/Erwinvandervalk/Config.SqlStreamStore)
 - [ConfigR](https://github.com/config-r)
+- [EssentialMVVM](https://github.com/thomaslevesque/EssentialMVVM)
 - [FakeItEasy](https://github.com/FakeItEasy)
+- [HumanBytes](https://github.com/thomaslevesque/HumanBytes)
 - [Ibento](https://github.com/pgermishuys/Ibento)
+- [Iso8601DurationHelper](https://github.com/thomaslevesque/Iso8601DurationHelper)
+- [Linq.Extras](https://github.com/thomaslevesque/Linq.Extras)
 - [LiteGuard](https://github.com/adamralph/liteguard)
 - [LittleForker](https://github.com/damianh/LittleForker)
 - [Marten](https://github.com/JasperFx/marten)
 - [MinVer](https://github.com/adamralph/minver)
 - [Particular](https://github.com/Particular)
+- [ProxyKit](https://github.com/damianh/ProxyKit)
 - [Radical Framework](https://github.com/RadicalFx)
 - [SelfInitializingFakes](https://github.com/blairconrad/SelfInitializingFakes)
 - [SendComics](https://github.com/blairconrad/SendComics)
+- [SqlStreamStore.Locking](https://github.com/Erwinvandervalk/SqlStreamStore.Locking)
 - [SQLStreamStore](https://github.com/SQLStreamStore)
 - [Statik](https://github.com/pauldotknopf/statik)
+- [TemplatedConfiguration](https://github.com/Erwinvandervalk/TemplatedConfiguration)
 - [xBehave.net](https://github.com/xbehave)
 
 Feel free to send a pull request to add your repo or organisation to this list!
