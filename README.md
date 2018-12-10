@@ -8,7 +8,7 @@ _[![Build Status](https://travis-ci.org/adamralph/bullseye.svg?branch=master)](h
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) for describing and running targets and their dependencies.
 
-Bullseye can be used to write targets that do anything. It is not coupled to building .NET projects.
+Bullseye targets can do anything. They are not restricted to building .NET projects.
 
 Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
