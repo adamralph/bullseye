@@ -35,9 +35,9 @@ namespace Bullseye.Internal
                 await log.Error(ex.Message).ConfigureAwait(false);
                 Environment.Exit(2);
             }
-            catch (TargetFailedException ex)
+            catch (TargetFailedException)
             {
-                Environment.Exit(ex.InnerException.HResult == 0 ? 1 : ex.InnerException.HResult);
+                Environment.Exit(1);
             }
 
             Environment.Exit(0);
