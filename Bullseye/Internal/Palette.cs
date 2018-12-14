@@ -76,7 +76,7 @@ namespace Bullseye.Internal
                 }
             }
 
-            if (host == Host.Travis)
+            if (host == Host.Travis || host == Host.AzurePipelines)
             {
                 this.CommandLine = yellow;
                 this.Dependency = brightBlack;

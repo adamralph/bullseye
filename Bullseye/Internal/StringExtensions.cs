@@ -62,6 +62,9 @@ namespace Bullseye.Internal
                     case "--appveyor":
                         options.Host = Host.Appveyor;
                         break;
+                    case "--azure-pipelines":
+                        options.Host = Host.AzurePipelines;
+                        break;
                     case "--travis":
                         options.Host = Host.Travis;
                         break;
