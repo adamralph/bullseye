@@ -271,6 +271,7 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
  {p.Option}-s, --skip-dependencies    {p.Text}Do not run targets' dependencies
  {p.Option}-v, --verbose              {p.Text}Enable verbose output
  {p.Option}    --appveyor             {p.Text}Force Appveyor mode (normally auto-detected)
+ {p.Option}    --azure-pipelines      {p.Text}Force Azure Pipelines mode (normally auto-detected)
  {p.Option}    --teamcity             {p.Text}Force TeamCity mode (normally auto-detected)
  {p.Option}    --travis               {p.Text}Force Travis CI mode (normally auto-detected)
  {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)

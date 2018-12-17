@@ -42,6 +42,10 @@ namespace Bullseye.Internal
                 {
                     options.Host = Host.Appveyor;
                 }
+                else if (Environment.GetEnvironmentVariable("TF_BUILD")?.ToUpperInvariant() == "TRUE")
+                {
+                    options.Host = Host.AzurePipelines;
+                }
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
                 {
                     options.Host = Host.Travis;

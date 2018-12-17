@@ -1,0 +1,13 @@
+pool:
+  vmImage: 'VS2017-Win2016'
+
+trigger:
+  branches:
+    include:
+      - master
+      - release-*
+      # there would normally be a regex here to match a tag, but Azure Pipelines only supports globs with terminal wildcards
+
+steps:
+- script: .\build.cmd
+  displayName: 'Build the project'
