@@ -46,7 +46,7 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
   ```PowerShell
   dotnet run
   ```
-  <img src="https://user-images.githubusercontent.com/677704/46696376-4beb7580-cc12-11e8-9e79-cad6f49e05d7.png" width="341px" />
+  <img src="https://user-images.githubusercontent.com/677704/50109696-d23abe00-0238-11e9-8b48-7f9d4a11bed8.png" width="340px" />
 - For help:
   ```PowerShell
   dotnet run -- --help
@@ -63,7 +63,7 @@ Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovel
 Target("walk-dog", () => Console.WriteLine("Walkies!"));
 ```
 
-<img src="https://user-images.githubusercontent.com/677704/46696573-c61bfa00-cc12-11e8-834a-e0dd4a5d8831.png" width="342px" />
+<img src="https://user-images.githubusercontent.com/677704/50109827-280f6600-0239-11e9-8d54-4659a97ed613.png" width="340px" />
 
 ## Enumerable inputs
 
