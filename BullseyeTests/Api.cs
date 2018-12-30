@@ -1,4 +1,3 @@
-#if NETCOREAPP2_1
 namespace BullseyeTests
 {
     using System;
@@ -13,7 +12,7 @@ namespace BullseyeTests
         [Fact]
         public void IsUnchanged() =>
             AssertFile.Contains(
-                "api-netcoreapp2_1.txt",
+                "api.txt",
                 ApiGenerator
                     .GeneratePublicApi(
                         typeof(Targets).Assembly,
@@ -21,4 +20,3 @@ namespace BullseyeTests
                     .Replace(Environment.NewLine, "\r\n"));
     }
 }
-#endif

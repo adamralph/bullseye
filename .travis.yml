@@ -18,8 +18,3 @@ matrix:
       mono: none
       dotnet: 2.2.401
       script: "./build.sh"
-    - os: windows
-      language: csharp
-      mono: none
-      before_script: dotnet --info
-      script: "./build.cmd"
