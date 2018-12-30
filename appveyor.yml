@@ -11,6 +11,9 @@ branches:
   - /^\d+\.\d+\.\d+(-\S*)?$/
 environment:
   MINVERBUILDMETADATA: build.%APPVEYOR_BUILD_NUMBER%
+init:
+- cmd: dotnet --info
+- sh: dotnet --info
 build_script:
 - cmd: ./build.cmd
 - sh: ./build.sh
