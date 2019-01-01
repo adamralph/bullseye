@@ -1,4 +1,7 @@
 build:
   image: microsoft/dotnet:latest
+  only:
+    - master
   script:
+    - dotnet --info
     - ./build.sh
