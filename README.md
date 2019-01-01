@@ -3,13 +3,10 @@
 # Bullseye
 
 _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](https://www.nuget.org/packages/Bullseye)_
-
-| Build           | Status                                                                                                                                                                                                                 |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Appveyor        | _[![Build status](https://img.shields.io/appveyor/ci/adamralph/bullseye/master.svg)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_                                                                |
-| Azure Pipelines | _[![Build status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1/master.svg)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=master)_ |
-| GitLab CI       | _[![Build status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/master.svg)](https://gitlab.com/adamralph/bullseye/-/jobs)_                                                                                |
-| Travis CI       | _[![Build status](https://img.shields.io/travis/adamralph/bullseye/master.svg)](https://travis-ci.org/adamralph/bullseye/branches)_                                                                                    |
+_[![Build status](https://img.shields.io/appveyor/ci/adamralph/bullseye/master.svg?logo=appveyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_
+_[![Build status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1/master.svg?logo=azuredevops)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=master)_
+_[![Build status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/master.svg?logo=gitlab)](https://gitlab.com/adamralph/bullseye/-/jobs)_
+_[![Build status](https://img.shields.io/travis/adamralph/bullseye/master.svg?logo=travis)](https://travis-ci.org/adamralph/bullseye/branches)_
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) for describing and running targets and their dependencies.
 
