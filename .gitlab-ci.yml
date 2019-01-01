@@ -1,0 +1,5 @@
+job_build_dotnet:
+  stage: build
+  image: microsoft/dotnet:latest
+  script:
+    - ./build.sh
