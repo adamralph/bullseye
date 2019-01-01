@@ -9,5 +9,9 @@ trigger:
       # there would normally be a regex here to match a tag, but Azure Pipelines only supports globs with terminal wildcards
 
 steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    packageType: 'sdk'
+    version: '2.2.101'
 - script: .\build.cmd
   displayName: 'Build the project'
