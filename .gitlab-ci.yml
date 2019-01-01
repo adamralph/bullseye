@@ -1,0 +1,4 @@
+build:
+  image: microsoft/dotnet:latest
+  script:
+    - ./build.sh
