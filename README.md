@@ -9,7 +9,7 @@ _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](http
 | Appveyor        | _[![Build status](https://img.shields.io/appveyor/ci/adamralph/bullseye.svg)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_                                                                |
 | Azure Pipelines | _[![Build status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1.svg)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=master)_ |
 | GitLab CI       | _[![Build status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye.svg)](https://gitlab.com/adamralph/bullseye/-/jobs)_                                                                                |
-| Travis CI       | _[![Build status](https://travis-ci.org/adamralph/bullseye.svg?branch=master)](https://travis-ci.org/adamralph/bullseye)_                                                                                       |
+| Travis CI       | _[![Build status](https://travis-ci.org/adamralph/bullseye.svg?branch=master)](https://travis-ci.org/adamralph/bullseye/branches)_                                                                                       |
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) for describing and running targets and their dependencies.
 
