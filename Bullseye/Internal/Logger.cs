@@ -4,6 +4,7 @@ namespace Bullseye.Internal
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text;
@@ -13,16 +14,16 @@ namespace Bullseye.Internal
     {
         private static readonly IFormatProvider provider = CultureInfo.InvariantCulture;
 
-        private readonly IConsole console;
+        private readonly TextWriter writer;
         private readonly bool skipDependencies;
         private readonly bool dryRun;
         private readonly bool parallel;
         private readonly Palette p;
         private readonly bool verbose;
 
-        public Logger(IConsole console, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
+        public Logger(TextWriter writer, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
         {
-            this.console = console;
+            this.writer = writer;
             this.skipDependencies = skipDependencies;
             this.dryRun = dryRun;
             this.parallel = parallel;
@@ -39,22 +40,22 @@ namespace Bullseye.Internal
                     .FirstOrDefault()
                     ?.InformationalVersion ?? "Unknown";
 
-                await this.console.Out.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).ConfigureAwait(false);
+                await this.writer.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).ConfigureAwait(false);
             }
         }
 
-        public Task Usage() => this.console.Out.WriteLineAsync(this.GetUsage());
+        public Task Usage() => this.writer.WriteLineAsync(this.GetUsage());
 
         public Task Targets(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            this.console.Out.WriteLineAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
+            this.writer.WriteLineAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
 
-        public Task Error(string message) => this.console.Out.WriteLineAsync(Message(p.Failed, message));
+        public Task Error(string message) => this.writer.WriteLineAsync(Message(p.Failed, message));
 
         public async Task Verbose(string message)
         {
             if (this.verbose)
             {
-                await this.console.Out.WriteLineAsync(Message(p.Verbose, message)).ConfigureAwait(false);
+                await this.writer.WriteLineAsync(Message(p.Verbose, message)).ConfigureAwait(false);
             }
         }
 
@@ -62,48 +63,48 @@ namespace Bullseye.Internal
         {
             if (this.verbose)
             {
-                await this.console.Out.WriteLineAsync(Message(targets, p.Verbose, message)).ConfigureAwait(false);
+                await this.writer.WriteLineAsync(Message(targets, p.Verbose, message)).ConfigureAwait(false);
             }
         }
 
         public Task Running(List<string> targets) =>
-            this.console.Out.WriteLineAsync(Message(p.Starting, $"Starting...", targets, null));
+            this.writer.WriteLineAsync(Message(p.Starting, $"Starting...", targets, null));
 
         public Task Failed(List<string> targets, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(p.Failed, $"Failed!", targets, elapsedMilliseconds));
+            this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, elapsedMilliseconds));
 
         public Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds));
+            this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds));
 
         public Task Starting(string target) =>
-            this.console.Out.WriteLineAsync(Message(p.Starting, "Starting...", target, null));
+            this.writer.WriteLineAsync(Message(p.Starting, "Starting...", target, null));
 
         public Task Error(string target, Exception ex) =>
-            this.console.Out.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
+            this.writer.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
 
         public Task Failed(string target, Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, elapsedMilliseconds));
+            this.writer.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, elapsedMilliseconds));
 
         public Task Failed(string target, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(p.Failed, $"Failed!", target, elapsedMilliseconds));
+            this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", target, elapsedMilliseconds));
 
         public Task Succeeded(string target, double? elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, elapsedMilliseconds));
+            this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, elapsedMilliseconds));
 
         public Task Starting<TInput>(string target, TInput input) =>
-            this.console.Out.WriteLineAsync(MessageWithInput(p.Starting, "Starting...", target, input, null));
+            this.writer.WriteLineAsync(MessageWithInput(p.Starting, "Starting...", target, input, null));
 
         public Task Error<TInput>(string target, TInput input, Exception ex) =>
-            this.console.Out.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
+            this.writer.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
 
         public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
+            this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
 
         public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds) =>
-            this.console.Out.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
+            this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
 
         public Task NoInputs(string target) =>
-            this.console.Out.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
+            this.writer.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
 
         private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs)
         {

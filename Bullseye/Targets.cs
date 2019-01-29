@@ -24,7 +24,7 @@ namespace Bullseye
 
         [Obsolete("Use RunTargetsAndExitAsync instead. This method will be removed in 3.0.0.")]
         public static Task RunTargetsAsync(IEnumerable<string> args) =>
-            targets.RunAsync(args, new SystemConsole());
+            targets.RunAsync(args);
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.

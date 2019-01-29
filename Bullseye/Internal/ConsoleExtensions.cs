@@ -6,11 +6,11 @@ namespace Bullseye.Internal
 
     public static class ConsoleExtensions
     {
-        public static async Task<Logger> Initialize(this IConsole console, Options options)
+        public static async Task<Logger> Initialize(Options options)
         {
             if (options.Clear)
             {
-                console.Clear();
+                Console.Clear();
             }
 
             var operatingSystem = OperatingSystem.Unknown;
@@ -30,7 +30,7 @@ namespace Bullseye.Internal
 
             if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
             {
-                await WindowsConsole.TryEnableVirtualTerminalProcessing(console.Out, options.Verbose).ConfigureAwait(false);
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(Console.Out, options.Verbose).ConfigureAwait(false);
             }
 
             var isHostDetected = false;
@@ -57,7 +57,7 @@ namespace Bullseye.Internal
             }
 
             var palette = new Palette(options.NoColor, options.Host, operatingSystem);
-            var log = new Logger(console, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
+            var log = new Logger(Console.Out, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
             await log.Version().ConfigureAwait(false);
             await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").ConfigureAwait(false);

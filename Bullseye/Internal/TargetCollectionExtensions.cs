@@ -7,24 +7,24 @@ namespace Bullseye.Internal
 
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, IConsole console) =>
-            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), console ?? new SystemConsole());
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args) =>
+            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList());
 
         public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
-            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), new SystemConsole(), messageOnly ?? (_ => false));
+            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false));
 
-        private static async Task RunAsync(this TargetCollection targets, List<string> args, IConsole console)
+        private static async Task RunAsync(this TargetCollection targets, List<string> args)
         {
             var (names, options) = args.Parse();
-            var log = await console.Initialize(options).ConfigureAwait(false);
+            var log = await ConsoleExtensions.Initialize(options).ConfigureAwait(false);
 
             await RunAsync(targets, names, options, log, _ => false, args).ConfigureAwait(false);
         }
 
-        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, IConsole console, Func<Exception, bool> messageOnly)
+        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
         {
             var (names, options) = args.Parse();
-            var log = await console.Initialize(options).ConfigureAwait(false);
+            var log = await ConsoleExtensions.Initialize(options).ConfigureAwait(false);
 
             try
             {
