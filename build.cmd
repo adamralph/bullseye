@@ -1,10 +1,10 @@
 @echo Off
 
 echo %~nx0: Building...
-dotnet build --configuration Release || goto :error
+dotnet build --configuration Release /nologo || goto :error
 
 echo %~nx0: Testing...
-dotnet test --configuration Release --no-build || goto :error
+dotnet test --configuration Release --no-build /nologo || goto :error
 
 echo %~nx0: Smoke testing...
 @echo On
