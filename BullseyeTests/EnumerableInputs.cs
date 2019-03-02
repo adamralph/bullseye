@@ -3,7 +3,6 @@ namespace BullseyeTests
     using System.Collections.Generic;
     using System.Linq;
     using Bullseye.Internal;
-    using BullseyeTests.Infra;
     using Xbehave;
     using Xunit;
     using static BullseyeTests.Infra.Helper;
@@ -17,7 +16,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("default", new[] { 1, 2 }, input => Ensure(ref inputsReceived).Add(input))));
 
             "When I run the target"
-                .x(() => targets.RunAsync(new List<string>(), new TestConsole()));
+                .x(() => targets.RunAsync(new List<string>()));
 
             "Then the target is run twice"
                 .x(() => Assert.Equal(2, inputsReceived.Count));
@@ -36,7 +35,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("default", Enumerable.Empty<object>(), input => ran = true)));
 
             "When I run the target"
-                .x(() => targets.RunAsync(new List<string>(), new TestConsole()));
+                .x(() => targets.RunAsync(new List<string>()));
 
             "Then the target is not run"
                 .x(() => Assert.False(ran));

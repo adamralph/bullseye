@@ -4,7 +4,6 @@ namespace BullseyeTests
     using System.Threading;
     using System.Collections.Generic;
     using Bullseye.Internal;
-    using BullseyeTests.Infra;
     using Xbehave;
     using Xunit;
     using static BullseyeTests.Infra.Helper;
@@ -12,7 +11,7 @@ namespace BullseyeTests
     public class Dependencies
     {
         [Scenario]
-        public void FlatDependencies(TargetCollection targets, TestConsole console, List<string> ran)
+        public void FlatDependencies(TargetCollection targets, List<string> ran)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
@@ -24,7 +23,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "third" }));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(3, ran.Count));
@@ -40,7 +39,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void NestedDependencies(TargetCollection targets, TestConsole console, List<string> ran)
+        public void NestedDependencies(TargetCollection targets, List<string> ran)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
@@ -52,7 +51,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "third" }));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(3, ran.Count));
@@ -68,7 +67,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void DoubleDependency(TargetCollection targets, TestConsole console, List<string> ran)
+        public void DoubleDependency(TargetCollection targets, List<string> ran)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
@@ -77,7 +76,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first", "first" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target"
-                .x(() => targets.RunAsync(new List<string> { "second" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "second" }));
 
             "Then both targets are run once"
                 .x(() => Assert.Equal(2, ran.Count));
@@ -96,7 +95,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "first" })));
 
             "When I run the target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, null)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -115,7 +114,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first" })));
 
             "When I run the second target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, null)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -137,7 +136,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "second" })));
 
             "When I run the third target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, null)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -147,7 +146,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void DoubleTransitiveDependency(TargetCollection targets, TestConsole console, List<string> ran)
+        public void DoubleTransitiveDependency(TargetCollection targets, List<string> ran)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
@@ -159,7 +158,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "third" }));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(3, ran.Count));
@@ -175,7 +174,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void NotExistentDependencies(TargetCollection targets, TestConsole console, bool anyRan, Exception exception)
+        public void NotExistentDependencies(TargetCollection targets, bool anyRan, Exception exception)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => anyRan = true)));
@@ -187,7 +186,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "second", "also-non-existing" }, () => anyRan = true)));
 
             "When I run the third target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, console = new TestConsole())));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -203,7 +202,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void SkippingDependencies(TargetCollection targets, TestConsole console, List<string> ran)
+        public void SkippingDependencies(TargetCollection targets, List<string> ran)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
@@ -212,7 +211,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "second", "-s" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "second", "-s" }));
 
             "Then the second target is run"
                 .x(() => Assert.Contains("second", ran));
@@ -222,7 +221,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void DependencyOrderWhenSkipping(TargetCollection targets, TestConsole console, List<string> ran)
+        public void DependencyOrderWhenSkipping(TargetCollection targets, List<string> ran)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
@@ -231,7 +230,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second and first targets, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(2, ran.Count));
@@ -246,7 +245,6 @@ namespace BullseyeTests
         [Scenario]
         public void DependencyOrderWhenParallelAndSkipping(
             TargetCollection targets,
-            TestConsole console,
             int clock,
             int buildStartTime,
             int test1StartTime,
@@ -267,7 +265,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("test2", new[] { "build" }, () => test2StartTime = Interlocked.Increment(ref clock))));
 
             "When I run all the targets with parallelism, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }));
 
             "Then the first target is run first"
                 .x(() => Assert.Equal(1, buildStartTime));

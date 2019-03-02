@@ -3,7 +3,6 @@ namespace BullseyeTests
     using System;
     using System.Collections.Generic;
     using Bullseye.Internal;
-    using BullseyeTests.Infra;
     using Xbehave;
     using Xunit;
     using static BullseyeTests.Infra.Helper;
@@ -11,7 +10,7 @@ namespace BullseyeTests
     public class RunningTargets
     {
         [Scenario]
-        public void Default(TargetCollection targets, TestConsole console, bool @default, bool other)
+        public void Default(TargetCollection targets, bool @default, bool other)
         {
             "Given a default target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("default", () => @default = true)));
@@ -20,7 +19,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget(nameof(other), () => other = true)));
 
             "When I run without specifying any target names"
-                .x(() => targets.RunAsync(new List<string>(), console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string>()));
 
             "Then the default target is run"
                 .x(() => Assert.True(@default));
@@ -30,7 +29,7 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void Specific(TargetCollection targets, TestConsole console, bool first, bool second, bool third)
+        public void Specific(TargetCollection targets, bool first, bool second, bool third)
         {
             "Given three targets"
                 .x(() => targets = new TargetCollection
@@ -41,7 +40,7 @@ namespace BullseyeTests
                 });
 
             "When I run the first two targets"
-                .x(() => targets.RunAsync(new List<string> { nameof(first), nameof(second) }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { nameof(first), nameof(second) }));
 
             "Then the first target is run"
                 .x(() => Assert.True(first));
@@ -54,13 +53,13 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void SingleNonExistent(TargetCollection targets, TestConsole console, bool existing, Exception exception)
+        public void SingleNonExistent(TargetCollection targets, bool existing, Exception exception)
         {
             "Given an existing target"
                 .x(() => Ensure(ref targets).Add(CreateTarget(nameof(existing), () => existing = true)));
 
             "When I run that target and a non-existent target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, console = new TestConsole())));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -74,15 +73,14 @@ namespace BullseyeTests
 
         [Scenario]
         public void MultipleNonExistent(
-            TargetCollection targets, TestConsole console, bool existing, Exception exception)
+            TargetCollection targets, bool existing, Exception exception)
         {
             "Given an existing target"
                 .x(() => Ensure(ref targets).Add(CreateTarget(nameof(existing), () => existing = true)));
 
             "When I run that target and two non-existent targets"
                 .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(
-                    new List<string> { nameof(existing), "non-existing", "also-non-existing" },
-                    console = new TestConsole())));
+                    new List<string> { nameof(existing), "non-existing", "also-non-existing" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -98,26 +96,26 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void DryRun(TargetCollection targets, TestConsole console, bool ran)
+        public void DryRun(TargetCollection targets, bool ran)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
 
             "When I run the target specifying a dry run"
-                .x(() => targets.RunAsync(new List<string> { "target", "-n" }, console = new TestConsole()));
+                .x(() => targets.RunAsync(new List<string> { "target", "-n" }));
 
             "Then the target is not run"
                 .x(() => Assert.False(ran));
         }
 
         [Scenario]
-        public void UnknownOption(TargetCollection targets, TestConsole console, bool ran, Exception exception)
+        public void UnknownOption(TargetCollection targets, bool ran, Exception exception)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
 
             "When I run the target specifying an unknown option"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, console = new TestConsole())));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -133,13 +131,13 @@ namespace BullseyeTests
         }
 
         [Scenario]
-        public void UnknownOptions(TargetCollection targets, TestConsole console, bool ran, Exception exception)
+        public void UnknownOptions(TargetCollection targets, bool ran, Exception exception)
         {
             "Given a target"
                 .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
 
             "When I run the target specifying unknown options"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, console = new TestConsole())));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" })));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
