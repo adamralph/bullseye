@@ -131,6 +131,7 @@ To name a few:
 - [MinVer](https://github.com/adamralph/minver)
 - [Particular](https://github.com/Particular)
 - [ProxyKit](https://github.com/damianh/ProxyKit)
+- [PseudoLocalizer](https://github.com/bymyslf/PseudoLocalizer)
 - [Radical Framework](https://github.com/RadicalFx)
 - [SelfInitializingFakes](https://github.com/blairconrad/SelfInitializingFakes)
 - [SendComics](https://github.com/blairconrad/SendComics)
