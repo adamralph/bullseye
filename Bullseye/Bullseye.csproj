@@ -5,7 +5,6 @@
     <Description>For describing and running targets and their dependencies.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
-    <NoWarn>$(NoWarn);NU5105</NoWarn>
     <PackageIconUrl>https://raw.githubusercontent.com/adamralph/bullseye/master/assets/bullseye.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>
@@ -17,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="2.6.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
-    <PackageReference Include="MinVer" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="MinVer" Version="1.1.0-beta.2" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
