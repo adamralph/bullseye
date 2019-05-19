@@ -1,4 +1,7 @@
 version: '{build}'
+environment:
+  APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
+  MINVERBUILDMETADATA: build.%APPVEYOR_BUILD_NUMBER%
 image:
 - Visual Studio 2017
 - Ubuntu
@@ -8,9 +11,6 @@ branches:
   only:
   - master
   - /release-.*/
-  - /^\d+\.\d+\.\d+(-\S*)?$/
-environment:
-  MINVERBUILDMETADATA: build.%APPVEYOR_BUILD_NUMBER%
 init:
 - cmd: dotnet --info
 - sh: dotnet --info
