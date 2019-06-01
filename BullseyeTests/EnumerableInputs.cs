@@ -16,7 +16,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("default", new[] { 1, 2 }, input => Ensure(ref inputsReceived).Add(input))));
 
             "When I run the target"
-                .x(() => targets.RunAsync(new List<string>()));
+                .x(() => targets.RunAsync(new List<string>(), default));
 
             "Then the target is run twice"
                 .x(() => Assert.Equal(2, inputsReceived.Count));
@@ -35,7 +35,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("default", Enumerable.Empty<object>(), input => ran = true)));
 
             "When I run the target"
-                .x(() => targets.RunAsync(new List<string>()));
+                .x(() => targets.RunAsync(new List<string>(), default));
 
             "Then the target is not run"
                 .x(() => Assert.False(ran));

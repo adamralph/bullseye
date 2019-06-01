@@ -23,8 +23,30 @@ namespace Bullseye
                     ? default(Func<TInput, Task>)
                     : input => Task.Run(() => action.Invoke(input)));
 
-        [Obsolete("Use RunTargetsAndExit instead. This method will be removed in 3.0.0.")]
-        public static void RunTargets(IEnumerable<string> args) => RunTargetsAsync(args).GetAwaiter().GetResult();
+        [Obsolete("This method will be removed in 3.0.0. Consider switching to RunTargetsAndExit, which represents the canonical usage. If you really need to continue code execution after running the targets, use RunTargetsWithoutExiting instead.")]
+        public static void RunTargets(IEnumerable<string> args) => RunTargetsWithoutExiting(args);
+
+        /// <summary>
+        /// Runs the previously specified targets.
+        /// In most cases, <see cref="RunTargetsAndExit(IEnumerable{string}, Func{Exception, bool})"/> should be used instead of this method.
+        /// This method should only be used if continued code execution after running targets is specifically required.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        /// <param name="messageOnly">
+        /// A predicate that is called when an exception is thrown.
+        /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
+        /// </param>
+        public static void RunTargetsWithoutExiting(IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
+            RunTargetsWithoutExitingAsync(args, messageOnly).GetAwaiter().GetResult();
+
+        /// <summary>
+        /// Runs the previously specified targets.
+        /// In most cases, <see cref="RunTargetsAndExit(IEnumerable{string})"/> should be used instead of this method.
+        /// This method should only be used if continued code execution after running targets is specifically required.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        public static void RunTargetsWithoutExiting(IEnumerable<string> args) =>
+            RunTargetsWithoutExitingAsync(args).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
