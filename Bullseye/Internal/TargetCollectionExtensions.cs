@@ -7,18 +7,18 @@ namespace Bullseye.Internal
 
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args) =>
-            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList());
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
+            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false));
 
         public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
             RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false));
 
-        private static async Task RunAsync(this TargetCollection targets, List<string> args)
+        private static async Task RunAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
         {
             var (names, options) = args.Parse();
             var log = await ConsoleExtensions.Initialize(options).ConfigureAwait(false);
 
-            await RunAsync(targets, names, options, log, _ => false, args).ConfigureAwait(false);
+            await RunAsync(targets, names, options, log, messageOnly, args).ConfigureAwait(false);
         }
 
         private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)

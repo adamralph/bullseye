@@ -5,18 +5,30 @@ namespace Bullseye
     {
         public static string[] DependsOn(params string[] dependencies) { }
         public static TInput[] ForEach<TInput>(params TInput[] inputs) { }
-        [System.ObsoleteAttribute("Use RunTargetsAndExit instead. This method will be removed in 3.0.0.")]
+        [System.ObsoleteAttribute("This method will be removed in 3.0.0. Consider switching to RunTargetsAndExit, wh" +
+            "ich represents the canonical usage. If you really need to continue code executio" +
+            "n after running the targets, use RunTargetsWithoutExiting instead.")]
         public static void RunTargets() { }
-        [System.ObsoleteAttribute("Use RunTargetsAndExit instead. This method will be removed in 3.0.0.")]
+        [System.ObsoleteAttribute("This method will be removed in 3.0.0. Consider switching to RunTargetsAndExit, wh" +
+            "ich represents the canonical usage. If you really need to continue code executio" +
+            "n after running the targets, use RunTargetsWithoutExiting instead.")]
         public static void RunTargets(System.Collections.Generic.IEnumerable<string> args) { }
         public static void RunTargetsAndExit(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly) { }
         public static void RunTargetsAndExit(System.Collections.Generic.IEnumerable<string> args) { }
         public static System.Threading.Tasks.Task RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly) { }
         public static System.Threading.Tasks.Task RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> args) { }
-        [System.ObsoleteAttribute("Use RunTargetsAndExitAsync instead. This method will be removed in 3.0.0.")]
+        [System.ObsoleteAttribute("This method will be removed in 3.0.0. Consider switching to RunTargetsAndExitAsyn" +
+            "c, which represents the canonical usage. If you really need to continue code exe" +
+            "cution after running the targets, use RunTargetsWithoutExitingAsync instead.")]
         public static System.Threading.Tasks.Task RunTargetsAsync(System.Collections.Generic.IEnumerable<string> args) { }
-        [System.ObsoleteAttribute("Use RunTargetsAndExitAsync instead. This method will be removed in 3.0.0.")]
+        [System.ObsoleteAttribute("This method will be removed in 3.0.0. Consider switching to RunTargetsAndExitAsyn" +
+            "c, which represents the canonical usage. If you really need to continue code exe" +
+            "cution after running the targets, use RunTargetsWithoutExitingAsync instead.")]
         public static System.Threading.Tasks.Task RunTargetsAsync() { }
+        public static void RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly) { }
+        public static void RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> args) { }
+        public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly) { }
+        public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args) { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
         public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
