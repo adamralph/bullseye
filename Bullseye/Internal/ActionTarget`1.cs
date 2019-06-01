@@ -76,6 +76,7 @@ namespace Bullseye.Internal
                 {
                     await this.action(input).ConfigureAwait(false);
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     if (!messageOnly(ex))
@@ -86,6 +87,7 @@ namespace Bullseye.Internal
                     await log.Failed(this.Name, input, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
                     throw new TargetFailedException(ex);
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             await log.Succeeded(this.Name, input, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);

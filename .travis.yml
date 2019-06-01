@@ -8,14 +8,15 @@ git:
 matrix:
   include:
     - os: linux
+      dist: bionic
       language: csharp
       mono: none
-      dotnet: 2.1.500
+      dotnet: 2.2.105
       script: "./build.sh"
     - os: osx
       language: csharp
       mono: none
-      dotnet: 2.1.500
+      dotnet: 2.2.107
       script: "./build.sh"
     - os: windows
       language: csharp
