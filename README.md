@@ -141,6 +141,7 @@ To name a few:
 - [FakeItEasy](https://github.com/FakeItEasy)
 - [HumanBytes](https://github.com/thomaslevesque/HumanBytes)
 - [Ibento](https://github.com/pgermishuys/Ibento)
+- [IdentityModel](https://github.com/IdentityModel)
 - [IdentityServer](https://github.com/IdentityServer)
 - [Iso8601DurationHelper](https://github.com/thomaslevesque/Iso8601DurationHelper)
 - [Linq.Extras](https://github.com/thomaslevesque/Linq.Extras)
