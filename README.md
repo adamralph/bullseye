@@ -147,6 +147,7 @@ To name a few:
 - [Linq.Extras](https://github.com/thomaslevesque/Linq.Extras)
 - [LiteGuard](https://github.com/adamralph/liteguard)
 - [LittleForker](https://github.com/damianh/LittleForker)
+- [LykkeOSS](https://github.com/LykkeOSS)
 - [Marten](https://github.com/JasperFx/marten)
 - [MinVer](https://github.com/adamralph/minver)
 - [Particular](https://github.com/Particular)
