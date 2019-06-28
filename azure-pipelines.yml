@@ -1,17 +1,27 @@
-pool:
-  vmImage: 'VS2017-Win2016'
-
 trigger:
   branches:
     include:
       - master
       - release-*
       # there would normally be a regex here to match a tag, but Azure Pipelines only supports globs with terminal wildcards
-
-steps:
-- task: DotNetCoreInstaller@0
-  inputs:
-    packageType: 'sdk'
-    version: '2.2.101'
-- script: .\build.cmd
-  displayName: 'Build the project'
+jobs:
+- job: Windows
+  pool:
+    vmImage: 'VS2017-Win2016'
+  steps:
+  - task: DotNetCoreInstaller@0
+    inputs:
+      packageType: 'sdk'
+      version: '2.2.101'
+  - script: ./build.cmd
+    displayName: 'Build the project'
+- job: Linux
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - task: DotNetCoreInstaller@0
+    inputs:
+      packageType: 'sdk'
+      version: '2.2.101'
+  - script: ./build.sh
+    displayName: 'Build the project'
