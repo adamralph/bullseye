@@ -61,6 +61,11 @@ namespace Bullseye.Internal
             this.Verbose = brightBlack;
             this.Warning = brightYellow;
 
+            this.TreeCorner = "└─";
+            this.TreeFork = "├─";
+            this.TreeDown = "│ ";
+            this.Horizontal = '─';
+
             if (host == Host.Appveyor &&
                 (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
             {
@@ -69,6 +74,14 @@ namespace Bullseye.Internal
                 this.Starting = brightBlack;
                 this.Symbol = brightBlack;
                 this.Text = brightBlack;
+
+                if (operatingSystem == OperatingSystem.Windows)
+                {
+                    this.TreeCorner = "  ";
+                    this.TreeFork = "  ";
+                    this.TreeDown = "  ";
+                    this.Horizontal = '-';
+                }
 
                 if (operatingSystem == OperatingSystem.Linux)
                 {
@@ -132,5 +145,23 @@ namespace Bullseye.Internal
         public string Verbose { get; }
 
         public string Warning { get; }
+
+        public string TreeCorner { get; }
+
+        public string TreeFork { get; }
+
+        public string TreeDown { get; }
+
+        public char Horizontal { get; }
+
+        public static string StripColours(string text)
+        {
+            foreach (var number in new[] { 0, 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97 })
+            {
+                text = text.Replace($"\x1b[{number}m", "");
+            }
+
+            return text;
+        }
     }
 }
