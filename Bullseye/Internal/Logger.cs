@@ -2,6 +2,7 @@
 namespace Bullseye.Internal
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
@@ -14,6 +15,7 @@ namespace Bullseye.Internal
     {
         private static readonly IFormatProvider provider = CultureInfo.InvariantCulture;
 
+        private readonly ConcurrentDictionary<string, TargetResult> results = new ConcurrentDictionary<string, TargetResult>();
         private readonly TextWriter writer;
         private readonly bool skipDependencies;
         private readonly bool dryRun;
@@ -70,11 +72,17 @@ namespace Bullseye.Internal
         public Task Running(List<string> targets) =>
             this.writer.WriteLineAsync(Message(p.Starting, $"Starting...", targets, null));
 
-        public Task Failed(List<string> targets, double elapsedMilliseconds) =>
-            this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, elapsedMilliseconds));
+        public async Task Failed(List<string> targets, double elapsedMilliseconds)
+        {
+            await this.Results().ConfigureAwait(false);
+            await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, elapsedMilliseconds)).ConfigureAwait(false);
+        }
 
-        public Task Succeeded(List<string> targets, double elapsedMilliseconds) =>
-            this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds));
+        public async Task Succeeded(List<string> targets, double elapsedMilliseconds)
+        {
+            await this.Results().ConfigureAwait(false);
+            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds)).ConfigureAwait(false);
+        }
 
         public Task Starting(string target) =>
             this.writer.WriteLineAsync(Message(p.Starting, "Starting...", target, null));
@@ -82,14 +90,32 @@ namespace Bullseye.Internal
         public Task Error(string target, Exception ex) =>
             this.writer.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
 
-        public Task Failed(string target, Exception ex, double elapsedMilliseconds) =>
-            this.writer.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, elapsedMilliseconds));
+        public Task Failed(string target, Exception ex, double elapsedMilliseconds)
+        {
+            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            result.Outcome = TargetOutcome.Failed;
+            result.DurationMilliseconds = elapsedMilliseconds;
 
-        public Task Failed(string target, double elapsedMilliseconds) =>
-            this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", target, elapsedMilliseconds));
+            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, elapsedMilliseconds));
+        }
 
-        public Task Succeeded(string target, double? elapsedMilliseconds) =>
-            this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, elapsedMilliseconds));
+        public Task Failed(string target, double elapsedMilliseconds)
+        {
+            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            result.Outcome = TargetOutcome.Failed;
+            result.DurationMilliseconds = elapsedMilliseconds;
+
+            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", target, elapsedMilliseconds));
+        }
+
+        public Task Succeeded(string target, double? elapsedMilliseconds)
+        {
+            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            result.Outcome = TargetOutcome.Succeeded;
+            result.DurationMilliseconds = elapsedMilliseconds;
+
+            return this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, elapsedMilliseconds));
+        }
 
         public Task Starting<TInput>(string target, TInput input) =>
             this.writer.WriteLineAsync(MessageWithInput(p.Starting, "Starting...", target, input, null));
@@ -97,22 +123,102 @@ namespace Bullseye.Internal
         public Task Error<TInput>(string target, TInput input, Exception ex) =>
             this.writer.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
 
-        public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds) =>
-            this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
+        public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds)
+        {
+            this.results.GetOrAdd(target, key => new TargetResult()).InputResults
+                .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Failed, DurationMilliseconds = elapsedMilliseconds });
 
-        public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds) =>
-            this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
+            return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
+        }
 
-        public Task NoInputs(string target) =>
-            this.writer.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
+        public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds)
+        {
+            this.results.GetOrAdd(target, key => new TargetResult()).InputResults
+                .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Succeeded, DurationMilliseconds = elapsedMilliseconds });
+
+            return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
+        }
+
+        public Task NoInputs(string target)
+        {
+            this.results.GetOrAdd(target, key => new TargetResult()).Outcome = TargetOutcome.NoInputs;
+
+            return this.writer.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
+        }
+
+        private async Task Results()
+        {
+            var pc = ' ';
+
+            var totalDuration = results.Sum(i => i.Value.DurationMilliseconds ?? 0 + i.Value.InputResults.Sum(i2 => i2.DurationMilliseconds));
+
+            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Label}Duration", "", $"{pc}{pc}{p.Label}Outcome", $"{pc}{pc}{p.Label}Target") };
+
+            foreach (var item in results.OrderBy(i => i.Value.DurationMilliseconds))
+            {
+                var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}";
+
+                var percentage = item.Value.DurationMilliseconds.HasValue && totalDuration > 0
+                    ? $"{pc}{pc}{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%"
+                    : "";
+
+                var outcome = item.Value.Outcome == TargetOutcome.Failed
+                    ? $"{pc}{pc}{p.Failed}Failed!"
+                    : item.Value.Outcome == TargetOutcome.NoInputs
+                        ? $"{pc}{pc}{p.Warning}No inputs!"
+                        : $"{pc}{pc}{p.Succeeded}Succeeded";
+
+                var target = $"{pc}{pc}{p.Target}{item.Key}";
+
+                rows.Add(Tuple.Create(duration, percentage, outcome, target));
+
+                var index = 0;
+
+                foreach (var result in item.Value.InputResults)
+                {
+                    var inputDuration = $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}";
+
+                    var inputPercentage = totalDuration > 0
+                        ? $"{pc}{pc}{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%"
+                        : "";
+
+                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{pc}{pc}{p.Failed}Failed!" : $"{pc}{pc}{p.Succeeded}Succeeded";
+
+                    var input = $"{pc}{pc}{pc}{pc}{p.Input}{result.Input.ToString()}";
+
+                    rows.Add(Tuple.Create(inputDuration, inputPercentage, inputOutcome, input));
+
+                    ++index;
+                }
+            }
+
+            var durationWidth = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item1).Length) : 0;
+            var percentageWidth = rows.Max(row => Palette.StripColours(row.Item2).Length);
+            var outcomeWidth = rows.Max(row => Palette.StripColours(row.Item3).Length);
+            var targetWidth = rows.Max(row => Palette.StripColours(row.Item4).Length);
+
+            if (durationWidth + percentageWidth < rows[0].Item1.Length)
+            {
+                durationWidth = rows[0].Item1.Length - percentageWidth;
+            }
+
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".PadRightPrinted(durationWidth + percentageWidth + outcomeWidth + targetWidth, p.Horizontal)}").ConfigureAwait(false);
+
+            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.PadRightPrinted(durationWidth, pc)}{rows[0].Item2.PadRightPrinted(percentageWidth, pc)}{rows[0].Item3.PadRightPrinted(outcomeWidth, pc)}{rows[0].Item4.PadRightPrinted(targetWidth, pc)}").ConfigureAwait(false);
+
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".PadRightPrinted(durationWidth, p.Horizontal)}{"".PadRightPrinted(percentageWidth, p.Horizontal)}{"".PadRightPrinted(outcomeWidth - 2, p.Horizontal).PadLeftPrinted(outcomeWidth, pc)}{"".PadRightPrinted(targetWidth - 2, p.Horizontal).PadLeftPrinted(targetWidth, pc)}").ConfigureAwait(false);
+
+            foreach (var row in rows.Skip(1))
+            {
+                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.PadRightPrinted(durationWidth, pc)}{row.Item2.PadRightPrinted(percentageWidth, pc)}{row.Item3.PadRightPrinted(outcomeWidth, pc)}{row.Item4.PadRightPrinted(targetWidth, pc)}").ConfigureAwait(false);
+            }
+
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".PadRightPrinted(durationWidth + percentageWidth + outcomeWidth + targetWidth, p.Horizontal)}").ConfigureAwait(false);
+        }
 
         private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs)
         {
             var value = new StringBuilder();
-
-            var corner = "└─";
-            var teeJunction = "├─";
-            var line = "│ ";
 
             foreach (var rootTarget in rootTargets)
             {
@@ -138,7 +244,7 @@ namespace Bullseye.Internal
                     {
                         var prefix = isRoot
                             ? ""
-                            : $"{previousPrefix.Replace(corner, "  ").Replace(teeJunction, line)}{(item.index == names.Count - 1 ? corner : teeJunction)}";
+                            : $"{previousPrefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
 
                         var isMissing = !targets.Contains(item.name);
 
@@ -164,7 +270,7 @@ namespace Bullseye.Internal
                         {
                             foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
                             {
-                                var inputPrefix = $"{prefix.Replace(corner, "  ").Replace(teeJunction, line)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? line : "  ")}";
+                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 
                                 value.AppendLine($"{p.Tree}{inputPrefix}{p.Input}{inputItem.input}{p.Default}");
                             }
@@ -217,7 +323,10 @@ namespace Bullseye.Internal
                 (!specific && this.skipDependencies ? $"{p.Option} (skip dependencies){p.Default}" : "") +
                 (!this.dryRun && elapsedMilliseconds.HasValue ? $"{p.Timing} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Default}" : "");
 
-        private static string ToStringFromMilliseconds(double milliseconds)
+        private static string ToStringFromMilliseconds(double? milliseconds, bool @fixed) =>
+            milliseconds.HasValue ? ToStringFromMilliseconds(milliseconds.Value, @fixed) : string.Empty;
+
+        private static string ToStringFromMilliseconds(double milliseconds, bool @fixed = false)
         {
             // less than one millisecond
             if (milliseconds < 1D)
@@ -228,13 +337,13 @@ namespace Bullseye.Internal
             // milliseconds
             if (milliseconds < 1_000D)
             {
-                return milliseconds.ToString("G3", provider) + " ms";
+                return milliseconds.ToString(@fixed ? "F0" : "G3", provider) + " ms";
             }
 
             // seconds
             if (milliseconds < 60_000D)
             {
-                return (milliseconds / 1_000D).ToString("G3", provider) + " s";
+                return (milliseconds / 1_000D).ToString(@fixed ? "F2" : "G3", provider) + " s";
             }
 
             // minutes and seconds
@@ -289,6 +398,37 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
   {p.CommandLine}build.sh {p.Option}-t -I {p.Target}default
   {p.CommandLine}build.sh {p.Target}test pack
   {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}";
+
+        private class TargetResult
+        {
+            public TargetOutcome Outcome { get; set; }
+
+            public double? DurationMilliseconds { get; set; }
+
+            public ConcurrentQueue<TargetInputResult> InputResults { get; } = new ConcurrentQueue<TargetInputResult>();
+        }
+
+        private class TargetInputResult
+        {
+            public object Input { get; set; }
+
+            public TargetInputOutcome Outcome { get; set; }
+
+            public double DurationMilliseconds { get; set; }
+        }
+
+        private enum TargetOutcome
+        {
+            Succeeded,
+            Failed,
+            NoInputs,
+        }
+
+        private enum TargetInputOutcome
+        {
+            Succeeded,
+            Failed,
+        }
     }
 }
 #pragma warning restore IDE0009 // Member access should be qualified.
