@@ -113,7 +113,7 @@ You can also handle custom arguments in `Program.cs`, but you should ensure that
 
 ## FAQ
 
-### Can I force a pause before exiting when debugging in Visual Studio?
+### Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?
 
 Yes! Add the following line anywhere before calling `RunTargetsAndExit`/`RunTargetsAndExitAsync`:
 
@@ -128,6 +128,8 @@ Console.ReadKey();
 ```
 
 This does not work after calling `RunTargetsAndExit`/`RunTargetsAndExit` because that is the final statement that will be executed.
+
+In Visual Studio 2019 and later, .NET console apps pause before exiting by default, so none of this is required.
 
 ## Who's using Bullseye?
 
