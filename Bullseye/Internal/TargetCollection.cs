@@ -14,7 +14,7 @@ namespace Bullseye.Internal
 
         public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
-            await log.Running(names).ConfigureAwait(false);
+            await log.Running(names).Tax();
             var stopWatch = Stopwatch.StartNew();
 
             try
@@ -31,23 +31,23 @@ namespace Bullseye.Internal
                 if (parallel)
                 {
                     var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, targetsRan, log, messageOnly, new Stack<string>()));
-                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                    await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var name in names)
                     {
-                        await this.RunAsync(name, names, skipDependencies, dryRun, false, targetsRan, log, messageOnly, new Stack<string>()).ConfigureAwait(false);
+                        await this.RunAsync(name, names, skipDependencies, dryRun, false, targetsRan, log, messageOnly, new Stack<string>()).Tax();
                     }
                 }
             }
             catch (Exception)
             {
-                await log.Failed(names, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                await log.Failed(names, stopWatch.Elapsed.TotalMilliseconds).Tax();
                 throw;
             }
 
-            await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+            await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
 
         private async Task RunAsync(string name, List<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, ConcurrentDictionary<string, Task> targetsRan, Logger log, Func<Exception, bool> messageOnly, Stack<string> targets)
@@ -56,31 +56,31 @@ namespace Bullseye.Internal
 
             if (!this.Contains(name))
             {
-                await log.Verbose(targets, $"Doesn't exist. Ignoring.").ConfigureAwait(false);
+                await log.Verbose(targets, $"Doesn't exist. Ignoring.").Tax();
                 return;
             }
 
-            await log.Verbose(targets, $"Walking dependencies...").ConfigureAwait(false);
+            await log.Verbose(targets, $"Walking dependencies...").Tax();
 
             var target = this[name];
 
             if (parallel)
             {
                 var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, targetsRan, log, messageOnly, targets));
-                await Task.WhenAll(tasks).ConfigureAwait(false);
+                await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, targetsRan, log, messageOnly, targets).ConfigureAwait(false);
+                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, targetsRan, log, messageOnly, targets).Tax();
                 }
             }
 
             if (!skipDependencies || explicitTargets.Contains(name))
             {
-                await log.Verbose(targets, $"Awaiting...").ConfigureAwait(false);
-                await targetsRan.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).ConfigureAwait(false);
+                await log.Verbose(targets, $"Awaiting...").Tax();
+                await targetsRan.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).Tax();
             }
 
             targets.Pop();

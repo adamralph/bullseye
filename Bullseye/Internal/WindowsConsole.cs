@@ -20,7 +20,7 @@ namespace Bullseye.Internal
                 if (verbose)
                 {
                     await @out.WriteLineAsync(
-                        $"Bullseye: Failed to get a handle to the standard output device (GetStdHandle). Error code: {lastError}").ConfigureAwait(false);
+                        $"Bullseye: Failed to get a handle to the standard output device (GetStdHandle). Error code: {lastError}").Tax();
                 }
 
                 return;
@@ -28,7 +28,7 @@ namespace Bullseye.Internal
 
             if (verbose)
             {
-                await @out.WriteLineAsync($"Bullseye: Got a handle to the standard output device (GetStdHandle): {consoleHandle}").ConfigureAwait(false);
+                await @out.WriteLineAsync($"Bullseye: Got a handle to the standard output device (GetStdHandle): {consoleHandle}").Tax();
             }
 
             if (!NativeMethods.GetConsoleMode(consoleHandle, out var consoleMode))
@@ -36,7 +36,7 @@ namespace Bullseye.Internal
                 if (verbose)
                 {
                     await @out.WriteLineAsync(
-                        $"Bullseye: Failed to get the current output mode of the console screen buffer (GetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").ConfigureAwait(false);
+                        $"Bullseye: Failed to get the current output mode of the console screen buffer (GetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").Tax();
                 }
 
                 return;
@@ -44,7 +44,7 @@ namespace Bullseye.Internal
 
             if (verbose)
             {
-                await @out.WriteLineAsync($"Bullseye: Got the current output mode of the console screen buffer (GetConsoleMode): {consoleMode}").ConfigureAwait(false);
+                await @out.WriteLineAsync($"Bullseye: Got the current output mode of the console screen buffer (GetConsoleMode): {consoleMode}").Tax();
             }
 
             consoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
@@ -54,13 +54,13 @@ namespace Bullseye.Internal
                 if (verbose)
                 {
                     await @out.WriteLineAsync(
-                       $"Bullseye: Failed to set the output mode of the console screen buffer (SetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").ConfigureAwait(false);
+                       $"Bullseye: Failed to set the output mode of the console screen buffer (SetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").Tax();
                 }
             }
 
             if (verbose)
             {
-                await @out.WriteLineAsync($"Bullseye: Set the current output mode of the console screen buffer (SetConsoleMode): {consoleMode}").ConfigureAwait(false);
+                await @out.WriteLineAsync($"Bullseye: Set the current output mode of the console screen buffer (SetConsoleMode): {consoleMode}").Tax();
             }
         }
     }

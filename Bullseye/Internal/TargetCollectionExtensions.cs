@@ -16,23 +16,23 @@ namespace Bullseye.Internal
         private static async Task RunAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
         {
             var (names, options) = args.Parse();
-            var log = await ConsoleExtensions.Initialize(options).ConfigureAwait(false);
+            var log = await ConsoleExtensions.Initialize(options).Tax();
 
-            await RunAsync(targets, names, options, log, messageOnly, args).ConfigureAwait(false);
+            await RunAsync(targets, names, options, log, messageOnly, args).Tax();
         }
 
         private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
         {
             var (names, options) = args.Parse();
-            var log = await ConsoleExtensions.Initialize(options).ConfigureAwait(false);
+            var log = await ConsoleExtensions.Initialize(options).Tax();
 
             try
             {
-                await RunAsync(targets, names, options, log, messageOnly, args).ConfigureAwait(false);
+                await RunAsync(targets, names, options, log, messageOnly, args).Tax();
             }
             catch (InvalidUsageException ex)
             {
-                await log.Error(ex.Message).ConfigureAwait(false);
+                await log.Error(ex.Message).Tax();
                 Environment.Exit(2);
             }
             catch (TargetFailedException)
@@ -50,11 +50,11 @@ namespace Bullseye.Internal
                 throw new InvalidUsageException($"Unknown option{(options.UnknownOptions.Count > 1 ? "s" : "")} {options.UnknownOptions.Spaced()}. \"--help\" for usage.");
             }
 
-            await log.Verbose($"Args: {string.Join(" ", args)}").ConfigureAwait(false);
+            await log.Verbose($"Args: {string.Join(" ", args)}").Tax();
 
             if (options.ShowHelp)
             {
-                await log.Usage().ConfigureAwait(false);
+                await log.Usage().Tax();
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace Bullseye.Internal
                 var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
                 var maxDepth = options.ListTree ? int.MaxValue : options.ListDependencies ? 1 : 0;
                 var maxDepthToShowInputs = options.ListTree ? int.MaxValue : 0;
-                await log.Targets(targets, rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs).ConfigureAwait(false);
+                await log.Targets(targets, rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs).Tax();
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace Bullseye.Internal
                 names.Add("default");
             }
 
-            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, options.Parallel, log, messageOnly).ConfigureAwait(false);
+            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, options.Parallel, log, messageOnly).Tax();
         }
     }
 }

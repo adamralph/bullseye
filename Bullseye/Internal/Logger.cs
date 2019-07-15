@@ -43,7 +43,7 @@ namespace Bullseye.Internal
                     .FirstOrDefault()
                     ?.InformationalVersion ?? "Unknown";
 
-                await this.writer.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).ConfigureAwait(false);
+                await this.writer.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).Tax();
             }
         }
 
@@ -58,7 +58,7 @@ namespace Bullseye.Internal
         {
             if (this.verbose)
             {
-                await this.writer.WriteLineAsync(Message(p.Verbose, message)).ConfigureAwait(false);
+                await this.writer.WriteLineAsync(Message(p.Verbose, message)).Tax();
             }
         }
 
@@ -66,7 +66,7 @@ namespace Bullseye.Internal
         {
             if (this.verbose)
             {
-                await this.writer.WriteLineAsync(Message(targets, p.Verbose, message)).ConfigureAwait(false);
+                await this.writer.WriteLineAsync(Message(targets, p.Verbose, message)).Tax();
             }
         }
 
@@ -75,14 +75,14 @@ namespace Bullseye.Internal
 
         public async Task Failed(List<string> targets, double elapsedMilliseconds)
         {
-            await this.Results().ConfigureAwait(false);
-            await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, elapsedMilliseconds)).ConfigureAwait(false);
+            await this.Results().Tax();
+            await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, elapsedMilliseconds)).Tax();
         }
 
         public async Task Succeeded(List<string> targets, double elapsedMilliseconds)
         {
-            await this.Results().ConfigureAwait(false);
-            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds)).ConfigureAwait(false);
+            await this.Results().Tax();
+            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds)).Tax();
         }
 
         public Task Starting(string target) =>

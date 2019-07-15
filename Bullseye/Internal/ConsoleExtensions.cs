@@ -30,7 +30,7 @@ namespace Bullseye.Internal
 
             if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
             {
-                await WindowsConsole.TryEnableVirtualTerminalProcessing(Console.Out, options.Verbose).ConfigureAwait(false);
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(Console.Out, options.Verbose).Tax();
             }
 
             var isHostDetected = false;
@@ -59,9 +59,9 @@ namespace Bullseye.Internal
             var palette = new Palette(options.NoColor, options.Host, operatingSystem);
             var log = new Logger(Console.Out, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
-            await log.Version().ConfigureAwait(false);
-            await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").ConfigureAwait(false);
-            await log.Verbose($"OS: {operatingSystem}").ConfigureAwait(false);
+            await log.Version().Tax();
+            await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
+            await log.Verbose($"OS: {operatingSystem}").Tax();
 
             return log;
         }

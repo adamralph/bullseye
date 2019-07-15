@@ -34,11 +34,11 @@ namespace Bullseye.Internal
             var inputsList = this.inputs.ToList();
             if (inputsList.Count == 0)
             {
-                await log.NoInputs(this.Name).ConfigureAwait(false);
+                await log.NoInputs(this.Name).Tax();
                 return;
             }
 
-            await log.Starting(this.Name).ConfigureAwait(false);
+            await log.Starting(this.Name).Tax();
             var stopWatch = Stopwatch.StartNew();
 
             try
@@ -46,51 +46,51 @@ namespace Bullseye.Internal
                 if (parallel)
                 {
                     var tasks = inputsList.Select(input => this.InvokeAsync(input, dryRun, log, messageOnly)).ToList();
-                    await Task.WhenAll(tasks).ConfigureAwait(false);
+                    await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var input in inputsList)
                     {
-                        await this.InvokeAsync(input, dryRun, log, messageOnly).ConfigureAwait(false);
+                        await this.InvokeAsync(input, dryRun, log, messageOnly).Tax();
                     }
                 }
             }
             catch (Exception)
             {
-                await log.Failed(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                await log.Failed(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
                 throw;
             }
 
-            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
 
         private async Task InvokeAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
         {
-            await log.Starting(this.Name, input).ConfigureAwait(false);
+            await log.Starting(this.Name, input).Tax();
             var stopWatch = Stopwatch.StartNew();
 
             if (!dryRun && this.action != default)
             {
                 try
                 {
-                    await this.action(input).ConfigureAwait(false);
+                    await this.action(input).Tax();
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     if (!messageOnly(ex))
                     {
-                        await log.Error(this.Name, input, ex).ConfigureAwait(false);
+                        await log.Error(this.Name, input, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
                     throw new TargetFailedException(ex);
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
 
-            await log.Succeeded(this.Name, input, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+            await log.Succeeded(this.Name, input, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
     }
 }
