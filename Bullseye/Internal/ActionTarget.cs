@@ -14,7 +14,7 @@ namespace Bullseye.Internal
 
         public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
-            await log.Starting(this.Name).ConfigureAwait(false);
+            await log.Starting(this.Name).Tax();
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -22,23 +22,23 @@ namespace Bullseye.Internal
             {
                 try
                 {
-                    await this.action().ConfigureAwait(false);
+                    await this.action().Tax();
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     if (!messageOnly(ex))
                     {
-                        await log.Error(this.Name, ex).ConfigureAwait(false);
+                        await log.Error(this.Name, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
                     throw new TargetFailedException(ex);
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
 
-            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).ConfigureAwait(false);
+            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
     }
 }
