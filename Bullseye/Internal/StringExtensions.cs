@@ -92,10 +92,8 @@ namespace Bullseye.Internal
             return (targetNames, options);
         }
 
-        public static string PadRightPrinted(this string text, int totalWidth, char paddingChar) =>
+        // pad right printed
+        public static string Prp(this string text, int totalWidth, char paddingChar) =>
             text.PadRight(totalWidth + (text.Length - Palette.StripColours(text).Length), paddingChar);
-
-        public static string PadLeftPrinted(this string text, int totalWidth, char paddingChar) =>
-            text.PadLeft(totalWidth + (text.Length - Palette.StripColours(text).Length), paddingChar);
     }
 }

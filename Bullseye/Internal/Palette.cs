@@ -64,7 +64,7 @@ namespace Bullseye.Internal
             this.TreeCorner = "└─";
             this.TreeFork = "├─";
             this.TreeDown = "│ ";
-            this.Horizontal = '─';
+            this.Dash = '─';
 
             if (host == Host.Appveyor &&
                 (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
@@ -80,7 +80,7 @@ namespace Bullseye.Internal
                     this.TreeCorner = "  ";
                     this.TreeFork = "  ";
                     this.TreeDown = "  ";
-                    this.Horizontal = '-';
+                    this.Dash = '-';
                 }
 
                 if (operatingSystem == OperatingSystem.Linux)
@@ -152,7 +152,7 @@ namespace Bullseye.Internal
 
         public string TreeDown { get; }
 
-        public char Horizontal { get; }
+        public char Dash { get; }
 
         public static string StripColours(string text)
         {
