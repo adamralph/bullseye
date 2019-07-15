@@ -176,7 +176,7 @@ namespace Bullseye.Internal
 
                 var index = 0;
 
-                foreach (var result in item.Value.InputResults)
+                foreach (var result in item.Value.InputResults.OrderBy(r => r.DurationMilliseconds))
                 {
                     var inputDuration = $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}";
 
