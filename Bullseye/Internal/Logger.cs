@@ -10,6 +10,7 @@ namespace Bullseye.Internal
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
+    using static System.Math;
 
     public class Logger
     {
@@ -148,27 +149,28 @@ namespace Bullseye.Internal
 
         private async Task Results()
         {
-            var pc = ' ';
+            // whitespace (e.g. can change to '·' for debugging)
+            var ws = ' ';
 
             var totalDuration = results.Sum(i => i.Value.DurationMilliseconds ?? 0 + i.Value.InputResults.Sum(i2 => i2.DurationMilliseconds));
 
-            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Label}Duration", "", $"{pc}{pc}{p.Label}Outcome", $"{pc}{pc}{p.Label}Target") };
+            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Label}Duration", "", $"{p.Label}Outcome", $"{p.Label}Target") };
 
             foreach (var item in results.OrderBy(i => i.Value.DurationMilliseconds))
             {
                 var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}";
 
                 var percentage = item.Value.DurationMilliseconds.HasValue && totalDuration > 0
-                    ? $"{pc}{pc}{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%"
+                    ? $"{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%"
                     : "";
 
                 var outcome = item.Value.Outcome == TargetOutcome.Failed
-                    ? $"{pc}{pc}{p.Failed}Failed!"
+                    ? $"{p.Failed}Failed!"
                     : item.Value.Outcome == TargetOutcome.NoInputs
-                        ? $"{pc}{pc}{p.Warning}No inputs!"
-                        : $"{pc}{pc}{p.Succeeded}Succeeded";
+                        ? $"{p.Warning}No inputs!"
+                        : $"{p.Succeeded}Succeeded";
 
-                var target = $"{pc}{pc}{p.Target}{item.Key}";
+                var target = $"{p.Target}{item.Key}";
 
                 rows.Add(Tuple.Create(duration, percentage, outcome, target));
 
@@ -179,12 +181,12 @@ namespace Bullseye.Internal
                     var inputDuration = $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}";
 
                     var inputPercentage = totalDuration > 0
-                        ? $"{pc}{pc}{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%"
+                        ? $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%"
                         : "";
 
-                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{pc}{pc}{p.Failed}Failed!" : $"{pc}{pc}{p.Succeeded}Succeeded";
+                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!" : $"{p.Succeeded}Succeeded";
 
-                    var input = $"{pc}{pc}{pc}{pc}{p.Input}{result.Input.ToString()}";
+                    var input = $"{ws}{ws}{p.Input}{result.Input.ToString()}";
 
                     rows.Add(Tuple.Create(inputDuration, inputPercentage, inputOutcome, input));
 
@@ -192,28 +194,41 @@ namespace Bullseye.Internal
                 }
             }
 
-            var durationWidth = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item1).Length) : 0;
-            var percentageWidth = rows.Max(row => Palette.StripColours(row.Item2).Length);
-            var outcomeWidth = rows.Max(row => Palette.StripColours(row.Item3).Length);
-            var targetWidth = rows.Max(row => Palette.StripColours(row.Item4).Length);
+            // time column width
+            var timW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item1).Length) : 0;
 
-            if (durationWidth + percentageWidth < rows[0].Item1.Length)
-            {
-                durationWidth = rows[0].Item1.Length - percentageWidth;
-            }
+            // percentage column width
+            var perW = rows.Max(row => Palette.StripColours(row.Item2).Length);
 
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".PadRightPrinted(durationWidth + percentageWidth + outcomeWidth + targetWidth, p.Horizontal)}").ConfigureAwait(false);
+            // duration column width (time and percentage)
+            var durW = Max(Palette.StripColours(rows[0].Item1).Length, timW + 2 + perW);
 
-            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.PadRightPrinted(durationWidth, pc)}{rows[0].Item2.PadRightPrinted(percentageWidth, pc)}{rows[0].Item3.PadRightPrinted(outcomeWidth, pc)}{rows[0].Item4.PadRightPrinted(targetWidth, pc)}").ConfigureAwait(false);
+            // expand percentage column width to ensure time and percentage are as wide as duration
+            perW = Max(durW - timW - 2, perW);
 
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".PadRightPrinted(durationWidth, p.Horizontal)}{"".PadRightPrinted(percentageWidth, p.Horizontal)}{"".PadRightPrinted(outcomeWidth - 2, p.Horizontal).PadLeftPrinted(outcomeWidth, pc)}{"".PadRightPrinted(targetWidth - 2, p.Horizontal).PadLeftPrinted(targetWidth, pc)}").ConfigureAwait(false);
+            // outcome column width
+            var outW = rows.Max(row => Palette.StripColours(row.Item3).Length);
 
+            // target name column width
+            var tarW = rows.Max(row => Palette.StripColours(row.Item4).Length);
+
+            // summary start separator
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}").Tax();
+
+            // header
+            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(durW, ws)}{ws}{ws}{rows[0].Item3.Prp(outW, ws)}{ws}{ws}{rows[0].Item4.Prp(tarW, ws)}").Tax();
+
+            // header separator
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW, p.Dash)}{ws}{ws}{"".Prp(outW, p.Dash)}{ws}{ws}{"".Prp(tarW, p.Dash)}").Tax();
+
+            // targets
             foreach (var row in rows.Skip(1))
             {
-                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.PadRightPrinted(durationWidth, pc)}{row.Item2.PadRightPrinted(percentageWidth, pc)}{row.Item3.PadRightPrinted(outcomeWidth, pc)}{row.Item4.PadRightPrinted(targetWidth, pc)}").ConfigureAwait(false);
+                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(timW, ws)}{ws}{ws}{row.Item2.Prp(perW, ws)}{ws}{ws}{row.Item3.Prp(outW, ws)}{ws}{ws}{row.Item4.Prp(tarW, ws)}").Tax();
             }
 
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".PadRightPrinted(durationWidth + percentageWidth + outcomeWidth + targetWidth, p.Horizontal)}").ConfigureAwait(false);
+            // summary end separator
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Default}").Tax();
         }
 
         private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs)
