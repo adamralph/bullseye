@@ -10,6 +10,8 @@ namespace Bullseye.Internal
 
     public class TargetCollection : KeyedCollection<string, Target>
     {
+        public TargetCollection() : base(StringComparer.OrdinalIgnoreCase) { }
+
         protected override string GetKeyForItem(Target item) => item.Name;
 
         public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
@@ -143,7 +145,7 @@ namespace Bullseye.Internal
 
         private void Validate(List<string> names)
         {
-            var unknownNames = new SortedSet<string>(names.Except(this.Select(target => target.Name)));
+            var unknownNames = new SortedSet<string>(names.Where(name => !this.Contains(name)));
             if (unknownNames.Count > 0)
             {
                 var message = $"Target{(unknownNames.Count > 1 ? "s" : "")} not found: {unknownNames.Spaced()}.";
