@@ -54,7 +54,7 @@ namespace Bullseye.Internal
 
             if (options.ShowHelp)
             {
-                await log.Usage().Tax();
+                await log.Usage(targets).Tax();
                 return;
             }
 
