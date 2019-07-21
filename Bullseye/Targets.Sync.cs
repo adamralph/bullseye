@@ -23,9 +23,6 @@ namespace Bullseye
                     ? default(Func<TInput, Task>)
                     : input => Task.Run(() => action.Invoke(input)));
 
-        [Obsolete("This method will be removed in 3.0.0. Consider switching to RunTargetsAndExit, which represents the canonical usage. If you really need to continue code execution after running the targets, use RunTargetsWithoutExiting instead.")]
-        public static void RunTargets(IEnumerable<string> args) => RunTargetsWithoutExiting(args);
-
         /// <summary>
         /// Runs the previously specified targets.
         /// In most cases, <see cref="RunTargetsAndExit(IEnumerable{string}, Func{Exception, bool})"/> should be used instead of this method.
