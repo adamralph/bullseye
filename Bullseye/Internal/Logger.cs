@@ -281,13 +281,19 @@ namespace Bullseye.Internal
 
                         var target = targets[item.name];
 
-                        if (listInputs && depth <= maxDepthToShowInputs && target is IHaveInputs hasInputs)
+                        if (listInputs && depth <= maxDepthToShowInputs)
                         {
-                            foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
+                            foreach (var body in target.Bodies)
                             {
-                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
+                                if (body is IHaveInputs hasInputs)
+                                {
+                                    foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
+                                    {
+                                        var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 
-                                value.AppendLine($"{p.Tree}{inputPrefix}{p.Input}{inputItem.input}{p.Default}");
+                                        value.AppendLine($"{p.Tree}{inputPrefix}{p.Input}{inputItem.input}{p.Default}");
+                                    }
+                                }
                             }
                         }
 

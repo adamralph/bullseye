@@ -14,13 +14,13 @@ namespace Bullseye
         public static TInput[] ForEach<TInput>(params TInput[] inputs) => inputs;
 
         public static void Target(string name, IEnumerable<string> dependsOn) =>
-            targets.Add(new Target(name, dependsOn));
+            targets.Add(new Target(name, dependsOn, new Body(name)));
 
         public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
-            targets.Add(new ActionTarget(name, dependsOn, action));
+            targets.Add(new Target(name, dependsOn, new ActionBody(name, action)));
 
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            targets.Add(new ActionTarget<TInput>(name, dependsOn, forEach, action));
+            targets.Add(new Target(name, dependsOn, new ActionBody<TInput>(name, forEach, action)));
 
         /// <summary>
         /// Runs the previously specified targets.

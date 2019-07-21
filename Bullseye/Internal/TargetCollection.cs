@@ -14,6 +14,19 @@ namespace Bullseye.Internal
 
         protected override string GetKeyForItem(Target item) => item.Name;
 
+        protected override void InsertItem(int index, Target item)
+        {
+            if (!this.Contains(item.Name))
+            {
+                base.InsertItem(index, item);
+                return;
+            }
+
+            var target = this[item.Name];
+            target.Dependencies.AddRange(item.Dependencies);
+            target.Bodies.AddRange(item.Bodies);
+        }
+
         public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
             await log.Running(names).Tax();
