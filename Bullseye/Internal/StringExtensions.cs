@@ -27,15 +27,15 @@ namespace Bullseye.Internal
                     case "--dry-run":
                         options.DryRun = true;
                         break;
-                    case "-D":
+                    case "-d":
                     case "--list-dependencies":
                         options.ListDependencies = true;
                         break;
-                    case "-I":
+                    case "-i":
                     case "--list-inputs":
                         options.ListInputs = true;
                         break;
-                    case "-T":
+                    case "-l":
                     case "--list-targets":
                         options.ListTargets = true;
                         break;

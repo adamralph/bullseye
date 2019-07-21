@@ -387,9 +387,9 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
 {p.Label}options:
  {p.Option}-c, --clear                {p.Text}Clear the console before execution
  {p.Option}-n, --dry-run              {p.Text}Do a dry run without executing actions
- {p.Option}-D, --list-dependencies    {p.Text}List all (or specified) targets and dependencies, then exit
- {p.Option}-I, --list-inputs          {p.Text}List all (or specified) targets and inputs, then exit
- {p.Option}-T, --list-targets         {p.Text}List all (or specified) targets, then exit
+ {p.Option}-d, --list-dependencies    {p.Text}List all (or specified) targets and dependencies, then exit
+ {p.Option}-i, --list-inputs          {p.Text}List all (or specified) targets and inputs, then exit
+ {p.Option}-l, --list-targets         {p.Text}List all (or specified) targets, then exit
  {p.Option}-t, --list-tree            {p.Text}List all (or specified) targets and dependency trees, then exit
  {p.Option}-N, --no-color             {p.Text}Disable colored output
  {p.Option}-p, --parallel             {p.Text}Run targets in parallel
