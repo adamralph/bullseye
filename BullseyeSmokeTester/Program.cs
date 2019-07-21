@@ -9,7 +9,7 @@ namespace BullseyeSmokeTester
     {
         private static Task Main(string[] args)
         {
-            Target("default", DependsOn("worl:d", "exclai: m", "no-action", "echo", "combo", "no-inputs"));
+            Target("default", DependsOn("worl:d", "exclai: m", "no-action", "echo", "combo", "multiple", "no-inputs"));
 
             Target("hell\"o", () => Console.Out.WriteLine("Hello"));
 
@@ -51,6 +51,18 @@ namespace BullseyeSmokeTester
                     await Task.Delay((4 - o.bar) * 10);
                     await Console.Out.WriteLineAsync($"{o.foo},{o.bar}");
                 });
+
+            Target("multiple", foos, async o => await Console.Out.WriteLineAsync($"{o}"));
+
+            Target("multiple", bars, async o => await Console.Out.WriteLineAsync($"{o}"));
+
+            Target("multiple", Enumerable.Empty<string>(), o => { });
+
+            Target("multiple", () => { });
+
+            Target("multiple", DependsOn("echo"));
+
+            Target("multiple", DependsOn("combo"));
 
             Target("no-inputs", Enumerable.Empty<string>(), input => { });
 
