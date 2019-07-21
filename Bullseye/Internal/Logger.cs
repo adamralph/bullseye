@@ -47,7 +47,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public Task Usage() => this.writer.WriteLineAsync(this.GetUsage());
+        public Task Usage(TargetCollection targets) => this.writer.WriteLineAsync(this.GetUsage(targets));
 
         public Task Targets(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
             this.writer.WriteLineAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
@@ -375,7 +375,7 @@ namespace Bullseye.Internal
             return (milliseconds / 60_000d).ToString("N0", provider) + " min";
         }
 
-        private string GetUsage() =>
+        private string GetUsage(TargetCollection targets) =>
 $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target}[<targets>]
 
 {p.Label}command-line: {p.Text}The command line which invokes the build targets.
@@ -412,7 +412,14 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
   {p.CommandLine}build.cmd {p.Option}-D
   {p.CommandLine}build.sh {p.Option}-t -I {p.Target}default
   {p.CommandLine}build.sh {p.Target}test pack
-  {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}";
+  {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}
+
+{p.Label}Targets:
+"
+            + string.Join(
+@"
+",
+                targets.Select(target => $"  {p.Target}{target.Name}{p.Default}"));
 
         private class TargetResult
         {
