@@ -367,12 +367,12 @@ namespace Bullseye.Internal
                 var minutes = Math.Floor(milliseconds / 60_000D).ToString("F0", provider);
                 var seconds = ((milliseconds % 60_000D) / 1_000D).ToString("F0", provider);
                 return seconds == "0"
-                    ? $"{minutes} min"
-                    : $"{minutes} min {seconds} s";
+                    ? $"{minutes} m"
+                    : $"{minutes} m {seconds} s";
             }
 
             // minutes
-            return (milliseconds / 60_000d).ToString("N0", provider) + " min";
+            return (milliseconds / 60_000d).ToString("N0", provider) + " m";
         }
 
         private string GetUsage(TargetCollection targets) =>

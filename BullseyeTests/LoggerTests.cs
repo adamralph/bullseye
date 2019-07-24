@@ -11,9 +11,9 @@ namespace BullseyeTests
         [Example(0.001D, "<1 ms")]
         [Example(1D, "1 ms")]
         [Example(1_000D, "1 s")]
-        [Example(119_000D, "1 min 59 s")]
-        [Example(1_000_000D, "16 min 40 s")]
-        [Example(1_000_000_000D, "16,667 min")]
+        [Example(119_000D, "1 m 59 s")]
+        [Example(1_000_000D, "16 m 40 s")]
+        [Example(1_000_000_000D, "16,667 m")]
         public void Timings(double elapsed, string expectedSubstring, Logger log, StringWriter writer)
         {
             "Given a logger"
