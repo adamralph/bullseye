@@ -11,13 +11,13 @@ namespace BullseyeSmokeTester
         {
             Target("default", DependsOn("worl:d", "exclai: m", "no-action", "echo", "combo", "no-inputs"));
 
-            Target("hell\"o", () => Console.WriteLine("Hello"));
+            Target("hell\"o", () => Console.Out.WriteLine("Hello"));
 
-            Target("comm/a", DependsOn("hell\"o"), () => Console.WriteLine(", "));
+            Target("comm/a", DependsOn("hell\"o"), () => Console.Out.WriteLine(", "));
 
-            Target("worl:d", DependsOn("comm/a"), () => Console.WriteLine("World"));
+            Target("worl:d", DependsOn("comm/a"), () => Console.Out.WriteLine("World"));
 
-            Target("exclai: m", DependsOn("worl:d"), () => Console.WriteLine("!"));
+            Target("exclai: m", DependsOn("worl:d"), () => Console.Out.WriteLine("!"));
 
             Target("no-action", ForEach(1, 2), null);
 
