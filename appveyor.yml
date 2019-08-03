@@ -3,7 +3,7 @@ environment:
   APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
   MINVERBUILDMETADATA: build.%APPVEYOR_BUILD_NUMBER%
 image:
-- Visual Studio 2017
+- Visual Studio 2019
 - Ubuntu
 pull_requests:
   do_not_increment_build_number: true
