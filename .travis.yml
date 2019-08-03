@@ -11,12 +11,12 @@ matrix:
       dist: bionic
       language: csharp
       mono: none
-      dotnet: 2.2.105
+      dotnet: 2.2.401
       script: "./build.sh"
     - os: osx
       language: csharp
       mono: none
-      dotnet: 2.2.107
+      dotnet: 2.2.401
       script: "./build.sh"
     - os: windows
       language: csharp
