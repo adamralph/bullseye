@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Bullseye\Bullseye.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="api-netcoreapp2_1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

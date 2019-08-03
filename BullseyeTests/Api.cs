@@ -13,7 +13,7 @@ namespace BullseyeTests
         [Fact]
         public void IsUnchanged() =>
             AssertFile.Contains(
-                "../../../api-netcoreapp2_1.txt",
+                "api-netcoreapp2_1.txt",
                 ApiGenerator
                     .GeneratePublicApi(
                         typeof(Targets).Assembly,
