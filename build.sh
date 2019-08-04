@@ -24,6 +24,7 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- --dry-run --skip-depe
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-color
+set +x
 
 if [[ ! -z "${MYGETAPIKEY}" ] && [ "${PULLREQUEST}" = "false"]]
 then
