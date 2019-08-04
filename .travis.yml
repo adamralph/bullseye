@@ -1,25 +1,28 @@
 branches:
   only:
   - master
-  - /release-.*/
-  - /^\d+\.\d+\.\d+(-\S*)?$/
+  - "/release-.*/"
+  - "/^\\d+\\.\\d+\\.\\d+(-\\S*)?$/"
 git:
   depth: false
 matrix:
   include:
-    - os: linux
-      dist: bionic
-      language: csharp
-      mono: none
-      dotnet: 2.2.401
-      script: "./build.sh"
-    - os: osx
-      language: csharp
-      mono: none
-      dotnet: 2.2.401
-      script: "./build.sh"
-    - os: windows
-      language: csharp
-      mono: none
-      before_script: dotnet --info
-      script: "./build.cmd"
+  - os: linux
+    dist: bionic
+    language: csharp
+    mono: none
+    dotnet: 2.2.401
+    script: "./build.sh"
+  - os: osx
+    language: csharp
+    mono: none
+    dotnet: 2.2.401
+    script: "./build.sh"
+  - os: windows
+    language: csharp
+    mono: none
+    before_script: dotnet --info
+    script: "./build.cmd"
+env:
+  global:
+    secure: n3J/Fu0iH+aaeUaJXAXRD+YR7qUwwXpqW6iSEJyIV7vwBdAT+Dk/d4go6vKn2YudSqvoz8JYPVyEXZOOb9uHVT6Rdoxr13EGc2EXXRTB3hCxKE+84WETyZc67atMn99/ZNeklMGOy8bKTAP7yRUyGBBdZEwmMNOOAt8cT9arfNEyfDuIcPWfUcQa2PQinf2BnkQBKYh/bpJYnLLPrJqBH1PPpFMolUzsoKv5p8HPY4Rr19ijRcYLnKHxsc+QFFt2RCOLv4vDz3pH3Rygp6j3jN7kRMBUx0SSiKE46LPqtp+oFy5LfawbkcNUEvXEI2pWMZKb7jxVVnt4XqFKxATgYhQu1dFfAKiH63Xu1cgA2114X9EBTehdMrhFdIzN+5um41MQ22su+dkAGOBHih6pq7NxR/fXkXD+xzou9yHDynsJ48XQeFCOWy2gicbFJVK4SPW0wZUbs01Gd0YARsj/BEtflUugpMKBYeAEyHCH1oAOUjalR5+2losu4Jx5UaD6N5jJL9xA7V5XaRnCxguqfiksfTr3E4rmx17SBncLkG3Sj333zosc4pM5mNUtuzkOyIOKUjHphwj/12vnYdGn4g7gqppCD95wBjzmmwVY0IWq5iBnN58Xm05ZHywGq6jIv4sr8TOuGKptrbhZHMMFUa9kH0BseZvhsI5QG43OJaE=
