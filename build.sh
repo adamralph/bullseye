@@ -24,3 +24,11 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- --dry-run --skip-depe
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-color
+
+if [[ ! -z "${MYGETAPIKEY}" ] && [ "${PULLREQUEST}" = "false"]]
+then
+  for package in **/*.nupkg
+  do
+    dotnet nuget push $package -s https://www.myget.org/F/adamralph/api/v2/package -k ${MYGETAPIKEY}
+  done
+fi
