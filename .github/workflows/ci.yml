@@ -6,4 +6,4 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: build
-      run: build.sh
+      run: ./build.sh
