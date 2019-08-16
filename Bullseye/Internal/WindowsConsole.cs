@@ -6,7 +6,7 @@ namespace Bullseye.Internal
 
     public static class WindowsConsole
     {
-        internal static async Task TryEnableVirtualTerminalProcessing(TextWriter @out, bool verbose)
+        public static async Task TryEnableVirtualTerminalProcessing(TextWriter @out, bool verbose)
         {
             const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
 
