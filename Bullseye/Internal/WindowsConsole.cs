@@ -1,67 +1,27 @@
 namespace Bullseye.Internal
 {
     using System.IO;
-    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     public static class WindowsConsole
     {
-        public static async Task TryEnableVirtualTerminalProcessing(TextWriter @out, bool verbose)
+        public static async Task TryEnableVirtualTerminalProcessing(TextWriter log, bool verbose)
         {
-            const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
-
-            const int STD_OUTPUT_HANDLE = -11;
-
-            var consoleHandle = NativeMethods.GetStdHandle(STD_OUTPUT_HANDLE);
-            var lastError = Marshal.GetLastWin32Error();
-
-            if (lastError != 0)
+            (var handle, var gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(log).Tax();
+            if (!gotHandle)
             {
-                if (verbose)
-                {
-                    await @out.WriteLineAsync(
-                        $"Bullseye: Failed to get a handle to the standard output device (GetStdHandle). Error code: {lastError}").Tax();
-                }
-
                 return;
             }
 
-            if (verbose)
+            (var mode, var gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, verbose ? log : NullTextWriter.Instance).Tax();
+            if (!gotMode)
             {
-                await @out.WriteLineAsync($"Bullseye: Got a handle to the standard output device (GetStdHandle): {consoleHandle}").Tax();
-            }
-
-            if (!NativeMethods.GetConsoleMode(consoleHandle, out var consoleMode))
-            {
-                if (verbose)
-                {
-                    await @out.WriteLineAsync(
-                        $"Bullseye: Failed to get the current output mode of the console screen buffer (GetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").Tax();
-                }
-
                 return;
             }
 
-            if (verbose)
-            {
-                await @out.WriteLineAsync($"Bullseye: Got the current output mode of the console screen buffer (GetConsoleMode): {consoleMode}").Tax();
-            }
+            mode |= NativeMethods.ConsoleOutputModes.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
-            consoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-
-            if (!NativeMethods.SetConsoleMode(consoleHandle, consoleMode))
-            {
-                if (verbose)
-                {
-                    await @out.WriteLineAsync(
-                       $"Bullseye: Failed to set the output mode of the console screen buffer (SetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").Tax();
-                }
-            }
-
-            if (verbose)
-            {
-                await @out.WriteLineAsync($"Bullseye: Set the current output mode of the console screen buffer (SetConsoleMode): {consoleMode}").Tax();
-            }
+            await NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, mode, verbose ? log : NullTextWriter.Instance).Tax();
         }
     }
 }
