@@ -115,7 +115,7 @@ dotnet run --project targets -- --help
 
 You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye. A good way to do this is to use a command line parsing package to parse your custom arguments, and pass any unrecognised arguments to Bullseye. For example:
 
-- Using [System.CommandLine.Experimental](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils/), you can pass the unmatched tokens to Bullseye. See this [gist](https://gist.github.com/adamralph/a98dd9184aa7fa3d66935c32f39de14b) as an example.
+- Using [System.CommandLine.Experimental](https://www.nuget.org/packages/System.CommandLine.Experimental/), you can pass the unmatched tokens to Bullseye. See this [gist](https://gist.github.com/adamralph/a98dd9184aa7fa3d66935c32f39de14b) as an example.
 - Using [McMaster.Extensions.CommandLineUtils](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils/), you can pass the [remaining arguments](https://natemcmaster.github.io/CommandLineUtils/docs/arguments.html?tabs=using-attributes#remaining-arguments) to Bullseye. See this [gist](https://gist.github.com/adamralph/d6a3167c8fe0d4e24721d8d2b9c02989) as an example.
 
 ## FAQ
