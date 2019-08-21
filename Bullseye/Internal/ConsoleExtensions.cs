@@ -39,7 +39,7 @@ namespace Bullseye.Internal
 
             if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
             {
-                await WindowsConsole.TryEnableVirtualTerminalProcessing(Console.Out, options.Verbose).Tax();
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Out : NullTextWriter.Instance).Tax();
             }
 
             var isHostDetected = false;
