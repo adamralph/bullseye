@@ -10,7 +10,16 @@ namespace Bullseye.Internal
         {
             if (options.Clear)
             {
-                Console.Clear();
+                try
+                {
+                    Console.Clear();
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    await Console.Out.WriteLineAsync($"Bullseye: Failed to clear the console: {ex}").Tax();
+                }
             }
 
             var operatingSystem = OperatingSystem.Unknown;
