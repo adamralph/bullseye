@@ -14,137 +14,137 @@ namespace Bullseye.Internal
 
     public class Logger
     {
-        private static readonly IFormatProvider provider = CultureInfo.InvariantCulture;
+        private static readonly IFormatProvider Provider = CultureInfo.InvariantCulture;
 
-        private readonly ConcurrentDictionary<string, TargetResult> results = new ConcurrentDictionary<string, TargetResult>();
-        private readonly TextWriter writer;
-        private readonly bool skipDependencies;
-        private readonly bool dryRun;
-        private readonly bool parallel;
-        private readonly Palette p;
-        private readonly bool verbose;
+        private readonly ConcurrentDictionary<string, TargetResult> _results = new ConcurrentDictionary<string, TargetResult>();
+        private readonly TextWriter _writer;
+        private readonly bool _skipDependencies;
+        private readonly bool _dryRun;
+        private readonly bool _parallel;
+        private readonly Palette _p;
+        private readonly bool _verbose;
 
         public Logger(TextWriter writer, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
         {
-            this.writer = writer;
-            this.skipDependencies = skipDependencies;
-            this.dryRun = dryRun;
-            this.parallel = parallel;
-            this.p = palette;
-            this.verbose = verbose;
+            _writer = writer;
+            _skipDependencies = skipDependencies;
+            _dryRun = dryRun;
+            _parallel = parallel;
+            _p = palette;
+            _verbose = verbose;
         }
 
         public async Task Version()
         {
-            if (this.verbose)
+            if (_verbose)
             {
                 var version = typeof(TargetCollectionExtensions).Assembly.GetCustomAttributes(false)
                     .OfType<AssemblyInformationalVersionAttribute>()
                     .FirstOrDefault()
                     ?.InformationalVersion ?? "Unknown";
 
-                await this.writer.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).Tax();
+                await _writer.WriteLineAsync(Message(_p.Verbose, $"Version: {version}")).Tax();
             }
         }
 
-        public Task Usage(TargetCollection targets) => this.writer.WriteLineAsync(this.GetUsage(targets));
+        public Task Usage(TargetCollection targets) => _writer.WriteLineAsync(GetUsage(targets));
 
         public Task Targets(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            this.writer.WriteLineAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
+            _writer.WriteLineAsync(List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
 
-        public Task Error(string message) => this.writer.WriteLineAsync(Message(p.Failed, message));
+        public Task Error(string message) => _writer.WriteLineAsync(Message(_p.Failed, message));
 
         public async Task Verbose(string message)
         {
-            if (this.verbose)
+            if (_verbose)
             {
-                await this.writer.WriteLineAsync(Message(p.Verbose, message)).Tax();
+                await _writer.WriteLineAsync(Message(_p.Verbose, message)).Tax();
             }
         }
 
         public async Task Verbose(Stack<string> targets, string message)
         {
-            if (this.verbose)
+            if (_verbose)
             {
-                await this.writer.WriteLineAsync(Message(targets, p.Verbose, message)).Tax();
+                await _writer.WriteLineAsync(Message(targets, _p.Verbose, message)).Tax();
             }
         }
 
         public Task Running(List<string> targets) =>
-            this.writer.WriteLineAsync(Message(p.Starting, $"Starting...", targets, null));
+            _writer.WriteLineAsync(Message(_p.Starting, $"Starting...", targets, null));
 
         public async Task Failed(List<string> targets, double elapsedMilliseconds)
         {
-            await this.Results().Tax();
-            await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, elapsedMilliseconds)).Tax();
+            await Results().Tax();
+            await _writer.WriteLineAsync(Message(_p.Failed, $"Failed!", targets, elapsedMilliseconds)).Tax();
         }
 
         public async Task Succeeded(List<string> targets, double elapsedMilliseconds)
         {
-            await this.Results().Tax();
-            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds)).Tax();
+            await Results().Tax();
+            await _writer.WriteLineAsync(Message(_p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds)).Tax();
         }
 
         public Task Starting(string target) =>
-            this.writer.WriteLineAsync(Message(p.Starting, "Starting...", target, null));
+            _writer.WriteLineAsync(Message(_p.Starting, "Starting...", target, null));
 
         public Task Error(string target, Exception ex) =>
-            this.writer.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
+            _writer.WriteLineAsync(Message(_p.Failed, ex.ToString(), target));
 
         public Task Failed(string target, Exception ex, double elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            var result = _results.GetOrAdd(target, key => new TargetResult());
             result.Outcome = TargetOutcome.Failed;
             result.DurationMilliseconds = elapsedMilliseconds;
 
-            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, elapsedMilliseconds));
+            return _writer.WriteLineAsync(Message(_p.Failed, $"Failed! {ex.Message}", target, elapsedMilliseconds));
         }
 
         public Task Failed(string target, double elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            var result = _results.GetOrAdd(target, key => new TargetResult());
             result.Outcome = TargetOutcome.Failed;
             result.DurationMilliseconds = elapsedMilliseconds;
 
-            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", target, elapsedMilliseconds));
+            return _writer.WriteLineAsync(Message(_p.Failed, $"Failed!", target, elapsedMilliseconds));
         }
 
         public Task Succeeded(string target, double? elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            var result = _results.GetOrAdd(target, key => new TargetResult());
             result.Outcome = TargetOutcome.Succeeded;
             result.DurationMilliseconds = elapsedMilliseconds;
 
-            return this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, elapsedMilliseconds));
+            return _writer.WriteLineAsync(Message(_p.Succeeded, "Succeeded.", target, elapsedMilliseconds));
         }
 
         public Task Starting<TInput>(string target, TInput input) =>
-            this.writer.WriteLineAsync(MessageWithInput(p.Starting, "Starting...", target, input, null));
+            _writer.WriteLineAsync(MessageWithInput(_p.Starting, "Starting...", target, input, null));
 
         public Task Error<TInput>(string target, TInput input, Exception ex) =>
-            this.writer.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
+            _writer.WriteLineAsync(MessageWithInput(_p.Failed, ex.ToString(), target, input));
 
         public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds)
         {
-            this.results.GetOrAdd(target, key => new TargetResult()).InputResults
+            _results.GetOrAdd(target, key => new TargetResult()).InputResults
                 .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Failed, DurationMilliseconds = elapsedMilliseconds });
 
-            return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
+            return _writer.WriteLineAsync(MessageWithInput(_p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
         }
 
         public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds)
         {
-            this.results.GetOrAdd(target, key => new TargetResult()).InputResults
+            _results.GetOrAdd(target, key => new TargetResult()).InputResults
                 .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Succeeded, DurationMilliseconds = elapsedMilliseconds });
 
-            return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
+            return _writer.WriteLineAsync(MessageWithInput(_p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
         }
 
         public Task NoInputs(string target)
         {
-            this.results.GetOrAdd(target, key => new TargetResult()).Outcome = TargetOutcome.NoInputs;
+            _results.GetOrAdd(target, key => new TargetResult()).Outcome = TargetOutcome.NoInputs;
 
-            return this.writer.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
+            return _writer.WriteLineAsync(Message(_p.Warning, "No inputs!", target, null));
         }
 
         private async Task Results()
@@ -152,25 +152,25 @@ namespace Bullseye.Internal
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
 
-            var totalDuration = results.Sum(i => i.Value.DurationMilliseconds ?? 0 + i.Value.InputResults.Sum(i2 => i2.DurationMilliseconds));
+            var totalDuration = _results.Sum(i => i.Value.DurationMilliseconds ?? 0 + i.Value.InputResults.Sum(i2 => i2.DurationMilliseconds));
 
-            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Label}Duration", "", $"{p.Label}Outcome", $"{p.Label}Target") };
+            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{_p.Label}Duration", "", $"{_p.Label}Outcome", $"{_p.Label}Target") };
 
-            foreach (var item in results.OrderBy(i => i.Value.DurationMilliseconds))
+            foreach (var item in _results.OrderBy(i => i.Value.DurationMilliseconds))
             {
-                var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}";
+                var duration = $"{_p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}";
 
                 var percentage = item.Value.DurationMilliseconds.HasValue && totalDuration > 0
-                    ? $"{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%"
+                    ? $"{_p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%"
                     : "";
 
                 var outcome = item.Value.Outcome == TargetOutcome.Failed
-                    ? $"{p.Failed}Failed!"
+                    ? $"{_p.Failed}Failed!"
                     : item.Value.Outcome == TargetOutcome.NoInputs
-                        ? $"{p.Warning}No inputs!"
-                        : $"{p.Succeeded}Succeeded";
+                        ? $"{_p.Warning}No inputs!"
+                        : $"{_p.Succeeded}Succeeded";
 
-                var target = $"{p.Target}{item.Key}";
+                var target = $"{_p.Target}{item.Key}";
 
                 rows.Add(Tuple.Create(duration, percentage, outcome, target));
 
@@ -178,15 +178,15 @@ namespace Bullseye.Internal
 
                 foreach (var result in item.Value.InputResults.OrderBy(r => r.DurationMilliseconds))
                 {
-                    var inputDuration = $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}";
+                    var inputDuration = $"{_p.Tree}{(index < item.Value.InputResults.Count - 1 ? _p.TreeFork : _p.TreeCorner)}{_p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}";
 
                     var inputPercentage = totalDuration > 0
-                        ? $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%"
+                        ? $"{_p.Tree}{(index < item.Value.InputResults.Count - 1 ? _p.TreeFork : _p.TreeCorner)}{_p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%"
                         : "";
 
-                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!" : $"{p.Succeeded}Succeeded";
+                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{_p.Failed}Failed!" : $"{_p.Succeeded}Succeeded";
 
-                    var input = $"{ws}{ws}{p.Input}{result.Input.ToString()}";
+                    var input = $"{ws}{ws}{_p.Input}{result.Input.ToString()}";
 
                     rows.Add(Tuple.Create(inputDuration, inputPercentage, inputOutcome, input));
 
@@ -213,22 +213,22 @@ namespace Bullseye.Internal
             var tarW = rows.Max(row => Palette.StripColours(row.Item4).Length);
 
             // summary start separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}").Tax();
+            await _writer.WriteLineAsync($"{GetPrefix()}{_p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, _p.Dash)}").Tax();
 
             // header
-            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(durW, ws)}{ws}{ws}{rows[0].Item3.Prp(outW, ws)}{ws}{ws}{rows[0].Item4.Prp(tarW, ws)}").Tax();
+            await _writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(durW, ws)}{ws}{ws}{rows[0].Item3.Prp(outW, ws)}{ws}{ws}{rows[0].Item4.Prp(tarW, ws)}").Tax();
 
             // header separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW, p.Dash)}{ws}{ws}{"".Prp(outW, p.Dash)}{ws}{ws}{"".Prp(tarW, p.Dash)}").Tax();
+            await _writer.WriteLineAsync($"{GetPrefix()}{_p.Symbol}{"".Prp(durW, _p.Dash)}{ws}{ws}{"".Prp(outW, _p.Dash)}{ws}{ws}{"".Prp(tarW, _p.Dash)}").Tax();
 
             // targets
             foreach (var row in rows.Skip(1))
             {
-                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(timW, ws)}{ws}{ws}{row.Item2.Prp(perW, ws)}{ws}{ws}{row.Item3.Prp(outW, ws)}{ws}{ws}{row.Item4.Prp(tarW, ws)}").Tax();
+                await _writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(timW, ws)}{ws}{ws}{row.Item2.Prp(perW, ws)}{ws}{ws}{row.Item3.Prp(outW, ws)}{ws}{ws}{row.Item4.Prp(tarW, ws)}").Tax();
             }
 
             // summary end separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Default}").Tax();
+            await _writer.WriteLineAsync($"{GetPrefix()}{_p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, _p.Dash)}{_p.Default}").Tax();
         }
 
         private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs)
@@ -259,25 +259,25 @@ namespace Bullseye.Internal
                     {
                         var prefix = isRoot
                             ? ""
-                            : $"{previousPrefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
+                            : $"{previousPrefix.Replace(_p.TreeCorner, "  ").Replace(_p.TreeFork, _p.TreeDown)}{(item.index == names.Count - 1 ? _p.TreeCorner : _p.TreeFork)}";
 
                         var isMissing = !targets.Contains(item.name);
 
-                        value.Append($"{p.Tree}{prefix}{(isRoot ? p.Target : p.Dependency)}{item.name}{p.Default}");
+                        value.Append($"{_p.Tree}{prefix}{(isRoot ? _p.Target : _p.Dependency)}{item.name}{_p.Default}");
 
                         if (isMissing)
                         {
-                            value.AppendLine($" {p.Failed}(missing){p.Default}");
+                            value.AppendLine($" {_p.Failed}(missing){_p.Default}");
                             continue;
                         }
 
                         if (circularDependency)
                         {
-                            value.AppendLine($" {p.Failed}(circular dependency){p.Default}");
+                            value.AppendLine($" {_p.Failed}(circular dependency){_p.Default}");
                             continue;
                         }
 
-                        value.AppendLine(p.Default);
+                        value.AppendLine(_p.Default);
 
                         var target = targets[item.name];
 
@@ -285,9 +285,9 @@ namespace Bullseye.Internal
                         {
                             foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
                             {
-                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
+                                var inputPrefix = $"{prefix.Replace(_p.TreeCorner, "  ").Replace(_p.TreeFork, _p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? _p.TreeDown : "  ")}";
 
-                                value.AppendLine($"{p.Tree}{inputPrefix}{p.Input}{inputItem.input}{p.Default}");
+                                value.AppendLine($"{_p.Tree}{inputPrefix}{_p.Input}{inputItem.input}{_p.Default}");
                             }
                         }
 
@@ -301,42 +301,42 @@ namespace Bullseye.Internal
             }
         }
 
-        private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Default}";
+        private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{_p.Default}";
 
-        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Default}";
+        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{_p.Default}";
 
         private string Message(string color, string text, List<string> targets, double? elapsedMilliseconds) =>
-            $"{GetPrefix()}{color}{text}{p.Target} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}{p.Default}";
+            $"{GetPrefix()}{color}{text}{_p.Target} ({targets.Spaced()}){_p.Default}{GetSuffix(false, elapsedMilliseconds)}{_p.Default}";
 
         private string Message(string color, string text, string target) =>
-            $"{GetPrefix(target)}{color}{text}{p.Default}";
+            $"{GetPrefix(target)}{color}{text}{_p.Default}";
 
         private string Message(string color, string text, string target, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
+            $"{GetPrefix(target)}{color}{text}{_p.Default}{GetSuffix(true, elapsedMilliseconds)}{_p.Default}";
 
         private string MessageWithInput<TInput>(string color, string text, string target, TInput input) =>
-            $"{GetPrefix(target, input)}{color}{text}{p.Default}";
+            $"{GetPrefix(target, input)}{color}{text}{_p.Default}";
 
         private string MessageWithInput<TInput>(string color, string text, string target, TInput input, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target, input)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
+            $"{GetPrefix(target, input)}{color}{text}{_p.Default}{GetSuffix(true, elapsedMilliseconds)}{_p.Default}";
 
         private string GetPrefix() =>
-            $"{p.Label}Bullseye{p.Symbol}: {p.Default}";
+            $"{_p.Label}Bullseye{_p.Symbol}: {_p.Default}";
 
         private string GetPrefix(Stack<string> targets) =>
-            $"{p.Label}Bullseye{p.Symbol}/{p.Label}{string.Join($"{p.Symbol}/{p.Label}", targets.Reverse())}{p.Symbol}: {p.Default}";
+            $"{_p.Label}Bullseye{_p.Symbol}/{_p.Label}{string.Join($"{_p.Symbol}/{_p.Label}", targets.Reverse())}{_p.Symbol}: {_p.Default}";
 
         private string GetPrefix(string target) =>
-            $"{p.Label}Bullseye{p.Symbol}/{p.Label}{target}{p.Symbol}: {p.Default}";
+            $"{_p.Label}Bullseye{_p.Symbol}/{_p.Label}{target}{_p.Symbol}: {_p.Default}";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Label}Bullseye{p.Symbol}/{p.Label}{target}{p.Symbol}/{p.Input}{input}{p.Symbol}: {p.Default}";
+            $"{_p.Label}Bullseye{_p.Symbol}/{_p.Label}{target}{_p.Symbol}/{_p.Input}{input}{_p.Symbol}: {_p.Default}";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
-            (!specific && this.dryRun ? $"{p.Option} (dry run){p.Default}" : "") +
-                (!specific && this.parallel ? $"{p.Option} (parallel){p.Default}" : "") +
-                (!specific && this.skipDependencies ? $"{p.Option} (skip dependencies){p.Default}" : "") +
-                (!this.dryRun && elapsedMilliseconds.HasValue ? $"{p.Timing} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Default}" : "");
+            (!specific && _dryRun ? $"{_p.Option} (dry run){_p.Default}" : "") +
+                (!specific && _parallel ? $"{_p.Option} (parallel){_p.Default}" : "") +
+                (!specific && _skipDependencies ? $"{_p.Option} (skip dependencies){_p.Default}" : "") +
+                (!_dryRun && elapsedMilliseconds.HasValue ? $"{_p.Timing} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){_p.Default}" : "");
 
         private static string ToStringFromMilliseconds(double? milliseconds, bool @fixed) =>
             milliseconds.HasValue ? ToStringFromMilliseconds(milliseconds.Value, @fixed) : string.Empty;
@@ -352,74 +352,74 @@ namespace Bullseye.Internal
             // milliseconds
             if (milliseconds < 1_000D)
             {
-                return milliseconds.ToString(@fixed ? "F0" : "G3", provider) + " ms";
+                return milliseconds.ToString(@fixed ? "F0" : "G3", Provider) + " ms";
             }
 
             // seconds
             if (milliseconds < 60_000D)
             {
-                return (milliseconds / 1_000D).ToString(@fixed ? "F2" : "G3", provider) + " s";
+                return (milliseconds / 1_000D).ToString(@fixed ? "F2" : "G3", Provider) + " s";
             }
 
             // minutes and seconds
             if (milliseconds < 3_600_000D)
             {
-                var minutes = Math.Floor(milliseconds / 60_000D).ToString("F0", provider);
-                var seconds = ((milliseconds % 60_000D) / 1_000D).ToString("F0", provider);
+                var minutes = Math.Floor(milliseconds / 60_000D).ToString("F0", Provider);
+                var seconds = ((milliseconds % 60_000D) / 1_000D).ToString("F0", Provider);
                 return seconds == "0"
                     ? $"{minutes} m"
                     : $"{minutes} m {seconds} s";
             }
 
             // minutes
-            return (milliseconds / 60_000d).ToString("N0", provider) + " m";
+            return (milliseconds / 60_000d).ToString("N0", Provider) + " m";
         }
 
         private string GetUsage(TargetCollection targets) =>
-$@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target}[<targets>]
+$@"{_p.Label}Usage: {_p.CommandLine}<command-line> {_p.Option}[<options>] {_p.Target}[<targets>]
 
-{p.Label}command-line: {p.Text}The command line which invokes the build targets.
-  {p.Label}Examples:
-    {p.CommandLine}build.cmd
-    {p.CommandLine}build.sh
-    {p.CommandLine}dotnet run --project targets --
+{_p.Label}command-line: {_p.Text}The command line which invokes the build targets.
+  {_p.Label}Examples:
+    {_p.CommandLine}build.cmd
+    {_p.CommandLine}build.sh
+    {_p.CommandLine}dotnet run --project targets --
 
-{p.Label}options:
- {p.Option}-c, --clear                {p.Text}Clear the console before execution
- {p.Option}-n, --dry-run              {p.Text}Do a dry run without executing actions
- {p.Option}-d, --list-dependencies    {p.Text}List all (or specified) targets and dependencies, then exit
- {p.Option}-i, --list-inputs          {p.Text}List all (or specified) targets and inputs, then exit
- {p.Option}-l, --list-targets         {p.Text}List all (or specified) targets, then exit
- {p.Option}-t, --list-tree            {p.Text}List all (or specified) targets and dependency trees, then exit
- {p.Option}-N, --no-color             {p.Text}Disable colored output
- {p.Option}-p, --parallel             {p.Text}Run targets in parallel
- {p.Option}-s, --skip-dependencies    {p.Text}Do not run targets' dependencies
- {p.Option}-v, --verbose              {p.Text}Enable verbose output
- {p.Option}    --appveyor             {p.Text}Force Appveyor mode (normally auto-detected)
- {p.Option}    --azure-pipelines      {p.Text}Force Azure Pipelines mode (normally auto-detected)
- {p.Option}    --teamcity             {p.Text}Force TeamCity mode (normally auto-detected)
- {p.Option}    --travis               {p.Text}Force Travis CI mode (normally auto-detected)
- {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)
+{_p.Label}options:
+ {_p.Option}-c, --clear                {_p.Text}Clear the console before execution
+ {_p.Option}-n, --dry-run              {_p.Text}Do a dry run without executing actions
+ {_p.Option}-d, --list-dependencies    {_p.Text}List all (or specified) targets and dependencies, then exit
+ {_p.Option}-i, --list-inputs          {_p.Text}List all (or specified) targets and inputs, then exit
+ {_p.Option}-l, --list-targets         {_p.Text}List all (or specified) targets, then exit
+ {_p.Option}-t, --list-tree            {_p.Text}List all (or specified) targets and dependency trees, then exit
+ {_p.Option}-N, --no-color             {_p.Text}Disable colored output
+ {_p.Option}-p, --parallel             {_p.Text}Run targets in parallel
+ {_p.Option}-s, --skip-dependencies    {_p.Text}Do not run targets' dependencies
+ {_p.Option}-v, --verbose              {_p.Text}Enable verbose output
+ {_p.Option}    --appveyor             {_p.Text}Force Appveyor mode (normally auto-detected)
+ {_p.Option}    --azure-pipelines      {_p.Text}Force Azure Pipelines mode (normally auto-detected)
+ {_p.Option}    --teamcity             {_p.Text}Force TeamCity mode (normally auto-detected)
+ {_p.Option}    --travis               {_p.Text}Force Travis CI mode (normally auto-detected)
+ {_p.Option}-h, --help, -?             {_p.Text}Show this help, then exit (case insensitive)
 
-{p.Label}targets: {p.Text}A list of targets to run or list.
-  If not specified, the {p.Target}""default""{p.Text} target will be run, or all targets will be listed.
+{_p.Label}targets: {_p.Text}A list of targets to run or list.
+  If not specified, the {_p.Target}""default""{_p.Text} target will be run, or all targets will be listed.
 
-{p.Label}Remarks:
-  {p.Text}The {p.Option}--list-xxx {p.Text}options can be combined.
+{_p.Label}Remarks:
+  {_p.Text}The {_p.Option}--list-xxx {_p.Text}options can be combined.
 
-{p.Label}Examples:
-  {p.CommandLine}build.cmd
-  {p.CommandLine}build.cmd {p.Option}-D
-  {p.CommandLine}build.sh {p.Option}-t -I {p.Target}default
-  {p.CommandLine}build.sh {p.Target}test pack
-  {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}
+{_p.Label}Examples:
+  {_p.CommandLine}build.cmd
+  {_p.CommandLine}build.cmd {_p.Option}-D
+  {_p.CommandLine}build.sh {_p.Option}-t -I {_p.Target}default
+  {_p.CommandLine}build.sh {_p.Target}test pack
+  {_p.CommandLine}dotnet run --project targets -- {_p.Option}-n {_p.Target}build{_p.Default}
 
-{p.Label}Targets:
+{_p.Label}Targets:
 "
             + string.Join(
 @"
 ",
-                targets.Select(target => $"  {p.Target}{target.Name}{p.Default}"));
+                targets.Select(target => $"  {_p.Target}{target.Name}{_p.Default}"));
 
         private class TargetResult
         {

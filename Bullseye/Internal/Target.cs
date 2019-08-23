@@ -9,14 +9,14 @@ namespace Bullseye.Internal
     {
         public Target(string name, IEnumerable<string> dependencies)
         {
-            this.Name = name ?? throw new InvalidUsageException("Target name cannot be null.");
-            this.Dependencies = dependencies.Sanitize().ToList();
+            Name = name ?? throw new InvalidUsageException("Target name cannot be null.");
+            Dependencies = dependencies.Sanitize().ToList();
         }
 
         public string Name { get; }
 
         public List<string> Dependencies { get; }
 
-        public virtual Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly) => log.Succeeded(this.Name, null);
+        public virtual Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly) => log.Succeeded(Name, null);
     }
 }

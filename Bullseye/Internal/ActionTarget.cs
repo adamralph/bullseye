@@ -7,38 +7,38 @@ namespace Bullseye.Internal
 
     public class ActionTarget : Target
     {
-        private readonly Func<Task> action;
+        private readonly Func<Task> _action;
 
         public ActionTarget(string name, IEnumerable<string> dependencies, Func<Task> action)
-            : base(name, dependencies) => this.action = action;
+            : base(name, dependencies) => _action = action;
 
         public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
-            await log.Starting(this.Name).Tax();
+            await log.Starting(Name).Tax();
 
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun && this.action != default)
+            if (!dryRun && _action != default)
             {
                 try
                 {
-                    await this.action().Tax();
+                    await _action().Tax();
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
                 {
                     if (!messageOnly(ex))
                     {
-                        await log.Error(this.Name, ex).Tax();
+                        await log.Error(Name, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
+                    await log.Failed(Name, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
                     throw new TargetFailedException(ex);
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
 
-            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
+            await log.Succeeded(Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
     }
 }

@@ -23,23 +23,23 @@ namespace Bullseye.Internal
             {
                 if (!skipDependencies)
                 {
-                    this.ValidateDependenciesAreAllDefined();
+                    ValidateDependenciesAreAllDefined();
                 }
 
-                this.ValidateTargetGraphIsCycleFree();
-                this.Validate(names);
+                ValidateTargetGraphIsCycleFree();
+                Validate(names);
 
                 var targetsRan = new ConcurrentDictionary<string, Task>();
                 if (parallel)
                 {
-                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, targetsRan, log, messageOnly, new Stack<string>()));
+                    var tasks = names.Select(name => RunAsync(name, names, skipDependencies, dryRun, true, targetsRan, log, messageOnly, new Stack<string>()));
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var name in names)
                     {
-                        await this.RunAsync(name, names, skipDependencies, dryRun, false, targetsRan, log, messageOnly, new Stack<string>()).Tax();
+                        await RunAsync(name, names, skipDependencies, dryRun, false, targetsRan, log, messageOnly, new Stack<string>()).Tax();
                     }
                 }
             }
@@ -56,7 +56,7 @@ namespace Bullseye.Internal
         {
             targets.Push(name);
 
-            if (!this.Contains(name))
+            if (!Contains(name))
             {
                 await log.Verbose(targets, $"Doesn't exist. Ignoring.").Tax();
                 return;
@@ -68,14 +68,14 @@ namespace Bullseye.Internal
 
             if (parallel)
             {
-                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, targetsRan, log, messageOnly, targets));
+                var tasks = target.Dependencies.Select(dependency => RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, targetsRan, log, messageOnly, targets));
                 await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, targetsRan, log, messageOnly, targets).Tax();
+                    await RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, targetsRan, log, messageOnly, targets).Tax();
                 }
             }
 
@@ -95,7 +95,7 @@ namespace Bullseye.Internal
             foreach (var target in this)
             {
                 foreach (var dependency in target.Dependencies
-                    .Where(dependency => !this.Contains(dependency)))
+                    .Where(dependency => !Contains(dependency)))
                 {
                     (unknownDependencies.TryGetValue(dependency, out var set)
                             ? set
@@ -121,7 +121,7 @@ namespace Bullseye.Internal
             var dependencyChain = new Stack<string>();
             foreach (var target in this)
             {
-                this.WalkDependencies(target, dependencyChain);
+                WalkDependencies(target, dependencyChain);
             }
         }
 
@@ -135,9 +135,9 @@ namespace Bullseye.Internal
 
             dependencyChain.Push(target.Name);
 
-            foreach (var dependency in target.Dependencies.Where(this.Contains))
+            foreach (var dependency in target.Dependencies.Where(Contains))
             {
-                this.WalkDependencies(this[dependency], dependencyChain);
+                WalkDependencies(this[dependency], dependencyChain);
             }
 
             dependencyChain.Pop();
@@ -145,7 +145,7 @@ namespace Bullseye.Internal
 
         private void Validate(List<string> names)
         {
-            var unknownNames = new SortedSet<string>(names.Where(name => !this.Contains(name)));
+            var unknownNames = new SortedSet<string>(names.Where(name => !Contains(name)));
             if (unknownNames.Count > 0)
             {
                 var message = $"Target{(unknownNames.Count > 1 ? "s" : "")} not found: {unknownNames.Spaced()}.";
