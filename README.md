@@ -1,3 +1,4 @@
+foo
 <img src="assets/bullseye.png" width="100px" />
 
 # Bullseye
