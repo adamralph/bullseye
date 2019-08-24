@@ -3,6 +3,7 @@
   <PropertyGroup>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <Description>For describing and running targets and their dependencies.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
     <PackageIconUrl>https://raw.githubusercontent.com/adamralph/bullseye/master/assets/bullseye.png</PackageIconUrl>

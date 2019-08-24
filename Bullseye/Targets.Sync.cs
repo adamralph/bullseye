@@ -6,6 +6,12 @@ namespace Bullseye
 
     public static partial class Targets
     {
+        /// <summary>
+        /// Defines a target which depends on other targets and performs an action.
+        /// </summary>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        /// <param name="action">The action performed by the target.</param>
         public static void Target(string name, IEnumerable<string> dependsOn, Action action) =>
             Target(
                 name,
@@ -14,6 +20,14 @@ namespace Bullseye
                     ? default(Func<Task>)
                     : () => Task.Run(action.Invoke));
 
+        /// <summary>
+        /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
+        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
             Target(
                 name,
