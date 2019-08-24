@@ -16,19 +16,19 @@ namespace Bullseye.Internal
         private static async Task RunAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
         {
             var (names, options) = args.Parse();
-            var log = await ConsoleExtensions.Initialize(options).Tax();
+            (var output, var log) = await ConsoleExtensions.Initialize(options).Tax();
 
-            await RunAsync(targets, names, options, log, messageOnly, args).Tax();
+            await RunAsync(targets, names, options, output, log, messageOnly, args).Tax();
         }
 
         private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
         {
             var (names, options) = args.Parse();
-            var log = await ConsoleExtensions.Initialize(options).Tax();
+            (var output, var log) = await ConsoleExtensions.Initialize(options).Tax();
 
             try
             {
-                await RunAsync(targets, names, options, log, messageOnly, args).Tax();
+                await RunAsync(targets, names, options, output, log, messageOnly, args).Tax();
             }
             catch (InvalidUsageException ex)
             {
@@ -43,7 +43,7 @@ namespace Bullseye.Internal
             Environment.Exit(0);
         }
 
-        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Logger log, Func<Exception, bool> messageOnly, List<string> args)
+        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Output output, Logger log, Func<Exception, bool> messageOnly, List<string> args)
         {
             if (options.UnknownOptions.Count > 0)
             {
@@ -54,7 +54,7 @@ namespace Bullseye.Internal
 
             if (options.ShowHelp)
             {
-                await log.Usage(targets).Tax();
+                await output.Usage(targets).Tax();
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace Bullseye.Internal
                 var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
                 var maxDepth = options.ListTree ? int.MaxValue : options.ListDependencies ? 1 : 0;
                 var maxDepthToShowInputs = options.ListTree ? int.MaxValue : 0;
-                await log.Targets(targets, rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs).Tax();
+                await output.Targets(targets, rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs).Tax();
                 return;
             }
 

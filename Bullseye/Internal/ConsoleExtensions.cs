@@ -6,7 +6,7 @@ namespace Bullseye.Internal
 
     public static class ConsoleExtensions
     {
-        public static async Task<Logger> Initialize(Options options)
+        public static async Task<(Output, Logger)> Initialize(Options options)
         {
             if (options.Clear)
             {
@@ -18,7 +18,7 @@ namespace Bullseye.Internal
                 catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    await Console.Out.WriteLineAsync($"Bullseye: Failed to clear the console: {ex}").Tax();
+                    await Console.Error.WriteLineAsync($"Bullseye: Failed to clear the console: {ex}").Tax();
                 }
             }
 
@@ -39,7 +39,7 @@ namespace Bullseye.Internal
 
             if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
             {
-                await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Out : NullTextWriter.Instance).Tax();
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Error : NullTextWriter.Instance).Tax();
             }
 
             var isHostDetected = false;
@@ -66,13 +66,14 @@ namespace Bullseye.Internal
             }
 
             var palette = new Palette(options.NoColor, options.Host, operatingSystem);
-            var log = new Logger(Console.Out, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
+            var output = new Output(Console.Out, palette);
+            var log = new Logger(Console.Error, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
             await log.Version().Tax();
             await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
             await log.Verbose($"OS: {operatingSystem}").Tax();
 
-            return log;
+            return (output, log);
         }
     }
 }
