@@ -17,15 +17,17 @@ namespace Bullseye.Internal
 
         private readonly ConcurrentDictionary<string, TargetResult> results = new ConcurrentDictionary<string, TargetResult>();
         private readonly TextWriter writer;
+        private readonly string prefix;
         private readonly bool skipDependencies;
         private readonly bool dryRun;
         private readonly bool parallel;
         private readonly Palette p;
         private readonly bool verbose;
 
-        public Logger(TextWriter writer, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
+        public Logger(TextWriter writer, string prefix, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
         {
             this.writer = writer;
+            this.prefix = prefix;
             this.skipDependencies = skipDependencies;
             this.dryRun = dryRun;
             this.parallel = parallel;
@@ -245,16 +247,16 @@ namespace Bullseye.Internal
             $"{GetPrefix(target, input)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
 
         private string GetPrefix() =>
-            $"{p.Label}Bullseye{p.Symbol}: {p.Default}";
+            $"{p.Label}{prefix}{p.Symbol}: {p.Default}";
 
         private string GetPrefix(Stack<string> targets) =>
-            $"{p.Label}Bullseye{p.Symbol}/{p.Label}{string.Join($"{p.Symbol}/{p.Label}", targets.Reverse())}{p.Symbol}: {p.Default}";
+            $"{p.Label}{prefix}{p.Symbol}/{p.Label}{string.Join($"{p.Symbol}/{p.Label}", targets.Reverse())}{p.Symbol}: {p.Default}";
 
         private string GetPrefix(string target) =>
-            $"{p.Label}Bullseye{p.Symbol}/{p.Label}{target}{p.Symbol}: {p.Default}";
+            $"{p.Label}{prefix}{p.Symbol}/{p.Label}{target}{p.Symbol}: {p.Default}";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Label}Bullseye{p.Symbol}/{p.Label}{target}{p.Symbol}/{p.Input}{input}{p.Symbol}: {p.Default}";
+            $"{p.Label}{prefix}{p.Symbol}/{p.Label}{target}{p.Symbol}/{p.Input}{input}{p.Symbol}: {p.Default}";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
             (!specific && this.dryRun ? $"{p.Option} (dry run){p.Default}" : "") +

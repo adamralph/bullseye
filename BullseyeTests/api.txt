@@ -5,10 +5,10 @@ namespace Bullseye
     {
         public static string[] DependsOn(params string[] dependencies) { }
         public static TInput[] ForEach<TInput>(params TInput[] inputs) { }
-        public static void RunTargetsAndExit(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null) { }
-        public static System.Threading.Tasks.Task RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null) { }
-        public static void RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null) { }
-        public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null) { }
+        public static void RunTargetsAndExit(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
+        public static System.Threading.Tasks.Task RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
+        public static void RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
+        public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
         public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
