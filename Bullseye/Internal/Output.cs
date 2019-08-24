@@ -140,4 +140,3 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
                 targets.Select(target => $"  {p.Target}{target.Name}{p.Default}"));
     }
 }
-#pragma warning restore IDE0009 // Member access should be qualified.

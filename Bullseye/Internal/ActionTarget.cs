@@ -26,6 +26,7 @@ namespace Bullseye.Internal
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     if (!messageOnly(ex))
                     {
@@ -35,7 +36,6 @@ namespace Bullseye.Internal
                     await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
                     throw new TargetFailedException(ex);
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();

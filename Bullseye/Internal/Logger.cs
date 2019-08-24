@@ -333,4 +333,3 @@ namespace Bullseye.Internal
         }
     }
 }
-#pragma warning restore IDE0009 // Member access should be qualified.
