@@ -23,7 +23,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, default));
+                .x(() => targets.RunAsync(new List<string> { "third" }, default, default));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(3, ran.Count));
@@ -51,7 +51,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, default));
+                .x(() => targets.RunAsync(new List<string> { "third" }, default, default));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(3, ran.Count));
@@ -76,7 +76,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first", "first" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target"
-                .x(() => targets.RunAsync(new List<string> { "second" }, default));
+                .x(() => targets.RunAsync(new List<string> { "second" }, default, default));
 
             "Then both targets are run once"
                 .x(() => Assert.Equal(2, ran.Count));
@@ -95,7 +95,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "first" })));
 
             "When I run the target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, default)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -114,7 +114,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first" })));
 
             "When I run the second target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, default)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -136,7 +136,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "second" })));
 
             "When I run the third target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -158,7 +158,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
 
             "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, default));
+                .x(() => targets.RunAsync(new List<string> { "third" }, default, default));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(3, ran.Count));
@@ -186,7 +186,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("third", new[] { "second", "also-non-existing" }, () => anyRan = true)));
 
             "When I run the third target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -211,7 +211,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second target, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "second", "-s" }, default));
+                .x(() => targets.RunAsync(new List<string> { "second", "-s" }, default, default));
 
             "Then the second target is run"
                 .x(() => Assert.Contains("second", ran));
@@ -230,7 +230,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
 
             "When I run the second and first targets, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, default));
+                .x(() => targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, default, default));
 
             "Then all targets are run"
                 .x(() => Assert.Equal(2, ran.Count));
@@ -265,7 +265,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("test2", new[] { "build" }, () => test2StartTime = Interlocked.Increment(ref clock))));
 
             "When I run all the targets with parallelism, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, default));
+                .x(() => targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, default, default));
 
             "Then the first target is run first"
                 .x(() => Assert.Equal(1, buildStartTime));

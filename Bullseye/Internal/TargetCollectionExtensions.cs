@@ -7,24 +7,24 @@ namespace Bullseye.Internal
 
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
-            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false));
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix) =>
+            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false), logPrefix);
 
-        public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
-            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false));
+        public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix) =>
+            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false), logPrefix);
 
-        private static async Task RunAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
+        private static async Task RunAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly, string logPrefix)
         {
             var (names, options) = args.Parse();
-            (var output, var log) = await ConsoleExtensions.Initialize(options).Tax();
+            (var output, var log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
 
             await RunAsync(targets, names, options, output, log, messageOnly, args).Tax();
         }
 
-        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly)
+        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly, string logPrefix)
         {
             var (names, options) = args.Parse();
-            (var output, var log) = await ConsoleExtensions.Initialize(options).Tax();
+            (var output, var log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
 
             try
             {

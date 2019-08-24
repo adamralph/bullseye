@@ -19,7 +19,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget(nameof(other), () => other = true)));
 
             "When I run without specifying any target names"
-                .x(() => targets.RunAsync(new List<string>(), default));
+                .x(() => targets.RunAsync(new List<string>(), default, default));
 
             "Then the default target is run"
                 .x(() => Assert.True(@default));
@@ -40,7 +40,7 @@ namespace BullseyeTests
                 });
 
             "When I run the first two targets"
-                .x(() => targets.RunAsync(new List<string> { nameof(first), nameof(second) }, default));
+                .x(() => targets.RunAsync(new List<string> { nameof(first), nameof(second) }, default, default));
 
             "Then the first target is run"
                 .x(() => Assert.True(first));
@@ -59,7 +59,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget(nameof(existing), () => existing = true)));
 
             "When I run that target and a non-existent target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, default)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -80,7 +80,7 @@ namespace BullseyeTests
 
             "When I run that target and two non-existent targets"
                 .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(
-                    new List<string> { nameof(existing), "non-existing", "also-non-existing" }, default)));
+                    new List<string> { nameof(existing), "non-existing", "also-non-existing" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -102,7 +102,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
 
             "When I run the target specifying a dry run"
-                .x(() => targets.RunAsync(new List<string> { "target", "-n" }, default));
+                .x(() => targets.RunAsync(new List<string> { "target", "-n" }, default, default));
 
             "Then the target is not run"
                 .x(() => Assert.False(ran));
@@ -115,7 +115,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
 
             "When I run the target specifying an unknown option"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, default)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));
@@ -137,7 +137,7 @@ namespace BullseyeTests
                 .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
 
             "When I run the target specifying unknown options"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, default)));
+                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, default, default)));
 
             "Then the operation fails"
                 .x(() => Assert.NotNull(exception));

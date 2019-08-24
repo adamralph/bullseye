@@ -1,13 +1,28 @@
 namespace Bullseye.Internal
 {
     using System;
+    using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     public static class ConsoleExtensions
     {
-        public static async Task<(Output, Logger)> Initialize(Options options)
+        public static async Task<(Output, Logger)> Initialize(Options options, string logPrefix)
         {
+            if (logPrefix == null)
+            {
+                logPrefix = "Bullseye";
+                var entryAssembly = Assembly.GetEntryAssembly();
+                if (entryAssembly == null)
+                {
+                    await Console.Error.WriteLineAsync($"{logPrefix}: Failed to get the entry assembly. Using default log prefix \"{logPrefix}\".").Tax();
+                }
+                else
+                {
+                    logPrefix = entryAssembly.GetName().Name;
+                }
+            }
+
             if (options.Clear)
             {
                 try
@@ -18,7 +33,7 @@ namespace Bullseye.Internal
                 catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    await Console.Error.WriteLineAsync($"Bullseye: Failed to clear the console: {ex}").Tax();
+                    await Console.Error.WriteLineAsync($"{logPrefix}: Failed to clear the console: {ex}").Tax();
                 }
             }
 
@@ -39,7 +54,7 @@ namespace Bullseye.Internal
 
             if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
             {
-                await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Error : NullTextWriter.Instance).Tax();
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
             }
 
             var isHostDetected = false;
@@ -67,7 +82,7 @@ namespace Bullseye.Internal
 
             var palette = new Palette(options.NoColor, options.Host, operatingSystem);
             var output = new Output(Console.Out, palette);
-            var log = new Logger(Console.Error, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
+            var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
             await log.Version().Tax();
             await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();

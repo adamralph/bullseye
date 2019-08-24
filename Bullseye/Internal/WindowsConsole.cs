@@ -5,15 +5,15 @@ namespace Bullseye.Internal
 
     public static class WindowsConsole
     {
-        public static async Task TryEnableVirtualTerminalProcessing(TextWriter log)
+        public static async Task TryEnableVirtualTerminalProcessing(TextWriter log, string logPrefix)
         {
-            (var handle, var gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(log).Tax();
+            (var handle, var gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(log, logPrefix).Tax();
             if (!gotHandle)
             {
                 return;
             }
 
-            (var mode, var gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, log).Tax();
+            (var mode, var gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, log, logPrefix).Tax();
             if (!gotMode)
             {
                 return;
@@ -21,7 +21,7 @@ namespace Bullseye.Internal
 
             mode |= NativeMethods.ConsoleOutputModes.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
-            await NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, mode, log).Tax();
+            await NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, mode, log, logPrefix).Tax();
         }
     }
 }
