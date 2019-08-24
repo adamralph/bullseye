@@ -33,18 +33,8 @@ namespace Bullseye
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
+        public static Task RunTargetsWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null) =>
             targets.RunAsync(args, messageOnly);
-
-        /// <summary>
-        /// Runs the previously specified targets.
-        /// In most cases, <see cref="RunTargetsAndExitAsync(IEnumerable{string})"/> should be used instead of this method.
-        /// This method should only be used if continued code execution after running targets is specifically required.
-        /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsWithoutExitingAsync(IEnumerable<string> args) =>
-            RunTargetsWithoutExitingAsync(args, default);
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -56,16 +46,7 @@ namespace Bullseye
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly) =>
+        public static Task RunTargetsAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null) =>
             targets.RunAndExitAsync(args, messageOnly);
-
-        /// <summary>
-        /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
-        /// Any code which follows a call to this method will not be executed.
-        /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsAndExitAsync(IEnumerable<string> args) =>
-            RunTargetsAndExitAsync(args, default);
     }
 }
