@@ -251,13 +251,13 @@ namespace Bullseye.Internal
             $"{p.Label}{prefix}{p.Symbol}: {p.Default}";
 
         private string GetPrefix(Stack<string> targets) =>
-            $"{p.Label}{prefix}{p.Symbol}/{p.Label}{string.Join($"{p.Symbol}/{p.Label}", targets.Reverse())}{p.Symbol}: {p.Default}";
+            $"{p.Label}{prefix}{p.Symbol}: {p.Target}{string.Join($"{p.Symbol}/{p.Target}", targets.Reverse())}{p.Symbol}: {p.Default}";
 
         private string GetPrefix(string target) =>
-            $"{p.Label}{prefix}{p.Symbol}/{p.Label}{target}{p.Symbol}: {p.Default}";
+            $"{p.Label}{prefix}{p.Symbol}: {p.Target}{target}{p.Symbol}: {p.Default}";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Label}{prefix}{p.Symbol}/{p.Label}{target}{p.Symbol}/{p.Input}{input}{p.Symbol}: {p.Default}";
+            $"{p.Label}{prefix}{p.Symbol}: {p.Target}{target}{p.Symbol}({p.Input}{input}{p.Symbol}): {p.Default}";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
             (!specific && this.dryRun ? $"{p.Option} (dry run){p.Default}" : "") +
