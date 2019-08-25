@@ -56,7 +56,7 @@ namespace Bullseye.Internal
 
                         var isMissing = !targets.Contains(item.name);
 
-                        value.Append($"{p.Tree}{prefix}{(isRoot ? p.Target : p.Dependency)}{item.name}{p.Default}");
+                        value.Append($"{p.Tree}{prefix}{p.Target}{item.name}{p.Default}");
 
                         if (isMissing)
                         {

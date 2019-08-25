@@ -47,7 +47,6 @@ namespace Bullseye.Internal
 
             this.CommandLine = brightYellow;
             this.Default = @default;
-            this.Dependency = white;
             this.Failed = brightRed;
             this.Input = brightCyan;
             this.Label = cyan;
@@ -70,7 +69,6 @@ namespace Bullseye.Internal
             if (host == Host.Appveyor &&
                 (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
             {
-                this.Dependency = brightBlack;
                 this.Label = brightBlue;
                 this.Starting = brightBlack;
                 this.Symbol = brightBlack;
@@ -93,7 +91,6 @@ namespace Bullseye.Internal
             if (host == Host.Travis || host == Host.AzurePipelines)
             {
                 this.CommandLine = yellow;
-                this.Dependency = brightBlack;
                 this.Failed = red;
                 this.Input = cyan;
                 this.Label = blue;
@@ -107,7 +104,6 @@ namespace Bullseye.Internal
 
             if (host == Host.TeamCity)
             {
-                this.Dependency = brightBlack;
                 this.Label = brightBlue;
                 this.Starting = brightBlack;
                 this.Symbol = brightBlack;
@@ -125,8 +121,6 @@ namespace Bullseye.Internal
         public string CommandLine { get; }
 
         public string Default { get; }
-
-        public string Dependency { get; }
 
         public string Failed { get; }
 
