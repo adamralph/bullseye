@@ -45,7 +45,7 @@ namespace Bullseye.Internal
                     .FirstOrDefault()
                     ?.InformationalVersion ?? "Unknown";
 
-                await this.writer.WriteLineAsync(Message(p.Verbose, $"Version: {version}")).Tax();
+                await this.writer.WriteLineAsync(Message(p.Verbose, $"Bullseye version: {version}")).Tax();
             }
         }
 
