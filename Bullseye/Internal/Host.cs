@@ -6,6 +6,7 @@ namespace Bullseye.Internal
         Unknown,
         Appveyor,
         AzurePipelines,
+        GitHubActions,
         Travis,
         TeamCity,
     }

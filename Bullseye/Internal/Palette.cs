@@ -113,6 +113,13 @@ namespace Bullseye.Internal
                 this.Symbol = brightBlack;
                 this.Text = brightBlack;
             }
+
+            if (host == Host.GitHubActions)
+            {
+                this.CommandLine = yellow;
+                this.Failed = red;
+                this.Label = blue;
+            }
         }
 
         public string CommandLine { get; }
