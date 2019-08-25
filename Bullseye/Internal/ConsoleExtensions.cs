@@ -71,6 +71,10 @@ namespace Bullseye.Internal
                 {
                     options.Host = Host.AzurePipelines;
                 }
+                else if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS")?.ToUpperInvariant() == "TRUE")
+                {
+                    options.Host = Host.GitHubActions;
+                }
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
                 {
                     options.Host = Host.Travis;

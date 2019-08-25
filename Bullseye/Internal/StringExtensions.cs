@@ -66,6 +66,9 @@ namespace Bullseye.Internal
                     case "--azure-pipelines":
                         options.Host = Host.AzurePipelines;
                         break;
+                    case "--github-actions":
+                        options.Host = Host.GitHubActions;
+                        break;
                     case "--travis":
                         options.Host = Host.Travis;
                         break;
