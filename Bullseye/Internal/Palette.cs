@@ -7,7 +7,7 @@ namespace Bullseye.Internal
     {
         public Palette(bool noColor, Host host, OperatingSystem operatingSystem)
         {
-            var @default = noColor ? "" : "\x1b[0m";
+            var reset = noColor ? "" : "\x1b[0m";
 
             var black = noColor ? "" : "\x1b[30m";
             var red = noColor ? "" : "\x1b[31m";
@@ -46,29 +46,28 @@ namespace Bullseye.Internal
             brightWhite = Console.BackgroundColor == ConsoleColor.White ? white : brightWhite;
 
             this.CommandLine = brightYellow;
-            this.Default = @default;
+            this.Default = white;
             this.Failed = brightRed;
             this.Input = brightCyan;
             this.Option = brightMagenta;
             this.Prefix = brightBlack;
+            this.Reset = reset;
             this.Succeeded = green;
             this.Target = cyan;
-            this.Tree = green;
-            this.Text = white;
             this.Timing = magenta;
             this.Verbose = brightBlack;
             this.Warning = brightYellow;
 
-            this.TreeCorner = "└─";
-            this.TreeFork = "├─";
-            this.TreeDown = "│ ";
+            this.TreeCorner = $"{green}└─{reset}";
+            this.TreeFork = $"{green}├─{reset}";
+            this.TreeDown = $"{green}│{reset} ";
             this.Dash = '─';
 
             if (host == Host.Appveyor &&
                 (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
             {
+                this.Default = brightBlack;
                 this.Target = blue;
-                this.Text = brightBlack;
 
                 if (operatingSystem == OperatingSystem.Windows)
                 {
@@ -87,18 +86,18 @@ namespace Bullseye.Internal
             if (host == Host.Travis || host == Host.AzurePipelines)
             {
                 this.CommandLine = yellow;
+                this.Default = brightBlack;
                 this.Failed = red;
                 this.Input = cyan;
                 this.Option = magenta;
                 this.Target = blue;
-                this.Text = brightBlack;
                 this.Warning = yellow;
             }
 
             if (host == Host.TeamCity)
             {
+                this.Default = brightBlack;
                 this.Target = brightBlue;
-                this.Text = brightBlack;
             }
 
             if (host == Host.GitHubActions)
@@ -121,7 +120,7 @@ namespace Bullseye.Internal
 
         public string CommandLine { get; }
 
-        public string Default { get; }
+        public string Reset { get; }
 
         public string Failed { get; }
 
@@ -135,9 +134,7 @@ namespace Bullseye.Internal
 
         public string Target { get; }
 
-        public string Text { get; }
-
-        public string Tree { get; }
+        public string Default { get; }
 
         public string Timing { get; }
 
