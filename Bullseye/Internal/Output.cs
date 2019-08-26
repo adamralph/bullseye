@@ -117,6 +117,7 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
  {p.Option}    --appveyor             {p.Text}Force Appveyor mode (normally auto-detected)
  {p.Option}    --azure-pipelines      {p.Text}Force Azure Pipelines mode (normally auto-detected)
  {p.Option}    --github-actions       {p.Text}Force GitHub Actions mode (normally auto-detected)
+ {p.Option}    --gitlab-ci            {p.Text}Force GitLab CI mode (normally auto-detected)
  {p.Option}    --teamcity             {p.Text}Force TeamCity mode (normally auto-detected)
  {p.Option}    --travis               {p.Text}Force Travis CI mode (normally auto-detected)
  {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)

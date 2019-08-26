@@ -49,12 +49,13 @@ namespace Bullseye.Internal
             this.Default = @default;
             this.Failed = brightRed;
             this.Input = brightCyan;
-            this.Label = cyan;
+            this.Label = white;
             this.Option = brightMagenta;
+            this.Prefix = brightBlack;
             this.Starting = white;
             this.Succeeded = green;
             this.Symbol = white;
-            this.Target = brightWhite;
+            this.Target = cyan;
             this.Tree = green;
             this.Text = white;
             this.Timing = magenta;
@@ -69,9 +70,9 @@ namespace Bullseye.Internal
             if (host == Host.Appveyor &&
                 (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
             {
-                this.Label = brightBlue;
                 this.Starting = brightBlack;
                 this.Symbol = brightBlack;
+                this.Target = blue;
                 this.Text = brightBlack;
 
                 if (operatingSystem == OperatingSystem.Windows)
@@ -93,20 +94,19 @@ namespace Bullseye.Internal
                 this.CommandLine = yellow;
                 this.Failed = red;
                 this.Input = cyan;
-                this.Label = blue;
                 this.Option = magenta;
                 this.Starting = brightBlack;
                 this.Symbol = brightBlack;
-                this.Target = white;
+                this.Target = blue;
                 this.Text = brightBlack;
                 this.Warning = yellow;
             }
 
             if (host == Host.TeamCity)
             {
-                this.Label = brightBlue;
                 this.Starting = brightBlack;
                 this.Symbol = brightBlack;
+                this.Target = brightBlue;
                 this.Text = brightBlack;
             }
 
@@ -114,7 +114,17 @@ namespace Bullseye.Internal
             {
                 this.CommandLine = yellow;
                 this.Failed = red;
-                this.Label = blue;
+                this.Target = blue;
+            }
+
+            if (host == Host.GitLabCI)
+            {
+                this.Target = blue;
+            }
+
+            if (host == Host.VisualStudioCode)
+            {
+                this.Target = blue;
             }
         }
 
@@ -129,6 +139,8 @@ namespace Bullseye.Internal
         public string Label { get; }
 
         public string Option { get; }
+
+        public string Prefix { get; }
 
         public string Starting { get; }
 

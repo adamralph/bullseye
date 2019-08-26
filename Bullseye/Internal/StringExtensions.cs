@@ -69,6 +69,9 @@ namespace Bullseye.Internal
                     case "--github-actions":
                         options.Host = Host.GitHubActions;
                         break;
+                    case "--gitlab-ci":
+                        options.Host = Host.GitLabCI;
+                        break;
                     case "--travis":
                         options.Host = Host.Travis;
                         break;
