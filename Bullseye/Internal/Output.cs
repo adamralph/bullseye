@@ -56,21 +56,21 @@ namespace Bullseye.Internal
 
                         var isMissing = !targets.Contains(item.name);
 
-                        value.Append($"{p.Tree}{prefix}{p.Target}{item.name}{p.Default}");
+                        value.Append($"{prefix}{p.Target}{item.name}");
 
                         if (isMissing)
                         {
-                            value.AppendLine($" {p.Failed}(missing){p.Default}");
+                            value.AppendLine($"{p.Reset} {p.Failed}(missing){p.Reset}");
                             continue;
                         }
 
                         if (circularDependency)
                         {
-                            value.AppendLine($" {p.Failed}(circular dependency){p.Default}");
+                            value.AppendLine($"{p.Reset} {p.Failed}(circular dependency){p.Reset}");
                             continue;
                         }
 
-                        value.AppendLine(p.Default);
+                        value.AppendLine(p.Reset);
 
                         var target = targets[item.name];
 
@@ -80,7 +80,7 @@ namespace Bullseye.Internal
                             {
                                 var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 
-                                value.AppendLine($"{p.Tree}{inputPrefix}{p.Input}{inputItem.input}{p.Default}");
+                                value.AppendLine($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}");
                             }
                         }
 
@@ -95,51 +95,51 @@ namespace Bullseye.Internal
         }
 
         private string GetUsage(TargetCollection targets) =>
-$@"{p.Text}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target}[<targets>]
+$@"{p.Default}Usage:{p.Reset} {p.CommandLine}<command-line>{p.Reset} {p.Option}[<options>]{p.Reset} {p.Target}[<targets>]{p.Reset}
 
-{p.Text}command-line: {p.Text}The command line which invokes the build targets.
-  {p.Text}Examples:
-    {p.CommandLine}build.cmd
-    {p.CommandLine}build.sh
-    {p.CommandLine}dotnet run --project targets --
+{p.Default}command-line: The command line which invokes the build targets.{p.Reset}
+  {p.Default}Examples:{p.Reset}
+    {p.CommandLine}build.cmd{p.Reset}
+    {p.CommandLine}build.sh{p.Reset}
+    {p.CommandLine}dotnet run --project targets --{p.Reset}
 
-{p.Text}options:
- {p.Option}-c, --clear                {p.Text}Clear the console before execution
- {p.Option}-n, --dry-run              {p.Text}Do a dry run without executing actions
- {p.Option}-d, --list-dependencies    {p.Text}List all (or specified) targets and dependencies, then exit
- {p.Option}-i, --list-inputs          {p.Text}List all (or specified) targets and inputs, then exit
- {p.Option}-l, --list-targets         {p.Text}List all (or specified) targets, then exit
- {p.Option}-t, --list-tree            {p.Text}List all (or specified) targets and dependency trees, then exit
- {p.Option}-N, --no-color             {p.Text}Disable colored output
- {p.Option}-p, --parallel             {p.Text}Run targets in parallel
- {p.Option}-s, --skip-dependencies    {p.Text}Do not run targets' dependencies
- {p.Option}-v, --verbose              {p.Text}Enable verbose output
- {p.Option}    --appveyor             {p.Text}Force Appveyor mode (normally auto-detected)
- {p.Option}    --azure-pipelines      {p.Text}Force Azure Pipelines mode (normally auto-detected)
- {p.Option}    --github-actions       {p.Text}Force GitHub Actions mode (normally auto-detected)
- {p.Option}    --gitlab-ci            {p.Text}Force GitLab CI mode (normally auto-detected)
- {p.Option}    --teamcity             {p.Text}Force TeamCity mode (normally auto-detected)
- {p.Option}    --travis               {p.Text}Force Travis CI mode (normally auto-detected)
- {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)
+{p.Default}options:{p.Reset}
+ {p.Option}-c{p.Default},{p.Reset} {p.Option}--clear{p.Reset}                {p.Default}Clear the console before execution{p.Reset}
+ {p.Option}-n{p.Default},{p.Reset} {p.Option}--dry-run{p.Reset}              {p.Default}Do a dry run without executing actions{p.Reset}
+ {p.Option}-d{p.Default},{p.Reset} {p.Option}--list-dependencies{p.Reset}    {p.Default}List all (or specified) targets and dependencies, then exit{p.Reset}
+ {p.Option}-i{p.Default},{p.Reset} {p.Option}--list-inputs{p.Reset}          {p.Default}List all (or specified) targets and inputs, then exit{p.Reset}
+ {p.Option}-l{p.Default},{p.Reset} {p.Option}--list-targets{p.Reset}         {p.Default}List all (or specified) targets, then exit{p.Reset}
+ {p.Option}-t{p.Default},{p.Reset} {p.Option}--list-tree{p.Reset}            {p.Default}List all (or specified) targets and dependency trees, then exit{p.Reset}
+ {p.Option}-N{p.Default},{p.Reset} {p.Option}--no-color{p.Reset}             {p.Default}Disable colored output{p.Reset}
+ {p.Option}-p{p.Default},{p.Reset} {p.Option}--parallel{p.Reset}             {p.Default}Run targets in parallel{p.Reset}
+ {p.Option}-s{p.Default},{p.Reset} {p.Option}--skip-dependencies{p.Reset}    {p.Default}Do not run targets' dependencies{p.Reset}
+ {p.Option}-v{p.Default},{p.Reset} {p.Option}--verbose{p.Reset}              {p.Default}Enable verbose output{p.Reset}
+     {p.Option}--appveyor{p.Reset}             {p.Default}Force Appveyor mode (normally auto-detected){p.Reset}
+     {p.Option}--azure-pipelines{p.Reset}      {p.Default}Force Azure Pipelines mode (normally auto-detected){p.Reset}
+     {p.Option}--github-actions{p.Reset}       {p.Default}Force GitHub Actions mode (normally auto-detected){p.Reset}
+     {p.Option}--gitlab-ci{p.Reset}            {p.Default}Force GitLab CI mode (normally auto-detected){p.Reset}
+     {p.Option}--teamcity{p.Reset}             {p.Default}Force TeamCity mode (normally auto-detected){p.Reset}
+     {p.Option}--travis{p.Reset}               {p.Default}Force Travis CI mode (normally auto-detected){p.Reset}
+ {p.Option}-h{p.Default},{p.Reset} {p.Option}--help{p.Default},{p.Reset} {p.Option}-?{p.Reset}             {p.Default}Show this help, then exit (case insensitive){p.Reset}
 
-{p.Text}targets: {p.Text}A list of targets to run or list.
-  If not specified, the {p.Target}""default""{p.Text} target will be run, or all targets will be listed.
+{p.Default}targets: A list of targets to run or list.{p.Reset}
+  {p.Default}If not specified, the ""{p.Target}default{p.Default}"" target will be run, or all targets will be listed.{p.Reset}
 
-{p.Text}Remarks:
-  {p.Text}The {p.Option}--list-xxx {p.Text}options can be combined.
+{p.Default}Remarks:{p.Reset}
+  {p.Default}The {p.Option}--list-xxx{p.Default} options can be combined.{p.Reset}
 
-{p.Text}Examples:
-  {p.CommandLine}build.cmd
-  {p.CommandLine}build.cmd {p.Option}-D
-  {p.CommandLine}build.sh {p.Option}-t -I {p.Target}default
-  {p.CommandLine}build.sh {p.Target}test pack
-  {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}
+{p.Default}Examples:{p.Reset}
+  {p.CommandLine}build.cmd{p.Reset}
+  {p.CommandLine}build.cmd{p.Reset} {p.Option}-D{p.Reset}
+  {p.CommandLine}build.sh{p.Reset} {p.Option}-t{p.Reset} {p.Option}-I{p.Reset} {p.Target}default{p.Reset}
+  {p.CommandLine}build.sh{p.Reset} {p.Target}test{p.Reset} {p.Target}pack{p.Reset}
+  {p.CommandLine}dotnet run --project targets --{p.Reset} {p.Option}-n{p.Reset} {p.Target}build{p.Reset}
 
-{p.Text}Targets:
+{p.Default}Targets:{p.Reset}
 "
             + string.Join(
 @"
 ",
-                targets.Select(target => $"  {p.Target}{target.Name}{p.Default}"));
+                targets.Select(target => $"  {p.Target}{target.Name}{p.Reset}"));
     }
 }

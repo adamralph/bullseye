@@ -68,7 +68,7 @@ namespace Bullseye.Internal
         }
 
         public Task Running(List<string> targets) =>
-            this.writer.WriteLineAsync(Message(p.Text, $"Starting...", targets, null));
+            this.writer.WriteLineAsync(Message(p.Default, $"Starting...", targets, null));
 
         public async Task Failed(List<string> targets, double elapsedMilliseconds)
         {
@@ -83,7 +83,7 @@ namespace Bullseye.Internal
         }
 
         public Task Starting(string target) =>
-            this.writer.WriteLineAsync(Message(p.Text, "Starting...", target, null));
+            this.writer.WriteLineAsync(Message(p.Default, "Starting...", target, null));
 
         public Task Error(string target, Exception ex) =>
             this.writer.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
@@ -116,7 +116,7 @@ namespace Bullseye.Internal
         }
 
         public Task Starting<TInput>(string target, TInput input) =>
-            this.writer.WriteLineAsync(MessageWithInput(p.Text, "Starting...", target, input, null));
+            this.writer.WriteLineAsync(MessageWithInput(p.Default, "Starting...", target, input, null));
 
         public Task Error<TInput>(string target, TInput input, Exception ex) =>
             this.writer.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
@@ -151,23 +151,23 @@ namespace Bullseye.Internal
 
             var totalDuration = results.Sum(i => i.Value.DurationMilliseconds ?? 0 + i.Value.InputResults.Sum(i2 => i2.DurationMilliseconds));
 
-            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Text}Duration", "", $"{p.Text}Outcome", $"{p.Text}Target") };
+            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Default}Duration{p.Reset}", "", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Target{p.Reset}") };
 
             foreach (var item in results.OrderBy(i => i.Value.DurationMilliseconds))
             {
-                var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}";
+                var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}{p.Reset}";
 
                 var percentage = item.Value.DurationMilliseconds.HasValue && totalDuration > 0
-                    ? $"{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%"
+                    ? $"{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%{p.Reset}"
                     : "";
 
                 var outcome = item.Value.Outcome == TargetOutcome.Failed
-                    ? $"{p.Failed}Failed!"
+                    ? $"{p.Failed}Failed!{p.Reset}"
                     : item.Value.Outcome == TargetOutcome.NoInputs
-                        ? $"{p.Warning}No inputs!"
-                        : $"{p.Succeeded}Succeeded";
+                        ? $"{p.Warning}No inputs!{p.Reset}"
+                        : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                var target = $"{p.Target}{item.Key}";
+                var target = $"{p.Target}{item.Key}{p.Reset}";
 
                 rows.Add(Tuple.Create(duration, percentage, outcome, target));
 
@@ -175,15 +175,15 @@ namespace Bullseye.Internal
 
                 foreach (var result in item.Value.InputResults.OrderBy(r => r.DurationMilliseconds))
                 {
-                    var inputDuration = $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}";
+                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}{p.Reset}";
 
                     var inputPercentage = totalDuration > 0
-                        ? $"{p.Tree}{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%"
+                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%{p.Reset}"
                         : "";
 
-                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!" : $"{p.Succeeded}Succeeded";
+                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                    var input = $"{ws}{ws}{p.Input}{result.Input.ToString()}";
+                    var input = $"{ws}{ws}{p.Input}{result.Input.ToString()}{p.Reset}";
 
                     rows.Add(Tuple.Create(inputDuration, inputPercentage, inputOutcome, input));
 
@@ -210,60 +210,60 @@ namespace Bullseye.Internal
             var tarW = rows.Max(row => Palette.StripColours(row.Item4).Length);
 
             // summary start separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Text}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Reset}").Tax();
 
             // header
             await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(durW, ws)}{ws}{ws}{rows[0].Item3.Prp(outW, ws)}{ws}{ws}{rows[0].Item4.Prp(tarW, ws)}").Tax();
 
             // header separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Text}{"".Prp(durW, p.Dash)}{ws}{ws}{"".Prp(outW, p.Dash)}{ws}{ws}{"".Prp(tarW, p.Dash)}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(durW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(outW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(tarW, p.Dash)}{p.Reset}").Tax();
 
             // targets
             foreach (var row in rows.Skip(1))
             {
-                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(timW, ws)}{ws}{ws}{row.Item2.Prp(perW, ws)}{ws}{ws}{row.Item3.Prp(outW, ws)}{ws}{ws}{row.Item4.Prp(tarW, ws)}").Tax();
+                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(timW, ws)}{p.Reset}{ws}{ws}{row.Item2.Prp(perW, ws)}{p.Reset}{ws}{ws}{row.Item3.Prp(outW, ws)}{p.Reset}{ws}{ws}{row.Item4.Prp(tarW, ws)}{p.Reset}").Tax();
             }
 
             // summary end separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Text}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Default}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Reset}").Tax();
         }
 
-        private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Default}";
+        private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Reset}";
 
-        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Default}";
+        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Reset}";
 
         private string Message(string color, string text, List<string> targets, double? elapsedMilliseconds) =>
-            $"{GetPrefix()}{color}{text}{p.Target} ({targets.Spaced()}){p.Default}{GetSuffix(false, elapsedMilliseconds)}{p.Default}";
+            $"{GetPrefix()}{color}{text}{p.Reset} {p.Default}({p.Target}{targets.Spaced()}{p.Default}){p.Reset}{GetSuffix(false, elapsedMilliseconds)}{p.Reset}";
 
         private string Message(string color, string text, string target) =>
-            $"{GetPrefix(target)}{color}{text}{p.Default}";
+            $"{GetPrefix(target)}{color}{text}{p.Reset}";
 
         private string Message(string color, string text, string target, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
+            $"{GetPrefix(target)}{color}{text}{p.Reset}{GetSuffix(true, elapsedMilliseconds)}{p.Reset}";
 
         private string MessageWithInput<TInput>(string color, string text, string target, TInput input) =>
-            $"{GetPrefix(target, input)}{color}{text}{p.Default}";
+            $"{GetPrefix(target, input)}{color}{text}{p.Reset}";
 
         private string MessageWithInput<TInput>(string color, string text, string target, TInput input, double? elapsedMilliseconds) =>
-            $"{GetPrefix(target, input)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
+            $"{GetPrefix(target, input)}{color}{text}{p.Reset}{GetSuffix(true, elapsedMilliseconds)}{p.Reset}";
 
         private string GetPrefix() =>
-            $"{p.Prefix}{prefix}{p.Text}: {p.Default}";
+            $"{p.Prefix}{prefix}:{p.Reset} ";
 
         private string GetPrefix(Stack<string> targets) =>
-            $"{p.Prefix}{prefix}{p.Text}: {p.Target}{string.Join($"{p.Text}/{p.Target}", targets.Reverse())}{p.Text}: {p.Default}";
+            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{string.Join($"{p.Default}/{p.Target}", targets.Reverse())}{p.Default}:{p.Reset} ";
 
         private string GetPrefix(string target) =>
-            $"{p.Prefix}{prefix}{p.Text}: {p.Target}{target}{p.Text}: {p.Default}";
+            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}:{p.Reset} ";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Prefix}{prefix}{p.Text}: {p.Target}{target}{p.Text}({p.Input}{input}{p.Text}): {p.Default}";
+            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}({p.Input}{input}{p.Default}):{p.Reset} ";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
-            (!specific && this.dryRun ? $"{p.Option} (dry run){p.Default}" : "") +
-                (!specific && this.parallel ? $"{p.Option} (parallel){p.Default}" : "") +
-                (!specific && this.skipDependencies ? $"{p.Option} (skip dependencies){p.Default}" : "") +
-                (!this.dryRun && elapsedMilliseconds.HasValue ? $"{p.Timing} ({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Default}" : "");
+            (!specific && this.dryRun ? $" {p.Default}({p.Option}dry run{p.Default}){p.Reset}" : "") +
+                (!specific && this.parallel ? $" {p.Default}({p.Option}parallel{p.Default}){p.Reset}" : "") +
+                (!specific && this.skipDependencies ? $" {p.Default}({p.Option}skip dependencies{p.Default}){p.Reset}" : "") +
+                (!this.dryRun && elapsedMilliseconds.HasValue ? $" {p.Default}({p.Timing}{ToStringFromMilliseconds(elapsedMilliseconds.Value)}{p.Default}){p.Reset}" : "");
 
         private static string ToStringFromMilliseconds(double? milliseconds, bool @fixed) =>
             milliseconds.HasValue ? ToStringFromMilliseconds(milliseconds.Value, @fixed) : string.Empty;
