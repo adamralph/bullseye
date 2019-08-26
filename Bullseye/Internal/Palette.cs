@@ -98,6 +98,10 @@ namespace Bullseye.Internal
             {
                 this.Default = brightBlack;
                 this.Target = brightBlue;
+                this.TreeCorner = "  ";
+                this.TreeFork = "  ";
+                this.TreeDown = "  ";
+                this.Dash = '-';
             }
 
             if (host == Host.GitHubActions)
