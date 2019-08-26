@@ -49,12 +49,9 @@ namespace Bullseye.Internal
             this.Default = @default;
             this.Failed = brightRed;
             this.Input = brightCyan;
-            this.Label = white;
             this.Option = brightMagenta;
             this.Prefix = brightBlack;
-            this.Starting = white;
             this.Succeeded = green;
-            this.Symbol = white;
             this.Target = cyan;
             this.Tree = green;
             this.Text = white;
@@ -70,8 +67,6 @@ namespace Bullseye.Internal
             if (host == Host.Appveyor &&
                 (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
             {
-                this.Starting = brightBlack;
-                this.Symbol = brightBlack;
                 this.Target = blue;
                 this.Text = brightBlack;
 
@@ -95,8 +90,6 @@ namespace Bullseye.Internal
                 this.Failed = red;
                 this.Input = cyan;
                 this.Option = magenta;
-                this.Starting = brightBlack;
-                this.Symbol = brightBlack;
                 this.Target = blue;
                 this.Text = brightBlack;
                 this.Warning = yellow;
@@ -104,8 +97,6 @@ namespace Bullseye.Internal
 
             if (host == Host.TeamCity)
             {
-                this.Starting = brightBlack;
-                this.Symbol = brightBlack;
                 this.Target = brightBlue;
                 this.Text = brightBlack;
             }
@@ -136,17 +127,11 @@ namespace Bullseye.Internal
 
         public string Input { get; }
 
-        public string Label { get; }
-
         public string Option { get; }
 
         public string Prefix { get; }
 
-        public string Starting { get; }
-
         public string Succeeded { get; }
-
-        public string Symbol { get; }
 
         public string Target { get; }
 
