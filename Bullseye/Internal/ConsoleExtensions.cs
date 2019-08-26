@@ -75,6 +75,10 @@ namespace Bullseye.Internal
                 {
                     options.Host = Host.GitHubActions;
                 }
+                else if (Environment.GetEnvironmentVariable("GITLAB_CI")?.ToUpperInvariant() == "TRUE")
+                {
+                    options.Host = Host.GitLabCI;
+                }
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
                 {
                     options.Host = Host.Travis;
@@ -82,6 +86,10 @@ namespace Bullseye.Internal
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
                 {
                     options.Host = Host.TeamCity;
+                }
+                else if (Environment.GetEnvironmentVariable("TERM_PROGRAM")?.ToUpperInvariant() == "VSCODE")
+                {
+                    options.Host = Host.VisualStudioCode;
                 }
             }
 

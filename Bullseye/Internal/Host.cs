@@ -7,7 +7,9 @@ namespace Bullseye.Internal
         Appveyor,
         AzurePipelines,
         GitHubActions,
+        GitLabCI,
         Travis,
         TeamCity,
+        VisualStudioCode,
     }
 }
