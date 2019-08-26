@@ -68,7 +68,7 @@ namespace Bullseye.Internal
         }
 
         public Task Running(List<string> targets) =>
-            this.writer.WriteLineAsync(Message(p.Starting, $"Starting...", targets, null));
+            this.writer.WriteLineAsync(Message(p.Text, $"Starting...", targets, null));
 
         public async Task Failed(List<string> targets, double elapsedMilliseconds)
         {
@@ -83,7 +83,7 @@ namespace Bullseye.Internal
         }
 
         public Task Starting(string target) =>
-            this.writer.WriteLineAsync(Message(p.Starting, "Starting...", target, null));
+            this.writer.WriteLineAsync(Message(p.Text, "Starting...", target, null));
 
         public Task Error(string target, Exception ex) =>
             this.writer.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
@@ -116,7 +116,7 @@ namespace Bullseye.Internal
         }
 
         public Task Starting<TInput>(string target, TInput input) =>
-            this.writer.WriteLineAsync(MessageWithInput(p.Starting, "Starting...", target, input, null));
+            this.writer.WriteLineAsync(MessageWithInput(p.Text, "Starting...", target, input, null));
 
         public Task Error<TInput>(string target, TInput input, Exception ex) =>
             this.writer.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
@@ -151,7 +151,7 @@ namespace Bullseye.Internal
 
             var totalDuration = results.Sum(i => i.Value.DurationMilliseconds ?? 0 + i.Value.InputResults.Sum(i2 => i2.DurationMilliseconds));
 
-            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Label}Duration", "", $"{p.Label}Outcome", $"{p.Label}Target") };
+            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Text}Duration", "", $"{p.Text}Outcome", $"{p.Text}Target") };
 
             foreach (var item in results.OrderBy(i => i.Value.DurationMilliseconds))
             {
@@ -210,13 +210,13 @@ namespace Bullseye.Internal
             var tarW = rows.Max(row => Palette.StripColours(row.Item4).Length);
 
             // summary start separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Text}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}").Tax();
 
             // header
             await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(durW, ws)}{ws}{ws}{rows[0].Item3.Prp(outW, ws)}{ws}{ws}{rows[0].Item4.Prp(tarW, ws)}").Tax();
 
             // header separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW, p.Dash)}{ws}{ws}{"".Prp(outW, p.Dash)}{ws}{ws}{"".Prp(tarW, p.Dash)}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Text}{"".Prp(durW, p.Dash)}{ws}{ws}{"".Prp(outW, p.Dash)}{ws}{ws}{"".Prp(tarW, p.Dash)}").Tax();
 
             // targets
             foreach (var row in rows.Skip(1))
@@ -225,7 +225,7 @@ namespace Bullseye.Internal
             }
 
             // summary end separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Symbol}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Default}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Text}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Default}").Tax();
         }
 
         private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Default}";
@@ -248,16 +248,16 @@ namespace Bullseye.Internal
             $"{GetPrefix(target, input)}{color}{text}{p.Default}{GetSuffix(true, elapsedMilliseconds)}{p.Default}";
 
         private string GetPrefix() =>
-            $"{p.Prefix}{prefix}{p.Symbol}: {p.Default}";
+            $"{p.Prefix}{prefix}{p.Text}: {p.Default}";
 
         private string GetPrefix(Stack<string> targets) =>
-            $"{p.Prefix}{prefix}{p.Symbol}: {p.Target}{string.Join($"{p.Symbol}/{p.Target}", targets.Reverse())}{p.Symbol}: {p.Default}";
+            $"{p.Prefix}{prefix}{p.Text}: {p.Target}{string.Join($"{p.Text}/{p.Target}", targets.Reverse())}{p.Text}: {p.Default}";
 
         private string GetPrefix(string target) =>
-            $"{p.Prefix}{prefix}{p.Symbol}: {p.Target}{target}{p.Symbol}: {p.Default}";
+            $"{p.Prefix}{prefix}{p.Text}: {p.Target}{target}{p.Text}: {p.Default}";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Prefix}{prefix}{p.Symbol}: {p.Target}{target}{p.Symbol}({p.Input}{input}{p.Symbol}): {p.Default}";
+            $"{p.Prefix}{prefix}{p.Text}: {p.Target}{target}{p.Text}({p.Input}{input}{p.Text}): {p.Default}";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
             (!specific && this.dryRun ? $"{p.Option} (dry run){p.Default}" : "") +

@@ -95,15 +95,15 @@ namespace Bullseye.Internal
         }
 
         private string GetUsage(TargetCollection targets) =>
-$@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target}[<targets>]
+$@"{p.Text}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target}[<targets>]
 
-{p.Label}command-line: {p.Text}The command line which invokes the build targets.
-  {p.Label}Examples:
+{p.Text}command-line: {p.Text}The command line which invokes the build targets.
+  {p.Text}Examples:
     {p.CommandLine}build.cmd
     {p.CommandLine}build.sh
     {p.CommandLine}dotnet run --project targets --
 
-{p.Label}options:
+{p.Text}options:
  {p.Option}-c, --clear                {p.Text}Clear the console before execution
  {p.Option}-n, --dry-run              {p.Text}Do a dry run without executing actions
  {p.Option}-d, --list-dependencies    {p.Text}List all (or specified) targets and dependencies, then exit
@@ -122,20 +122,20 @@ $@"{p.Label}Usage: {p.CommandLine}<command-line> {p.Option}[<options>] {p.Target
  {p.Option}    --travis               {p.Text}Force Travis CI mode (normally auto-detected)
  {p.Option}-h, --help, -?             {p.Text}Show this help, then exit (case insensitive)
 
-{p.Label}targets: {p.Text}A list of targets to run or list.
+{p.Text}targets: {p.Text}A list of targets to run or list.
   If not specified, the {p.Target}""default""{p.Text} target will be run, or all targets will be listed.
 
-{p.Label}Remarks:
+{p.Text}Remarks:
   {p.Text}The {p.Option}--list-xxx {p.Text}options can be combined.
 
-{p.Label}Examples:
+{p.Text}Examples:
   {p.CommandLine}build.cmd
   {p.CommandLine}build.cmd {p.Option}-D
   {p.CommandLine}build.sh {p.Option}-t -I {p.Target}default
   {p.CommandLine}build.sh {p.Target}test pack
   {p.CommandLine}dotnet run --project targets -- {p.Option}-n {p.Target}build{p.Default}
 
-{p.Label}Targets:
+{p.Text}Targets:
 "
             + string.Join(
 @"
