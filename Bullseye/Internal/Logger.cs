@@ -257,7 +257,7 @@ namespace Bullseye.Internal
             $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}:{p.Reset} ";
 
         private string GetPrefix<TInput>(string target, TInput input) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}({p.Input}{input}{p.Default}):{p.Reset} ";
+            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}/{p.Input}{input}{p.Default}:{p.Reset} ";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
             (!specific && this.dryRun ? $" {p.Default}({p.Option}dry run{p.Default}){p.Reset}" : "") +
