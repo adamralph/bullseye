@@ -233,7 +233,7 @@ namespace Bullseye.Internal
         private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Reset}";
 
         private string Message(string color, string text, List<string> targets, double? elapsedMilliseconds) =>
-            $"{GetPrefix()}{color}{text}{p.Reset} {p.Default}({p.Target}{targets.Spaced()}{p.Default}){p.Reset}{GetSuffix(false, elapsedMilliseconds)}{p.Reset}";
+            $"{GetPrefix()}{color}{text}{p.Reset} {p.Target}({targets.Spaced()}){p.Reset}{GetSuffix(false, elapsedMilliseconds)}{p.Reset}";
 
         private string Message(string color, string text, string target) =>
             $"{GetPrefix(target)}{color}{text}{p.Reset}";
@@ -260,10 +260,10 @@ namespace Bullseye.Internal
             $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}/{p.Input}{input}{p.Default}:{p.Reset} ";
 
         private string GetSuffix(bool specific, double? elapsedMilliseconds) =>
-            (!specific && this.dryRun ? $" {p.Default}({p.Option}dry run{p.Default}){p.Reset}" : "") +
-                (!specific && this.parallel ? $" {p.Default}({p.Option}parallel{p.Default}){p.Reset}" : "") +
-                (!specific && this.skipDependencies ? $" {p.Default}({p.Option}skip dependencies{p.Default}){p.Reset}" : "") +
-                (!this.dryRun && elapsedMilliseconds.HasValue ? $" {p.Default}({p.Timing}{ToStringFromMilliseconds(elapsedMilliseconds.Value)}{p.Default}){p.Reset}" : "");
+            (!specific && this.dryRun ? $" {p.Option}(dry run){p.Reset}" : "") +
+                (!specific && this.parallel ? $" {p.Option}(parallel){p.Reset}" : "") +
+                (!specific && this.skipDependencies ? $" {p.Option}(skip dependencies){p.Reset}" : "") +
+                (!this.dryRun && elapsedMilliseconds.HasValue ? $" {p.Timing}({ToStringFromMilliseconds(elapsedMilliseconds.Value)}){p.Reset}" : "");
 
         private static string ToStringFromMilliseconds(double? milliseconds, bool @fixed) =>
             milliseconds.HasValue ? ToStringFromMilliseconds(milliseconds.Value, @fixed) : string.Empty;

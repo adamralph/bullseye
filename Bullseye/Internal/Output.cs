@@ -123,7 +123,7 @@ $@"{p.Default}Usage:{p.Reset} {p.CommandLine}<command-line>{p.Reset} {p.Option}[
  {p.Option}-h{p.Default},{p.Reset} {p.Option}--help{p.Default},{p.Reset} {p.Option}-?{p.Reset}             {p.Default}Show this help, then exit (case insensitive){p.Reset}
 
 {p.Default}targets: A list of targets to run or list.{p.Reset}
-  {p.Default}If not specified, the ""{p.Target}default{p.Default}"" target will be run, or all targets will be listed.{p.Reset}
+  {p.Default}If not specified, the {p.Target}""default""{p.Default} target will be run, or all targets will be listed.{p.Reset}
 
 {p.Default}Remarks:{p.Reset}
   {p.Default}The {p.Option}--list-xxx{p.Default} options can be combined.{p.Reset}
