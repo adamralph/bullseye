@@ -15,7 +15,7 @@ namespace Bullseye.Internal
 
         protected override string GetKeyForItem(Target item) => item.Name;
 
-        public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
+        public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, IBuildContext context)
         {
             await log.Running(names).Tax();
             var stopWatch = Stopwatch.StartNew();
@@ -33,14 +33,14 @@ namespace Bullseye.Internal
                 var targetsRan = new ConcurrentDictionary<string, Task>();
                 if (parallel)
                 {
-                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, targetsRan, log, messageOnly, new Stack<string>()));
+                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, targetsRan, log, messageOnly, new Stack<string>(), context));
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var name in names)
                     {
-                        await this.RunAsync(name, names, skipDependencies, dryRun, false, targetsRan, log, messageOnly, new Stack<string>()).Tax();
+                        await this.RunAsync(name, names, skipDependencies, dryRun, false, targetsRan, log, messageOnly, new Stack<string>(), context).Tax();
                     }
                 }
             }
@@ -53,7 +53,7 @@ namespace Bullseye.Internal
             await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
 
-        private async Task RunAsync(string name, List<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, ConcurrentDictionary<string, Task> targetsRan, Logger log, Func<Exception, bool> messageOnly, Stack<string> targets)
+        private async Task RunAsync(string name, List<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, ConcurrentDictionary<string, Task> targetsRan, Logger log, Func<Exception, bool> messageOnly, Stack<string> targets, IBuildContext context)
         {
             targets.Push(name);
 
@@ -69,21 +69,21 @@ namespace Bullseye.Internal
 
             if (parallel)
             {
-                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, targetsRan, log, messageOnly, targets));
+                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, targetsRan, log, messageOnly, targets, target.Context ?? context));
                 await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, targetsRan, log, messageOnly, targets).Tax();
+                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, targetsRan, log, messageOnly, targets, target.Context ?? context).Tax();
                 }
             }
 
             if (!skipDependencies || explicitTargets.Contains(name))
             {
                 await log.Verbose(targets, $"Awaiting...").Tax();
-                await targetsRan.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).Tax();
+                await targetsRan.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly, target.Context ?? context)).Tax();
             }
 
             targets.Pop();

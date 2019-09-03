@@ -9,21 +9,28 @@ namespace Bullseye.Internal
     public class ActionTarget : Target
     {
         private readonly Func<Task> action;
+        private readonly Func<IBuildContext, Task> actionWithContext;
 
         public ActionTarget(string name, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, dependencies) => this.action = action;
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
+        public ActionTarget(string name, IEnumerable<string> dependencies, Func<IBuildContext, Task> action, IBuildContext context)
+            : base(name, dependencies, context) => this.actionWithContext = action;
+
+        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, IBuildContext context)
         {
             await log.Starting(this.Name).Tax();
 
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun && this.action != default)
+            if (!dryRun && (this.action != default || this.actionWithContext != default))
             {
                 try
                 {
-                    await this.action().Tax();
+                    if (this.actionWithContext is null)
+                        await this.action().Tax();
+                    else
+                        await this.actionWithContext(this.Context ?? context).Tax();
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)

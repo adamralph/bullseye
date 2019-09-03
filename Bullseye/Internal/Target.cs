@@ -8,16 +8,20 @@ namespace Bullseye.Internal
 
     public class Target
     {
-        public Target(string name, IEnumerable<string> dependencies)
+        public Target(string name, IEnumerable<string> dependencies, IBuildContext context = default)
         {
             this.Name = name ?? throw new InvalidUsageException("Target name cannot be null.");
             this.Dependencies = dependencies.Sanitize().ToList();
+            this.Context = context;
         }
 
         public string Name { get; }
 
         public List<string> Dependencies { get; }
 
-        public virtual Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly) => log.Succeeded(this.Name, null);
+        public IBuildContext Context { get; }
+
+        public virtual Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, IBuildContext context) =>
+            log.Succeeded(this.Name, null);
     }
 }

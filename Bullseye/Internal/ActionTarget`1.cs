@@ -10,12 +10,20 @@ namespace Bullseye.Internal
     public class ActionTarget<TInput> : Target, IHaveInputs
     {
         private readonly Func<TInput, Task> action;
+        private readonly Func<TInput, IBuildContext, Task> actionWithContext;
         private readonly IEnumerable<TInput> inputs;
 
         public ActionTarget(string name, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
             : base(name, dependencies)
         {
             this.action = action;
+            this.inputs = inputs ?? Enumerable.Empty<TInput>();
+        }
+
+        public ActionTarget(string name, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, IBuildContext, Task> action, IBuildContext context)
+            : base(name, dependencies, context)
+        {
+            this.actionWithContext = action;
             this.inputs = inputs ?? Enumerable.Empty<TInput>();
         }
 
@@ -30,7 +38,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
+        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, IBuildContext context)
         {
             var inputsList = this.inputs.ToList();
             if (inputsList.Count == 0)
@@ -46,14 +54,14 @@ namespace Bullseye.Internal
             {
                 if (parallel)
                 {
-                    var tasks = inputsList.Select(input => this.InvokeAsync(input, dryRun, log, messageOnly)).ToList();
+                    var tasks = inputsList.Select(input => this.InvokeAsync(input, dryRun, log, messageOnly, context)).ToList();
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var input in inputsList)
                     {
-                        await this.InvokeAsync(input, dryRun, log, messageOnly).Tax();
+                        await this.InvokeAsync(input, dryRun, log, messageOnly, context).Tax();
                     }
                 }
             }
@@ -66,16 +74,19 @@ namespace Bullseye.Internal
             await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
 
-        private async Task InvokeAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
+        private async Task InvokeAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly, IBuildContext context)
         {
             await log.Starting(this.Name, input).Tax();
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun && this.action != default)
+            if (!dryRun && (this.action != default || this.actionWithContext != default))
             {
                 try
                 {
-                    await this.action(input).Tax();
+                    if (this.actionWithContext is null)
+                        await this.action(input).Tax();
+                    else
+                        await this.actionWithContext(input, this.Context ?? context).Tax();
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
