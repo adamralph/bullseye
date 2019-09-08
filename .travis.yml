@@ -1,5 +1,7 @@
 language: csharp
 mono: none
+os: linux
+dist: bionic
 dotnet: 2.2.401
 branches:
   only:
@@ -9,8 +11,3 @@ branches:
 script: "./build.sh"
 git:
   depth: false
-matrix:
-  include:
-  - os: linux
-    dist: bionic
-  - os: osx
