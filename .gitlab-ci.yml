@@ -1,5 +1,3 @@
 build:
-  image: microsoft/dotnet:latest
-  script:
-    - dotnet --info
-    - ./build.sh
+  image: mcr.microsoft.com/dotnet/core/sdk:2.2
+  script: ./build.sh
