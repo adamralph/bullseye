@@ -19,3 +19,5 @@ jobs:
       run: build.cmd
     - if: contains(matrix.runs-on, 'macOS') || contains(matrix.runs-on, 'ubuntu')
       run: ./build.sh
+    - if: matrix.runs-on == 'ubuntu-18.04'
+      run: ./push.sh ${{ secrets.MYGET_ADAMRALPH_CI_API_KEY }}
