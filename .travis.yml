@@ -1,20 +1,16 @@
+language: csharp
+mono: none
+dotnet: 2.2.401
 branches:
   only:
   - master
   - /release-.*/
   - /^\d+\.\d+\.\d+(-\S*)?$/
+script: "./build.sh"
 git:
   depth: false
 matrix:
   include:
     - os: linux
       dist: bionic
-      language: csharp
-      mono: none
-      dotnet: 2.2.401
-      script: "./build.sh"
     - os: osx
-      language: csharp
-      mono: none
-      dotnet: 2.2.401
-      script: "./build.sh"
