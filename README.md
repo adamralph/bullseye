@@ -5,6 +5,7 @@
 _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](https://www.nuget.org/packages/Bullseye)_
 _[![Appveyor build status](https://img.shields.io/appveyor/ci/adamralph/bullseye/master.svg?logo=appveyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_
 _[![Azure DevOps build status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1/master.svg?logo=azuredevops)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=master)_
+_[![CircleCI build status](https://img.shields.io/circleci/build/github/adamralph/bullseye/master?logo=circleci)](https://circleci.com/gh/adamralph/bullseye/tree/master)_
 _[![GitHub build status](https://github.com/adamralph/bullseye/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/adamralph/bullseye/actions)_
 _[![GitLab build status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/master.svg?logo=gitlab)](https://gitlab.com/adamralph/bullseye/-/jobs)_
 _[![Travis CI build status](https://img.shields.io/travis/adamralph/bullseye/master.svg?logo=travis)](https://travis-ci.org/adamralph/bullseye/branches)_
