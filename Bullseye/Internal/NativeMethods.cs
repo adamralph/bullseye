@@ -15,7 +15,7 @@ namespace Bullseye.Internal
             ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004,
         }
 
-        public enum StdHandle : int
+        public enum StdHandle
         {
             STD_OUTPUT_HANDLE = -11
         }

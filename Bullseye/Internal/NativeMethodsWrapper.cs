@@ -10,7 +10,7 @@ namespace Bullseye.Internal
     {
         public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandle(TextWriter log, string logPrefix)
         {
-            (var handle, var error) = (NativeMethods.GetStdHandle(NativeMethods.StdHandle.STD_OUTPUT_HANDLE), Marshal.GetLastWin32Error());
+            var (handle, error) = (NativeMethods.GetStdHandle(NativeMethods.StdHandle.STD_OUTPUT_HANDLE), Marshal.GetLastWin32Error());
 
             if (error != 0)
             {

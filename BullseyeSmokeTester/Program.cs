@@ -5,7 +5,7 @@ namespace BullseyeSmokeTester
     using System.Threading.Tasks;
     using static Bullseye.Targets;
 
-    internal class Program
+    internal static class Program
     {
         private static Task Main(string[] args)
         {
@@ -72,8 +72,6 @@ namespace BullseyeSmokeTester
                             throw new Exception("bad");
                         case 20:
                             throw new Exception("ugly");
-                        default:
-                            break;
                     }
                 });
 
@@ -90,8 +88,6 @@ namespace BullseyeSmokeTester
                             throw new InvalidOperationException("bad");
                         case 150:
                             throw new InvalidOperationException("ugly");
-                        default:
-                            break;
                     }
                 });
 

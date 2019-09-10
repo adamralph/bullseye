@@ -8,13 +8,13 @@ namespace Bullseye.Internal
     {
         public static async Task TryEnableVirtualTerminalProcessing(TextWriter log, string logPrefix)
         {
-            (var handle, var gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(log, logPrefix).Tax();
+            var (handle, gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(log, logPrefix).Tax();
             if (!gotHandle)
             {
                 return;
             }
 
-            (var mode, var gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, log, logPrefix).Tax();
+            var (mode, gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, log, logPrefix).Tax();
             if (!gotMode)
             {
                 return;

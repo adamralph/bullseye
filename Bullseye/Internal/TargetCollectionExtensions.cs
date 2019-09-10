@@ -17,7 +17,7 @@ namespace Bullseye.Internal
         private static async Task RunAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly, string logPrefix)
         {
             var (names, options) = args.Parse();
-            (var output, var log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
+            var (output, log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
 
             await RunAsync(targets, names, options, output, log, messageOnly, args).Tax();
         }
@@ -25,7 +25,7 @@ namespace Bullseye.Internal
         private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly, string logPrefix)
         {
             var (names, options) = args.Parse();
-            (var output, var log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
+            var (output, log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
 
             try
             {
