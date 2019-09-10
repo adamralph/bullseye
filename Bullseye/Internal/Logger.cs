@@ -292,7 +292,9 @@ namespace Bullseye.Internal
             if (milliseconds < 3_600_000D)
             {
                 var minutes = Math.Floor(milliseconds / 60_000D).ToString("F0", provider);
+#pragma warning disable IDE0047 // Remove unnecessary parentheses
                 var seconds = ((milliseconds % 60_000D) / 1_000D).ToString("F0", provider);
+#pragma warning restore IDE0047 // Remove unnecessary parentheses
                 return seconds == "0"
                     ? $"{minutes} m"
                     : $"{minutes} m {seconds} s";
