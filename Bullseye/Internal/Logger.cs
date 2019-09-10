@@ -183,7 +183,7 @@ namespace Bullseye.Internal
 
                     var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                    var input = $"{ws}{ws}{p.Input}{result.Input.ToString()}{p.Reset}";
+                    var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
 
                     rows.Add(Tuple.Create(inputDuration, inputPercentage, inputOutcome, input));
 

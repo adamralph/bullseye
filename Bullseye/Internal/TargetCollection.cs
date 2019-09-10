@@ -53,17 +53,17 @@ namespace Bullseye.Internal
             await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).Tax();
         }
 
-        private async Task RunAsync(string name, List<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, ConcurrentDictionary<string, Task> targetsRan, Logger log, Func<Exception, bool> messageOnly, Stack<string> targets)
+        private async Task RunAsync(string name, ICollection<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, ConcurrentDictionary<string, Task> targetsRan, Logger log, Func<Exception, bool> messageOnly, Stack<string> targets)
         {
             targets.Push(name);
 
             if (!this.Contains(name))
             {
-                await log.Verbose(targets, $"Doesn't exist. Ignoring.").Tax();
+                await log.Verbose(targets, "Doesn't exist. Ignoring.").Tax();
                 return;
             }
 
-            await log.Verbose(targets, $"Walking dependencies...").Tax();
+            await log.Verbose(targets, "Walking dependencies...").Tax();
 
             var target = this[name];
 
@@ -82,7 +82,7 @@ namespace Bullseye.Internal
 
             if (!skipDependencies || explicitTargets.Contains(name))
             {
-                await log.Verbose(targets, $"Awaiting...").Tax();
+                await log.Verbose(targets, "Awaiting...").Tax();
                 await targetsRan.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).Tax();
             }
 
