@@ -16,7 +16,7 @@ namespace BullseyeTests
                 ApiGenerator
                     .GeneratePublicApi(
                         typeof(Targets).Assembly,
-                        typeof(Targets).Assembly.GetExportedTypes().Where(type => type.Namespace != null && !type.Namespace.Contains("Internal")).ToArray())
+                        typeof(Targets).Assembly.GetExportedTypes().Where(type => type.Namespace is object && !type.Namespace.Contains("Internal")).ToArray())
                     .Replace(Environment.NewLine, "\r\n"));
     }
 }

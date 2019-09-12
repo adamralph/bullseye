@@ -10,11 +10,11 @@ namespace Bullseye.Internal
     {
         public static async Task<(Output, Logger)> Initialize(Options options, string logPrefix)
         {
-            if (logPrefix == null)
+            if (logPrefix is null)
             {
                 logPrefix = "Bullseye";
                 var entryAssembly = Assembly.GetEntryAssembly();
-                if (entryAssembly == null)
+                if (entryAssembly is null)
                 {
                     await Console.Error.WriteLineAsync($"{logPrefix}: Failed to get the entry assembly. Using default log prefix \"{logPrefix}\".").Tax();
                 }

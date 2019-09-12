@@ -16,7 +16,7 @@ namespace Bullseye
             Target(
                 name,
                 dependsOn,
-                action == null
+                action is null
                     ? default(Func<Task>)
                     : () => Task.Run(action.Invoke));
 
@@ -33,7 +33,7 @@ namespace Bullseye
                 name,
                 dependsOn,
                 forEach,
-                action == null
+                action is null
                     ? default(Func<TInput, Task>)
                     : input => Task.Run(() => action.Invoke(input)));
 
