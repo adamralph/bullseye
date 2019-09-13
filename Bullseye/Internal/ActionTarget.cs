@@ -19,7 +19,7 @@ namespace Bullseye.Internal
 
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun && this.action != default)
+            if (!dryRun && this.action != null)
             {
                 try
                 {
