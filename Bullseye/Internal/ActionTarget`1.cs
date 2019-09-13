@@ -71,7 +71,7 @@ namespace Bullseye.Internal
             await log.Starting(this.Name, input).Tax();
             var stopWatch = Stopwatch.StartNew();
 
-            if (!dryRun && this.action != default)
+            if (!dryRun && this.action != null)
             {
                 try
                 {
