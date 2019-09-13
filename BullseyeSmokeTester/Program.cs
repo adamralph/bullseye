@@ -9,7 +9,7 @@ namespace BullseyeSmokeTester
     {
         private static Task Main(string[] args)
         {
-            Target("default", DependsOn("worl:d", "exclai: m", "no-action", "echo", "combo", "no-inputs"));
+            Target("default", DependsOn("worl:d", "exclai: m", "null-action", "echo", "combo", "no-inputs"));
 
             Target("hell\"o", () => Console.Out.WriteLine("Hello"));
 
@@ -19,7 +19,7 @@ namespace BullseyeSmokeTester
 
             Target("exclai: m", DependsOn("worl:d"), () => Console.Out.WriteLine("!"));
 
-            Target("no-action", ForEach(1, 2), null);
+            Target("null-action", ForEach(1, 2), null);
 
             var foos = new[] { "a", "b" };
             var bars = new[] { 1, 2 };
