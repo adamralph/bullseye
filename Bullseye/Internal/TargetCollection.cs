@@ -17,19 +17,19 @@ namespace Bullseye.Internal
 
         public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
+            if (!skipDependencies)
+            {
+                this.ValidateDependenciesAreAllDefined();
+            }
+
+            this.ValidateTargetGraphIsCycleFree();
+            this.Validate(names);
+
             await log.Running(names).Tax();
             var stopWatch = Stopwatch.StartNew();
 
             try
             {
-                if (!skipDependencies)
-                {
-                    this.ValidateDependenciesAreAllDefined();
-                }
-
-                this.ValidateTargetGraphIsCycleFree();
-                this.Validate(names);
-
                 var targetsRan = new ConcurrentDictionary<string, Task>();
                 if (parallel)
                 {
