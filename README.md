@@ -53,7 +53,7 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
   ```PowerShell
   dotnet run
   ```
-  <img src="https://user-images.githubusercontent.com/677704/61991206-94670900-b055-11e9-9762-1c54ad740047.png" width="304px" />
+  ![console output](https://user-images.githubusercontent.com/677704/66715334-7bebcc80-edc2-11e9-9569-18a2bafbfb93.png)
 - For help:
   ```PowerShell
   dotnet run -- --help
@@ -70,7 +70,7 @@ Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovel
 Target("walk-dog", () => Console.WriteLine("Walkies!"));
 ```
 
-<img src="https://user-images.githubusercontent.com/677704/61991350-5834a800-b057-11e9-8445-b3979c175be4.png" width="320px" />
+![console output](https://user-images.githubusercontent.com/677704/66715371-dc7b0980-edc2-11e9-8b78-509c07cee5a4.png)
 
 ## Enumerable inputs
 
@@ -85,7 +85,7 @@ Target(
 dotnet run -- eat-biscuits
 ```
 
-<img src="https://user-images.githubusercontent.com/677704/61991321-0e4bc200-b057-11e9-8125-a55c0908cb7a.png" width="432px" />
+![console output](https://user-images.githubusercontent.com/677704/66715394-282db300-edc3-11e9-8a70-be0266f75c34.png)
 
 ## Sample wrapper scripts
 
