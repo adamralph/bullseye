@@ -151,5 +151,21 @@ namespace BullseyeTests
             "And the target is not run"
                 .x(() => Assert.False(ran));
         }
+
+        [Scenario]
+        public void Repeated(TargetCollection targets, int count)
+        {
+            "Given a target"
+                .x(() => Ensure(ref targets).Add(CreateTarget("default", () => ++count)));
+
+            "When I run the target"
+                .x(() => targets.RunAsync(default, default, default));
+
+            "And I run the target again"
+                .x(() => targets.RunAsync(default, default, default));
+
+            "Then the target runs twice"
+                .x(() => Assert.Equal(2, count));
+        }
     }
 }
