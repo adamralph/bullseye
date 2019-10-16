@@ -30,7 +30,7 @@ namespace Bullseye
         public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) => Target(name, null, forEach, action);
 
         /// <summary>
-        /// Adds a target which performs an action for each item in a list of inputs.
+        /// Defines a target which performs an action for each item in a list of inputs.
         /// </summary>
         /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
         /// <param name="name">The name of the target.</param>
