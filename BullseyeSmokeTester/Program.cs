@@ -3,6 +3,7 @@ namespace BullseyeSmokeTester
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Bullseye;
     using static Bullseye.Targets;
 
     internal static class Program
@@ -90,6 +91,12 @@ namespace BullseyeSmokeTester
                             throw new InvalidOperationException("ugly");
                     }
                 });
+
+            var targets = new Targets();
+            targets.Add("abc", () => Console.Out.WriteLine("abc"));
+            targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLine("def"));
+            targets.Add("default", DependsOn("def"));
+            targets.RunWithoutExiting(args);
 
             return RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException);
         }

@@ -122,6 +122,21 @@ You can also handle custom arguments in `Program.cs`, but you should ensure that
 - Using [System.CommandLine.Experimental](https://www.nuget.org/packages/System.CommandLine.Experimental/), you can pass the unmatched tokens to Bullseye. See this [gist](https://gist.github.com/adamralph/a98dd9184aa7fa3d66935c32f39de14b) as an example.
 - Using [McMaster.Extensions.CommandLineUtils](https://www.nuget.org/packages/McMaster.Extensions.CommandLineUtils/), you can pass the [remaining arguments](https://natemcmaster.github.io/CommandLineUtils/docs/arguments.html?tabs=using-attributes#remaining-arguments) to Bullseye. See this [gist](https://gist.github.com/adamralph/d6a3167c8fe0d4e24721d8d2b9c02989) as an example.
 
+## Non-static API
+
+For most cases, the static API described above is sufficient. For more complex scenarios where a number of target collections are required, the non-static API may be used.
+
+```C#
+var targets1 = new Targets();
+targets1.Add("foo", () => Console.Out.WriteLine("foo1"));
+
+var targets2 = new Targets();
+targets2.Add("foo", () => Console.Out.WriteLine("foo2"));
+
+targets1.RunWithoutExiting(args);
+targets2.RunWithoutExiting(args);
+```
+
 ## FAQ
 
 ### Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?

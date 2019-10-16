@@ -3,45 +3,59 @@ namespace Bullseye
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Bullseye.Internal;
 
     /// <summary>
     /// Provides methods for defining and running targets.
     /// </summary>
     public partial class Targets
     {
-        private readonly TargetCollection targetCollection = new TargetCollection();
+        private static readonly Targets targets = new Targets();
 
         /// <summary>
-        /// Adds a target which depends on other targets.
+        /// Cosmetic method for defining an array of <see cref="string"/>.
+        /// </summary>
+        /// <param name="dependencies">The names of the targets on which the current target depends.</param>
+        /// <returns>The specified <paramref name="dependencies"/>.</returns>
+        public static string[] DependsOn(params string[] dependencies) => dependencies;
+
+        /// <summary>
+        /// Cosmetic method for defining an array of <typeparamref name="TInput"/>.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by the action of the current target.</typeparam>
+        /// <param name="inputs">The list of inputs, each to be passed to the action of the current target.</param>
+        /// <returns>The specified <paramref name="inputs"/>.</returns>
+        public static TInput[] ForEach<TInput>(params TInput[] inputs) => inputs;
+
+        /// <summary>
+        /// Defines a target which depends on other targets.
         /// </summary>
         /// <param name="name">The name of the target.</param>
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
-        public void Add(string name, IEnumerable<string> dependsOn) =>
-            this.targetCollection.Add(new Target(name, dependsOn));
+        public static void Target(string name, IEnumerable<string> dependsOn) =>
+            targets.Add(name, dependsOn);
 
         /// <summary>
-        /// Adds a target which depends on other targets and performs an action.
+        /// Defines a target which depends on other targets and performs an action.
         /// </summary>
         /// <param name="name">The name of the target.</param>
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="action">The action performed by the target.</param>
-        public void Add(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
-            this.targetCollection.Add(new ActionTarget(name, dependsOn, action));
+        public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
+            targets.Add(name, dependsOn, action);
 
         /// <summary>
-        /// Adds a target which depends on other targets and performs an action for each item in a list of inputs.
+        /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
         /// </summary>
         /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
         /// <param name="name">The name of the target.</param>
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            this.targetCollection.Add(new ActionTarget<TInput>(name, dependsOn, forEach, action));
+        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
+            targets.Add<TInput>(name, dependsOn, forEach, action);
 
         /// <summary>
-        /// Runs the targets.
+        /// Runs the previously specified targets.
         /// In most cases, <see cref="RunTargetsAndExitAsync(IEnumerable{string}, Func{Exception, bool}, string)"/> should be used instead of this method.
         /// This method should only be used if continued code execution after running targets is specifically required.
         /// </summary>
@@ -56,11 +70,11 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix);
+        public static Task RunTargetsWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
+            targets.RunWithoutExitingAsync(args, messageOnly, logPrefix);
 
         /// <summary>
-        /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
+        /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
         /// Any code which follows a call to this method will not be executed.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
@@ -74,7 +88,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAndExitAsync(args, messageOnly, logPrefix);
+        public static Task RunTargetsAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
+            targets.RunAndExitAsync(args, messageOnly, logPrefix);
     }
 }
