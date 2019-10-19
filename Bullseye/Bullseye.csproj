@@ -11,7 +11,7 @@
     <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/adamralph/bullseye/milestones?state=closed</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
