@@ -106,7 +106,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the targets.
-        /// In most cases, <see cref="RunTargetsAndExit(IEnumerable{string}, Func{Exception, bool}, string)"/> should be used instead of this method.
+        /// In most cases, <see cref="RunAndExit(IEnumerable{string}, Func{Exception, bool}, string)"/> should be used instead of this method.
         /// This method should only be used if continued code execution after running targets is specifically required.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
