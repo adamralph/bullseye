@@ -83,7 +83,7 @@ namespace Bullseye.Internal
                         {
                             options.ShowHelp = true;
                         }
-                        else if (arg.StartsWith("-"))
+                        else if (arg.StartsWith("-", StringComparison.OrdinalIgnoreCase))
                         {
                             options.UnknownOptions.Add(arg);
                         }
