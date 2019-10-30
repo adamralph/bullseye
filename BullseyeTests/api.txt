@@ -1,6 +1,18 @@
 ﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v2.0", FrameworkDisplayName="")]
 namespace Bullseye
 {
+    public class InvalidUsageException : System.Exception
+    {
+        public InvalidUsageException() { }
+        public InvalidUsageException(string message) { }
+        public InvalidUsageException(string message, System.Exception innerException) { }
+    }
+    public class TargetFailedException : System.Exception
+    {
+        public TargetFailedException() { }
+        public TargetFailedException(string message) { }
+        public TargetFailedException(string message, System.Exception innerException) { }
+    }
     public class Targets
     {
         public Targets() { }

@@ -35,7 +35,7 @@ namespace Bullseye.Internal
                     }
 
                     await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
-                    throw new TargetFailedException(ex);
+                    throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
                 }
             }
 
