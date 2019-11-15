@@ -9,95 +9,9 @@ namespace Bullseye.Internal
     {
         public static string Spaced(this IEnumerable<string> strings) => string.Join(" ", strings);
 
-        public static (List<string>, Options) Parse(this IEnumerable<string> args)
-        {
-            var targetNames = new List<string>();
-            var options = new Options();
-
-            var helpOptions = new[] { "--help", "-h", "-?" };
-
-            foreach (var arg in args)
-            {
-                switch (arg)
-                {
-                    case "-c":
-                    case "--clear":
-                        options.Clear = true;
-                        break;
-                    case "-n":
-                    case "--dry-run":
-                        options.DryRun = true;
-                        break;
-                    case "-d":
-                    case "--list-dependencies":
-                        options.ListDependencies = true;
-                        break;
-                    case "-i":
-                    case "--list-inputs":
-                        options.ListInputs = true;
-                        break;
-                    case "-l":
-                    case "--list-targets":
-                        options.ListTargets = true;
-                        break;
-                    case "-t":
-                    case "--list-tree":
-                        options.ListTree = true;
-                        break;
-                    case "-N":
-                    case "--no-color":
-                        options.NoColor = true;
-                        break;
-                    case "-p":
-                    case "--parallel":
-                        options.Parallel = true;
-                        break;
-                    case "-s":
-                    case "--skip-dependencies":
-                        options.SkipDependencies = true;
-                        break;
-                    case "-v":
-                    case "--verbose":
-                        options.Verbose = true;
-                        break;
-                    case "--appveyor":
-                        options.Host = Host.Appveyor;
-                        break;
-                    case "--azure-pipelines":
-                        options.Host = Host.AzurePipelines;
-                        break;
-                    case "--github-actions":
-                        options.Host = Host.GitHubActions;
-                        break;
-                    case "--gitlab-ci":
-                        options.Host = Host.GitLabCI;
-                        break;
-                    case "--travis":
-                        options.Host = Host.Travis;
-                        break;
-                    case "--teamcity":
-                        options.Host = Host.TeamCity;
-                        break;
-                    default:
-                        if (helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase))
-                        {
-                            options.ShowHelp = true;
-                        }
-                        else if (arg.StartsWith("-", StringComparison.OrdinalIgnoreCase))
-                        {
-                            options.UnknownOptions.Add(arg);
-                        }
-                        else
-                        {
-                            targetNames.Add(arg);
-                        }
-
-                        break;
-                }
-            }
-
-            return (targetNames, options);
-        }
+        public static (List<string>, Options) Parse(this IEnumerable<string> args) => (
+            args.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList(),
+            new Options(args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).Select(arg => (arg, true))));
 
         // pad right printed
         public static string Prp(this string text, int totalWidth, char paddingChar) =>
