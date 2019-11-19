@@ -13,10 +13,14 @@ namespace BullseyeTests
         public void IsUnchanged() =>
             AssertFile.Contains(
                 "api.txt",
-                ApiGenerator
+                typeof(Targets).Assembly
                     .GeneratePublicApi(
-                        typeof(Targets).Assembly,
-                        typeof(Targets).Assembly.GetExportedTypes().Where(type => type.Namespace != null && !type.Namespace.Contains("Internal")).ToArray())
+                        new ApiGeneratorOptions
+                        {
+                            IncludeTypes = typeof(Targets).Assembly.GetExportedTypes()
+                                .Where(type => type.Namespace != null && !type.Namespace.Contains("Internal"))
+                                .ToArray()
+                        })
                     .Replace(Environment.NewLine, "\r\n"));
     }
 }
