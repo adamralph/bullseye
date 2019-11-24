@@ -28,15 +28,8 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
 
 ## Quick start
 
-- Install the [.NET Core SDK](https://dot.net).
-- In a console:
-  ```PowerShell
-  mkdir targets
-  cd targets
-  dotnet new console
-  dotnet add package Bullseye
-  ```
-- Using your favourite text editor or IDE, replace the contents of `Program.cs` with:
+- Create a .NET console app named `targets` and add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye).
+- Replace the contents of `Program.cs` with:
   ```C#
   using static Bullseye.Targets;
 
@@ -49,15 +42,13 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
       }
   }
   ```
-- Back in your console:
-  ```PowerShell
-  dotnet run
-  ```
-  ![console output](https://user-images.githubusercontent.com/677704/66715334-7bebcc80-edc2-11e9-9569-18a2bafbfb93.png)
-- For help:
-  ```PowerShell
-  dotnet run -- --help
-  ```
+- Run the app. E.g. `dotnet run` or F5 in Visual Studio:
+
+Voilà! You've just written and run your first Bullseye program. You will see output similar to:
+
+![console output](https://user-images.githubusercontent.com/677704/66715334-7bebcc80-edc2-11e9-9569-18a2bafbfb93.png)
+
+For help, run `dotnet run -- --help`.
 
 Also see the [async quick start](https://github.com/adamralph/bullseye/wiki/Async-quick-start).
 
