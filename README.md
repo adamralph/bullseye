@@ -55,10 +55,10 @@ Also see the [async quick start](https://github.com/adamralph/bullseye/wiki/Asyn
 ## Defining dependencies
 
 ```C#
-Target("default", DependsOn("drink-tea", "walk-dog"));
 Target("make-tea", () => Console.WriteLine("Tea made."));
 Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
 Target("walk-dog", () => Console.WriteLine("Walkies!"));
+Target("default", DependsOn("drink-tea", "walk-dog"));
 ```
 
 ![console output](https://user-images.githubusercontent.com/677704/66715371-dc7b0980-edc2-11e9-8b78-509c07cee5a4.png)
