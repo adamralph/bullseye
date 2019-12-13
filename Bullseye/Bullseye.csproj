@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../assets/bullseye.png" Pack="true" PackagePath="/"/>
+    <None Include="../assets/bullseye.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>
