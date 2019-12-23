@@ -17,7 +17,7 @@ namespace BullseyeTests
                 .x(() => targets.Add(CreateTarget("second", new[] { "FIRST" }, () => second = true)));
 
             "When I run the second target with a different case"
-                .x(() => targets.RunAsync(new[] { "SECOND" }, default, default));
+                .x(() => targets.RunAsync(new[] { "SECOND" }, default, default, default));
 
             "Then the first target is run"
                 .x(() => Assert.True(first));

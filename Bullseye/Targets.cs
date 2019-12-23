@@ -57,7 +57,7 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix);
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -75,6 +75,6 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAndExitAsync(args, messageOnly, logPrefix);
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true);
     }
 }

@@ -8,50 +8,47 @@ namespace Bullseye.Internal
 
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix) =>
-            RunAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false), logPrefix);
-
-        public static Task RunAndExitAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix) =>
-            RunAndExitAsync(targets ?? new TargetCollection(), args.Sanitize().ToList(), messageOnly ?? (_ => false), logPrefix);
-
-        private static async Task RunAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly, string logPrefix)
+        public static async Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix, bool exit)
         {
-            var (names, options) = args.Parse();
+            targets = targets ?? new TargetCollection();
+            var argList = args.Sanitize().ToList();
+            messageOnly = messageOnly ?? (_ => false);
+
+            var (names, options) = argList.Parse();
             var (output, log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
 
-            await RunAsync(targets, names, options, output, log, messageOnly, args).Tax();
+            await log.Verbose($"Args: {string.Join(" ", argList)}").Tax();
+
+            if (exit)
+            {
+                try
+                {
+                    await RunAsync(targets, names, options, messageOnly, output, log).Tax();
+                }
+                catch (InvalidUsageException ex)
+                {
+                    await log.Error(ex.Message).Tax();
+                    Environment.Exit(2);
+                }
+                catch (TargetFailedException)
+                {
+                    Environment.Exit(1);
+                }
+
+                Environment.Exit(0);
+            }
+            else
+            {
+                await RunAsync(targets, names, options, messageOnly, output, log).Tax();
+            }
         }
 
-        private static async Task RunAndExitAsync(this TargetCollection targets, List<string> args, Func<Exception, bool> messageOnly, string logPrefix)
-        {
-            var (names, options) = args.Parse();
-            var (output, log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
-
-            try
-            {
-                await RunAsync(targets, names, options, output, log, messageOnly, args).Tax();
-            }
-            catch (InvalidUsageException ex)
-            {
-                await log.Error(ex.Message).Tax();
-                Environment.Exit(2);
-            }
-            catch (TargetFailedException)
-            {
-                Environment.Exit(1);
-            }
-
-            Environment.Exit(0);
-        }
-
-        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Output output, Logger log, Func<Exception, bool> messageOnly, List<string> args)
+        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, Output output, Logger log)
         {
             if (options.UnknownOptions.Count > 0)
             {
                 throw new InvalidUsageException($"Unknown option{(options.UnknownOptions.Count > 1 ? "s" : "")} {options.UnknownOptions.Spaced()}. \"--help\" for usage.");
             }
-
-            await log.Verbose($"Args: {string.Join(" ", args)}").Tax();
 
             if (options.ShowHelp)
             {
