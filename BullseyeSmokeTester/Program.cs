@@ -96,9 +96,15 @@ namespace BullseyeSmokeTester
             targets.Add("abc", () => Console.Out.WriteLine("abc"));
             targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLine("def"));
             targets.Add("default", DependsOn("def"));
-            targets.RunWithoutExiting(args);
 
-            return RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException);
+            var (targetNames, options) = Bullseye.Internal.StringExtensions.Parse(args);
+
+            if (!options.ShowHelp)
+            {
+                targets.RunWithoutExiting(targetNames, options);
+            }
+
+            return RunTargetsAndExitAsync(targetNames, options, ex => ex is InvalidOperationException);
         }
     }
 }

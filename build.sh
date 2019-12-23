@@ -24,3 +24,12 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- --dry-run --skip-depe
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-color
+
+dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --help
+dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build
+
+dotnet run -c Release --no-build -p BullseyeSmokeTester.Experimental -- --help
+dotnet run -c Release --no-build -p BullseyeSmokeTester.Experimental -- --foo bar --verbose build
+
+dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --help
+dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --foo bar --verbose build

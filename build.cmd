@@ -22,6 +22,16 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- --dry-run --skip-depe
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- --verbose || goto :error
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose || goto :error
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-color || goto :error
+
+dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --help || goto :error
+dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build || goto :error
+
+dotnet run -c Release --no-build -p BullseyeSmokeTester.Experimental -- --help || goto :error
+dotnet run -c Release --no-build -p BullseyeSmokeTester.Experimental -- --foo bar --verbose build || goto :error
+
+dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --help || goto :error
+dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --foo bar --verbose build || goto :error
+
 @echo Off
 
 goto :EOF

@@ -19,6 +19,23 @@ namespace Bullseye.Internal
 
             await log.Verbose($"Args: {string.Join(" ", argList)}").Tax();
 
+            await RunAsync(targets, names, options, messageOnly, output, log, exit).Tax();
+        }
+
+        public static async Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit)
+        {
+            targets = targets ?? new TargetCollection();
+            var nameList = names.Sanitize().ToList();
+            options = options ?? new Options();
+            messageOnly = messageOnly ?? (_ => false);
+
+            var (output, log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
+
+            await RunAsync(targets, nameList, options, messageOnly, output, log, exit).Tax();
+        }
+
+        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, Output output, Logger log, bool exit)
+        {
             if (exit)
             {
                 try
