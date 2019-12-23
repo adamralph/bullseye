@@ -120,7 +120,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public void RunWithoutExiting(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix).GetAwaiter().GetResult();
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -137,6 +137,6 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public void RunAndExit(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAndExitAsync(args, messageOnly, logPrefix).GetAwaiter().GetResult();
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true).GetAwaiter().GetResult();
     }
 }
