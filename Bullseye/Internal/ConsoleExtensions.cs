@@ -93,7 +93,7 @@ namespace Bullseye.Internal
                 }
             }
 
-            var palette = new Palette(options.NoColor, options.Host, operatingSystem);
+            var palette = new Palette(options.NoColor, options.NoExtendedChars, options.Host, operatingSystem);
             var output = new Output(Console.Out, palette);
             var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 

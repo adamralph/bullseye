@@ -5,7 +5,7 @@ namespace Bullseye.Internal
 
     public class Palette
     {
-        public Palette(bool noColor, Host host, OperatingSystem operatingSystem)
+        public Palette(bool noColor, bool noExtendedChars, Host host, OperatingSystem operatingSystem)
         {
             var reset = noColor ? "" : "\x1b[0m";
 
@@ -119,6 +119,14 @@ namespace Bullseye.Internal
             if (host == Host.VisualStudioCode)
             {
                 this.Target = blue;
+            }
+
+            if (noExtendedChars)
+            {
+                this.TreeCorner = "  ";
+                this.TreeFork = "  ";
+                this.TreeDown = "  ";
+                this.Dash = '-';
             }
         }
 
