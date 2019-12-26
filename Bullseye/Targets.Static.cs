@@ -52,7 +52,7 @@ namespace Bullseye
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            instance.Add<TInput>(name, dependsOn, forEach, action);
+            instance.Add(name, dependsOn, forEach, action);
 
         /// <summary>
         /// Runs the previously specified targets.
