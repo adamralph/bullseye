@@ -37,6 +37,7 @@ namespace Bullseye
         public bool ListTargets { get; set; }
         public bool ListTree { get; set; }
         public bool NoColor { get; set; }
+        public bool NoExtendedChars { get; set; }
         public bool Parallel { get; set; }
         public bool ShowHelp { get; }
         public bool SkipDependencies { get; set; }

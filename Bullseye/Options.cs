@@ -23,6 +23,7 @@ namespace Bullseye
             new OptionDefinition("-l", "--list-targets",      "List all (or specified) targets, then exit"),
             new OptionDefinition("-t", "--list-tree",         "List all (or specified) targets and dependency trees, then exit"),
             new OptionDefinition("-N", "--no-color",          "Disable colored output"),
+            new OptionDefinition("-E", "--no-extended-chars", "Disable extended characters"),
             new OptionDefinition("-p", "--parallel",          "Run targets in parallel"),
             new OptionDefinition("-s", "--skip-dependencies", "Do not run targets' dependencies"),
             new OptionDefinition("-v", "--verbose",           "Enable verbose output"),
@@ -80,6 +81,10 @@ namespace Bullseye
                     case "-N":
                     case "--no-color":
                         this.NoColor = isSet;
+                        break;
+                    case "-E":
+                    case "--no-extended-chars":
+                        this.NoExtendedChars = isSet;
                         break;
                     case "-p":
                     case "--parallel":
@@ -184,6 +189,11 @@ namespace Bullseye
         /// Gets or sets a value which indicates whether to disable colored input.
         /// </summary>
         public bool NoColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value which indicates whether to disable extended characters.
+        /// </summary>
+        public bool NoExtendedChars { get; set; }
 
         /// <summary>
         /// Gets or sets a value which indicates whether to run targets in parallel.

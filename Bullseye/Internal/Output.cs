@@ -111,6 +111,7 @@ $@"{p.Default}Usage:{p.Reset} {p.CommandLine}<command-line>{p.Reset} {p.Option}[
  {p.Option}-l{p.Default},{p.Reset} {p.Option}--list-targets{p.Reset}         {p.Default}List all (or specified) targets, then exit{p.Reset}
  {p.Option}-t{p.Default},{p.Reset} {p.Option}--list-tree{p.Reset}            {p.Default}List all (or specified) targets and dependency trees, then exit{p.Reset}
  {p.Option}-N{p.Default},{p.Reset} {p.Option}--no-color{p.Reset}             {p.Default}Disable colored output{p.Reset}
+ {p.Option}-E{p.Default},{p.Reset} {p.Option}--no-extended-chars{p.Reset}    {p.Default}Disable extended characters{p.Reset}
  {p.Option}-p{p.Default},{p.Reset} {p.Option}--parallel{p.Reset}             {p.Default}Run targets in parallel{p.Reset}
  {p.Option}-s{p.Default},{p.Reset} {p.Option}--skip-dependencies{p.Reset}    {p.Default}Do not run targets' dependencies{p.Reset}
  {p.Option}-v{p.Default},{p.Reset} {p.Option}--verbose{p.Reset}              {p.Default}Enable verbose output{p.Reset}
