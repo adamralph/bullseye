@@ -24,3 +24,13 @@ jobs:
       version: '3.1.102'
   - script: ./build.sh
     displayName: 'Build the project'
+- job: macOS
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+  - task: DotNetCoreInstaller@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.1.102'
+  - script: ./build.sh
+    displayName: 'Build the project'
