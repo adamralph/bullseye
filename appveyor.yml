@@ -1,7 +1,6 @@
 version: '{build}'
 environment:
   APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
-  MINVERBUILDMETADATA: build.%APPVEYOR_BUILD_NUMBER%
 image:
 - Visual Studio 2019
 - Ubuntu
@@ -18,6 +17,4 @@ build_script:
 - cmd: ./build.cmd
 - sh: ./build.sh
 test: off
-artifacts:
-- path: ./**/*.nupkg
 deploy: off
