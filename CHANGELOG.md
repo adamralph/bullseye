@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.2.0
+
+### Enhancements
+
+- [#361: API for integration with third party CLI libs](https://github.com/adamralph/bullseye/pull/361)
+- [#388: upgrade to SourceLink 1.0.0](https://github.com/adamralph/bullseye/pull/388)
+- [#393: add option for no extended chars](https://github.com/adamralph/bullseye/pull/393)
+
 ## 3.1.0
 
 ### Enhancements
