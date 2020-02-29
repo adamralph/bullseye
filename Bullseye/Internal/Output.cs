@@ -19,10 +19,10 @@ namespace Bullseye.Internal
             this.p = palette;
         }
 
-        public Task Usage(TargetCollection targets) => this.writer.WriteLineAsync(this.GetUsage(targets));
+        public Task Usage(TargetCollection targets) => this.writer.WriteAsync(this.GetUsage(targets));
 
         public Task Targets(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            this.writer.WriteLineAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
+            this.writer.WriteAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
 
         private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs)
         {
@@ -141,6 +141,9 @@ $@"{p.Default}Usage:{p.Reset} {p.CommandLine}<command-line>{p.Reset} {p.Option}[
             + string.Join(
 @"
 ",
-                targets.Select(target => $"  {p.Target}{target.Name}{p.Reset}"));
+                targets.Select(target => $"  {p.Target}{target.Name}{p.Reset}"))
+            +
+@"
+";
     }
 }
