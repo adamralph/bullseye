@@ -22,7 +22,7 @@ namespace Bullseye.Internal
         public Task Usage(TargetCollection targets) => this.writer.WriteLineAsync(this.GetUsage(targets));
 
         public Task Targets(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            this.writer.WriteLineAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
+            this.writer.WriteAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
 
         private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs)
         {
