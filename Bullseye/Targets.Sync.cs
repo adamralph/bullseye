@@ -192,8 +192,11 @@ namespace Bullseye
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
-        public void RunWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
+        public void RunWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null)
+        {
+            Console.WriteLine($"Entering Targets.RunWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null)");
             this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false).GetAwaiter().GetResult();
+        }
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.

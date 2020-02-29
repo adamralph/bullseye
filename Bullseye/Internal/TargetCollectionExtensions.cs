@@ -24,6 +24,7 @@ namespace Bullseye.Internal
 
         public static async Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit)
         {
+            System.Console.WriteLine($"Entering TargetCollectionExtensions.RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit)");
             targets = targets ?? new TargetCollection();
             var nameList = names.Sanitize().ToList();
             options = options ?? new Options();
@@ -36,6 +37,7 @@ namespace Bullseye.Internal
 
         private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, Output output, Logger log, bool exit)
         {
+            System.Console.WriteLine($"Entering TargetCollectionExtensions.RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, Output output, Logger log, bool exit)");
             if (exit)
             {
                 try
@@ -62,6 +64,7 @@ namespace Bullseye.Internal
 
         private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, Output output, Logger log)
         {
+            System.Console.WriteLine($"Entering TargetCollectionExtensions.RunAsync(this TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, Output output, Logger log)");
             if (options.UnknownOptions.Count > 0)
             {
                 throw new InvalidUsageException($"Unknown option{(options.UnknownOptions.Count > 1 ? "s" : "")} {options.UnknownOptions.Spaced()}. \"--help\" for usage.");

@@ -10,6 +10,7 @@ namespace Bullseye.Internal
     {
         public static async Task<(Output, Logger)> Initialize(Options options, string logPrefix)
         {
+            System.Console.WriteLine($"Entering ConsoleExtensions.Initialize(Options options, string logPrefix)");
             if (logPrefix == null)
             {
                 logPrefix = "Bullseye";

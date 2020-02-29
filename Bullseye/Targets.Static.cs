@@ -127,7 +127,10 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            instance.RunAndExitAsync(targets, options, messageOnly, logPrefix);
+        public static Task RunTargetsAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null)
+        {
+            System.Console.WriteLine($"Entering Targets.RunTargetsAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null)");
+            return instance.RunAndExitAsync(targets, options, messageOnly, logPrefix);
+        }
     }
 }

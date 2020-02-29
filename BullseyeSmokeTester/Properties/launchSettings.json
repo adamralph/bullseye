@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BullseyeSmokeTester": {
+      "commandName": "Project",
+      "commandLineArgs": "--list-tree --list-inputs"
+    }
+  }
+}
