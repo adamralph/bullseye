@@ -28,8 +28,8 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-col
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --help
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build
 
-dotnet run -c Release --no-build -p BullseyeSmokeTester.Experimental -- --help
-dotnet run -c Release --no-build -p BullseyeSmokeTester.Experimental -- --foo bar --verbose build
+dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --help
+dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --foo bar --verbose build
 
 dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --help
 dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --foo bar --verbose build

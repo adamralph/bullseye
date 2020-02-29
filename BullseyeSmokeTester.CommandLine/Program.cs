@@ -1,4 +1,4 @@
-namespace BullseyeSmokeTester.Experimental
+namespace BullseyeSmokeTester.CommandLine
 {
     using System.CommandLine;
     using System.CommandLine.Invocation;
@@ -15,7 +15,7 @@ namespace BullseyeSmokeTester.Experimental
                 new Option(new[] { "--foo", "-f" }, "A value used for something.") { Argument = new Argument<string>("foo") }
             };
 
-            // translate from Bullseye to System.CommandLine.Experimental
+            // translate from Bullseye to System.CommandLine
             cmd.Add(new Argument("targets") { Arity = ArgumentArity.ZeroOrMore, Description = "The targets to run or list." });
             foreach (var option in Options.Definitions)
             {
@@ -24,7 +24,7 @@ namespace BullseyeSmokeTester.Experimental
 
             cmd.Handler = CommandHandler.Create<string>(foo =>
             {
-                // translate from System.CommandLine.Experimental to Bullseye
+                // translate from System.CommandLine to Bullseye
                 var cmdLine = cmd.Parse(args);
                 var targets = cmdLine.CommandResult.Tokens.Select(token => token.Value);
                 var options = new Options(Options.Definitions.Select(o => (o.LongName, cmdLine.ValueForOption<bool>(o.LongName))));
