@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester", "Bull
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester.DragonFruit", "BullseyeSmokeTester.DragonFruit\BullseyeSmokeTester.DragonFruit.csproj", "{4B0C74CC-94D5-4641-A1DD-89C42D924018}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester.Experimental", "BullseyeSmokeTester.Experimental\BullseyeSmokeTester.Experimental.csproj", "{D6229B05-94BB-46F7-944E-92C53C441D11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester.CommandLine", "BullseyeSmokeTester.CommandLine\BullseyeSmokeTester.CommandLine.csproj", "{D6229B05-94BB-46F7-944E-92C53C441D11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester.McMaster", "BullseyeSmokeTester.McMaster\BullseyeSmokeTester.McMaster.csproj", "{567C97C3-CABA-477F-B54A-923F2BF5A28F}"
 EndProject

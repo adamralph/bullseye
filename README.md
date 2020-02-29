@@ -110,7 +110,7 @@ dotnet run --project targets -- --help
 
 You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye and that the help text contains both your custom arguments and the arguments supported by Bullseye. A good way to do this is to use a command line parsing package to define your custom arguments, and to provide translation between the package and Bullseye. For example, see the test projects for:
 
-- [System.CommandLine.Experimental](BullseyeSmokeTester.Experimental/Program.cs)
+- [System.CommandLine](BullseyeSmokeTester.CommandLine/Program.cs)
 - [System.CommandLine.DragonFruit](BullseyeSmokeTester.DragonFruit/Program.cs)
 - [McMaster.Extensions.CommandLineUtils](BullseyeSmokeTester.McMaster/Program.cs)
 
