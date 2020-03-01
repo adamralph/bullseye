@@ -156,6 +156,15 @@ namespace Bullseye
         }
 
         /// <summary>
+        /// Converts a list of argument strings into an instance of <see cref="Options"/> and a list of target names.
+        /// </summary>
+        /// <param name="args">A list of argument strings</param>
+        /// <returns>An instance of <see cref="Options"/> and a list of target names.</returns>
+        public static (Options, List<string>) Parse(IEnumerable<string> args) => (
+            new Options(args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).Select(arg => (arg, true))),
+            args.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList());
+
+        /// <summary>
         /// Gets or sets a value which indicates whether the console should be cleared before execution.
         /// </summary>
         public bool Clear { get; set; }

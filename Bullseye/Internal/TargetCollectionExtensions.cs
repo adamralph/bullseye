@@ -14,7 +14,7 @@ namespace Bullseye.Internal
             var argList = args.Sanitize().ToList();
             messageOnly = messageOnly ?? (_ => false);
 
-            var (names, options) = argList.Parse();
+            var (options, names) = Options.Parse(argList);
             var (output, log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
 
             await log.Verbose($"Args: {string.Join(" ", argList)}").Tax();
