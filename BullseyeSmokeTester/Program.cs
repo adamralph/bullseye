@@ -97,7 +97,7 @@ namespace BullseyeSmokeTester
             targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLine("def"));
             targets.Add("default", DependsOn("def"));
 
-            var (targetNames, options) = Bullseye.Internal.StringExtensions.Parse(args);
+            var (options, targetNames) = Options.Parse(args);
 
             if (!options.ShowHelp)
             {

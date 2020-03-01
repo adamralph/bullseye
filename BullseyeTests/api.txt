@@ -44,6 +44,7 @@ namespace Bullseye
         public System.Collections.Generic.IReadOnlyList<string> UnknownOptions { get; }
         public bool Verbose { get; set; }
         public static System.Collections.Generic.IEnumerable<Bullseye.OptionDefinition> Definitions { get; }
+        public static System.ValueTuple<Bullseye.Options, System.Collections.Generic.List<string>> Parse(System.Collections.Generic.IEnumerable<string> args) { }
     }
     public class TargetFailedException : System.Exception
     {
