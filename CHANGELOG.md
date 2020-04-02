@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.3.0
+
+### Enhancements
+
+- [#396: Make args parsing public](https://github.com/adamralph/bullseye/issues/396)
+
+### Fixed bugs
+
+- [#405: extra line break after listing targets](https://github.com/adamralph/bullseye/pull/405)
+
 ## 3.2.0
 
 ### Enhancements
