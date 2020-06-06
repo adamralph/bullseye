@@ -9,6 +9,7 @@ namespace Bullseye.Internal
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
     using System.Threading.Tasks;
     using static System.Math;
 
@@ -24,6 +25,8 @@ namespace Bullseye.Internal
         private readonly bool parallel;
         private readonly Palette p;
         private readonly bool verbose;
+
+        private int resultOrdinal;
 
         public Logger(TextWriter writer, string prefix, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
         {
@@ -82,15 +85,19 @@ namespace Bullseye.Internal
             await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, elapsedMilliseconds)).Tax();
         }
 
-        public Task Starting(string target) =>
-            this.writer.WriteLineAsync(Message(p.Default, "Starting...", target, null));
+        public Task Starting(string target)
+        {
+            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+
+            return this.writer.WriteLineAsync(Message(p.Default, "Starting...", target, null));
+        }
 
         public Task Error(string target, Exception ex) =>
             this.writer.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
 
         public Task Failed(string target, Exception ex, double elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            var result = this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
             result.Outcome = TargetOutcome.Failed;
             result.DurationMilliseconds = elapsedMilliseconds;
 
@@ -99,7 +106,7 @@ namespace Bullseye.Internal
 
         public Task Failed(string target, double elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            var result = this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
             result.Outcome = TargetOutcome.Failed;
             result.DurationMilliseconds = elapsedMilliseconds;
 
@@ -108,7 +115,7 @@ namespace Bullseye.Internal
 
         public Task Succeeded(string target, double? elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult());
+            var result = this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
             result.Outcome = TargetOutcome.Succeeded;
             result.DurationMilliseconds = elapsedMilliseconds;
 
@@ -123,7 +130,7 @@ namespace Bullseye.Internal
 
         public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds)
         {
-            this.results.GetOrAdd(target, key => new TargetResult()).InputResults
+            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal))).InputResults
                 .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Failed, DurationMilliseconds = elapsedMilliseconds });
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
@@ -131,7 +138,7 @@ namespace Bullseye.Internal
 
         public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds)
         {
-            this.results.GetOrAdd(target, key => new TargetResult()).InputResults
+            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal))).InputResults
                 .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Succeeded, DurationMilliseconds = elapsedMilliseconds });
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
@@ -139,7 +146,7 @@ namespace Bullseye.Internal
 
         public Task NoInputs(string target)
         {
-            this.results.GetOrAdd(target, key => new TargetResult()).Outcome = TargetOutcome.NoInputs;
+            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal))).Outcome = TargetOutcome.NoInputs;
 
             return this.writer.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
         }
@@ -153,7 +160,7 @@ namespace Bullseye.Internal
 
             var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Default}Duration{p.Reset}", "", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Target{p.Reset}") };
 
-            foreach (var item in results.OrderBy(i => i.Value.DurationMilliseconds))
+            foreach (var item in results.OrderBy(i => i.Value.Ordinal))
             {
                 var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}{p.Reset}";
 
@@ -306,6 +313,10 @@ namespace Bullseye.Internal
 
         private class TargetResult
         {
+            public TargetResult(int ordinal) => this.Ordinal = ordinal;
+
+            public int Ordinal { get; }
+
             public TargetOutcome Outcome { get; set; }
 
             public double? DurationMilliseconds { get; set; }
