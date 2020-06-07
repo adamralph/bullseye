@@ -87,7 +87,7 @@ namespace Bullseye.Internal
 
         public Task Starting(string target)
         {
-            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+            InternResult(target);
 
             return this.writer.WriteLineAsync(Message(p.Default, "Starting...", target, null));
         }
@@ -97,7 +97,7 @@ namespace Bullseye.Internal
 
         public Task Failed(string target, Exception ex, double elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+            var result = InternResult(target);
             result.Outcome = TargetOutcome.Failed;
             result.DurationMilliseconds = elapsedMilliseconds;
 
@@ -106,7 +106,7 @@ namespace Bullseye.Internal
 
         public Task Failed(string target, double elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+            var result = InternResult(target);
             result.Outcome = TargetOutcome.Failed;
             result.DurationMilliseconds = elapsedMilliseconds;
 
@@ -115,7 +115,7 @@ namespace Bullseye.Internal
 
         public Task Succeeded(string target, double? elapsedMilliseconds)
         {
-            var result = this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+            var result = InternResult(target);
             result.Outcome = TargetOutcome.Succeeded;
             result.DurationMilliseconds = elapsedMilliseconds;
 
@@ -130,7 +130,7 @@ namespace Bullseye.Internal
 
         public Task Failed<TInput>(string target, TInput input, Exception ex, double elapsedMilliseconds)
         {
-            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal))).InputResults
+            InternResult(target).InputResults
                 .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Failed, DurationMilliseconds = elapsedMilliseconds });
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, elapsedMilliseconds));
@@ -138,7 +138,7 @@ namespace Bullseye.Internal
 
         public Task Succeeded<TInput>(string target, TInput input, double elapsedMilliseconds)
         {
-            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal))).InputResults
+            InternResult(target).InputResults
                 .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Succeeded, DurationMilliseconds = elapsedMilliseconds });
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, elapsedMilliseconds));
@@ -146,10 +146,12 @@ namespace Bullseye.Internal
 
         public Task NoInputs(string target)
         {
-            this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal))).Outcome = TargetOutcome.NoInputs;
+            InternResult(target).Outcome = TargetOutcome.NoInputs;
 
             return this.writer.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
         }
+
+        private TargetResult InternResult(string target) => this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
 
         private async Task Results()
         {
