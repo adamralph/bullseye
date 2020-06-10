@@ -59,11 +59,11 @@ namespace Bullseye.Internal
             }
             catch (Exception)
             {
-                await log.Failed(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
+                await log.Failed(this.Name, stopWatch.Elapsed).Tax();
                 throw;
             }
 
-            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
+            await log.Succeeded(this.Name, stopWatch.Elapsed).Tax();
         }
 
         private async Task InvokeAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
@@ -86,12 +86,12 @@ namespace Bullseye.Internal
                         await log.Error(this.Name, input, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
+                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed).Tax();
                     throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
                 }
             }
 
-            await log.Succeeded(this.Name, input, stopWatch.Elapsed.TotalMilliseconds).Tax();
+            await log.Succeeded(this.Name, input, stopWatch.Elapsed).Tax();
         }
     }
 }

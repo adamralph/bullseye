@@ -34,12 +34,12 @@ namespace Bullseye.Internal
                         await log.Error(this.Name, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, ex, stopWatch.Elapsed.TotalMilliseconds).Tax();
+                    await log.Failed(this.Name, ex, stopWatch.Elapsed).Tax();
                     throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
                 }
             }
 
-            await log.Succeeded(this.Name, stopWatch.Elapsed.TotalMilliseconds).Tax();
+            await log.Succeeded(this.Name, stopWatch.Elapsed).Tax();
         }
     }
 }
