@@ -164,7 +164,7 @@ namespace Bullseye.Internal
                     total +
                     (result.Value.Duration ?? result.Value.InputResults.Aggregate(TimeSpan.Zero, (inputTotal, input) => inputTotal + input.Duration)));
 
-            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Default}Target{p.Reset}", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Duration{p.Reset}", "") };
+            var rows = new List<SummaryRow> { new SummaryRow { TargetOrInput = $"{p.Default}Target{p.Reset}", Outcome = $"{p.Default}Outcome{p.Reset}", Duration = $"{p.Default}Duration{p.Reset}", Percentage = "" } };
 
             foreach (var item in results.OrderBy(i => i.Value.Ordinal))
             {
@@ -182,7 +182,7 @@ namespace Bullseye.Internal
                     ? $"{p.Timing}{100 * item.Value.Duration.Value.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
                     : "";
 
-                rows.Add(Tuple.Create(target, outcome, duration, percentage));
+                rows.Add(new SummaryRow { TargetOrInput = target, Outcome = outcome, Duration = duration, Percentage = percentage });
 
                 var index = 0;
 
@@ -198,26 +198,26 @@ namespace Bullseye.Internal
                         ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
                         : "";
 
-                    rows.Add(Tuple.Create(input, inputOutcome, inputDuration, inputPercentage));
+                    rows.Add(new SummaryRow { TargetOrInput = input, Outcome = inputOutcome, Duration = inputDuration, Percentage = inputPercentage });
 
                     ++index;
                 }
             }
 
-            // target name column width
-            var tarW = rows.Max(row => Palette.StripColours(row.Item1).Length);
+            // target or input column width
+            var tarW = rows.Max(row => Palette.StripColours(row.TargetOrInput).Length);
 
             // outcome column width
-            var outW = rows.Max(row => Palette.StripColours(row.Item2).Length);
+            var outW = rows.Max(row => Palette.StripColours(row.Outcome).Length);
 
             // duration column width
-            var durW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item3).Length) : 0;
+            var durW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Duration).Length) : 0;
 
             // percentage column width
-            var perW = rows.Max(row => Palette.StripColours(row.Item4).Length);
+            var perW = rows.Max(row => Palette.StripColours(row.Percentage).Length);
 
             // timing column width (duration and percentage)
-            var timW = Max(Palette.StripColours(rows[0].Item3).Length, durW + 2 + perW);
+            var timW = Max(Palette.StripColours(rows[0].Duration).Length, durW + 2 + perW);
 
             // expand percentage column width to ensure time and percentage are as wide as duration
             perW = Max(timW - durW - 2, perW);
@@ -226,7 +226,7 @@ namespace Bullseye.Internal
             await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW + 2 + outW + 2 + timW, p.Dash)}{p.Reset}").Tax();
 
             // header
-            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(tarW, ws)}{ws}{ws}{rows[0].Item2.Prp(outW, ws)}{ws}{ws}{rows[0].Item3.Prp(timW, ws)}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].TargetOrInput.Prp(tarW, ws)}{ws}{ws}{rows[0].Outcome.Prp(outW, ws)}{ws}{ws}{rows[0].Duration.Prp(timW, ws)}").Tax();
 
             // header separator
             await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(outW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(timW, p.Dash)}{p.Reset}").Tax();
@@ -234,7 +234,7 @@ namespace Bullseye.Internal
             // targets
             foreach (var row in rows.Skip(1))
             {
-                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(tarW, ws)}{p.Reset}{ws}{ws}{row.Item2.Prp(outW, ws)}{p.Reset}{ws}{ws}{row.Item3.Prp(durW, ws)}{p.Reset}{ws}{ws}{row.Item4.Prp(perW, ws)}{p.Reset}").Tax();
+                await this.writer.WriteLineAsync($"{GetPrefix()}{row.TargetOrInput.Prp(tarW, ws)}{p.Reset}{ws}{ws}{row.Outcome.Prp(outW, ws)}{p.Reset}{ws}{ws}{row.Duration.Prp(durW, ws)}{p.Reset}{ws}{ws}{row.Percentage.Prp(perW, ws)}{p.Reset}").Tax();
             }
 
             // summary end separator
@@ -335,6 +335,17 @@ namespace Bullseye.Internal
             public TargetInputOutcome Outcome { get; set; }
 
             public TimeSpan Duration { get; set; }
+        }
+
+        private class SummaryRow
+        {
+            public string TargetOrInput { get; set; }
+
+            public string Outcome { get; set; }
+
+            public string Duration { get; set; }
+
+            public string Percentage { get; set; }
         }
 
         private enum TargetOutcome
