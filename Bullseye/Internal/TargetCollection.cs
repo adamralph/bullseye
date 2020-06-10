@@ -46,11 +46,11 @@ namespace Bullseye.Internal
             }
             catch (Exception)
             {
-                await log.Failed(names, stopWatch.Elapsed.TotalMilliseconds).Tax();
+                await log.Failed(names, stopWatch.Elapsed).Tax();
                 throw;
             }
 
-            await log.Succeeded(names, stopWatch.Elapsed.TotalMilliseconds).Tax();
+            await log.Succeeded(names, stopWatch.Elapsed).Tax();
         }
 
         private async Task RunAsync(string name, ICollection<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, ConcurrentDictionary<string, Task> targetsRan, Logger log, Func<Exception, bool> messageOnly, Stack<string> targets)
