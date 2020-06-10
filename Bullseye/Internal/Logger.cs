@@ -304,7 +304,7 @@ namespace Bullseye.Internal
             // minutes and seconds
             if (duration.TotalHours < 1D)
             {
-                var minutes = Math.Floor(duration.TotalMinutes).ToString("F0", provider);
+                var minutes = Floor(duration.TotalMinutes).ToString("F0", provider);
                 var seconds = duration.Seconds.ToString("F0", provider);
                 return seconds == "0"
                     ? $"{minutes} m"
