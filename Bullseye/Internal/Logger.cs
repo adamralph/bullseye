@@ -160,15 +160,11 @@ namespace Bullseye.Internal
 
             var totalDuration = results.Sum(i => i.Value.DurationMilliseconds ?? 0 + i.Value.InputResults.Sum(i2 => i2.DurationMilliseconds));
 
-            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Default}Duration{p.Reset}", "", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Target{p.Reset}") };
+            var rows = new List<Tuple<string, string, string, string>> { Tuple.Create($"{p.Default}Target{p.Reset}", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Duration{p.Reset}", "") };
 
             foreach (var item in results.OrderBy(i => i.Value.Ordinal))
             {
-                var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}{p.Reset}";
-
-                var percentage = item.Value.DurationMilliseconds.HasValue && totalDuration > 0
-                    ? $"{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%{p.Reset}"
-                    : "";
+                var target = $"{p.Target}{item.Key}{p.Reset}";
 
                 var outcome = item.Value.Outcome == TargetOutcome.Failed
                     ? $"{p.Failed}Failed!{p.Reset}"
@@ -176,65 +172,69 @@ namespace Bullseye.Internal
                         ? $"{p.Warning}No inputs!{p.Reset}"
                         : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                var target = $"{p.Target}{item.Key}{p.Reset}";
+                var duration = $"{p.Timing}{ToStringFromMilliseconds(item.Value.DurationMilliseconds, true)}{p.Reset}";
 
-                rows.Add(Tuple.Create(duration, percentage, outcome, target));
+                var percentage = item.Value.DurationMilliseconds.HasValue && totalDuration > 0
+                    ? $"{p.Timing}{100 * item.Value.DurationMilliseconds / totalDuration:N1}%{p.Reset}"
+                    : "";
+
+                rows.Add(Tuple.Create(target, outcome, duration, percentage));
 
                 var index = 0;
 
                 foreach (var result in item.Value.InputResults.OrderBy(r => r.DurationMilliseconds))
                 {
+                    var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
+
+                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
+
                     var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToStringFromMilliseconds(result.DurationMilliseconds, true)}{p.Reset}";
 
                     var inputPercentage = totalDuration > 0
                         ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.DurationMilliseconds / totalDuration:N1}%{p.Reset}"
                         : "";
 
-                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
-
-                    var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
-
-                    rows.Add(Tuple.Create(inputDuration, inputPercentage, inputOutcome, input));
+                    rows.Add(Tuple.Create(input, inputOutcome, inputDuration, inputPercentage));
 
                     ++index;
                 }
             }
 
+            // target name column width
+            var tarW = rows.Max(row => Palette.StripColours(row.Item1).Length);
+
+            // outcome column width
+            var outW = rows.Max(row => Palette.StripColours(row.Item2).Length);
+
             // time column width
-            var timW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item1).Length) : 0;
+            var timW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item3).Length) : 0;
 
             // percentage column width
-            var perW = rows.Max(row => Palette.StripColours(row.Item2).Length);
+            var perW = rows.Max(row => Palette.StripColours(row.Item4).Length);
 
             // duration column width (time and percentage)
-            var durW = Max(Palette.StripColours(rows[0].Item1).Length, timW + 2 + perW);
+            var durW = Max(Palette.StripColours(rows[0].Item3).Length, timW + 2 + perW);
 
             // expand percentage column width to ensure time and percentage are as wide as duration
             perW = Max(durW - timW - 2, perW);
 
-            // outcome column width
-            var outW = rows.Max(row => Palette.StripColours(row.Item3).Length);
-
-            // target name column width
-            var tarW = rows.Max(row => Palette.StripColours(row.Item4).Length);
-
             // summary start separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Reset}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW + 2 + outW + 2 + durW, p.Dash)}{p.Reset}").Tax();
 
             // header
-            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(durW, ws)}{ws}{ws}{rows[0].Item3.Prp(outW, ws)}{ws}{ws}{rows[0].Item4.Prp(tarW, ws)}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(tarW, ws)}{ws}{ws}{rows[0].Item2.Prp(outW, ws)}{ws}{ws}{rows[0].Item3.Prp(durW, ws)}").Tax();
 
             // header separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(durW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(outW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(tarW, p.Dash)}{p.Reset}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(outW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(durW, p.Dash)}{p.Reset}").Tax();
 
             // targets
             foreach (var row in rows.Skip(1))
             {
-                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(timW, ws)}{p.Reset}{ws}{ws}{row.Item2.Prp(perW, ws)}{p.Reset}{ws}{ws}{row.Item3.Prp(outW, ws)}{p.Reset}{ws}{ws}{row.Item4.Prp(tarW, ws)}{p.Reset}").Tax();
+                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(tarW, ws)}{p.Reset}{ws}{ws}{row.Item2.Prp(outW, ws)}{p.Reset}{ws}{ws}{row.Item3.Prp(timW, ws)}{p.Reset}{ws}{ws}{row.Item4.Prp(perW, ws)}{p.Reset}").Tax();
             }
 
             // summary end separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(durW + 2 + outW + 2 + tarW, p.Dash)}{p.Reset}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW + 2 + outW + 2 + durW, p.Dash)}{p.Reset}").Tax();
         }
 
         private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Reset}";
