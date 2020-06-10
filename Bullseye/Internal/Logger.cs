@@ -210,35 +210,35 @@ namespace Bullseye.Internal
             // outcome column width
             var outW = rows.Max(row => Palette.StripColours(row.Item2).Length);
 
-            // time column width
-            var timW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item3).Length) : 0;
+            // duration column width
+            var durW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Item3).Length) : 0;
 
             // percentage column width
             var perW = rows.Max(row => Palette.StripColours(row.Item4).Length);
 
-            // duration column width (time and percentage)
-            var durW = Max(Palette.StripColours(rows[0].Item3).Length, timW + 2 + perW);
+            // timing column width (duration and percentage)
+            var timW = Max(Palette.StripColours(rows[0].Item3).Length, durW + 2 + perW);
 
             // expand percentage column width to ensure time and percentage are as wide as duration
-            perW = Max(durW - timW - 2, perW);
+            perW = Max(timW - durW - 2, perW);
 
             // summary start separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW + 2 + outW + 2 + durW, p.Dash)}{p.Reset}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW + 2 + outW + 2 + timW, p.Dash)}{p.Reset}").Tax();
 
             // header
-            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(tarW, ws)}{ws}{ws}{rows[0].Item2.Prp(outW, ws)}{ws}{ws}{rows[0].Item3.Prp(durW, ws)}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{rows[0].Item1.Prp(tarW, ws)}{ws}{ws}{rows[0].Item2.Prp(outW, ws)}{ws}{ws}{rows[0].Item3.Prp(timW, ws)}").Tax();
 
             // header separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(outW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(durW, p.Dash)}{p.Reset}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(outW, p.Dash)}{p.Reset}{ws}{ws}{p.Default}{"".Prp(timW, p.Dash)}{p.Reset}").Tax();
 
             // targets
             foreach (var row in rows.Skip(1))
             {
-                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(tarW, ws)}{p.Reset}{ws}{ws}{row.Item2.Prp(outW, ws)}{p.Reset}{ws}{ws}{row.Item3.Prp(timW, ws)}{p.Reset}{ws}{ws}{row.Item4.Prp(perW, ws)}{p.Reset}").Tax();
+                await this.writer.WriteLineAsync($"{GetPrefix()}{row.Item1.Prp(tarW, ws)}{p.Reset}{ws}{ws}{row.Item2.Prp(outW, ws)}{p.Reset}{ws}{ws}{row.Item3.Prp(durW, ws)}{p.Reset}{ws}{ws}{row.Item4.Prp(perW, ws)}{p.Reset}").Tax();
             }
 
             // summary end separator
-            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW + 2 + outW + 2 + durW, p.Dash)}{p.Reset}").Tax();
+            await this.writer.WriteLineAsync($"{GetPrefix()}{p.Default}{"".Prp(tarW + 2 + outW + 2 + timW, p.Dash)}{p.Reset}").Tax();
         }
 
         private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Reset}";
