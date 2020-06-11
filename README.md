@@ -156,7 +156,7 @@ To name a few:
 - [AspNetCore.AsyncInitialization](https://github.com/thomaslevesque/AspNetCore.AsyncInitialization)
 - [Config.SqlStreamStore](https://github.com/Erwinvandervalk/Config.SqlStreamStore)
 - [ConfigR](https://github.com/config-r)
-- [Elasticsearch.Net & NEST](https://github.com/elastic/elasticsearch-net)
+- [Elastic](https://github.com/elastic)
 - [EssentialMVVM](https://github.com/thomaslevesque/EssentialMVVM)
 - [FakeItEasy](https://github.com/FakeItEasy)
 - [HumanBytes](https://github.com/thomaslevesque/HumanBytes)
