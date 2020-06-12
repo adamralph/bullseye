@@ -6,7 +6,7 @@ namespace BullseyeTests
     using Xbehave;
     using Xunit;
 
-    public class LoggerTests
+    public class TimeSpanExtensionsTests
     {
         [Scenario]
         [Example(0.001D, "<1 ms")]
