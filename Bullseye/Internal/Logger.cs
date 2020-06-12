@@ -186,7 +186,7 @@ namespace Bullseye.Internal
 
                 var index = 0;
 
-                foreach (var result in item.Value.InputResults.OrderBy(r => r.Duration))
+                foreach (var result in item.Value.InputResults)
                 {
                     var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
 
