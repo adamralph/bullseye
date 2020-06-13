@@ -5,7 +5,6 @@ namespace Bullseye.Internal
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -15,8 +14,6 @@ namespace Bullseye.Internal
 
     public class Logger
     {
-        private static readonly IFormatProvider provider = CultureInfo.InvariantCulture;
-
         private readonly ConcurrentDictionary<string, TargetResult> results = new ConcurrentDictionary<string, TargetResult>();
         private readonly TextWriter writer;
         private readonly string prefix;
