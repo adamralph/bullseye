@@ -176,7 +176,7 @@ namespace Bullseye.Internal
                         ? $"{p.Warning}No inputs!{p.Reset}"
                         : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                var duration = $"{p.Timing}{ToString(item.Value.Duration, true)}{p.Reset}";
+                var duration = $"{p.Timing}{item.Value.Duration.Humanize(true)}{p.Reset}";
 
                 var percentage = item.Value.Duration.HasValue && totalDuration > TimeSpan.Zero
                     ? $"{p.Timing}{100 * item.Value.Duration.Value.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
@@ -192,7 +192,7 @@ namespace Bullseye.Internal
 
                     var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToString(result.Duration, true)}{p.Reset}";
+                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize(true)}{p.Reset}";
 
                     var inputPercentage = totalDuration > TimeSpan.Zero
                         ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
@@ -276,44 +276,7 @@ namespace Bullseye.Internal
             (!specific && this.dryRun ? $" {p.Option}(dry run){p.Reset}" : "") +
                 (!specific && this.parallel ? $" {p.Option}(parallel){p.Reset}" : "") +
                 (!specific && this.skipDependencies ? $" {p.Option}(skip dependencies){p.Reset}" : "") +
-                (!this.dryRun && duration.HasValue ? $" {p.Timing}({ToString(duration.Value)}){p.Reset}" : "");
-
-        private static string ToString(TimeSpan? duration, bool @fixed) =>
-            duration.HasValue ? ToString(duration.Value, @fixed) : string.Empty;
-
-        private static string ToString(TimeSpan duration, bool @fixed = false)
-        {
-            // less than one millisecond
-            if (duration.TotalMilliseconds < 1D)
-            {
-                return "<1 ms";
-            }
-
-            // milliseconds
-            if (duration.TotalSeconds < 1D)
-            {
-                return duration.TotalMilliseconds.ToString(@fixed ? "F0" : "G3", provider) + " ms";
-            }
-
-            // seconds
-            if (duration.TotalMinutes < 1D)
-            {
-                return duration.TotalSeconds.ToString(@fixed ? "F2" : "G3", provider) + " s";
-            }
-
-            // minutes and seconds
-            if (duration.TotalHours < 1D)
-            {
-                var minutes = Floor(duration.TotalMinutes).ToString("F0", provider);
-                var seconds = duration.Seconds.ToString("F0", provider);
-                return seconds == "0"
-                    ? $"{minutes} m"
-                    : $"{minutes} m {seconds} s";
-            }
-
-            // minutes
-            return duration.TotalMinutes.ToString("N0", provider) + " m";
-        }
+                (!this.dryRun && duration.HasValue ? $" {p.Timing}({duration.Humanize()}){p.Reset}" : "");
 
         private class TargetResult
         {
