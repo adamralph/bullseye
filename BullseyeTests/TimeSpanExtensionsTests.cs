@@ -8,7 +8,7 @@ namespace BullseyeTests
     public class TimeSpanExtensionsTests
     {
         [Scenario]
-        [Example(0.001D, "<1 ms")]
+        [Example(0.9D, "<1 ms")]
         [Example(1D, "1 ms")]
         [Example(1_000D, "1 s")]
         [Example(119_000D, "1 m 59 s")]
