@@ -75,7 +75,7 @@ namespace Bullseye.Internal
 
         public async Task Succeeded(List<string> targets, TimeSpan duration)
         {
-            foreach(var )
+            await this.summary.Results().Tax();
             await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, duration)).Tax();
         }
 
