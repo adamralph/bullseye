@@ -13,14 +13,14 @@ namespace Bullseye.Internal
     public class Summary
     {
         private readonly ConcurrentDictionary<string, TargetResult> results = new ConcurrentDictionary<string, TargetResult>();
-        private readonly Palette palette;
+        private readonly Palette p;
         private int resultOrdinal;
 
-        public Summary(Palette palette) => this.palette = palette;
+        public Summary(Palette palette) => this.p = palette;
 
-        public TargetResult Intern(string target) => this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+        public TargetResult InternResult(string target) => this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
 
-        private async Task Results()
+        public async Task Results()
         {
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
@@ -43,7 +43,7 @@ namespace Bullseye.Internal
                         ? $"{p.Warning}No inputs!{p.Reset}"
                         : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                var duration = $"{p.Timing}{ToString(item.Value.Duration, true)}{p.Reset}";
+                var duration = $"{p.Timing}{item.Value.Duration.Humanize(true)}{p.Reset}";
 
                 var percentage = item.Value.Duration.HasValue && totalDuration > TimeSpan.Zero
                     ? $"{p.Timing}{100 * item.Value.Duration.Value.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
@@ -59,7 +59,7 @@ namespace Bullseye.Internal
 
                     var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{ToString(result.Duration, true)}{p.Reset}";
+                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize(true)}{p.Reset}";
 
                     var inputPercentage = totalDuration > TimeSpan.Zero
                         ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"

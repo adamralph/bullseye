@@ -69,19 +69,19 @@ namespace Bullseye.Internal
 
         public async Task Failed(List<string> targets, TimeSpan duration)
         {
-            await this.Results().Tax();
+            await this.summary.Results().Tax();
             await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, duration)).Tax();
         }
 
         public async Task Succeeded(List<string> targets, TimeSpan duration)
         {
-            await this.Results().Tax();
+            foreach(var )
             await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, duration)).Tax();
         }
 
         public Task Starting(string target)
         {
-            this.summary.Intern(target);
+            this.summary.InternResult(target);
 
             return this.writer.WriteLineAsync(Message(p.Default, "Starting...", target, null));
         }
@@ -91,7 +91,7 @@ namespace Bullseye.Internal
 
         public Task Failed(string target, Exception ex, TimeSpan duration)
         {
-            var result = this.summary.Intern(target);
+            var result = this.summary.InternResult(target);
             result.Outcome = Summary.TargetOutcome.Failed;
             result.Duration = duration;
 
@@ -100,7 +100,7 @@ namespace Bullseye.Internal
 
         public Task Failed(string target, TimeSpan duration)
         {
-            var result = this.summary.Intern(target);
+            var result = this.summary.InternResult(target);
             result.Outcome = Summary.TargetOutcome.Failed;
             result.Duration = duration;
 
@@ -109,7 +109,7 @@ namespace Bullseye.Internal
 
         public Task Succeeded(string target, TimeSpan? duration)
         {
-            var result = this.summary.Intern(target);
+            var result = this.summary.InternResult(target);
             result.Outcome = Summary.TargetOutcome.Succeeded;
             result.Duration = duration;
 
@@ -124,7 +124,7 @@ namespace Bullseye.Internal
 
         public Task Failed<TInput>(string target, TInput input, Exception ex, TimeSpan duration)
         {
-            this.summary.Intern(target).InputResults
+            this.summary.InternResult(target).InputResults
                 .Enqueue(new Summary.TargetInputResult { Input = input, Outcome = Summary.TargetInputOutcome.Failed, Duration = duration });
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, duration));
@@ -132,7 +132,7 @@ namespace Bullseye.Internal
 
         public Task Succeeded<TInput>(string target, TInput input, TimeSpan duration)
         {
-            this.summary.Intern(target).InputResults
+            this.summary.InternResult(target).InputResults
                 .Enqueue(new Summary.TargetInputResult { Input = input, Outcome = Summary.TargetInputOutcome.Succeeded, Duration = duration });
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, duration));
@@ -140,7 +140,7 @@ namespace Bullseye.Internal
 
         public Task NoInputs(string target)
         {
-            this.summary.Intern(target).Outcome = Summary.TargetOutcome.NoInputs;
+            this.summary.InternResult(target).Outcome = Summary.TargetOutcome.NoInputs;
 
             return this.writer.WriteLineAsync(Message(p.Warning, "No inputs!", target, null));
         }
@@ -180,43 +180,6 @@ namespace Bullseye.Internal
             (!specific && this.dryRun ? $" {p.Option}(dry run){p.Reset}" : "") +
                 (!specific && this.parallel ? $" {p.Option}(parallel){p.Reset}" : "") +
                 (!specific && this.skipDependencies ? $" {p.Option}(skip dependencies){p.Reset}" : "") +
-                (!this.dryRun && duration.HasValue ? $" {p.Timing}({ToString(duration.Value)}){p.Reset}" : "");
-
-        private static string ToString(TimeSpan? duration, bool @fixed) =>
-            duration.HasValue ? ToString(duration.Value, @fixed) : string.Empty;
-
-        private static string ToString(TimeSpan duration, bool @fixed = false)
-        {
-            // less than one millisecond
-            if (duration.TotalMilliseconds < 1D)
-            {
-                return "<1 ms";
-            }
-
-            // milliseconds
-            if (duration.TotalSeconds < 1D)
-            {
-                return duration.TotalMilliseconds.ToString(@fixed ? "F0" : "G3", provider) + " ms";
-            }
-
-            // seconds
-            if (duration.TotalMinutes < 1D)
-            {
-                return duration.TotalSeconds.ToString(@fixed ? "F2" : "G3", provider) + " s";
-            }
-
-            // minutes and seconds
-            if (duration.TotalHours < 1D)
-            {
-                var minutes = Floor(duration.TotalMinutes).ToString("F0", provider);
-                var seconds = duration.Seconds.ToString("F0", provider);
-                return seconds == "0"
-                    ? $"{minutes} m"
-                    : $"{minutes} m {seconds} s";
-            }
-
-            // minutes
-            return duration.TotalMinutes.ToString("N0", provider) + " m";
-        }
+                (!this.dryRun && duration.HasValue ? $" {p.Timing}({duration.Humanize()}){p.Reset}" : "");
     }
 }
