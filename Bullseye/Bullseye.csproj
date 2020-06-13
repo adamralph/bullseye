@@ -24,4 +24,8 @@
     <None Include="../assets/bullseye.png" Pack="true" PackagePath="/" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Bullseye.Internal\Bullseye.Internal.csproj" />
+  </ItemGroup>
+
 </Project>
