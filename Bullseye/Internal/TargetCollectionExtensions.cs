@@ -4,6 +4,8 @@ namespace Bullseye.Internal
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     public static class TargetCollectionExtensions
@@ -25,7 +27,57 @@ namespace Bullseye.Internal
             options = options ?? new Options();
             messageOnly = messageOnly ?? (_ => false);
 
-            var (output, log) = await ConsoleExtensions.Initialize(options, logPrefix).Tax();
+            if (logPrefix == null)
+            {
+                logPrefix = "Bullseye";
+                var entryAssembly = Assembly.GetEntryAssembly();
+                if (entryAssembly == null)
+                {
+                    await Console.Error.WriteLineAsync($"{logPrefix}: Failed to get the entry assembly. Using default log prefix \"{logPrefix}\".").Tax();
+                }
+                else
+                {
+                    logPrefix = entryAssembly.GetName().Name;
+                }
+            }
+
+            if (options.Clear)
+            {
+                try
+                {
+                    Console.Clear();
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    await Console.Error.WriteLineAsync($"{logPrefix}: Failed to clear the console: {ex}").Tax();
+                }
+            }
+
+            var operatingSystem =
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? OperatingSystem.Windows
+                    : RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+                        ? OperatingSystem.Linux
+                        : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                            ? OperatingSystem.MacOS
+                            : OperatingSystem.Unknown;
+
+            if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
+            {
+                await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
+            }
+
+            var (host, isHostDetected) = options.Host.DetectIfUnknown();
+
+            var palette = new Palette(options.NoColor, options.NoExtendedChars, host, operatingSystem);
+            var output = new Output(Console.Out, palette);
+            var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
+
+            await log.Version().Tax();
+            await log.Verbose($"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
+            await log.Verbose($"OS: {operatingSystem}").Tax();
 
             if (logArgs != null)
             {
