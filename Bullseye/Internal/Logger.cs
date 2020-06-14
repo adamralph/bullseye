@@ -23,6 +23,7 @@ namespace Bullseye.Internal
         private readonly bool verbose;
 
         private int resultOrdinal;
+        private TimeSpan? totalDuration;
 
         public Logger(TextWriter writer, string prefix, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
         {
@@ -64,16 +65,16 @@ namespace Bullseye.Internal
         public Task Starting(List<string> targets) =>
             this.writer.WriteLineAsync(Message(p.Default, $"Starting...", targets, null));
 
-        public async Task Failed(List<string> targets, TimeSpan duration)
+        public async Task Failed(List<string> targets)
         {
             await this.Results().Tax();
-            await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, duration)).Tax();
+            await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, totalDuration)).Tax();
         }
 
-        public async Task Succeeded(List<string> targets, TimeSpan duration)
+        public async Task Succeeded(List<string> targets)
         {
             await this.Results().Tax();
-            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, duration)).Tax();
+            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, totalDuration)).Tax();
         }
 
         public Task Starting(string target)
@@ -86,37 +87,40 @@ namespace Bullseye.Internal
         public Task Error(string target, Exception ex) =>
             this.writer.WriteLineAsync(Message(p.Failed, ex.ToString(), target));
 
-        public Task Failed(string target, Exception ex, TimeSpan duration)
+        public Task Failed(string target, Exception ex, TimeSpan? duration)
         {
             var result = InternResult(target);
             result.Outcome = TargetOutcome.Failed;
-            result.Duration = duration;
+            result.Duration = result.Duration.Add(duration);
 
-            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, duration));
+            totalDuration = totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed! {ex.Message}", target, result.Duration));
         }
 
-        public Task Failed(string target, TimeSpan duration)
+        public Task Failed(string target)
         {
             var result = InternResult(target);
             result.Outcome = TargetOutcome.Failed;
-            result.Duration = duration;
 
-            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", target, duration));
+            return this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", target, result.Duration));
         }
 
-        public Task Succeeded(string target, TimeSpan? duration)
+        public Task Succeeded(string target, TimeSpan? duration = null)
         {
             var result = InternResult(target);
             result.Outcome = TargetOutcome.Succeeded;
-            result.Duration = duration;
+            result.Duration = result.Duration.Add(duration);
 
-            return this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, duration));
+            totalDuration = totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, result.Duration));
         }
 
         public Task Starting<TInput>(string target, TInput input, Guid inputId)
         {
-            var result = Intern(target, inputId);
-            result.Input = input;
+            var (_,  targetInputResult) = Intern(target, inputId);
+            targetInputResult.Input = input;
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Default, "Starting...", target, input, null));
         }
@@ -124,24 +128,34 @@ namespace Bullseye.Internal
         public Task Error<TInput>(string target, TInput input, Exception ex) =>
             this.writer.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
 
-        public Task Failed<TInput>(string target, TInput input, Exception ex, TimeSpan duration, Guid inputId)
+        public Task Failed<TInput>(string target, TInput input, Exception ex, TimeSpan? duration, Guid inputId)
         {
-            var result = Intern(target, inputId);
-            result.Input = input;
-            result.Outcome = TargetInputOutcome.Failed;
-            result.Duration = duration;
+            var (targetResult, targetInputResult) = Intern(target, inputId);
 
-            return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, duration));
+            targetInputResult.Input = input;
+            targetInputResult.Outcome = TargetInputOutcome.Failed;
+            targetInputResult.Duration = targetInputResult.Duration.Add(duration);
+
+            targetResult.Duration = targetResult.Duration.Add(duration);
+
+            totalDuration = totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, targetInputResult.Input, targetInputResult.Duration));
         }
 
-        public Task Succeeded<TInput>(string target, TInput input, TimeSpan duration, Guid inputId)
+        public Task Succeeded<TInput>(string target, TInput input, TimeSpan? duration, Guid inputId)
         {
-            var result = Intern(target, inputId);
-            result.Input = input;
-            result.Outcome = TargetInputOutcome.Succeeded;
-            result.Duration = duration;
+            var (targetResult, targetInputResult) = Intern(target, inputId);
 
-            return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, duration));
+            targetInputResult.Input = input;
+            targetInputResult.Outcome = TargetInputOutcome.Succeeded;
+            targetInputResult.Duration = targetInputResult.Duration.Add(duration);
+
+            targetResult.Duration = targetResult.Duration.Add(duration);
+
+            totalDuration = totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, targetInputResult.Input, targetInputResult.Duration));
         }
 
         public Task NoInputs(string target)
@@ -153,19 +167,17 @@ namespace Bullseye.Internal
 
         private TargetResult InternResult(string target) => this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
 
-        private TargetInputResult Intern(string target, Guid inputId) =>
-            InternResult(target).InputResults.GetOrAdd(inputId, key => new TargetInputResult(Interlocked.Increment(ref this.resultOrdinal)));
+        private (TargetResult, TargetInputResult) Intern(string target, Guid inputId)
+        {
+            var targetResult = InternResult(target);
+            var targetInputResult = targetResult.InputResults.GetOrAdd(inputId, key => new TargetInputResult(Interlocked.Increment(ref this.resultOrdinal)));
+            return (targetResult, targetInputResult);
+        }
 
         private async Task Results()
         {
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
-
-            var totalDuration = results.Aggregate(
-                TimeSpan.Zero,
-                (total, result) =>
-                    total +
-                    (result.Value.Duration ?? result.Value.InputResults.Values.Aggregate(TimeSpan.Zero, (inputTotal, input) => inputTotal + input.Duration)));
 
             var rows = new List<SummaryRow> { new SummaryRow { TargetOrInput = $"{p.Default}Target{p.Reset}", Outcome = $"{p.Default}Outcome{p.Reset}", Duration = $"{p.Default}Duration{p.Reset}", Percentage = "" } };
 
@@ -179,10 +191,12 @@ namespace Bullseye.Internal
                         ? $"{p.Warning}No inputs!{p.Reset}"
                         : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                var duration = $"{p.Timing}{item.Value.Duration.Humanize(true)}{p.Reset}";
+                var duration = item.Value.Duration.HasValue
+                    ? $"{p.Timing}{item.Value.Duration.Humanize(true)}{p.Reset}"
+                    : "";
 
-                var percentage = item.Value.Duration.HasValue && totalDuration > TimeSpan.Zero
-                    ? $"{p.Timing}{100 * item.Value.Duration.Value.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
+                var percentage = item.Value.Duration.HasValue && totalDuration.HasValue && totalDuration.Value > TimeSpan.Zero
+                    ? $"{p.Timing}{100 * item.Value.Duration.Value.TotalMilliseconds / totalDuration.Value.TotalMilliseconds:N1}%{p.Reset}"
                     : "";
 
                 rows.Add(new SummaryRow { TargetOrInput = target, Outcome = outcome, Duration = duration, Percentage = percentage });
@@ -195,10 +209,12 @@ namespace Bullseye.Internal
 
                     var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
 
-                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize(true)}{p.Reset}";
+                    var inputDuration = result.Duration.HasValue
+                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize(true)}{p.Reset}"
+                        : "";
 
-                    var inputPercentage = totalDuration > TimeSpan.Zero
-                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
+                    var inputPercentage = result.Duration.HasValue && totalDuration.HasValue && totalDuration.Value > TimeSpan.Zero
+                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.Value.TotalMilliseconds / totalDuration.Value.TotalMilliseconds:N1}%{p.Reset}"
                         : "";
 
                     rows.Add(new SummaryRow { TargetOrInput = input, Outcome = inputOutcome, Duration = inputDuration, Percentage = inputPercentage });
@@ -304,7 +320,7 @@ namespace Bullseye.Internal
 
             public TargetInputOutcome Outcome { get; set; }
 
-            public TimeSpan Duration { get; set; }
+            public TimeSpan? Duration { get; set; }
         }
 
         private class SummaryRow

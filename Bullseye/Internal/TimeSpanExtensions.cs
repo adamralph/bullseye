@@ -3,6 +3,7 @@ namespace Bullseye.Internal
 {
     using System;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
     using static System.Math;
 
     public static class TimeSpanExtensions
@@ -45,5 +46,10 @@ namespace Bullseye.Internal
             // minutes
             return duration.TotalMinutes.ToString("N0", provider) + " m";
         }
+
+        public static TimeSpan? Add(this TimeSpan? x, TimeSpan? y) =>
+            y.HasValue
+            ? (x ?? TimeSpan.Zero).Add(y.Value)
+            : x;
     }
 }
