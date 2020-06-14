@@ -119,24 +119,33 @@ namespace Bullseye.Internal
             return this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, duration));
         }
 
-        public Task Starting<TInput>(string target, TInput input) =>
-            this.writer.WriteLineAsync(MessageWithInput(p.Default, "Starting...", target, input, null));
+        public Task Starting<TInput>(string target, TInput input, Guid inputId)
+        {
+            var result = Intern(target, inputId);
+            result.Input = input;
+
+            return this.writer.WriteLineAsync(MessageWithInput(p.Default, "Starting...", target, input, null));
+        }
 
         public Task Error<TInput>(string target, TInput input, Exception ex) =>
             this.writer.WriteLineAsync(MessageWithInput(p.Failed, ex.ToString(), target, input));
 
-        public Task Failed<TInput>(string target, TInput input, Exception ex, TimeSpan duration)
+        public Task Failed<TInput>(string target, TInput input, Exception ex, TimeSpan duration, Guid inputId)
         {
-            InternResult(target).InputResults
-                .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Failed, Duration = duration });
+            var result = Intern(target, inputId);
+            result.Input = input;
+            result.Outcome = TargetInputOutcome.Failed;
+            result.Duration = duration;
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Failed, $"Failed! {ex.Message}", target, input, duration));
         }
 
-        public Task Succeeded<TInput>(string target, TInput input, TimeSpan duration)
+        public Task Succeeded<TInput>(string target, TInput input, TimeSpan duration, Guid inputId)
         {
-            InternResult(target).InputResults
-                .Enqueue(new TargetInputResult { Input = input, Outcome = TargetInputOutcome.Succeeded, Duration = duration });
+            var result = Intern(target, inputId);
+            result.Input = input;
+            result.Outcome = TargetInputOutcome.Succeeded;
+            result.Duration = duration;
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, input, duration));
         }
@@ -150,6 +159,9 @@ namespace Bullseye.Internal
 
         private TargetResult InternResult(string target) => this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
 
+        private TargetInputResult Intern(string target, Guid inputId) =>
+            InternResult(target).InputResults.GetOrAdd(inputId, key => new TargetInputResult(Interlocked.Increment(ref this.resultOrdinal)));
+
         private async Task Results()
         {
             // whitespace (e.g. can change to '·' for debugging)
@@ -159,7 +171,7 @@ namespace Bullseye.Internal
                 TimeSpan.Zero,
                 (total, result) =>
                     total +
-                    (result.Value.Duration ?? result.Value.InputResults.Aggregate(TimeSpan.Zero, (inputTotal, input) => inputTotal + input.Duration)));
+                    (result.Value.Duration ?? result.Value.InputResults.Values.Aggregate(TimeSpan.Zero, (inputTotal, input) => inputTotal + input.Duration)));
 
             var rows = new List<SummaryRow> { new SummaryRow { TargetOrInput = $"{p.Default}Target{p.Reset}", Outcome = $"{p.Default}Outcome{p.Reset}", Duration = $"{p.Default}Duration{p.Reset}", Percentage = "" } };
 
@@ -183,7 +195,7 @@ namespace Bullseye.Internal
 
                 var index = 0;
 
-                foreach (var result in item.Value.InputResults)
+                foreach (var result in item.Value.InputResults.Values.OrderBy(result => result.Ordinal))
                 {
                     var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
 
@@ -285,11 +297,15 @@ namespace Bullseye.Internal
 
             public TimeSpan? Duration { get; set; }
 
-            public ConcurrentQueue<TargetInputResult> InputResults { get; } = new ConcurrentQueue<TargetInputResult>();
+            public ConcurrentDictionary<Guid, TargetInputResult> InputResults { get; } = new ConcurrentDictionary<Guid, TargetInputResult>();
         }
 
         private class TargetInputResult
         {
+            public TargetInputResult(int ordinal) => this.Ordinal = ordinal;
+
+            public int Ordinal { get; }
+
             public object Input { get; set; }
 
             public TargetInputOutcome Outcome { get; set; }

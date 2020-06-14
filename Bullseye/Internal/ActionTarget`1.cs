@@ -68,7 +68,8 @@ namespace Bullseye.Internal
 
         private async Task InvokeAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
         {
-            await log.Starting(this.Name, input).Tax();
+            var id = Guid.NewGuid();
+            await log.Starting(this.Name, input, id).Tax();
             var stopWatch = Stopwatch.StartNew();
 
             if (!dryRun && this.action != null)
@@ -86,12 +87,12 @@ namespace Bullseye.Internal
                         await log.Error(this.Name, input, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed).Tax();
+                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed, id).Tax();
                     throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
                 }
             }
 
-            await log.Succeeded(this.Name, input, stopWatch.Elapsed).Tax();
+            await log.Succeeded(this.Name, input, stopWatch.Elapsed, id).Tax();
         }
     }
 }
