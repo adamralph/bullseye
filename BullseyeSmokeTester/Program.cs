@@ -92,17 +92,17 @@ namespace BullseyeSmokeTester
                     }
                 });
 
-            var targets = new Targets();
-            targets.Add("abc", () => Console.Out.WriteLine("abc"));
-            targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLine("def"));
-            targets.Add("default", DependsOn("def"));
+            //var targets = new Targets();
+            //targets.Add("abc", () => Console.Out.WriteLine("abc"));
+            //targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLine("def"));
+            //targets.Add("default", DependsOn("def"));
 
             var (options, targetNames) = Options.Parse(args);
 
-            if (!options.ShowHelp)
-            {
-                targets.RunWithoutExiting(targetNames, options);
-            }
+            //if (!options.ShowHelp)
+            //{
+            //    targets.RunWithoutExiting(targetNames, options);
+            //}
 
             return RunTargetsAndExitAsync(targetNames, options, ex => ex is InvalidOperationException);
         }

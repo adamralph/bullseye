@@ -168,10 +168,10 @@ namespace Bullseye.Internal
                 var target = $"{p.Target}{item.Key}{p.Reset}";
 
                 var outcome = item.Value.Outcome == TargetOutcome.Failed
-                    ? $"{p.Failed}Failed!{p.Reset}"
+                    ? $"{p.Failed}✗X{p.Reset}"
                     : item.Value.Outcome == TargetOutcome.NoInputs
                         ? $"{p.Warning}No inputs!{p.Reset}"
-                        : $"{p.Succeeded}Succeeded{p.Reset}";
+                        : $"{p.Succeeded}✓√{p.Reset}";
 
                 var duration = $"{p.Timing}{item.Value.Duration.Humanize(true)}{p.Reset}";
 
@@ -187,7 +187,7 @@ namespace Bullseye.Internal
                 {
                     var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
 
-                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
+                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}✗X{p.Reset}" : $"{p.Succeeded}✓√{p.Reset}";
 
                     var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize(true)}{p.Reset}";
 
