@@ -123,7 +123,7 @@ namespace BullseyeTests
             await log.Succeeded(looseTarget, looseInput, looseInputDuration, looseInputId);
             await log.Succeeded(looseTargets, looseTargetsDuration);
 
-            await log.Running(targets);
+            await log.Starting(targets);
             {
                 await log.NoInputs(noInputsTarget);
 

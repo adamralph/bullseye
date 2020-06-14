@@ -62,7 +62,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public Task Running(List<string> targets) =>
+        public Task Starting(List<string> targets) =>
             this.writer.WriteLineAsync(Message(p.Default, $"Starting...", targets, null));
 
         public async Task Failed(List<string> targets, TimeSpan duration)
