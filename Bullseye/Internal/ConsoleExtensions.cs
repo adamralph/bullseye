@@ -58,47 +58,47 @@ namespace Bullseye.Internal
                 await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
             }
 
-            var isHostDetected = false;
-            if (options.Host == Host.Unknown)
+            var (host, isHostDetected) = (options.Host, false);
+            if (host == Host.Unknown)
             {
                 isHostDetected = true;
 
                 if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
                 {
-                    options.Host = Host.Appveyor;
+                    host = Host.Appveyor;
                 }
                 else if (Environment.GetEnvironmentVariable("TF_BUILD")?.ToUpperInvariant() == "TRUE")
                 {
-                    options.Host = Host.AzurePipelines;
+                    host = Host.AzurePipelines;
                 }
                 else if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS")?.ToUpperInvariant() == "TRUE")
                 {
-                    options.Host = Host.GitHubActions;
+                    host = Host.GitHubActions;
                 }
                 else if (Environment.GetEnvironmentVariable("GITLAB_CI")?.ToUpperInvariant() == "TRUE")
                 {
-                    options.Host = Host.GitLabCI;
+                    host = Host.GitLabCI;
                 }
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
                 {
-                    options.Host = Host.Travis;
+                    host = Host.Travis;
                 }
                 else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
                 {
-                    options.Host = Host.TeamCity;
+                    host = Host.TeamCity;
                 }
                 else if (Environment.GetEnvironmentVariable("TERM_PROGRAM")?.ToUpperInvariant() == "VSCODE")
                 {
-                    options.Host = Host.VisualStudioCode;
+                    host = Host.VisualStudioCode;
                 }
             }
 
-            var palette = new Palette(options.NoColor, options.NoExtendedChars, options.Host, operatingSystem);
+            var palette = new Palette(options.NoColor, options.NoExtendedChars, host, operatingSystem);
             var output = new Output(Console.Out, palette);
             var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
             await log.Version().Tax();
-            await log.Verbose($"Host: {options.Host}{(options.Host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
+            await log.Verbose($"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
             await log.Verbose($"OS: {operatingSystem}").Tax();
 
             return (output, log);
