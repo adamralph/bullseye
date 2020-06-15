@@ -15,7 +15,7 @@ namespace Bullseye.Internal
             var argList = args.Sanitize().ToList();
             var (options, names) = Options.Parse(argList);
 
-            return RunAsync(targets, names, options, messageOnly, logPrefix, exit, log => log.Verbose($"Args: {string.Join(" ", argList)}"));
+            return RunAsync(targets, names, options, messageOnly, logPrefix, exit, log => log.Verbose(() => $"Args: {string.Join(" ", argList)}"));
         }
 
         public static Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit) =>
@@ -75,9 +75,9 @@ namespace Bullseye.Internal
             var output = new Output(Console.Out, palette);
             var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
-            await log.Version().Tax();
-            await log.Verbose($"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
-            await log.Verbose($"OS: {operatingSystem}").Tax();
+            await log.Version(() => typeof(TargetCollectionExtensions).Assembly.GetVersion()).Tax();
+            await log.Verbose(() => $"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
+            await log.Verbose(() => $"OS: {operatingSystem}").Tax();
 
             if (logArgs != null)
             {

@@ -36,26 +36,21 @@ namespace Bullseye.Internal
             this.verbose = verbose;
         }
 
-        public async Task Version()
+        public async Task Version(Func<string> getVersion)
         {
             if (this.verbose)
             {
-                var version = typeof(TargetCollectionExtensions).Assembly.GetCustomAttributes(false)
-                    .OfType<AssemblyInformationalVersionAttribute>()
-                    .FirstOrDefault()
-                    ?.InformationalVersion ?? "Unknown";
-
-                await this.writer.WriteLineAsync(Message(p.Verbose, $"Bullseye version: {version}")).Tax();
+                await this.writer.WriteLineAsync(Message(p.Verbose, $"Bullseye version: {getVersion()}")).Tax();
             }
         }
 
         public Task Error(string message) => this.writer.WriteLineAsync(Message(p.Failed, message));
 
-        public async Task Verbose(string message)
+        public async Task Verbose(Func<string> getMessage)
         {
             if (this.verbose)
             {
-                await this.writer.WriteLineAsync(Message(p.Verbose, message)).Tax();
+                await this.writer.WriteLineAsync(Message(p.Verbose, getMessage())).Tax();
             }
         }
 
