@@ -25,7 +25,7 @@ namespace Bullseye.Internal
             this.ValidateTargetGraphIsCycleFree();
             this.Validate(names);
 
-            await log.Running(names).Tax();
+            await log.Starting(names).Tax();
             var stopWatch = Stopwatch.StartNew();
 
             try
