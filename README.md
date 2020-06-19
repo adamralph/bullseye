@@ -12,7 +12,7 @@ _[![GitHub build status](https://github.com/adamralph/bullseye/workflows/.github
 _[![GitLab build status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/master.svg?logo=gitlab)](https://gitlab.com/adamralph/bullseye/-/jobs)_
 _[![Travis CI build status](https://img.shields.io/travis/adamralph/bullseye/master.svg?logo=travis)](https://travis-ci.org/adamralph/bullseye/branches)_
 
-Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) for describing and running targets and their dependencies.
+Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
 
 Bullseye targets can do anything. They are not restricted to building .NET projects.
 
