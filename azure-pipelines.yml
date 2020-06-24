@@ -11,7 +11,7 @@ jobs:
   - task: DotNetCoreInstaller@2
     inputs:
       packageType: 'sdk'
-      version: '3.1.300'
+      version: '3.1.301'
   - script: ./build.cmd
     displayName: 'Build the project'
 - job: Linux
@@ -21,7 +21,7 @@ jobs:
   - task: DotNetCoreInstaller@2
     inputs:
       packageType: 'sdk'
-      version: '3.1.300'
+      version: '3.1.301'
   - script: ./build.sh
     displayName: 'Build the project'
 - job: macOS
@@ -31,6 +31,6 @@ jobs:
   - task: DotNetCoreInstaller@2
     inputs:
       packageType: 'sdk'
-      version: '3.1.300'
+      version: '3.1.301'
   - script: ./build.sh
     displayName: 'Build the project'
