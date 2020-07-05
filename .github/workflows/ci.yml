@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runs-on: [macOS-latest, ubuntu-latest, windows-latest]
+        runs-on: [macos-10.15, ubuntu-18.04, windows-2019]
     name: ${{ matrix.runs-on }}
     runs-on: ${{ matrix.runs-on }}
     steps:
@@ -22,9 +22,9 @@ jobs:
     - uses: actions/checkout@28c7f3d2b5162b5ddd3dfd9a45aa55eaf396478b
     - if: contains(matrix.runs-on, 'windows')
       run: ./build.cmd
-    - if: contains(matrix.runs-on, 'macOS') || contains(matrix.runs-on, 'ubuntu')
+    - if: contains(matrix.runs-on, 'macos') || contains(matrix.runs-on, 'ubuntu')
       run: ./build.sh
-    - if: matrix.runs-on == 'ubuntu-latest'
+    - if: matrix.runs-on == 'ubuntu-18.04'
       env:
         MYGET_ADAMRALPH_CI_API_KEY: ${{ secrets.MYGET_ADAMRALPH_CI_API_KEY }}
       run: ./push.sh
