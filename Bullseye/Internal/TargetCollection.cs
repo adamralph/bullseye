@@ -19,11 +19,11 @@ namespace Bullseye.Internal
         {
             if (!skipDependencies)
             {
-                this.ValidateDependenciesAreAllDefined();
+                this.CheckForMissingDependencies();
             }
 
-            this.ValidateTargetGraphIsCycleFree();
-            this.Validate(names);
+            this.CheckForCircularDependencies();
+            this.Check(names);
 
             await log.Starting(names).Tax();
             var stopWatch = Stopwatch.StartNew();
@@ -89,68 +89,66 @@ namespace Bullseye.Internal
             targets.Pop();
         }
 
-        private void ValidateDependenciesAreAllDefined()
+        private void CheckForMissingDependencies()
         {
-            var unknownDependencies = new SortedDictionary<string, SortedSet<string>>();
+            var missingDependencies = new SortedDictionary<string, SortedSet<string>>();
 
             foreach (var target in this)
             {
                 foreach (var dependency in target.Dependencies
                     .Where(dependency => !this.Contains(dependency)))
                 {
-                    (unknownDependencies.TryGetValue(dependency, out var set)
+                    (missingDependencies.TryGetValue(dependency, out var set)
                             ? set
-                            : unknownDependencies[dependency] = new SortedSet<string>())
+                            : missingDependencies[dependency] = new SortedSet<string>())
                         .Add(target.Name);
                 }
             }
 
-            if (unknownDependencies.Count != 0)
+            if (missingDependencies.Count != 0)
             {
-                var message = $"Missing {(unknownDependencies.Count > 1 ? "dependencies" : "dependency")}: " +
-                    string.Join(
-                        "; ",
-                        unknownDependencies.Select(missingDependency =>
-                            $"{missingDependency.Key}, required by {missingDependency.Value.Spaced()}"));
+                var message =
+                    $"Missing {(missingDependencies.Count > 1 ? "dependencies" : "dependency")}: " +
+                    string.Join("; ", missingDependencies.Select(dependency => $"{dependency.Key}, required by {dependency.Value.Spaced()}"));
 
                 throw new InvalidUsageException(message);
             }
         }
 
-        private void ValidateTargetGraphIsCycleFree()
+        private void CheckForCircularDependencies()
         {
-            var dependencyChain = new Stack<string>();
+            var dependents = new Stack<string>();
+
             foreach (var target in this)
             {
-                this.WalkDependencies(target, dependencyChain);
+                CheckForCircularDependencies(target);
+            }
+
+            void CheckForCircularDependencies(Target target)
+            {
+                if (dependents.Contains(target.Name))
+                {
+                    throw new InvalidUsageException($"Circular dependency: {string.Join(" -> ", dependents.Reverse().Concat(new[] { target.Name }))}");
+                }
+
+                dependents.Push(target.Name);
+
+                foreach (var dependency in target.Dependencies.Where(this.Contains))
+                {
+                    CheckForCircularDependencies(this[dependency]);
+                }
+
+                dependents.Pop();
             }
         }
 
-        private void WalkDependencies(Target target, Stack<string> dependencyChain)
+        private void Check(List<string> names)
         {
-            if (dependencyChain.Contains(target.Name))
+            var notFound = new SortedSet<string>(names.Where(name => !this.Contains(name)));
+
+            if (notFound.Count > 0)
             {
-                dependencyChain.Push(target.Name);
-                throw new InvalidUsageException($"Circular dependency: {string.Join(" -> ", dependencyChain.Reverse())}");
-            }
-
-            dependencyChain.Push(target.Name);
-
-            foreach (var dependency in target.Dependencies.Where(this.Contains))
-            {
-                this.WalkDependencies(this[dependency], dependencyChain);
-            }
-
-            dependencyChain.Pop();
-        }
-
-        private void Validate(List<string> names)
-        {
-            var unknownNames = new SortedSet<string>(names.Where(name => !this.Contains(name)));
-            if (unknownNames.Count > 0)
-            {
-                var message = $"Target{(unknownNames.Count > 1 ? "s" : "")} not found: {unknownNames.Spaced()}.";
-                throw new InvalidUsageException(message);
+                throw new InvalidUsageException($"Target{(notFound.Count > 1 ? "s" : "")} not found: {notFound.Spaced()}.");
             }
         }
     }
