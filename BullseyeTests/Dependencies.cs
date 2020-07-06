@@ -146,6 +146,31 @@ namespace BullseyeTests
         }
 
         [Scenario]
+        public void CircularDependencyWhenSkippingDependencies(TargetCollection targets, List<string> ran)
+        {
+            "Given a target which depends on a third target"
+                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "third" }, () => Ensure(ref ran).Add("first"))));
+
+            "And a second target which depends on the first target"
+                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
+
+            "And a third target which depends on the second target"
+                .x(() => targets.Add(CreateTarget("third", new[] { "second" }, () => Ensure(ref ran).Add("third"))));
+
+            "When I run the third target skipping dependencies"
+                .x(() => targets.RunAsync(new List<string> { "third", "-s" }, default, default, default));
+
+            "Then the third target is run"
+                .x(() => Assert.Contains("third", ran));
+
+            "But the second target is not run"
+                .x(() => Assert.DoesNotContain("second", ran));
+
+            "And the first target is not run"
+                .x(() => Assert.DoesNotContain("first", ran));
+        }
+
+        [Scenario]
         public void DoubleTransitiveDependency(TargetCollection targets, List<string> ran)
         {
             "Given a target"
