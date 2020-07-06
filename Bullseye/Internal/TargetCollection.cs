@@ -20,9 +20,9 @@ namespace Bullseye.Internal
             if (!skipDependencies)
             {
                 this.CheckForMissingDependencies();
+                this.CheckForCircularDependencies();
             }
 
-            this.CheckForCircularDependencies();
             this.Check(names);
 
             await log.Starting(names).Tax();
