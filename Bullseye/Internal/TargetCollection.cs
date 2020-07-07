@@ -95,8 +95,7 @@ namespace Bullseye.Internal
 
             foreach (var target in this)
             {
-                foreach (var dependency in target.Dependencies
-                    .Where(dependency => !this.Contains(dependency)))
+                foreach (var dependency in target.Dependencies.Where(dependency => !this.Contains(dependency)))
                 {
                     (missingDependencies.TryGetValue(dependency, out var set)
                             ? set
