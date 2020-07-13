@@ -2,6 +2,7 @@
 namespace Bullseye.Internal
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,5 +20,7 @@ namespace Bullseye.Internal
         public List<string> Dependencies { get; }
 
         public virtual Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly) => log.Succeeded(this.Name);
+
+        public virtual Task TeardownAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentQueue<TargetFailedException> exceptions) => Task.CompletedTask;
     }
 }

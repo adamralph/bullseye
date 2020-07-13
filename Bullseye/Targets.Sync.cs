@@ -13,13 +13,17 @@ namespace Bullseye
         /// <param name="name">The name of the target.</param>
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, IEnumerable<string> dependsOn, Action action) =>
+        /// <param name="teardown">The action to teardown any resources set up by the target.</param>
+        public static void Target(string name, IEnumerable<string> dependsOn, Action action, Action teardown = null) =>
             Target(
                 name,
                 dependsOn,
                 action == null
                     ? (Func<Task>)null
-                    : () => Task.Run(action.Invoke));
+                    : () => Task.Run(action.Invoke),
+                teardown == null
+                    ? (Func<Task>)null
+                    : () => Task.Run(teardown.Invoke));
 
         /// <summary>
         /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -29,14 +33,18 @@ namespace Bullseye
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
+        /// <param name="teardown">The action to teardown any resources set up by the target for each input in <paramref name="forEach"/>.</param>
+        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action, Action<TInput> teardown = null) =>
             Target(
                 name,
                 dependsOn,
                 forEach,
                 action == null
                     ? (Func<TInput, Task>)null
-                    : input => Task.Run(() => action.Invoke(input)));
+                    : input => Task.Run(() => action.Invoke(input)),
+                teardown == null
+                    ? (Func<TInput, Task>)null
+                    : input => Task.Run(() => teardown.Invoke(input)));
 
         /// <summary>
         /// Runs the previously specified targets.
@@ -116,13 +124,17 @@ namespace Bullseye
         /// <param name="name">The name of the target.</param>
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="action">The action performed by the target.</param>
-        public void Add(string name, IEnumerable<string> dependsOn, Action action) =>
+        /// <param name="teardown">The action to teardown any resources set up by the target.</param>
+        public void Add(string name, IEnumerable<string> dependsOn, Action action, Action teardown = null) =>
             this.Add(
                 name,
                 dependsOn,
                 action == null
                     ? (Func<Task>)null
-                    : () => Task.Run(action.Invoke));
+                    : () => Task.Run(action.Invoke),
+                teardown == null
+                    ? (Func<Task>)null
+                    : () => Task.Run(teardown.Invoke));
 
         /// <summary>
         /// Adds a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -132,14 +144,18 @@ namespace Bullseye
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
+        /// <param name="teardown">The action to teardown any resources set up by the target for each input in <paramref name="forEach"/>.</param>
+        public void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action, Action<TInput> teardown = null) =>
             this.Add(
                 name,
                 dependsOn,
                 forEach,
                 action == null
                     ? (Func<TInput, Task>)null
-                    : input => Task.Run(() => action.Invoke(input)));
+                    : input => Task.Run(() => action.Invoke(input)),
+                teardown == null
+                    ? (Func<TInput, Task>)null
+                    : input => Task.Run(() => teardown.Invoke(input)));
 
         /// <summary>
         /// Runs the targets.

@@ -55,15 +55,15 @@ namespace Bullseye
     public class Targets
     {
         public Targets() { }
-        public void Add(string name, System.Action action) { }
         public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
-        public void Add(string name, System.Func<System.Threading.Tasks.Task> action) { }
-        public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
-        public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
-        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
-        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
-        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
-        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public void Add(string name, System.Action action, System.Action teardown = null) { }
+        public void Add(string name, System.Func<System.Threading.Tasks.Task> action, System.Func<System.Threading.Tasks.Task> teardown = null) { }
+        public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action, System.Action teardown = null) { }
+        public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action, System.Func<System.Threading.Tasks.Task> teardown = null) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action, System.Action<TInput> teardown = null) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action, System.Func<TInput, System.Threading.Tasks.Task> teardown = null) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action, System.Action<TInput> teardown = null) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action, System.Func<TInput, System.Threading.Tasks.Task> teardown = null) { }
         public void RunAndExit(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
         public void RunAndExit(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
         public System.Threading.Tasks.Task RunAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
@@ -82,14 +82,14 @@ namespace Bullseye
         public static void RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
         public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
         public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) { }
-        public static void Target(string name, System.Action action) { }
         public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
-        public static void Target(string name, System.Func<System.Threading.Tasks.Task> action) { }
-        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
-        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
-        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Target(string name, System.Action action, System.Action teardown = null) { }
+        public static void Target(string name, System.Func<System.Threading.Tasks.Task> action, System.Func<System.Threading.Tasks.Task> teardown = null) { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action, System.Action teardown = null) { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action, System.Func<System.Threading.Tasks.Task> teardown = null) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action, System.Action<TInput> teardown = null) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action, System.Func<TInput, System.Threading.Tasks.Task> teardown = null) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action, System.Action<TInput> teardown = null) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action, System.Func<TInput, System.Threading.Tasks.Task> teardown = null) { }
     }
 }

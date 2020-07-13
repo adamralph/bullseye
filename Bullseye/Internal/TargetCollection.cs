@@ -6,6 +6,7 @@ namespace Bullseye.Internal
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Runtime.ExceptionServices;
     using System.Threading.Tasks;
 
     public class TargetCollection : KeyedCollection<string, Target>
@@ -28,18 +29,36 @@ namespace Bullseye.Internal
 
             try
             {
-                var runningTargets = new ConcurrentDictionary<string, Task>();
-                if (parallel)
+                var teardowns = new ConcurrentStack<Target>();
+                var teardownExceptions = new ConcurrentQueue<TargetFailedException>();
+
+                try
                 {
-                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, new Stack<string>()));
-                    await Task.WhenAll(tasks).Tax();
-                }
-                else
-                {
-                    foreach (var name in names)
+                    var runningTargets = new ConcurrentDictionary<string, Task>();
+                    if (parallel)
                     {
-                        await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, new Stack<string>()).Tax();
+                        var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, teardowns, new Stack<string>()));
+                        await Task.WhenAll(tasks).Tax();
                     }
+                    else
+                    {
+                        foreach (var name in names)
+                        {
+                            await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, teardowns, new Stack<string>()).Tax();
+                        }
+                    }
+                }
+                finally
+                {
+                    foreach (var teardown in teardowns)
+                    {
+                        await teardown.TeardownAsync(dryRun, parallel, log, messageOnly, teardownExceptions).Tax();
+                    }
+                }
+
+                if (teardownExceptions.Any())
+                {
+                    ExceptionDispatchInfo.Capture(teardownExceptions.First()).Throw();
                 }
             }
             catch (Exception)
@@ -51,7 +70,7 @@ namespace Bullseye.Internal
             await log.Succeeded(names).Tax();
         }
 
-        private async Task RunAsync(string name, ICollection<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, Stack<string> dependencyStack)
+        private async Task RunAsync(string name, ICollection<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, ConcurrentStack<Target> teardowns, Stack<string> dependencyStack)
         {
             dependencyStack.Push(name);
 
@@ -67,21 +86,33 @@ namespace Bullseye.Internal
 
             if (parallel)
             {
-                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, dependencyStack));
+                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, teardowns, dependencyStack));
                 await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, dependencyStack).Tax();
+                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, teardowns, dependencyStack).Tax();
                 }
             }
 
             if (!skipDependencies || explicitTargets.Contains(name))
             {
                 await log.Verbose(dependencyStack, "Awaiting...").Tax();
-                await runningTargets.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).Tax();
+                await runningTargets.GetOrAdd(
+                    name,
+                    async _ =>
+                    {
+                        try
+                        {
+                            await target.RunAsync(dryRun, parallel, log, messageOnly).Tax();
+                        }
+                        finally
+                        {
+                            teardowns.Push(target);
+                        }
+                    }).Tax();
             }
 
             dependencyStack.Pop();

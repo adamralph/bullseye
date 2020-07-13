@@ -40,8 +40,9 @@ namespace Bullseye
         /// <param name="name">The name of the target.</param>
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
-            instance.Add(name, dependsOn, action);
+        /// <param name="teardown">The action to teardown any resources set up by the target.</param>
+        public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action, Func<Task> teardown = null) =>
+            instance.Add(name, dependsOn, action, teardown);
 
         /// <summary>
         /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -51,8 +52,9 @@ namespace Bullseye
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            instance.Add(name, dependsOn, forEach, action);
+        /// <param name="teardown">The action to teardown any resources set up by the target for each input in <paramref name="forEach"/>.</param>
+        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action, Func<TInput, Task> teardown = null) =>
+            instance.Add(name, dependsOn, forEach, action, teardown);
 
         /// <summary>
         /// Runs the previously specified targets.
