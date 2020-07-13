@@ -46,14 +46,14 @@ namespace Bullseye.Internal
             {
                 if (parallel)
                 {
-                    var tasks = inputsList.Select(input => this.InvokeAsync(input, dryRun, log, messageOnly)).ToList();
+                    var tasks = inputsList.Select(input => this.RunAsync(input, dryRun, log, messageOnly)).ToList();
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var input in inputsList)
                     {
-                        await this.InvokeAsync(input, dryRun, log, messageOnly).Tax();
+                        await this.RunAsync(input, dryRun, log, messageOnly).Tax();
                     }
                 }
             }
@@ -66,7 +66,7 @@ namespace Bullseye.Internal
             await log.Succeeded(this.Name, stopWatch.Elapsed).Tax();
         }
 
-        private async Task InvokeAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
+        private async Task RunAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
         {
             var id = Guid.NewGuid();
             await log.Starting(this.Name, input, id).Tax();
