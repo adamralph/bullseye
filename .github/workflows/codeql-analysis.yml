@@ -1,0 +1,14 @@
+on:
+  push:
+    branches: [master, release-*]
+  pull_request:
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@28c7f3d2b5162b5ddd3dfd9a45aa55eaf396478b
+      with:
+        fetch-depth: 2
+    - uses: github/codeql-action/init@e0299c3c045c9c6a4274140b38819cd0e79670de
+    - uses: github/codeql-action/autobuild@e0299c3c045c9c6a4274140b38819cd0e79670de
+    - uses: github/codeql-action/analyze@e0299c3c045c9c6a4274140b38819cd0e79670de
