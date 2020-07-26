@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.4.0
+
+### Enhancements
+
+- [#421: sort results in summary by start/completion order](https://github.com/adamralph/bullseye/pull/421)
+
+### Fixed bugs
+
+- [#427: Option.Host is mutated when set to Unknown, and host is detected](https://github.com/adamralph/bullseye/pull/427)
+
 ## 3.3.0
 
 ### Enhancements
