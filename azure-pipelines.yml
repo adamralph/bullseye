@@ -6,7 +6,7 @@ trigger:
 jobs:
 - job: Windows
   pool:
-    vmImage: 'windows-latest'
+    vmImage: 'windows-2019'
   steps:
   - task: DotNetCoreInstaller@2
     inputs:
@@ -16,7 +16,7 @@ jobs:
     displayName: 'Build the project'
 - job: Linux
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'ubuntu-18.04'
   steps:
   - task: DotNetCoreInstaller@2
     inputs:
@@ -26,7 +26,7 @@ jobs:
     displayName: 'Build the project'
 - job: macOS
   pool:
-    vmImage: 'macOS-latest'
+    vmImage: 'macOS-10.15'
   steps:
   - task: DotNetCoreInstaller@2
     inputs:
