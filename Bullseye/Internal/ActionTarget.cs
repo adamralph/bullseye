@@ -17,13 +17,22 @@ namespace Bullseye.Internal
         {
             await log.Starting(this.Name).Tax();
 
-            var stopWatch = Stopwatch.StartNew();
+            TimeSpan? duration = null;
 
             if (!dryRun && this.action != null)
             {
                 try
                 {
-                    await this.action().Tax();
+                    var stopWatch = Stopwatch.StartNew();
+
+                    try
+                    {
+                        await this.action().Tax();
+                    }
+                    finally
+                    {
+                        duration = stopWatch.Elapsed;
+                    }
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
@@ -34,12 +43,12 @@ namespace Bullseye.Internal
                         await log.Error(this.Name, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, ex, stopWatch.Elapsed).Tax();
+                    await log.Failed(this.Name, ex, duration).Tax();
                     throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
                 }
             }
 
-            await log.Succeeded(this.Name, stopWatch.Elapsed).Tax();
+            await log.Succeeded(this.Name, duration).Tax();
         }
     }
 }

@@ -40,7 +40,6 @@ namespace Bullseye.Internal
             }
 
             await log.Starting(this.Name).Tax();
-            var stopWatch = Stopwatch.StartNew();
 
             try
             {
@@ -59,24 +58,33 @@ namespace Bullseye.Internal
             }
             catch (Exception)
             {
-                await log.Failed(this.Name, stopWatch.Elapsed).Tax();
+                await log.Failed(this.Name).Tax();
                 throw;
             }
 
-            await log.Succeeded(this.Name, stopWatch.Elapsed).Tax();
+            await log.Succeeded(this.Name).Tax();
         }
 
         private async Task RunAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
         {
             var id = Guid.NewGuid();
             await log.Starting(this.Name, input, id).Tax();
-            var stopWatch = Stopwatch.StartNew();
+            TimeSpan? duration = null;
 
             if (!dryRun && this.action != null)
             {
                 try
                 {
-                    await this.action(input).Tax();
+                    var stopWatch = Stopwatch.StartNew();
+
+                    try
+                    {
+                        await this.action(input).Tax();
+                    }
+                    finally
+                    {
+                        duration = stopWatch.Elapsed;
+                    }
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
@@ -87,12 +95,12 @@ namespace Bullseye.Internal
                         await log.Error(this.Name, input, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, input, ex, stopWatch.Elapsed, id).Tax();
+                    await log.Failed(this.Name, input, ex, duration, id).Tax();
                     throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
                 }
             }
 
-            await log.Succeeded(this.Name, input, stopWatch.Elapsed, id).Tax();
+            await log.Succeeded(this.Name, input, duration, id).Tax();
         }
     }
 }

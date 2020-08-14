@@ -26,7 +26,6 @@ namespace Bullseye.Internal
             this.Check(names);
 
             await log.Starting(names).Tax();
-            var stopWatch = Stopwatch.StartNew();
 
             try
             {
@@ -46,11 +45,11 @@ namespace Bullseye.Internal
             }
             catch (Exception)
             {
-                await log.Failed(names, stopWatch.Elapsed).Tax();
+                await log.Failed(names).Tax();
                 throw;
             }
 
-            await log.Succeeded(names, stopWatch.Elapsed).Tax();
+            await log.Succeeded(names).Tax();
         }
 
         private async Task RunAsync(string name, ICollection<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, Stack<string> dependencyStack)
