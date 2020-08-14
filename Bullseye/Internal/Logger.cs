@@ -74,7 +74,7 @@ namespace Bullseye.Internal
         public async Task Succeeded(List<string> targets)
         {
             await this.Results().Tax();
-            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded.", targets, totalDuration)).Tax();
+            await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded", targets, totalDuration)).Tax();
         }
 
         public Task Starting(string target)
@@ -114,7 +114,7 @@ namespace Bullseye.Internal
 
             totalDuration = totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded.", target, result.Duration));
+            return this.writer.WriteLineAsync(Message(p.Succeeded, "Succeeded", target, result.Duration));
         }
 
         public Task Starting<TInput>(string target, TInput input, Guid inputId)
@@ -155,7 +155,7 @@ namespace Bullseye.Internal
 
             totalDuration = totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded.", target, targetInputResult.Input, targetInputResult.Duration));
+            return this.writer.WriteLineAsync(MessageWithInput(p.Succeeded, "Succeeded", target, targetInputResult.Input, targetInputResult.Duration));
         }
 
         public Task NoInputs(string target)
