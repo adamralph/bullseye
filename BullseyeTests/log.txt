@@ -99,14 +99,14 @@ logPrefix2: Target  Outcome  Duration
 logPrefix2: ------  -------  --------
 logPrefix2: -------------------------
 logPrefix2: Succeeded ()
-logPrefix2: looseTarget/looseInput: Succeeded (<1 ms)
-logPrefix2: ----------------------------------
-logPrefix2: Target        Outcome    Duration 
-logPrefix2: ------------  ---------  ---------
-logPrefix2: looseTarget   Succeeded  <1 ms    
-logPrefix2:   looseInput  Succeeded    <1 ms  
-logPrefix2: ----------------------------------
-logPrefix2: Succeeded (looseTarget) (<1 ms)
+logPrefix2: looseTarget/looseInput: Succeeded
+logPrefix2: ---------------------------------
+logPrefix2: Target        Outcome    Duration
+logPrefix2: ------------  ---------  --------
+logPrefix2: looseTarget   Succeeded          
+logPrefix2:   looseInput  Succeeded          
+logPrefix2: ---------------------------------
+logPrefix2: Succeeded (looseTarget)
 logPrefix2: Starting... (target1 target2 target3)
 logPrefix2: noInputsTarget: No inputs!
 logPrefix2: goodTarget1: Succeeded
@@ -131,8 +131,8 @@ logPrefix2: badInputsTarget: Failed! (1.24 s)
 logPrefix2: ----------------------------------------------
 logPrefix2: Target            Outcome     Duration        
 logPrefix2: ----------------  ----------  ----------------
-logPrefix2: looseTarget       Succeeded   <1 ms     0.0%  
-logPrefix2:   looseInput      Succeeded     <1 ms     0.0%
+logPrefix2: looseTarget       Succeeded                   
+logPrefix2:   looseInput      Succeeded                   
 logPrefix2: noInputsTarget    No inputs!                  
 logPrefix2: goodTarget1       Succeeded                   
 logPrefix2: goodTarget2       Succeeded   1 m 14 s  93.9% 
@@ -148,8 +148,8 @@ logPrefix2: Succeeded (target1 target2 target3) (1 m 18 s)
 logPrefix2: ----------------------------------------------
 logPrefix2: Target            Outcome     Duration        
 logPrefix2: ----------------  ----------  ----------------
-logPrefix2: looseTarget       Succeeded   <1 ms     0.0%  
-logPrefix2:   looseInput      Succeeded     <1 ms     0.0%
+logPrefix2: looseTarget       Succeeded                   
+logPrefix2:   looseInput      Succeeded                   
 logPrefix2: noInputsTarget    No inputs!                  
 logPrefix2: goodTarget1       Succeeded                   
 logPrefix2: goodTarget2       Succeeded   1 m 14 s  93.9% 

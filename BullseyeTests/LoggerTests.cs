@@ -90,7 +90,7 @@ namespace BullseyeTests
             var goodTargetDuration2 = dryRun ? (TimeSpan?)null : TimeSpan.FromMinutes(1.234);
 
             var looseInput = "looseInput";
-            var looseInputDuration = dryRun ? (TimeSpan?)null : TimeSpan.Zero;
+            var looseInputDuration = (TimeSpan?)null;
             var looseInputId = Guid.ParseExact("CC123".PadRight(32, '0'), "N");
 
             var looseTarget = "looseTarget";
