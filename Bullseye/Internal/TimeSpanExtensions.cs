@@ -3,7 +3,6 @@ namespace Bullseye.Internal
 {
     using System;
     using System.Globalization;
-    using System.Runtime.CompilerServices;
     using static System.Math;
 
     public static class TimeSpanExtensions
