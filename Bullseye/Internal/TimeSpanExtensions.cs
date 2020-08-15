@@ -16,31 +16,30 @@ namespace Bullseye.Internal
         public static string Humanize(this TimeSpan duration)
         {
             // less than one millisecond
-            if (duration.TotalMilliseconds < 1D)
+            if (Convert.ToInt64(duration.TotalMilliseconds) < 1L)
             {
                 return "<1 ms";
             }
 
             // milliseconds
-            if (duration.TotalSeconds < 1D)
+            if (Convert.ToInt64(duration.TotalMilliseconds) < 1_000L)
             {
                 return duration.TotalMilliseconds.ToString("F0", provider) + " ms";
             }
 
             // seconds
-            if (duration.TotalMinutes < 1D)
+            if (Convert.ToInt64(duration.TotalSeconds * 100L) < 60_00L)
             {
                 return duration.TotalSeconds.ToString("F2", provider) + " s";
             }
 
             // minutes and seconds
-            if (duration.TotalHours < 1D)
+            if (Convert.ToInt64(duration.TotalSeconds) < 3600L)
             {
-                var minutes = Floor(duration.TotalMinutes).ToString("F0", provider);
-                var seconds = duration.Seconds.ToString("F0", provider);
-                return seconds == "0"
-                    ? $"{minutes} m"
-                    : $"{minutes} m {seconds} s";
+                var minutes = DivRem(Convert.ToInt64(duration.TotalSeconds), 60L, out var seconds);
+                return seconds == 0
+                    ? $"{minutes.ToString("F0", provider)} m"
+                    : $"{minutes.ToString("F0", provider)} m {seconds.ToString("F0", provider)} s";
             }
 
             // minutes

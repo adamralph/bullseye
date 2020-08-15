@@ -144,7 +144,7 @@ logPrefix2: badInputsTarget   Failed!     1.24 s    1.6%
 logPrefix2:   goodInput1      Succeeded     1.23 s    1.6%
 logPrefix2:   badInput        Failed!       1 ms      0.0%
 logPrefix2: ----------------------------------------------
-logPrefix2: Succeeded (target1 target2 target3) (1 m 18 s)
+logPrefix2: Succeeded (target1 target2 target3) (1 m 19 s)
 logPrefix2: ----------------------------------------------
 logPrefix2: Target            Outcome     Duration        
 logPrefix2: ----------------  ----------  ----------------
@@ -161,7 +161,7 @@ logPrefix2: badInputsTarget   Failed!     1.24 s    1.6%
 logPrefix2:   goodInput1      Succeeded     1.23 s    1.6%
 logPrefix2:   badInput        Failed!       1 ms      0.0%
 logPrefix2: ----------------------------------------------
-logPrefix2: Failed! (target1 target2 target3) (1 m 18 s)
+logPrefix2: Failed! (target1 target2 target3) (1 m 19 s)
 
 noColor: True
 noExtendedChars: False
