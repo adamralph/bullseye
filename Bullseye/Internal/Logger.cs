@@ -192,7 +192,7 @@ namespace Bullseye.Internal
                         : $"{p.Succeeded}Succeeded{p.Reset}";
 
                 var duration = item.Value.Duration.HasValue
-                    ? $"{p.Timing}{item.Value.Duration.Humanize(true)}{p.Reset}"
+                    ? $"{p.Timing}{item.Value.Duration.Humanize()}{p.Reset}"
                     : "";
 
                 var percentage = item.Value.Duration.HasValue && totalDuration.HasValue && totalDuration.Value > TimeSpan.Zero
@@ -210,7 +210,7 @@ namespace Bullseye.Internal
                     var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}Failed!{p.Reset}" : $"{p.Succeeded}Succeeded{p.Reset}";
 
                     var inputDuration = result.Duration.HasValue
-                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize(true)}{p.Reset}"
+                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize()}{p.Reset}"
                         : "";
 
                     var inputPercentage = result.Duration.HasValue && totalDuration.HasValue && totalDuration.Value > TimeSpan.Zero

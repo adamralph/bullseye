@@ -10,10 +10,10 @@ namespace Bullseye.Internal
     {
         private static readonly IFormatProvider provider = CultureInfo.InvariantCulture;
 
-        public static string Humanize(this TimeSpan? duration, bool fixedPoint = false) =>
-            duration.HasValue ? Humanize(duration.Value, fixedPoint) : string.Empty;
+        public static string Humanize(this TimeSpan? duration) =>
+            duration.HasValue ? Humanize(duration.Value) : string.Empty;
 
-        public static string Humanize(this TimeSpan duration, bool fixedPoint = false)
+        public static string Humanize(this TimeSpan duration)
         {
             // less than one millisecond
             if (duration.TotalMilliseconds < 1D)
@@ -24,13 +24,13 @@ namespace Bullseye.Internal
             // milliseconds
             if (duration.TotalSeconds < 1D)
             {
-                return duration.TotalMilliseconds.ToString(fixedPoint ? "F0" : "G3", provider) + " ms";
+                return duration.TotalMilliseconds.ToString("F0", provider) + " ms";
             }
 
             // seconds
             if (duration.TotalMinutes < 1D)
             {
-                return duration.TotalSeconds.ToString(fixedPoint ? "F2" : "G3", provider) + " s";
+                return duration.TotalSeconds.ToString("F2", provider) + " s";
             }
 
             // minutes and seconds
