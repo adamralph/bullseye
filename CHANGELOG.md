@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.5.0
+
+### Enhancements
+
+- [#456: tighten timings to measure execution of target actions only](https://github.com/adamralph/bullseye/pull/456)
+- [#457: align per-target succeeded text with summary by removing full stop](https://github.com/adamralph/bullseye/pull/457)
+- [#459: align timings shown during execution with those in summary](https://github.com/adamralph/bullseye/pull/459)
+
+### Fixed bugs
+
+- [#460: timing rounding is sometimes incorrect](https://github.com/adamralph/bullseye/pull/460)
+
 ## 3.4.0
 
 ### Enhancements
@@ -127,6 +139,7 @@
 - [#75: Option to display input values when listing targets](https://github.com/adamralph/bullseye/issues/75)
 - [#87: Make target names bright white in lists and help](https://github.com/adamralph/bullseye/pull/87)
 - [#88: sort options in help](https://github.com/adamralph/bullseye/pull/88)
+- [#89: add help to help](https://github.com/adamralph/bullseye/pull/89)
 - [#92: avoid using background colour for output](https://github.com/adamralph/bullseye/pull/92)
 
 ## 1.2.0
