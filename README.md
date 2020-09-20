@@ -48,7 +48,7 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
 
 Voilà! You've just written and run your first Bullseye program. You will see output similar to:
 
-![console output](https://user-images.githubusercontent.com/677704/88482993-62340400-cf54-11ea-8e83-fb9293801ba1.png)
+<img src="https://user-images.githubusercontent.com/677704/93706096-506d7800-fb23-11ea-8154-d8c8c90bada5.png" width="314px" />
 
 For help, run `dotnet run -- --help`.
 
@@ -63,7 +63,7 @@ Target("walk-dog", () => Console.WriteLine("Walkies!"));
 Target("default", DependsOn("drink-tea", "walk-dog"));
 ```
 
-![console output](https://user-images.githubusercontent.com/677704/88482996-65c78b00-cf54-11ea-9d4c-469443b5ae51.png)
+<img src="https://user-images.githubusercontent.com/677704/93706154-c96ccf80-fb23-11ea-926a-9e3836e79f06.png" width="325px" />
 
 ## Enumerable inputs
 
@@ -78,7 +78,7 @@ Target(
 dotnet run -- eat-biscuits
 ```
 
-![console output](https://user-images.githubusercontent.com/677704/88482999-69f3a880-cf54-11ea-97bb-1365d124c2dc.png)
+<img src="https://user-images.githubusercontent.com/677704/93706189-24062b80-fb24-11ea-9fad-98ea192633e9.png" width="444px" />
 
 ## Sample wrapper scripts
 
