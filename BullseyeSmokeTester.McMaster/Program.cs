@@ -9,7 +9,7 @@ namespace BullseyeSmokeTester.McMaster
     {
         private static int Main(string[] args)
         {
-            var app = new CommandLineApplication() { UsePagerForHelpText = false };
+            using var app = new CommandLineApplication() { UsePagerForHelpText = false };
             app.HelpOption();
             var foo = app.Option<string>("-f|--foo <foo>", "A value used for something.", CommandOptionType.SingleValue);
 
