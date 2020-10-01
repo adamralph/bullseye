@@ -1,8 +1,8 @@
 namespace BullseyeTests
 {
     using System;
-    using System.Threading;
     using System.Collections.Generic;
+    using System.Threading;
     using Bullseye.Internal;
     using Xbehave;
     using Xunit;
@@ -252,8 +252,9 @@ namespace BullseyeTests
         {
             "Given a target that takes a long time to start up"
                 .x(() => Ensure(ref targets).Add(CreateTarget(
-                    "build", 
-                    () => {
+                    "build",
+                    () =>
+                    {
                         Thread.Sleep(TimeSpan.FromSeconds(1)); // a weak way to encourage the tests to run first
                         buildStartTime = Interlocked.Increment(ref clock);
                     })));

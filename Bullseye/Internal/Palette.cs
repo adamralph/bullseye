@@ -38,12 +38,12 @@ namespace Bullseye.Internal
 
             brightBlack = Console.BackgroundColor == ConsoleColor.DarkGray ? black : brightBlack;
             brightRed = Console.BackgroundColor == ConsoleColor.Red ? red : brightRed;
-            //brightGreen = Console.BackgroundColor == ConsoleColor.Green ? green : brightGreen;
+            ////brightGreen = Console.BackgroundColor == ConsoleColor.Green ? green : brightGreen;
             brightYellow = Console.BackgroundColor == ConsoleColor.Yellow ? yellow : brightYellow;
             brightBlue = Console.BackgroundColor == ConsoleColor.Blue ? blue : brightBlue;
             brightMagenta = Console.BackgroundColor == ConsoleColor.Magenta ? magenta : brightMagenta;
             brightCyan = Console.BackgroundColor == ConsoleColor.Cyan ? cyan : brightCyan;
-            //brightWhite = Console.BackgroundColor == ConsoleColor.White ? white : brightWhite;
+            ////brightWhite = Console.BackgroundColor == ConsoleColor.White ? white : brightWhite;
 
             this.CommandLine = brightYellow;
             this.Default = white;
