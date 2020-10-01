@@ -15,7 +15,7 @@ namespace BullseyeTests
         [Scenario]
         public async Task Logging()
         {
-            var writer = new StringWriter();
+            using var writer = new StringWriter();
 
             var ordinal = 1;
 
