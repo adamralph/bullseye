@@ -5,7 +5,7 @@ namespace Bullseye
     using System.Linq;
 
     /// <summary>
-    /// The options to use when running or listing targets
+    /// The options to use when running or listing targets.
     /// </summary>
     public class Options
     {
@@ -158,75 +158,75 @@ namespace Bullseye
         /// <summary>
         /// Converts a list of argument strings into an instance of <see cref="Options"/> and a list of target names.
         /// </summary>
-        /// <param name="args">A list of argument strings</param>
+        /// <param name="args">A list of argument strings.</param>
         /// <returns>An instance of <see cref="Options"/> and a list of target names.</returns>
         public static (Options, List<string>) Parse(IEnumerable<string> args) => (
             new Options(args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).Select(arg => (arg, true))),
             args.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList());
 
         /// <summary>
-        /// Gets or sets a value which indicates whether the console should be cleared before execution.
+        /// Gets or sets a value indicating whether the console should be cleared before execution.
         /// </summary>
         public bool Clear { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to do a dry run without executing actions.
+        /// Gets or sets a value indicating whether to do a dry run without executing actions.
         /// </summary>
         public bool DryRun { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to list all (or specified) targets and then exit.
+        /// Gets or sets a value indicating whether to list all (or specified) targets and then exit.
         /// </summary>
         public bool ListDependencies { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to list all (or specified) targets and inputs and then exit
+        /// Gets or sets a value indicating whether to list all (or specified) targets and inputs and then exit.
         /// </summary>
         public bool ListInputs { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to list all (or specified) targets and then exit.
+        /// Gets or sets a value indicating whether to list all (or specified) targets and then exit.
         /// </summary>
         public bool ListTargets { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to list all (or specified) targets and dependency trees and then exit
+        /// Gets or sets a value indicating whether to list all (or specified) targets and dependency trees and then exit.
         /// </summary>
         public bool ListTree { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to disable colored input.
+        /// Gets or sets a value indicating whether to disable colored input.
         /// </summary>
         public bool NoColor { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to disable extended characters.
+        /// Gets or sets a value indicating whether to disable extended characters.
         /// </summary>
         public bool NoExtendedChars { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to run targets in parallel.
+        /// Gets or sets a value indicating whether to run targets in parallel.
         /// </summary>
         public bool Parallel { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to run target's dependencies.
+        /// Gets or sets a value indicating whether to run target's dependencies.
         /// </summary>
         public bool SkipDependencies { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to enable verbose output.
+        /// Gets or sets a value indicating whether to enable verbose output.
         /// </summary>
         public bool Verbose { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to force the mode for a specific host environment (normally auto-detected).
+        /// Gets or sets a value indicating whether to force the mode for a specific host environment (normally auto-detected).
         /// If the value is set to <see cref="Host.Unknown"/> (default), then no mode is forced.
         /// </summary>
         public Host Host { get; set; }
 
         /// <summary>
-        /// Gets or sets a value which indicates whether to show help and exit.
+        /// Gets a value indicating whether to show help and exit.
         /// </summary>
         public bool ShowHelp { get; }
 

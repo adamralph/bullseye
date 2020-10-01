@@ -10,7 +10,7 @@ namespace Bullseye
         /// </summary>
         /// <param name="shortName">The short name of the option.</param>
         /// <param name="longName">The long name of the option.</param>
-        /// <param name="description"></param>
+        /// <param name="description">The description of the option.</param>
         public OptionDefinition(string shortName, string longName, string description)
         {
             this.ShortName = shortName;
