@@ -6,9 +6,9 @@ jobs:
   analyse:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@28c7f3d2b5162b5ddd3dfd9a45aa55eaf396478b
+    - uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
       with:
         fetch-depth: 2
-    - uses: github/codeql-action/init@e0299c3c045c9c6a4274140b38819cd0e79670de
-    - uses: github/codeql-action/autobuild@e0299c3c045c9c6a4274140b38819cd0e79670de
-    - uses: github/codeql-action/analyze@e0299c3c045c9c6a4274140b38819cd0e79670de
+    - uses: github/codeql-action/init@aac5eb2aea3e7d73d19e4d8dc442b6f1f57da25d
+    - uses: github/codeql-action/autobuild@aac5eb2aea3e7d73d19e4d8dc442b6f1f57da25d
+    - uses: github/codeql-action/analyze@aac5eb2aea3e7d73d19e4d8dc442b6f1f57da25d
