@@ -1,7 +1,7 @@
 language: csharp
 mono: none
 os: linux
-dist: bionic
+dist: focal
 dotnet: 3.1.402
 branches:
   only:
