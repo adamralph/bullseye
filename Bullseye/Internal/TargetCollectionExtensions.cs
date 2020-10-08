@@ -64,10 +64,7 @@ namespace Bullseye.Internal
                             ? OperatingSystem.MacOS
                             : OperatingSystem.Unknown;
 
-            if (!options.NoColor && operatingSystem == OperatingSystem.Windows)
-            {
-                await WindowsConsole.TryEnableVirtualTerminalProcessing(options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
-            }
+            await Terminal.TryConfigure(options.NoColor, operatingSystem, options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
 
             var (host, isHostDetected) = options.Host.DetectIfUnknown();
 
