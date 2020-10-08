@@ -4,10 +4,15 @@ namespace Bullseye.Internal
     using System.IO;
     using System.Threading.Tasks;
 
-    public static class WindowsConsole
+    public static class Terminal
     {
-        public static async Task TryEnableVirtualTerminalProcessing(TextWriter log, string logPrefix)
+        public static async Task TryConfigure(bool noColor, OperatingSystem operatingSystem, TextWriter log, string logPrefix)
         {
+            if (noColor || operatingSystem != OperatingSystem.Windows)
+            {
+                return;
+            }
+
             var (handle, gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(log, logPrefix).Tax();
             if (!gotHandle)
             {
