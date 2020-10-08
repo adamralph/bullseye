@@ -64,8 +64,20 @@ namespace Bullseye.Internal
                             ? OperatingSystem.MacOS
                             : OperatingSystem.Unknown;
 
-            await Terminal.TryConfigure(options.NoColor, operatingSystem, options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
+            var terminal = await Terminal.TryConfigure(options.NoColor, operatingSystem, options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
 
+            try
+            {
+                await RunAsync(targets, names, options, messageOnly, logPrefix, exit, logArgs, operatingSystem).Tax();
+            }
+            finally
+            {
+                await terminal.DisposeAsync().Tax();
+            }
+        }
+
+        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, OperatingSystem operatingSystem)
+        {
             var (host, isHostDetected) = options.Host.DetectIfUnknown();
 
             var palette = new Palette(options.NoColor, options.NoExtendedChars, host, operatingSystem);
