@@ -83,7 +83,7 @@
 ### Enhancements
 
 - [#168: Summary reporting](https://github.com/adamralph/bullseye/issues/168)
-- [#199: Optimize colour palette for Azure Pipelines ](https://github.com/adamralph/bullseye/pull/199)
+- [#199: Optimize colour palette for Azure Pipelines](https://github.com/adamralph/bullseye/pull/199)
 - [#238: Add RunTargetsWithoutExiting* methods](https://github.com/adamralph/bullseye/issues/238)
 
 ## 2.3.0
@@ -173,4 +173,3 @@
 ### Enhancements
 
 - [#2: Initial version](https://github.com/adamralph/bullseye/issues/2)
-
