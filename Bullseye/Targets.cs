@@ -42,7 +42,7 @@ namespace Bullseye
 
         /// <summary>
         /// Runs the targets.
-        /// In most cases, <see cref="RunAndExitAsync(IEnumerable{string}, Func{Exception, bool}, string)"/> should be used instead of this method.
+        /// In most cases, <see cref="RunAndExitAsync(IEnumerable{string}, Func{Exception, bool}, string, Func{Task})"/> should be used instead of this method.
         /// This method should only be used if continued code execution after running targets is specifically required.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
@@ -57,7 +57,7 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false);
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false, default);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -73,9 +73,10 @@ namespace Bullseye
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
+        /// <param name="teardown">An action to execute after all targets are executed, regardless of target success/failure.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true);
+        public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null, Func<Task> teardown = null) =>
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true, teardown);
 
         /// <summary>
         /// Runs the targets.
@@ -95,7 +96,7 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunWithoutExitingAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false);
+            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false, default);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -112,8 +113,9 @@ namespace Bullseye
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
+        /// <param name="teardown">An action to execute after all targets are executed, regardless of target success/failure.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true);
+        public Task RunAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null, Func<Task> teardown = null) =>
+            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true, teardown);
     }
 }

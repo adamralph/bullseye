@@ -10,22 +10,23 @@ namespace Bullseye.Internal
 
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix, bool exit)
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Task> teardown)
         {
             var argList = args.Sanitize().ToList();
             var (options, names) = Options.Parse(argList);
 
-            return RunAsync(targets, names, options, messageOnly, logPrefix, exit, log => log.Verbose(() => $"Args: {string.Join(" ", argList)}"));
+            return RunAsync(targets, names, options, messageOnly, logPrefix, exit, teardown, log => log.Verbose(() => $"Args: {string.Join(" ", argList)}"));
         }
 
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit) =>
-            RunAsync(targets, names.Sanitize().ToList(), options, messageOnly, logPrefix, exit, default);
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Task> teardown) =>
+            RunAsync(targets, names.Sanitize().ToList(), options, messageOnly, logPrefix, exit, teardown, default);
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs)
+        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Task> teardown, Func<Logger, Task> logArgs)
         {
             targets = targets ?? new TargetCollection();
             options = options ?? new Options();
             messageOnly = messageOnly ?? (_ => false);
+            teardown = teardown ?? (() => Task.CompletedTask);
 
             if (logPrefix == null)
             {
@@ -68,15 +69,16 @@ namespace Bullseye.Internal
 
             try
             {
-                await RunAsync(targets, names, options, messageOnly, logPrefix, exit, logArgs, operatingSystem).Tax();
+                await RunAsync(targets, names, options, messageOnly, logPrefix, exit, teardown, logArgs, operatingSystem).Tax();
             }
             finally
             {
+                await teardown().Tax();
                 await terminal.DisposeAsync().Tax();
             }
         }
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, OperatingSystem operatingSystem)
+        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Task> teardown, Func<Logger, Task> logArgs, OperatingSystem operatingSystem)
         {
             var (host, isHostDetected) = options.Host.DetectIfUnknown();
 
@@ -102,13 +104,16 @@ namespace Bullseye.Internal
                 catch (InvalidUsageException ex)
                 {
                     await log.Error(ex.Message).Tax();
+                    await teardown().Tax();
                     Environment.Exit(2);
                 }
                 catch (TargetFailedException)
                 {
+                    await teardown().Tax();
                     Environment.Exit(1);
                 }
 
+                await teardown().Tax();
                 Environment.Exit(0);
             }
             else

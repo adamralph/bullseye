@@ -87,9 +87,10 @@ namespace Bullseye
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
+        /// <param name="teardown">An action to execute after all targets are executed, regardless of target success/failure.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            instance.RunAndExitAsync(args, messageOnly, logPrefix);
+        public static Task RunTargetsAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null, Func<Task> teardown = null) =>
+            instance.RunAndExitAsync(args, messageOnly, logPrefix, teardown);
 
         /// <summary>
         /// Runs the previously specified targets.
@@ -126,8 +127,9 @@ namespace Bullseye
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
+        /// <param name="teardown">An action to execute after all targets are executed, regardless of target success/failure.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            instance.RunAndExitAsync(targets, options, messageOnly, logPrefix);
+        public static Task RunTargetsAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null, Func<Task> teardown = null) =>
+            instance.RunAndExitAsync(targets, options, messageOnly, logPrefix, teardown);
     }
 }

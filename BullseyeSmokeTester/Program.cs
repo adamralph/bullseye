@@ -104,7 +104,11 @@ namespace BullseyeSmokeTester
                 targets.RunWithoutExiting(targetNames, options);
             }
 
-            return RunTargetsAndExitAsync(targetNames, options, ex => ex is InvalidOperationException);
+            return RunTargetsAndExitAsync(
+                targetNames,
+                options,
+                ex => ex is InvalidOperationException,
+                teardown: () => Console.Error.WriteLineAsync("Running teardown..."));
         }
     }
 }
