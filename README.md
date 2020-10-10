@@ -32,6 +32,7 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
 
 - Create a .NET console app named `targets` and add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye).
 - Replace the contents of `Program.cs` with:
+
   ```C#
   using static Bullseye.Targets;
 
@@ -44,6 +45,7 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
       }
   }
   ```
+
 - Run the app. E.g. `dotnet run` or F5 in Visual Studio:
 
 Voilà! You've just written and run your first Bullseye program. You will see output similar to:
@@ -70,7 +72,7 @@ Target("default", DependsOn("drink-tea", "walk-dog"));
 ```C#
 Target(
     "eat-biscuits",
-    ForEach("digestives", "chocolate hob nobs"),
+    ForEach("digestives", "chocolate hobnobs"),
     biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
 ```
 
@@ -78,26 +80,31 @@ Target(
 dotnet run -- eat-biscuits
 ```
 
-<img src="https://user-images.githubusercontent.com/677704/93706189-24062b80-fb24-11ea-9fad-98ea192633e9.png" width="444px" />
+<img src="https://user-images.githubusercontent.com/677704/95656205-f7cf4080-0b0c-11eb-9f82-a4fb706ae33b.png" width="444px" />
 
 ## Sample wrapper scripts
 
 - `build.cmd`
-```Batchfile
-@echo Off
-dotnet run --project targets -- %*
-```
+
+  ```Batchfile
+  @echo Off
+  dotnet run --project targets -- %*
+  ```
+
 - `build.sh`
-```Shell
-#!/usr/bin/env bash
-set -euo pipefail
-dotnet run --project targets -- "$@"
-```
+
+  ```Shell
+  #!/usr/bin/env bash
+  set -euo pipefail
+  dotnet run --project targets -- "$@"
+  ```
+
 - `build.ps1`
-```PowerShell
-$ErrorActionPreference = "Stop";
-dotnet run --project targets -- $args
-```
+
+  ```PowerShell
+  $ErrorActionPreference = "Stop";
+  dotnet run --project targets -- $args
+  ```
 
 ## Command line arguments
 
