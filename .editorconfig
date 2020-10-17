@@ -81,6 +81,9 @@ dotnet_style_qualification_for_property                                   = true
 dotnet_style_readonly_field                                               = true:suggestion
 dotnet_style_require_accessibility_modifiers                              = for_non_interface_members:suggestion
 
+# RS0026: Do not add multiple public overloads with optional parameters
+dotnet_diagnostic.RS0026.severity = none
+
 [*.sh]
 end_of_line                                                               = lf
 max_line_length                                                           = 9999
