@@ -22,6 +22,8 @@ jobs:
           dotnet-version: "3.1.402"
       - run: dotnet --info
       - uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
+        with:
+          fetch-depth: 0
       - if: contains(matrix.os, 'windows')
         run: ./build.cmd
       - if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
