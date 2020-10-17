@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-    - checkout
-    - run:
-        shell: /bin/bash
-        command: ./build.sh
+      - checkout
+      - run:
+          shell: /bin/bash
+          command: ./build.sh

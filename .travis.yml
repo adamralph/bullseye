@@ -5,9 +5,9 @@ dist: bionic
 dotnet: 3.1.402
 branches:
   only:
-  - master
-  - /release-.*/
-  - /^\d+\.\d+\.\d+(-\S*)?$/
+    - master
+    - /release-.*/
+    - /^\d+\.\d+\.\d+(-\S*)?$/
 script: "./build.sh"
 git:
   depth: false
