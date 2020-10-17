@@ -1,39 +1,39 @@
 trigger:
   branches:
     include:
-    - master
-    - release-*
+      - master
+      - release-*
 jobs:
-- job: Windows
-  pool:
-    vmImage: 'windows-2019'
-  steps:
-  - task: UseDotNet@2
-    inputs:
-      version: '3.1.402'
-  - script: dotnet --info
-    displayName: 'Display .NET Core information.'
-  - script: ./build.cmd
-    displayName: 'Build the project'
-- job: Linux
-  pool:
-    vmImage: 'ubuntu-18.04'
-  steps:
-  - task: UseDotNet@2
-    inputs:
-      version: '3.1.402'
-  - script: dotnet --info
-    displayName: 'Display .NET Core information.'
-  - script: ./build.sh
-    displayName: 'Build the project'
-- job: macOS
-  pool:
-    vmImage: 'macOS-10.15'
-  steps:
-  - task: UseDotNet@2
-    inputs:
-      version: '3.1.402'
-  - script: dotnet --info
-    displayName: 'Display .NET Core information.'
-  - script: ./build.sh
-    displayName: 'Build the project'
+  - job: Windows
+    pool:
+      vmImage: "windows-2019"
+    steps:
+      - task: UseDotNet@2
+        inputs:
+          version: "3.1.402"
+      - script: dotnet --info
+        displayName: "Display .NET Core information."
+      - script: ./build.cmd
+        displayName: "Build the project"
+  - job: Linux
+    pool:
+      vmImage: "ubuntu-18.04"
+    steps:
+      - task: UseDotNet@2
+        inputs:
+          version: "3.1.402"
+      - script: dotnet --info
+        displayName: "Display .NET Core information."
+      - script: ./build.sh
+        displayName: "Build the project"
+  - job: macOS
+    pool:
+      vmImage: "macOS-10.15"
+    steps:
+      - task: UseDotNet@2
+        inputs:
+          version: "3.1.402"
+      - script: dotnet --info
+        displayName: "Display .NET Core information."
+      - script: ./build.sh
+        displayName: "Build the project"

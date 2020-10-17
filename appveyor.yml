@@ -1,20 +1,20 @@
-version: '{build}'
+version: "{build}"
 environment:
   APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
 image:
-- Visual Studio 2019
-- Ubuntu2004
+  - Visual Studio 2019
+  - Ubuntu2004
 pull_requests:
   do_not_increment_build_number: true
 branches:
   only:
-  - master
-  - /release-.*/
+    - master
+    - /release-.*/
 init:
-- cmd: dotnet --info
-- sh: dotnet --info
+  - cmd: dotnet --info
+  - sh: dotnet --info
 build_script:
-- cmd: ./build.cmd
-- sh: ./build.sh
+  - cmd: ./build.cmd
+  - sh: ./build.sh
 test: off
 deploy: off
