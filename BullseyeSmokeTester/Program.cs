@@ -10,6 +10,7 @@ namespace BullseyeSmokeTester
     {
         private static Task Main(string[] args)
         {
+            // spell-checker:disable
             Target("default", DependsOn("worl:d", "exclai: m", "null-action", "echo", "combo", "no-inputs"));
 
             Target("hell\"o", () => Console.Out.WriteLine("Hello"));
@@ -20,6 +21,7 @@ namespace BullseyeSmokeTester
 
             Target("exclai: m", DependsOn("worl:d"), () => Console.Out.WriteLine("!"));
 
+            // spell-checker:enable
             Target("null-action", ForEach(1, 2), null);
 
             var foos = new[] { "a", "b" };
