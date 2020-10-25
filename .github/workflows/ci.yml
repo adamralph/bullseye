@@ -13,9 +13,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-10.15, ubuntu-18.04, windows-2019]
-    name: ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+        job:
+          [
+            { os: macos-10.15, build: ./build.sh, push: "" },
+            { os: ubuntu-18.04, build: ./build.sh, push: ./push.sh },
+            { os: windows-2019, build: ./build.cmd, push: "" },
+          ]
+    name: ${{ matrix.job.os }}
+    runs-on: ${{ matrix.job.os }}
     steps:
       - uses: actions/setup-dotnet@51f68377c181a79065c61bd492bd49be4575c439
         with:
@@ -24,11 +29,9 @@ jobs:
       - uses: actions/checkout@a81bbbf8298c0fa03ea29cdc473d45769f953675
         with:
           fetch-depth: 0
-      - if: contains(matrix.os, 'windows')
-        run: ./build.cmd
-      - if: contains(matrix.os, 'macos') || contains(matrix.os, 'ubuntu')
-        run: ./build.sh
-      - if: matrix.os == 'ubuntu-18.04'
+      - run: ${{ matrix.job.build }}
+      - name: push
+        if: matrix.job.push != ''
         env:
           MYGET_ADAMRALPH_CI_API_KEY: ${{ secrets.MYGET_ADAMRALPH_CI_API_KEY }}
-        run: ./push.sh
+        run: ${{ matrix.job.push }}
