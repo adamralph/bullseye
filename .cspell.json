@@ -1,0 +1,97 @@
+{
+  "version": "0.1",
+  "language": "en-GB",
+  "languageSettings": [
+    {
+      "languageId": "bash",
+      "words": [
+        "adamralph",
+        "pipefail",
+        "nologo",
+        "nupkg"
+      ]
+    },
+    {
+      "languageId": "csharp",
+      "words": [
+        "arity",
+        "foos",
+        "Xbehave",
+        "Xunit"
+      ]
+    },
+    {
+      "languageId": "cmd",
+      "words": [
+        "errorlevel",
+        "nologo"
+      ]
+    },
+    {
+      "languageId": "csproj",
+      "words": [
+        "netcoreapp",
+        "netstandard",
+        "visualstudio",
+        "Xbehave",
+        "xunit"
+      ]
+    },
+    {
+      "languageId": "markdown",
+      "words": [
+        "Batchfile",
+        "pipefail"
+      ]
+    },
+    {
+      "languageId": "yaml",
+      "words": [
+        "adamralph",
+        "nologo"
+      ]
+    }
+  ],
+  "overrides": [
+    {
+      "filename": "{*.cmd,*.cs,*.csproj,*.sh}",
+      "language": "en-US"
+    },
+    {
+      "filename": "*.cmd",
+      "languageId": "cmd"
+    },
+    {
+      "filename": "*.csproj",
+      "languageId": "csproj"
+    },
+    {
+      "filename": "{.cspell.json,log.txt,PublicAPI.*.txt}",
+      "enabled": false
+    },
+    {
+      "filename": "*.sh",
+      "languageId": "bash"
+    },
+    {
+      "filename": "*.yml",
+      "languageId": "yaml"
+    }
+  ],
+  "words": [
+    "Autobuild",
+    "CodeQL",
+    "counterclaim",
+    "Ibento",
+    "Juncker",
+    "LINQ",
+    "Lykke",
+    "macOS",
+    "MVVM",
+    "MyGet",
+    "NuGet",
+    "Statik",
+    "sublicense",
+    "Walkies"
+  ]
+}

@@ -6,6 +6,7 @@ _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](http
 
 _[![Build status](https://github.com/adamralph/bullseye/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Fci.yml)_
 _[![CodeQL analysis](https://github.com/adamralph/bullseye/workflows/.github/workflows/codeql-analysis.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Fcodeql-analysis.yml)_
+_[![Spell check](https://github.com/adamralph/bullseye/workflows/.github/workflows/spell-check.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Fspell-check.yml)_
 
 _[![Appveyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/master.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_
 _[![Azure DevOps smoke test status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1/master.svg?logo=azuredevops&label=Azure%20DevOps)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=master)_
@@ -20,13 +21,18 @@ Bullseye targets can do anything. They are not restricted to building .NET proje
 
 Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
-- [Quick start](#quick-start)
-- [Defining dependencies](#defining-dependencies)
-- [Enumerable inputs](#enumerable-inputs)
-- [Sample wrapper scripts](#sample-wrapper-scripts)
-- [Command line arguments](#command-line-arguments)
-- [FAQ](#faq)
-- [Who's using Bullseye?](#whos-using-bullseye)
+<!-- spell-checker:disable -->
+- [Bullseye](#bullseye)
+  - [Quick start](#quick-start)
+  - [Defining dependencies](#defining-dependencies)
+  - [Enumerable inputs](#enumerable-inputs)
+  - [Sample wrapper scripts](#sample-wrapper-scripts)
+  - [Command line arguments](#command-line-arguments)
+  - [Non-static API](#non-static-api)
+  - [FAQ](#faq)
+    - [Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?](#can-i-force-a-pause-before-exiting-when-debugging-in-visual-studio-2017-or-earlier)
+  - [Who's using Bullseye?](#whos-using-bullseye)
+<!-- spell-checker:enable -->
 
 ## Quick start
 
