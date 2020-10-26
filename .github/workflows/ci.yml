@@ -14,7 +14,7 @@ jobs:
           [
             { os: macos-10.15, build: ./build.sh, push: "" },
             { os: ubuntu-18.04, build: ./build.sh, push: ./push.sh },
-            { os: windows-2019, build: ./build.cmd, push: "" },
+            { os: windows-2019, build: ./build.cmd, push: "" }
           ]
     name: ${{ matrix.job.os }}
     runs-on: ${{ matrix.job.os }}
