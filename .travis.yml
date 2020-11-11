@@ -2,7 +2,7 @@ language: csharp
 mono: none
 os: linux
 dist: bionic
-dotnet: 3.1.404
+dotnet: 5.0.100
 branches:
   only:
     - master
