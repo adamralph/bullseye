@@ -15,27 +15,28 @@ namespace BullseyeTests
         [Scenario]
         public async Task Logging()
         {
-            using var writer = new StringWriter();
-
-            var ordinal = 1;
-
-            foreach (var @bool in new[] { true, false })
+            using (var writer = new StringWriter())
             {
-                await Write(writer, noColor: true, noExtendedChars: !@bool, default, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, ordinal++);
-            }
+                var ordinal = 1;
 
-            foreach (var noColor in new[] { true, false })
-            {
-                foreach (var host in (Host[])Enum.GetValues(typeof(Host)))
+                foreach (var @bool in new[] { true, false })
                 {
-                    foreach (var operatingSystem in (OperatingSystem[])Enum.GetValues(typeof(OperatingSystem)))
+                    await Write(writer, noColor: true, noExtendedChars: !@bool, default, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, ordinal++);
+                }
+
+                foreach (var noColor in new[] { true, false })
+                {
+                    foreach (var host in (Host[])Enum.GetValues(typeof(Host)))
                     {
-                        await Write(writer, noColor, noExtendedChars: false, host, operatingSystem, skipDependencies: true, dryRun: true, parallel: true, verbose: true, ordinal++);
+                        foreach (var operatingSystem in (OperatingSystem[])Enum.GetValues(typeof(OperatingSystem)))
+                        {
+                            await Write(writer, noColor, noExtendedChars: false, host, operatingSystem, skipDependencies: true, dryRun: true, parallel: true, verbose: true, ordinal++);
+                        }
                     }
                 }
-            }
 
-            AssertFile.Contains("log.txt", writer.ToString().Replace(Environment.NewLine, "\r\n"));
+                AssertFile.Contains("log.txt", writer.ToString().Replace(Environment.NewLine, "\r\n"));
+            }
         }
 
         private static async Task Write(

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RollForward>major</RollForward>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
