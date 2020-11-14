@@ -189,6 +189,7 @@ To name a few:
 - [ProxyKit](https://github.com/damianh/ProxyKit)
 - [PseudoLocalizer](https://github.com/bymyslf/PseudoLocalizer)
 - [Radical Framework](https://github.com/RadicalFx)
+- [RealWorld](https://github.com/gothinkster/aspnetcore-realworld-example-app)
 - [SelfInitializingFakes](https://github.com/blairconrad/SelfInitializingFakes)
 - [SendComics](https://github.com/blairconrad/SendComics)
 - [SqlStreamStore.Locking](https://github.com/Erwinvandervalk/SqlStreamStore.Locking)
