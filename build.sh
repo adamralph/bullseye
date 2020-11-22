@@ -8,7 +8,7 @@ echo "${0##*/}": Testing...
 dotnet test --configuration Release --no-build --nologo
 
 echo "${0##*/}": Smoke testing...
-trap `set +x` EXIT
+trap '$(set +x)' EXIT
 set -x
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- --help
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- --list-targets

@@ -122,7 +122,7 @@ namespace Bullseye.Internal
 
         public Task Starting<TInput>(string target, TInput input, Guid inputId)
         {
-            var (_,  targetInputResult) = Intern(target, inputId);
+            var (_, targetInputResult) = Intern(target, inputId);
             targetInputResult.Input = input;
 
             return this.writer.WriteLineAsync(MessageWithInput(p.Default, "Starting...", target, input, null));
