@@ -48,7 +48,9 @@
       "languageId": "yaml",
       "words": [
         "adamralph",
-        "nologo"
+        "markdownlint",
+        "nologo",
+        "SHFMT"
       ]
     }
   ],
