@@ -2,5 +2,7 @@ extends: default
 rules:
   document-start:
     present: false
+  line-length:
+    max: 160
   new-lines:
     type: dos

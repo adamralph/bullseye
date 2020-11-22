@@ -13,13 +13,13 @@ jobs:
         job:
           - os: macos-10.15
             build: ./build.sh
-            push: ""
+            push: false
           - os: ubuntu-18.04
             build: ./build.sh
-            push: ./push.sh
+            push: true
           - os: windows-2019
             build: ./build.cmd
-            push: ""
+            push: false
     name: ${{ matrix.job.os }}
     runs-on: ${{ matrix.job.os }}
     steps:
@@ -41,7 +41,5 @@ jobs:
           fetch-depth: 0
       - run: ${{ matrix.job.build }}
       - name: push
-        if: matrix.job.push != ''
-        env:
-          MYGET_ADAMRALPH_CI_API_KEY: ${{ secrets.MYGET_ADAMRALPH_CI_API_KEY }}
-        run: ${{ matrix.job.push }}
+        if: matrix.job.push
+        run: dotnet nuget push **/*.nupkg --source https://www.myget.org/F/adamralph-ci/api/v2/package --api-key ${{ secrets.MYGET_ADAMRALPH_CI_API_KEY }}
