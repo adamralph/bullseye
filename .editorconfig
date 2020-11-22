@@ -6,11 +6,7 @@ end_of_line                                                               = crlf
 indent_size                                                               = 2
 indent_style                                                              = space
 insert_final_newline                                                      = true
-max_line_length                                                           = 120
 trim_trailing_whitespace                                                  = true
-
-[*.cmd]
-max_line_length                                                           = 9999
 
 [*.cs]
 csharp_indent_case_contents                                               = true
@@ -87,4 +83,7 @@ indent_size                                                               = 4
 
 [*.sh]
 end_of_line                                                               = lf
-max_line_length                                                           = 9999
+
+[*.sln]
+indent_size                                                               = 1
+indent_style                                                              = tab

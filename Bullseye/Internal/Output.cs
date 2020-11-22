@@ -95,6 +95,7 @@ namespace Bullseye.Internal
             }
         }
 
+        // editorconfig-checker-disable
         private string GetUsage(TargetCollection targets) =>
 $@"{p.Default}Usage:{p.Reset} {p.CommandLine}<command-line>{p.Reset} {p.Option}[<options>]{p.Reset} {p.Target}[<targets>]{p.Reset}
 

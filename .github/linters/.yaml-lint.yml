@@ -1,0 +1,6 @@
+extends: default
+rules:
+  document-start:
+    present: false
+  new-lines:
+    type: dos
