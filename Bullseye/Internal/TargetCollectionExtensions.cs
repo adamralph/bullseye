@@ -56,6 +56,17 @@ namespace Bullseye.Internal
                 }
             }
 
+            var noColor = options.NoColor;
+            if (Environment.GetEnvironmentVariable("NO_COLOR") != null)
+            {
+                if (options.Verbose)
+                {
+                    await Console.Error.WriteLineAsync($"{logPrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
+                }
+
+                noColor = true;
+            }
+
             var operatingSystem =
                 RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     ? OperatingSystem.Windows
@@ -65,11 +76,11 @@ namespace Bullseye.Internal
                             ? OperatingSystem.MacOS
                             : OperatingSystem.Unknown;
 
-            var terminal = await Terminal.TryConfigure(options.NoColor, operatingSystem, options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
+            var terminal = await Terminal.TryConfigure(noColor, operatingSystem, options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
 
             try
             {
-                await RunAsync(targets, names, options, messageOnly, logPrefix, exit, logArgs, operatingSystem).Tax();
+                await RunAsync(targets, names, noColor, options, messageOnly, logPrefix, exit, logArgs, operatingSystem).Tax();
             }
             finally
             {
@@ -77,11 +88,11 @@ namespace Bullseye.Internal
             }
         }
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, OperatingSystem operatingSystem)
+        private static async Task RunAsync(TargetCollection targets, List<string> names, bool noColor, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, OperatingSystem operatingSystem)
         {
             var (host, isHostDetected) = options.Host.DetectIfUnknown();
 
-            var palette = new Palette(options.NoColor, options.NoExtendedChars, host, operatingSystem);
+            var palette = new Palette(noColor, options.NoExtendedChars, host, operatingSystem);
             var output = new Output(Console.Out, palette, operatingSystem);
             var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 

@@ -197,7 +197,7 @@ namespace Bullseye
         /// <summary>
         /// Gets or sets a value indicating whether to disable colored input.
         /// </summary>
-        public bool NoColor { get; set; } = Environment.GetEnvironmentVariable("NO_COLOR") != null;
+        public bool NoColor { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to disable extended characters.
