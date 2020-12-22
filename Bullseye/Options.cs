@@ -195,7 +195,7 @@ namespace Bullseye
         public bool ListTree { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to disable colored input.
+        /// Gets or sets a value indicating whether to disable colored output.
         /// </summary>
         public bool NoColor { get; set; }
 
