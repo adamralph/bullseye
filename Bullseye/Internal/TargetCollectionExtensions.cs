@@ -82,7 +82,7 @@ namespace Bullseye.Internal
             var (host, isHostDetected) = options.Host.DetectIfUnknown();
 
             var palette = new Palette(options.NoColor, options.NoExtendedChars, host, operatingSystem);
-            var output = new Output(Console.Out, palette);
+            var output = new Output(Console.Out, palette, operatingSystem);
             var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
             await log.Version(() => typeof(TargetCollectionExtensions).Assembly.GetVersion()).Tax();
