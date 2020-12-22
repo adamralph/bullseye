@@ -46,7 +46,7 @@ namespace Bullseye.Internal
             brightCyan = Console.BackgroundColor == ConsoleColor.Cyan ? cyan : brightCyan;
             ////brightWhite = Console.BackgroundColor == ConsoleColor.White ? white : brightWhite;
 
-            this.CommandLine = brightYellow;
+            this.Invocation = brightYellow;
             this.Default = white;
             this.Failed = brightRed;
             this.Input = brightCyan;
@@ -86,7 +86,7 @@ namespace Bullseye.Internal
 
             if (host == Host.Travis || host == Host.AzurePipelines)
             {
-                this.CommandLine = yellow;
+                this.Invocation = yellow;
                 this.Default = brightBlack;
                 this.Failed = red;
                 this.Input = cyan;
@@ -107,7 +107,7 @@ namespace Bullseye.Internal
 
             if (host == Host.GitHubActions)
             {
-                this.CommandLine = yellow;
+                this.Invocation = yellow;
                 this.Failed = red;
                 this.Target = blue;
             }
@@ -131,7 +131,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public string CommandLine { get; }
+        public string Invocation { get; }
 
         public string Reset { get; }
 
