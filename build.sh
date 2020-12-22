@@ -33,3 +33,5 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --foo ba
 
 dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --help
 dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --foo bar --verbose build
+
+env NO_COLOR=1 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose
