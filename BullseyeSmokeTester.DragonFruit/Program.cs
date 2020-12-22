@@ -7,7 +7,7 @@ namespace BullseyeSmokeTester.DragonFruit
     {
         /// <summary>Run or list targets.</summary>
         /// <param name="foo">A value used for something.</param>
-        /// <param name="targets">A list of targets to run or list.</param>
+        /// <param name="targets">A list of targets to run or list. If not specified, the "default" target will be run, or all targets will be listed.</param>
         /// <param name="clear">Clear the console before execution.</param>
         /// <param name="dryRun">Do a dry run without executing actions.</param>
         /// <param name="host">Force the mode for a specific host environment (normally auto-detected).</param>
