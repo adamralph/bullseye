@@ -8,7 +8,7 @@ app.HelpOption();
 var foo = app.Option<string>("-f|--foo <foo>", "A value used for something.", CommandOptionType.SingleValue);
 
 // translate from Bullseye to McMaster.Extensions.CommandLineUtils
-app.Argument("targets", "The targets to run or list.", true);
+app.Argument("targets", "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed.", true);
 foreach (var option in Options.Definitions)
 {
     app.Option((option.ShortName != null ? $"{option.ShortName}|" : "") + option.LongName, option.Description, CommandOptionType.NoValue);
