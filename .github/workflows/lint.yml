@@ -11,5 +11,4 @@ jobs:
         env:
           FILTER_REGEX_EXCLUDE: \bLICENSE$|\blog\.txt$
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_CSHARP: false
           VALIDATE_SHELL_SHFMT: false
