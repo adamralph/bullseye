@@ -1,10 +1,10 @@
+using System;
+using Bullseye.Internal;
+using Xbehave;
+using Xunit;
+
 namespace BullseyeTests
 {
-    using System;
-    using Bullseye.Internal;
-    using Xbehave;
-    using Xunit;
-
     public class TimeSpanExtensionsTests
     {
         [Scenario]

@@ -1,14 +1,14 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable IDE0009 // Member access should be qualified.
 #pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public class Output
     {
         private readonly TextWriter writer;

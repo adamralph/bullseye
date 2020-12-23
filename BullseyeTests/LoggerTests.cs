@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Bullseye;
+using Bullseye.Internal;
+using BullseyeTests.Infra;
+using Xbehave;
+using OperatingSystem = Bullseye.Internal.OperatingSystem;
+
 namespace BullseyeTests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading.Tasks;
-    using Bullseye;
-    using Bullseye.Internal;
-    using BullseyeTests.Infra;
-    using Xbehave;
-    using OperatingSystem = Bullseye.Internal.OperatingSystem;
-
     public class LoggerTests
     {
         [Scenario]

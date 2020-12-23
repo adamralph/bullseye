@@ -1,8 +1,8 @@
+using Bullseye;
+using static Bullseye.Targets;
+
 namespace BullseyeSmokeTester.DragonFruit
 {
-    using Bullseye;
-    using static Bullseye.Targets;
-
     internal static class Program
     {
         /// <summary>Run or list targets.</summary>

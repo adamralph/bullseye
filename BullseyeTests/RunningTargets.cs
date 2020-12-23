@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using Bullseye.Internal;
+using Xbehave;
+using Xunit;
+using static BullseyeTests.Infra.Helper;
+
 namespace BullseyeTests
 {
-    using System;
-    using System.Collections.Generic;
-    using Bullseye.Internal;
-    using Xbehave;
-    using Xunit;
-    using static BullseyeTests.Infra.Helper;
-
     public class RunningTargets
     {
         [Scenario]

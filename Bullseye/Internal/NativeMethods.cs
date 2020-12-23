@@ -1,10 +1,10 @@
+using System;
+using System.Runtime.InteropServices;
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
-    using System;
-    using System.Runtime.InteropServices;
-
     public static class NativeMethods
     {
 #pragma warning disable CA1707 // Identifiers should not contain underscores

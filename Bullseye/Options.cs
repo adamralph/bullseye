@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Bullseye
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// The options to use when running or listing targets.
     /// </summary>

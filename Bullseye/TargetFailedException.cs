@@ -1,7 +1,7 @@
+using System;
+
 namespace Bullseye
 {
-    using System;
-
     /// <summary>
     /// Thrown when a target fails.
     /// </summary>
