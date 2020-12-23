@@ -23,7 +23,7 @@ namespace Bullseye.Internal
             }
 
             this.CheckForCircularDependencies();
-            this.Check(names);
+            this.CheckContains(names);
 
             await log.Starting(names).Tax();
 
@@ -119,10 +119,10 @@ namespace Bullseye.Internal
 
             foreach (var target in this)
             {
-                CheckForCircularDependencies(target);
+                Check(target);
             }
 
-            void CheckForCircularDependencies(Target target)
+            void Check(Target target)
             {
                 if (dependents.Contains(target.Name))
                 {
@@ -133,14 +133,14 @@ namespace Bullseye.Internal
 
                 foreach (var dependency in target.Dependencies.Where(this.Contains))
                 {
-                    CheckForCircularDependencies(this[dependency]);
+                    Check(this[dependency]);
                 }
 
                 dependents.Pop();
             }
         }
 
-        private void Check(List<string> names)
+        private void CheckContains(IEnumerable<string> names)
         {
             var notFound = new SortedSet<string>(names.Where(name => !this.Contains(name)));
 
