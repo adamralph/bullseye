@@ -1,7 +1,7 @@
+using System;
+
 namespace Bullseye
 {
-    using System;
-
     /// <summary>
     /// Thrown when invalid arguments are passed when running or listing targets.
     /// </summary>

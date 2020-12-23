@@ -1,10 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Bullseye.Internal;
+
 namespace Bullseye
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Bullseye.Internal;
-
     public partial class Targets
     {
         /// <summary>

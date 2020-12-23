@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Threading.Tasks;
-
     public static class TargetCollectionExtensions
     {
         public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix, bool exit)

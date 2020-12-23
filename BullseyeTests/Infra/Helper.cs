@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Bullseye.Internal;
+
 namespace BullseyeTests.Infra
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Bullseye.Internal;
-
     internal static class Helper
     {
         public static ref T Ensure<T>(ref T t) where T : class, new()

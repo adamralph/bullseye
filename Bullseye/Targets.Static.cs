@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace Bullseye
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Provides methods for defining and running targets.
     /// </summary>

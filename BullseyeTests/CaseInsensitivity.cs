@@ -1,10 +1,10 @@
+using Bullseye.Internal;
+using Xbehave;
+using Xunit;
+using static BullseyeTests.Infra.Helper;
+
 namespace BullseyeTests
 {
-    using Bullseye.Internal;
-    using Xbehave;
-    using Xunit;
-    using static BullseyeTests.Infra.Helper;
-
     public class CaseInsensitivity
     {
         [Scenario]

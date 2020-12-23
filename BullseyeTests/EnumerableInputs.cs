@@ -1,12 +1,12 @@
+using System.Collections.Generic;
+using System.Linq;
+using Bullseye.Internal;
+using Xbehave;
+using Xunit;
+using static BullseyeTests.Infra.Helper;
+
 namespace BullseyeTests
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Bullseye.Internal;
-    using Xbehave;
-    using Xunit;
-    using static BullseyeTests.Infra.Helper;
-
     public class EnumerableInputs
     {
         [Scenario]

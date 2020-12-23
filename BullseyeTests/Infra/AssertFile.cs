@@ -1,9 +1,9 @@
+using System;
+using System.IO;
+using System.Text;
+
 namespace BullseyeTests.Infra
 {
-    using System;
-    using System.IO;
-    using System.Text;
-
     public static class AssertFile
     {
         public static void Contains(string expectedPath, string actual)
