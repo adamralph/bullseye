@@ -6,6 +6,7 @@ _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](http
 
 _[![Build status](https://github.com/adamralph/bullseye/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Fci.yml)_
 _[![CodeQL analysis](https://github.com/adamralph/bullseye/workflows/.github/workflows/codeql-analysis.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Fcodeql-analysis.yml)_
+_[![Lint](https://github.com/adamralph/bullseye/workflows/.github/workflows/lint.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Flint.yml)_
 _[![Spell check](https://github.com/adamralph/bullseye/workflows/.github/workflows/spell-check.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Fspell-check.yml)_
 
 _[![Appveyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/master.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_
