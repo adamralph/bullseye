@@ -144,6 +144,10 @@ targets1.RunWithoutExiting(args);
 targets2.RunWithoutExiting(args);
 ```
 
+## NO_COLOR
+
+Bullseye supports [NO_COLOR](https://no-color.org/).
+
 ## FAQ
 
 ### Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?
