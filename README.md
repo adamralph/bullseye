@@ -13,7 +13,6 @@ _[![Azure DevOps smoke test status](https://img.shields.io/azure-devops/build/ad
 _[![CircleCI smoke test status](https://img.shields.io/circleci/build/github/adamralph/bullseye/master?logo=circleci&label=CircleCI)](https://circleci.com/gh/adamralph/bullseye/tree/master)_
 _[![Cirrus CI smoke test status](https://img.shields.io/cirrus/github/adamralph/bullseye/master?logo=cirrus-ci&label=Cirrus%20CI)](https://cirrus-ci.com/github/adamralph/bullseye)_
 _[![GitLab CI/CD smoke test status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/master.svg?logo=gitlab&label=GitLab+CI%2fCD)](https://gitlab.com/adamralph/bullseye/-/jobs)_
-_[![Travis CI smoke test status](https://img.shields.io/travis/adamralph/bullseye/master.svg?logo=travis&label=Travis%20CI)](https://travis-ci.org/adamralph/bullseye/branches)_
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
 
