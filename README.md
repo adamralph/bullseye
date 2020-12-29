@@ -199,6 +199,7 @@ To name a few:
 - [SqlStreamStore.Locking](https://github.com/Erwinvandervalk/SqlStreamStore.Locking)
 - [SQLStreamStore](https://github.com/SQLStreamStore)
 - [Statik](https://github.com/pauldotknopf/statik)
+- [Tasty](https://github.com/xenial-io/Tasty)
 - [TemplatedConfiguration](https://github.com/Erwinvandervalk/TemplatedConfiguration)
 - [xBehave.net](https://github.com/xbehave)
 
