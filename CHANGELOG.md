@@ -4,7 +4,7 @@
 
 ### Enhancements
 
-- [#521: Support https://no-color.org/](https://github.com/adamralph/bullseye/issues/521)
+- [#521: Support NO\_COLOR — https://no-color.org/](https://github.com/adamralph/bullseye/issues/521)
 - [#529: Improve help](https://github.com/adamralph/bullseye/issues/529)
 
 ### Fixed bugs
