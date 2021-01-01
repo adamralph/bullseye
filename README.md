@@ -29,6 +29,7 @@ Platform support: [.NET Standard 2.0 and upwards](https://docs.microsoft.com/en-
   - [Sample wrapper scripts](#sample-wrapper-scripts)
   - [Command line arguments](#command-line-arguments)
   - [Non-static API](#non-static-api)
+  - [NO_COLOR](#no_color)
   - [FAQ](#faq)
     - [Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?](#can-i-force-a-pause-before-exiting-when-debugging-in-visual-studio-2017-or-earlier)
   - [Who's using Bullseye?](#whos-using-bullseye)
