@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.6.0
+
+### Enhancements
+
+- [#521: Support https://no-color.org/](https://github.com/adamralph/bullseye/issues/521)
+- [#529: Improve help](https://github.com/adamralph/bullseye/issues/529)
+
+### Fixed bugs
+
+- [#482: running targets without exiting leaves the console screen buffer output mode changed](https://github.com/adamralph/bullseye/pull/482)
+- [#528: Help shows invalid options in examples](https://github.com/adamralph/bullseye/issues/528)
+
 ## 3.5.0
 
 ### Enhancements
