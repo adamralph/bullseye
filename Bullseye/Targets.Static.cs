@@ -24,14 +24,16 @@ namespace Bullseye
         /// </summary>
         /// <param name="name">The name of the target.</param>
         /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, Action action) => Target(name, null, action);
+        public static void Target(string name, Action action) =>
+            instance.Add(name, action);
 
         /// <summary>
         /// Defines a target which performs an action.
         /// </summary>
         /// <param name="name">The name of the target.</param>
         /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, Func<Task> action) => Target(name, null, action);
+        public static void Target(string name, Func<Task> action) =>
+            instance.Add(name, action);
 
         /// <summary>
         /// Defines a target which depends on other targets and performs an action.
@@ -40,12 +42,7 @@ namespace Bullseye
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="action">The action performed by the target.</param>
         public static void Target(string name, IEnumerable<string> dependsOn, Action action) =>
-            Target(
-                name,
-                dependsOn,
-                action == null
-                    ? (Func<Task>)null
-                    : () => Task.Run(action.Invoke));
+            instance.Add(name, dependsOn, action);
 
         /// <summary>
         /// Defines a target which depends on other targets and performs an action.
@@ -63,7 +60,8 @@ namespace Bullseye
         /// <param name="name">The name of the target.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) => Target(name, null, forEach, action);
+        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
+            instance.Add(name, forEach, action);
 
         /// <summary>
         /// Defines a target which performs an action for each item in a list of inputs.
@@ -72,7 +70,8 @@ namespace Bullseye
         /// <param name="name">The name of the target.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) => Target(name, null, forEach, action);
+        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
+            instance.Add(name, forEach, action);
 
         /// <summary>
         /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -83,13 +82,7 @@ namespace Bullseye
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
         public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
-            Target(
-                name,
-                dependsOn,
-                forEach,
-                action == null
-                    ? (Func<TInput, Task>)null
-                    : input => Task.Run(() => action.Invoke(input)));
+            instance.Add(name, dependsOn, forEach, action);
 
         /// <summary>
         /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -117,7 +110,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public static void RunTargetsAndExit(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            RunTargetsAndExitAsync(args, messageOnly, logPrefix).GetAwaiter().GetResult();
+            instance.RunAndExit(args, messageOnly, logPrefix);
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -135,7 +128,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public static void RunTargetsAndExit(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            RunTargetsAndExitAsync(targets, options, messageOnly, logPrefix).GetAwaiter().GetResult();
+            instance.RunAndExit(targets, options, messageOnly, logPrefix);
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -190,7 +183,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public static void RunTargetsWithoutExiting(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            RunTargetsWithoutExitingAsync(args, messageOnly, logPrefix).GetAwaiter().GetResult();
+            instance.RunWithoutExiting(args, messageOnly, logPrefix);
 
         /// <summary>
         /// Runs the previously specified targets.
@@ -209,7 +202,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public static void RunTargetsWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            RunTargetsWithoutExitingAsync(targets, options, messageOnly, logPrefix).GetAwaiter().GetResult();
+            instance.RunWithoutExitingAsync(targets, options, messageOnly, logPrefix);
 
         /// <summary>
         /// Runs the previously specified targets.

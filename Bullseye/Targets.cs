@@ -25,14 +25,16 @@ namespace Bullseye
         /// </summary>
         /// <param name="name">The name of the target.</param>
         /// <param name="action">The action performed by the target.</param>
-        public void Add(string name, Action action) => this.Add(name, null, action);
+        public void Add(string name, Action action) =>
+            this.targetCollection.Add(new ActionTarget(name, null, action.ToAsync()));
 
         /// <summary>
         /// Adds a target which performs an action.
         /// </summary>
         /// <param name="name">The name of the target.</param>
         /// <param name="action">The action performed by the target.</param>
-        public void Add(string name, Func<Task> action) => this.Add(name, null, action);
+        public void Add(string name, Func<Task> action) =>
+            this.targetCollection.Add(new ActionTarget(name, null, action));
 
         /// <summary>
         /// Adds a target which depends on other targets and performs an action.
@@ -41,12 +43,7 @@ namespace Bullseye
         /// <param name="dependsOn">The names of the targets on which the target depends.</param>
         /// <param name="action">The action performed by the target.</param>
         public void Add(string name, IEnumerable<string> dependsOn, Action action) =>
-            this.Add(
-                name,
-                dependsOn,
-                action == null
-                    ? (Func<Task>)null
-                    : () => Task.Run(action.Invoke));
+            this.targetCollection.Add(new ActionTarget(name, dependsOn, action.ToAsync()));
 
         /// <summary>
         /// Adds a target which depends on other targets and performs an action.
@@ -64,7 +61,8 @@ namespace Bullseye
         /// <param name="name">The name of the target.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) => this.Add(name, null, forEach, action);
+        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
+            this.targetCollection.Add(new ActionTarget<TInput>(name, null, forEach, action.ToAsync()));
 
         /// <summary>
         /// Adds a target which performs an action for each item in a list of inputs.
@@ -73,7 +71,8 @@ namespace Bullseye
         /// <param name="name">The name of the target.</param>
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) => this.Add(name, null, forEach, action);
+        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
+            this.targetCollection.Add(new ActionTarget<TInput>(name, null, forEach, action));
 
         /// <summary>
         /// Adds a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -84,13 +83,7 @@ namespace Bullseye
         /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
         public void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
-            this.Add(
-                name,
-                dependsOn,
-                forEach,
-                action == null
-                    ? (Func<TInput, Task>)null
-                    : input => Task.Run(() => action.Invoke(input)));
+            this.targetCollection.Add(new ActionTarget<TInput>(name, dependsOn, forEach, action.ToAsync()));
 
         /// <summary>
         /// Adds a target which depends on other targets and performs an action for each item in a list of inputs.
