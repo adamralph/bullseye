@@ -13,14 +13,6 @@ namespace Bullseye
         private readonly TargetCollection targetCollection = new TargetCollection();
 
         /// <summary>
-        /// Adds a target which depends on other targets.
-        /// </summary>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
-        public void Add(string name, IEnumerable<string> dependsOn) =>
-            this.targetCollection.Add(new Target(name, dependsOn));
-
-        /// <summary>
         /// Adds a target which performs an action.
         /// </summary>
         /// <param name="name">The name of the target.</param>
@@ -29,12 +21,12 @@ namespace Bullseye
             this.targetCollection.Add(new ActionTarget(name, null, action.ToAsync()));
 
         /// <summary>
-        /// Adds a target which performs an action.
+        /// Adds a target which depends on other targets.
         /// </summary>
         /// <param name="name">The name of the target.</param>
-        /// <param name="action">The action performed by the target.</param>
-        public void Add(string name, Func<Task> action) =>
-            this.targetCollection.Add(new ActionTarget(name, null, action));
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        public void Add(string name, IEnumerable<string> dependsOn) =>
+            this.targetCollection.Add(new Target(name, dependsOn));
 
         /// <summary>
         /// Adds a target which depends on other targets and performs an action.
@@ -55,24 +47,12 @@ namespace Bullseye
             this.targetCollection.Add(new ActionTarget(name, dependsOn, action));
 
         /// <summary>
-        /// Adds a target which performs an action for each item in a list of inputs.
+        /// Adds a target which performs an action.
         /// </summary>
-        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
         /// <param name="name">The name of the target.</param>
-        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
-        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
-            this.targetCollection.Add(new ActionTarget<TInput>(name, null, forEach, action.ToAsync()));
-
-        /// <summary>
-        /// Adds a target which performs an action for each item in a list of inputs.
-        /// </summary>
-        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
-        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            this.targetCollection.Add(new ActionTarget<TInput>(name, null, forEach, action));
+        /// <param name="action">The action performed by the target.</param>
+        public void Add(string name, Func<Task> action) =>
+            this.targetCollection.Add(new ActionTarget(name, null, action));
 
         /// <summary>
         /// Adds a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -95,6 +75,26 @@ namespace Bullseye
         /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
         public void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
             this.targetCollection.Add(new ActionTarget<TInput>(name, dependsOn, forEach, action));
+
+        /// <summary>
+        /// Adds a target which performs an action for each item in a list of inputs.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
+        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
+        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
+            this.targetCollection.Add(new ActionTarget<TInput>(name, null, forEach, action.ToAsync()));
+
+        /// <summary>
+        /// Adds a target which performs an action for each item in a list of inputs.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
+        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
+        public void Add<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
+            this.targetCollection.Add(new ActionTarget<TInput>(name, null, forEach, action));
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.

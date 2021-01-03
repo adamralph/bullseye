@@ -12,88 +12,19 @@ namespace Bullseye
         private static readonly Targets instance = new Targets();
 
         /// <summary>
-        /// Defines a target which depends on other targets.
+        /// Cosmetic method for defining an array of <see cref="string"/>.
         /// </summary>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
-        public static void Target(string name, IEnumerable<string> dependsOn) =>
-            instance.Add(name, dependsOn);
+        /// <param name="dependencies">The names of the targets on which the current target depends.</param>
+        /// <returns>The specified <paramref name="dependencies"/>.</returns>
+        public static string[] DependsOn(params string[] dependencies) => dependencies;
 
         /// <summary>
-        /// Defines a target which performs an action.
+        /// Cosmetic method for defining an array of <typeparamref name="TInput"/>.
         /// </summary>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, Action action) =>
-            instance.Add(name, action);
-
-        /// <summary>
-        /// Defines a target which performs an action.
-        /// </summary>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, Func<Task> action) =>
-            instance.Add(name, action);
-
-        /// <summary>
-        /// Defines a target which depends on other targets and performs an action.
-        /// </summary>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
-        /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, IEnumerable<string> dependsOn, Action action) =>
-            instance.Add(name, dependsOn, action);
-
-        /// <summary>
-        /// Defines a target which depends on other targets and performs an action.
-        /// </summary>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
-        /// <param name="action">The action performed by the target.</param>
-        public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
-            instance.Add(name, dependsOn, action);
-
-        /// <summary>
-        /// Defines a target which performs an action for each item in a list of inputs.
-        /// </summary>
-        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
-        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
-            instance.Add(name, forEach, action);
-
-        /// <summary>
-        /// Defines a target which performs an action for each item in a list of inputs.
-        /// </summary>
-        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
-        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            instance.Add(name, forEach, action);
-
-        /// <summary>
-        /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
-        /// </summary>
-        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
-        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
-        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
-            instance.Add(name, dependsOn, forEach, action);
-
-        /// <summary>
-        /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
-        /// </summary>
-        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
-        /// <param name="name">The name of the target.</param>
-        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
-        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
-        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
-        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
-            instance.Add(name, dependsOn, forEach, action);
+        /// <typeparam name="TInput">The type of input required by the action of the current target.</typeparam>
+        /// <param name="inputs">The list of inputs, each to be passed to the action of the current target.</param>
+        /// <returns>The specified <paramref name="inputs"/>.</returns>
+        public static TInput[] ForEach<TInput>(params TInput[] inputs) => inputs;
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -244,18 +175,87 @@ namespace Bullseye
             instance.RunWithoutExitingAsync(targets, options, messageOnly, logPrefix);
 
         /// <summary>
-        /// Cosmetic method for defining an array of <see cref="string"/>.
+        /// Defines a target which performs an action.
         /// </summary>
-        /// <param name="dependencies">The names of the targets on which the current target depends.</param>
-        /// <returns>The specified <paramref name="dependencies"/>.</returns>
-        public static string[] DependsOn(params string[] dependencies) => dependencies;
+        /// <param name="name">The name of the target.</param>
+        /// <param name="action">The action performed by the target.</param>
+        public static void Target(string name, Action action) =>
+            instance.Add(name, action);
 
         /// <summary>
-        /// Cosmetic method for defining an array of <typeparamref name="TInput"/>.
+        /// Defines a target which depends on other targets.
         /// </summary>
-        /// <typeparam name="TInput">The type of input required by the action of the current target.</typeparam>
-        /// <param name="inputs">The list of inputs, each to be passed to the action of the current target.</param>
-        /// <returns>The specified <paramref name="inputs"/>.</returns>
-        public static TInput[] ForEach<TInput>(params TInput[] inputs) => inputs;
+        /// <param name="name">The name of the target.</param>
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        public static void Target(string name, IEnumerable<string> dependsOn) =>
+            instance.Add(name, dependsOn);
+
+        /// <summary>
+        /// Defines a target which depends on other targets and performs an action.
+        /// </summary>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        /// <param name="action">The action performed by the target.</param>
+        public static void Target(string name, IEnumerable<string> dependsOn, Action action) =>
+            instance.Add(name, dependsOn, action);
+
+        /// <summary>
+        /// Defines a target which depends on other targets and performs an action.
+        /// </summary>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        /// <param name="action">The action performed by the target.</param>
+        public static void Target(string name, IEnumerable<string> dependsOn, Func<Task> action) =>
+            instance.Add(name, dependsOn, action);
+
+        /// <summary>
+        /// Defines a target which performs an action.
+        /// </summary>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="action">The action performed by the target.</param>
+        public static void Target(string name, Func<Task> action) =>
+            instance.Add(name, action);
+
+        /// <summary>
+        /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
+        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
+        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
+            instance.Add(name, dependsOn, forEach, action);
+
+        /// <summary>
+        /// Defines a target which depends on other targets and performs an action for each item in a list of inputs.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="dependsOn">The names of the targets on which the target depends.</param>
+        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
+        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
+        public static void Target<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
+            instance.Add(name, dependsOn, forEach, action);
+
+        /// <summary>
+        /// Defines a target which performs an action for each item in a list of inputs.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
+        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
+        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
+            instance.Add(name, forEach, action);
+
+        /// <summary>
+        /// Defines a target which performs an action for each item in a list of inputs.
+        /// </summary>
+        /// <typeparam name="TInput">The type of input required by <paramref name="action"/>.</typeparam>
+        /// <param name="name">The name of the target.</param>
+        /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
+        /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
+        public static void Target<TInput>(string name, IEnumerable<TInput> forEach, Func<TInput, Task> action) =>
+            instance.Add(name, forEach, action);
     }
 }
