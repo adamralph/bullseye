@@ -13,8 +13,8 @@ namespace Bullseye.Internal
         private readonly Func<TInput, Task> action;
         private readonly IEnumerable<TInput> inputs;
 
-        public ActionTarget(string name, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
-            : base(name, dependencies)
+        public ActionTarget(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
+            : base(name, description, dependencies)
         {
             this.action = action;
             this.inputs = inputs ?? Enumerable.Empty<TInput>();

@@ -11,8 +11,8 @@ namespace Bullseye.Internal
     {
         private readonly Func<Task> action;
 
-        public ActionTarget(string name, IEnumerable<string> dependencies, Func<Task> action)
-            : base(name, dependencies) => this.action = action;
+        public ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
+            : base(name, description, dependencies) => this.action = action;
 
         public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {

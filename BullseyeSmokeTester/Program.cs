@@ -7,7 +7,7 @@ using static Bullseye.Targets;
 // spell-checker:disable
 Target("default", DependsOn("worl:d", "exclai: m", "null-action", "echo", "combo", "no-inputs"));
 
-Target("hell\"o", () => Console.Out.WriteLine("Hello"));
+Target("hell\"o", "Says hello", () => Console.Out.WriteLine("Hello"));
 
 Target("comm/a", DependsOn("hell\"o"), () => Console.Out.WriteLine(", "));
 
@@ -16,22 +16,25 @@ Target("worl:d", DependsOn("comm/a"), () => Console.Out.WriteLine("World"));
 Target("exclai: m", DependsOn("worl:d"), () => Console.Out.WriteLine("!"));
 
 // spell-checker:enable
-Target("null-action", ForEach(1, 2), null);
+Target("null-action", "does nothing", ForEach(1, 2), null);
 
 var foos = new[] { "a", "b" };
 var bars = new[] { 1, 2 };
 
 Target(
     "foo",
+    "foos",
     ForEach(10, 20, 30),
     Task.Delay);
 
 Target(
     "bar",
+    "bars",
     () => Task.Delay(1));
 
 Target(
     "echo",
+    "echoes",
     DependsOn("foo", "bar"),
     ForEach(1, 2, 3),
     async number =>

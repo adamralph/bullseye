@@ -50,11 +50,20 @@ Bullseye.TargetFailedException.TargetFailedException() -> void
 Bullseye.TargetFailedException.TargetFailedException(string message) -> void
 Bullseye.TargetFailedException.TargetFailedException(string message, System.Exception innerException) -> void
 Bullseye.Targets
+Bullseye.Targets.Add(string name, string description, System.Action action) -> void
+Bullseye.Targets.Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
+Bullseye.Targets.Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
+Bullseye.Targets.Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
+Bullseye.Targets.Add(string name, string description, System.Func<System.Threading.Tasks.Task> action) -> void
 Bullseye.Targets.Add(string name, System.Action action) -> void
 Bullseye.Targets.Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
 Bullseye.Targets.Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
 Bullseye.Targets.Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
 Bullseye.Targets.Add(string name, System.Func<System.Threading.Tasks.Task> action) -> void
+Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
+Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
+Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
+Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
 Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
 Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
 Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
@@ -80,11 +89,20 @@ static Bullseye.Targets.RunTargetsWithoutExiting(System.Collections.Generic.IEnu
 static Bullseye.Targets.RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) -> void
 static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) -> System.Threading.Tasks.Task
 static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string logPrefix = null) -> System.Threading.Tasks.Task
+static Bullseye.Targets.Target(string name, string description, System.Action action) -> void
+static Bullseye.Targets.Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
+static Bullseye.Targets.Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
+static Bullseye.Targets.Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
+static Bullseye.Targets.Target(string name, string description, System.Func<System.Threading.Tasks.Task> action) -> void
 static Bullseye.Targets.Target(string name, System.Action action) -> void
 static Bullseye.Targets.Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
 static Bullseye.Targets.Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
 static Bullseye.Targets.Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
 static Bullseye.Targets.Target(string name, System.Func<System.Threading.Tasks.Task> action) -> void
+static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
+static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
+static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
+static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
 static Bullseye.Targets.Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
 static Bullseye.Targets.Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
 static Bullseye.Targets.Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
