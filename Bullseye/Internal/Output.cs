@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -25,18 +25,20 @@ namespace Bullseye.Internal
         public Task Usage(TargetCollection targets) => this.writer.WriteAsync(this.GetUsage(targets));
 
         public Task Targets(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            this.writer.WriteAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs));
+            this.writer.WriteAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, null));
 
-        private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs)
+        private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, string startingPrefix)
         {
-            var value = new StringBuilder();
+            var lines = new List<(string, string)>();
 
             foreach (var rootTarget in rootTargets)
             {
                 Append(new List<string> { rootTarget }, new Stack<string>(), true, "", 0);
             }
 
-            return value.ToString();
+            var maxColumn1Width = lines.Max(line => Palette.StripColours(line.Item1).Length);
+
+            return string.Join("", lines.Select(line => $"{line.Item1.PadRight(maxColumn1Width + line.Item1.Length - Palette.StripColours(line.Item1).Length)}    {line.Item2}{Environment.NewLine}"));
 
             void Append(List<string> names, Stack<string> seenTargets, bool isRoot, string previousPrefix, int depth)
             {
@@ -54,26 +56,26 @@ namespace Bullseye.Internal
                     try
                     {
                         var prefix = isRoot
-                            ? ""
+                            ? startingPrefix ?? ""
                             : $"{previousPrefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
 
                         var isMissing = !targets.Contains(item.name);
 
-                        value.Append($"{prefix}{p.Target}{item.name}");
+                        var line = $"{prefix}{p.Target}{item.name}";
 
                         if (isMissing)
                         {
-                            value.AppendLine($"{p.Reset} {p.Failed}(missing){p.Reset}");
+                            lines.Add((line + $"{p.Reset} {p.Failed}(missing){p.Reset}", null));
                             continue;
                         }
 
                         if (circularDependency)
                         {
-                            value.AppendLine($"{p.Reset} {p.Failed}(circular dependency){p.Reset}");
+                            lines.Add((line + $"{p.Reset} {p.Failed}(circular dependency){p.Reset}", targets[item.name].Description));
                             continue;
                         }
 
-                        value.AppendLine(p.Reset);
+                        lines.Add((line + p.Reset, targets[item.name].Description));
 
                         var target = targets[item.name];
 
@@ -83,7 +85,7 @@ namespace Bullseye.Internal
                             {
                                 var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 
-                                value.AppendLine($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}");
+                                lines.Add(($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}", null));
                             }
                         }
 
@@ -138,12 +140,6 @@ $@"{p.Default}Usage:{p.Reset}
 
 {p.Default}Targets:{p.Reset}
 "
-            + string.Join(
-@"
-",
-                targets.Select(target => $"  {p.Target}{target.Name}{p.Reset}"))
-            +
-@"
-";
+            + List(targets, targets.Select(target => target.Name).ToList(), 0, 0, false, "  ");
     }
 }

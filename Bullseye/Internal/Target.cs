@@ -9,13 +9,16 @@ namespace Bullseye.Internal
 {
     public class Target
     {
-        public Target(string name, IEnumerable<string> dependencies)
+        public Target(string name, string description, IEnumerable<string> dependencies)
         {
             this.Name = name ?? throw new InvalidUsageException("Target name cannot be null.");
+            this.Description = description;
             this.Dependencies = dependencies.Sanitize().ToList();
         }
 
         public string Name { get; }
+
+        public string Description { get; }
 
         public List<string> Dependencies { get; }
 
