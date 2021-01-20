@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.7.0
+
+### Enhancements
+
+- [#525: Add description for each target](https://github.com/adamralph/bullseye/issues/525)
+
+### Fixed bugs
+
+- [#536: Options.NoColor XML doc says "input" instead of "output"](https://github.com/adamralph/bullseye/pull/536)
+
 ## 3.6.0
 
 ### Enhancements
