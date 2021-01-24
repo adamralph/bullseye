@@ -9,11 +9,11 @@ _[![CodeQL analysis](https://github.com/adamralph/bullseye/workflows/.github/wor
 _[![Lint](https://github.com/adamralph/bullseye/workflows/.github/workflows/lint.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Flint.yml)_
 _[![Spell check](https://github.com/adamralph/bullseye/workflows/.github/workflows/spell-check.yml/badge.svg)](https://github.com/adamralph/bullseye/actions?query=workflow%3A.github%2Fworkflows%2Fspell-check.yml)_
 
-_[![Appveyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/master.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/master)_
-_[![Azure DevOps smoke test status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1/master.svg?logo=azuredevops&label=Azure%20DevOps)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=master)_
-_[![CircleCI smoke test status](https://img.shields.io/circleci/build/github/adamralph/bullseye/master?logo=circleci&label=CircleCI)](https://circleci.com/gh/adamralph/bullseye/tree/master)_
-_[![Cirrus CI smoke test status](https://img.shields.io/cirrus/github/adamralph/bullseye/master?logo=cirrus-ci&label=Cirrus%20CI)](https://cirrus-ci.com/github/adamralph/bullseye)_
-_[![GitLab CI/CD smoke test status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/master.svg?logo=gitlab&label=GitLab+CI%2fCD)](https://gitlab.com/adamralph/bullseye/-/jobs)_
+_[![Appveyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/main.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/main)_
+_[![Azure DevOps smoke test status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1/main.svg?logo=azuredevops&label=Azure%20DevOps)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=main)_
+_[![CircleCI smoke test status](https://img.shields.io/circleci/build/github/adamralph/bullseye/main?logo=circleci&label=CircleCI)](https://circleci.com/gh/adamralph/bullseye/tree/main)_
+_[![Cirrus CI smoke test status](https://img.shields.io/cirrus/github/adamralph/bullseye/main?logo=cirrus-ci&label=Cirrus%20CI)](https://cirrus-ci.com/github/adamralph/bullseye)_
+_[![GitLab CI/CD smoke test status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/main.svg?logo=gitlab&label=GitLab+CI%2fCD)](https://gitlab.com/adamralph/bullseye/-/jobs)_
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
 
