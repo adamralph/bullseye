@@ -185,7 +185,6 @@ To name a few:
 - [IdentityServer](https://github.com/IdentityServer)
 - [Iso8601DurationHelper](https://github.com/thomaslevesque/Iso8601DurationHelper)
 - [Linq.Extras](https://github.com/thomaslevesque/Linq.Extras)
-- [LiteGuard](https://github.com/adamralph/liteguard)
 - [LittleForker](https://github.com/damianh/LittleForker)
 - [LykkeOSS](https://github.com/LykkeOSS)
 - [Marten](https://github.com/JasperFx/marten)
