@@ -51,6 +51,7 @@
         "markdownlint",
         "nologo",
         "nupkg",
+        "refs",
         "SHFMT"
       ]
     }
