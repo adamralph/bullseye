@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
     public class TargetCollection : KeyedCollection<string, Target>
@@ -85,7 +84,7 @@ namespace Bullseye.Internal
                 await runningTargets.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).Tax();
             }
 
-            dependencyStack.Pop();
+            _ = dependencyStack.Pop();
         }
 
         private void CheckForMissingDependencies()
@@ -96,7 +95,7 @@ namespace Bullseye.Internal
             {
                 foreach (var dependency in target.Dependencies.Where(dependency => !this.Contains(dependency)))
                 {
-                    (missingDependencies.TryGetValue(dependency, out var set)
+                    _ = (missingDependencies.TryGetValue(dependency, out var set)
                             ? set
                             : missingDependencies[dependency] = new SortedSet<string>())
                         .Add(target.Name);
@@ -136,7 +135,7 @@ namespace Bullseye.Internal
                     Check(this[dependency]);
                 }
 
-                dependents.Pop();
+                _ = dependents.Pop();
             }
         }
 

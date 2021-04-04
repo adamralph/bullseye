@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable IDE0009 // Member access should be qualified.
-#pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
     public class Output
@@ -93,7 +92,7 @@ namespace Bullseye.Internal
                     }
                     finally
                     {
-                        seenTargets.Pop();
+                        _ = seenTargets.Pop();
                     }
                 }
             }

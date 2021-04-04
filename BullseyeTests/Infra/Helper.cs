@@ -10,7 +10,12 @@ namespace BullseyeTests.Infra
     {
         public static ref T Ensure<T>(ref T t) where T : class, new()
         {
+#if NETCOREAPP3_1_OR_GREATER
+            t ??= new T();
+#else
             t = t ?? new T();
+#endif
+
             return ref t;
         }
 
@@ -20,7 +25,11 @@ namespace BullseyeTests.Infra
             new ActionTarget(name, null, dependencies.ToList(), action.ToAsync());
 
         public static Target CreateTarget(string name, string[] dependencies) =>
+#if NET5_0_OR_GREATER
+            new(name, null, dependencies.ToList());
+#else
             new Target(name, null, dependencies.ToList());
+#endif
 
         public static Target CreateTarget<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
             new ActionTarget<TInput>(name, null, Array.Empty<string>(), forEach, action.ToAsync());
