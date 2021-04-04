@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
     public static class Terminal
@@ -45,7 +44,7 @@ namespace Bullseye.Internal
                 (this.handle, this.oldMode, this.log, this.logPrefix) = (handle, oldMode, log, logPrefix);
 
             public Task DisposeAsync() =>
-                NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, oldMode, log, logPrefix);
+                NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(this.handle, this.oldMode, this.log, this.logPrefix);
         }
 
         private class NullAsyncDisposable : IAsyncDisposable

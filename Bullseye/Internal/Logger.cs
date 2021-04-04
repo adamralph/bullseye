@@ -9,7 +9,6 @@ using static System.Math;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable IDE0009 // Member access should be qualified.
-#pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
     public class Logger
@@ -80,7 +79,7 @@ namespace Bullseye.Internal
 
         public Task Starting(string target)
         {
-            InternResult(target);
+            _ = InternResult(target);
 
             return this.writer.WriteLineAsync(Message(p.Default, "Starting...", target, null));
         }

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable RS0016 // Add public types and members to the declared API
 namespace Bullseye.Internal
 {
     public class ActionTarget : Target
@@ -35,9 +34,7 @@ namespace Bullseye.Internal
                         duration = stopWatch.Elapsed;
                     }
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     if (!messageOnly(ex))
                     {
