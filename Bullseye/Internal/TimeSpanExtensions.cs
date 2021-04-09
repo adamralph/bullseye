@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using static System.Math;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace Bullseye.Internal
 {
     public static class TimeSpanExtensions
