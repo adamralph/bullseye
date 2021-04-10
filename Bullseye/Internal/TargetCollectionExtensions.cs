@@ -46,7 +46,9 @@ namespace Bullseye.Internal
                 {
                     Console.Clear();
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     await Console.Error.WriteLineAsync($"{logPrefix}: Failed to clear the console: {ex}").Tax();
                 }

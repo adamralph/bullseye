@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bullseye.Internal
 {
-    public static class NativeMethodsWrapper
+    internal static class NativeMethodsWrapper
     {
         public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandle(TextWriter log, string logPrefix)
         {

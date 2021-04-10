@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Bullseye.Internal
 {
-    public static class NativeMethods
+    internal static class NativeMethods
     {
         [Flags]
         public enum ConsoleOutputModes : uint

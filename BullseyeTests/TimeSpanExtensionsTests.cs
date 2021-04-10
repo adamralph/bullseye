@@ -70,7 +70,14 @@ namespace BullseyeTests
         [Example(3_600_000.0000D, "60 m", null)]
         [Example(3_612_234.5678D, "60 m", null)]
         [Example(3_634_567.8912D, "61 m", null)]
-        public void Humanization(double? milliseconds, string expected, string expectedNetCoreApp2_1, TimeSpan? timeSpan, string actual)
+        public void Humanization(
+            double? milliseconds,
+            string expected,
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+            string expectedNetCoreApp2_1,
+#pragma warning restore CA1707 // Identifiers should not contain underscores
+            TimeSpan? timeSpan,
+            string actual)
         {
             expected = Environment.Version.Major == 4 ? expectedNetCoreApp2_1 ?? expected : expected;
 

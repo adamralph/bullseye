@@ -58,7 +58,7 @@
   ],
   "overrides": [
     {
-      "filename": "{*.cmd,*.cs,*.csproj,*.sh}",
+      "filename": "{*.cmd,*.cs,*.csproj,*.sh,*.props}",
       "language": "en-US"
     },
     {
@@ -96,6 +96,7 @@
     "NuGet",
     "Statik",
     "sublicense",
+    "uninstantiated",
     "Walkies"
   ]
 }

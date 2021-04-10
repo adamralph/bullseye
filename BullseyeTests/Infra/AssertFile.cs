@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Text;
+using Xunit;
+using Xunit.Sdk;
 
 namespace BullseyeTests.Infra
 {
@@ -8,18 +10,23 @@ namespace BullseyeTests.Infra
     {
         public static void Contains(string expectedPath, string actual)
         {
-            if (actual == File.ReadAllText(expectedPath))
+            var expected = File.ReadAllText(expectedPath);
+
+            try
             {
-                return;
+                Assert.Equal(expected, actual);
             }
+            catch (EqualException ex)
+            {
+                var actualPath = Path.Combine(
+                    Path.GetDirectoryName(expectedPath),
+                    Path.GetFileNameWithoutExtension(expectedPath) + "-actual" + Path.GetExtension(expectedPath));
 
-            var actualPath = Path.Combine(
-                Path.GetDirectoryName(expectedPath),
-                Path.GetFileNameWithoutExtension(expectedPath) + "-actual" + Path.GetExtension(expectedPath));
+                File.WriteAllText(actualPath, actual, Encoding.UTF8);
 
-            File.WriteAllText(actualPath, actual, Encoding.UTF8);
-
-            throw new Exception($"{actualPath} does not contain the contents of {expectedPath}.");
+                throw new XunitException(
+                    $"{ex.Message}{Environment.NewLine}{Environment.NewLine}Expected file: {expectedPath}{Environment.NewLine}Actual file: {actualPath}");
+            }
         }
     }
 }

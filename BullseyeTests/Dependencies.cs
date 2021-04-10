@@ -101,7 +101,7 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "And I am told that the circular dependency was detected"
-                .x(() => Assert.Contains("first -> first", exception.Message));
+                .x(() => Assert.Contains("first -> first", exception.Message, StringComparison.Ordinal));
         }
 
         [Scenario]
@@ -120,7 +120,7 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "And I am told that the circular dependency was detected"
-                .x(() => Assert.Contains("first -> second -> first", exception.Message));
+                .x(() => Assert.Contains("first -> second -> first", exception.Message, StringComparison.Ordinal));
         }
 
         [Scenario]
@@ -142,7 +142,7 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "And I am told that the circular dependency was detected"
-                .x(() => Assert.Contains("first -> third -> second -> first", exception.Message));
+                .x(() => Assert.Contains("first -> third -> second -> first", exception.Message, StringComparison.Ordinal));
         }
 
         [Scenario]
@@ -192,10 +192,10 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "And I am told that the first non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing, required by second", exception.Message));
+                .x(() => Assert.Contains("non-existing, required by second", exception.Message, StringComparison.Ordinal));
 
             "And I am told that the second non-existent target could not be found"
-                .x(() => Assert.Contains("also-non-existing, required by third", exception.Message));
+                .x(() => Assert.Contains("also-non-existing, required by third", exception.Message, StringComparison.Ordinal));
 
             "And the other targets are not run"
                 .x(() => Assert.False(anyRan));

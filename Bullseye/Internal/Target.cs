@@ -18,7 +18,7 @@ namespace Bullseye.Internal
 
         public string Description { get; }
 
-        public List<string> Dependencies { get; }
+        public IReadOnlyCollection<string> Dependencies { get; }
 
         public virtual Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly) => log.Succeeded(this.Name);
     }

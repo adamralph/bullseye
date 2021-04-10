@@ -9,6 +9,7 @@ using static System.Math;
 
 namespace Bullseye.Internal
 {
+#pragma warning disable IDE0009 // Member access should be qualified.
     public class Logger
     {
         private readonly ConcurrentDictionary<string, TargetResult> results = new ConcurrentDictionary<string, TargetResult>();
@@ -60,16 +61,16 @@ namespace Bullseye.Internal
             }
         }
 
-        public Task Starting(List<string> targets) =>
+        public Task Starting(IEnumerable<string> targets) =>
             this.writer.WriteLineAsync(Message(p.Default, $"Starting...", targets, null));
 
-        public async Task Failed(List<string> targets)
+        public async Task Failed(IEnumerable<string> targets)
         {
             await this.Results().Tax();
             await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, totalDuration)).Tax();
         }
 
-        public async Task Succeeded(List<string> targets)
+        public async Task Succeeded(IEnumerable<string> targets)
         {
             await this.Results().Tax();
             await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded", targets, totalDuration)).Tax();
@@ -262,7 +263,7 @@ namespace Bullseye.Internal
 
         private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Reset}";
 
-        private string Message(string color, string text, List<string> targets, TimeSpan? duration) =>
+        private string Message(string color, string text, IEnumerable<string> targets, TimeSpan? duration) =>
             $"{GetPrefix()}{color}{text}{p.Reset} {p.Target}({targets.Spaced()}){p.Reset}{GetSuffix(false, duration)}{p.Reset}";
 
         private string Message(string color, string text, string target) =>
@@ -345,4 +346,5 @@ namespace Bullseye.Internal
             Failed,
         }
     }
+#pragma warning restore IDE0009 // Member access should be qualified.
 }

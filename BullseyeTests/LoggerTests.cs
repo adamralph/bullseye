@@ -35,7 +35,7 @@ namespace BullseyeTests
                     }
                 }
 
-                AssertFile.Contains("log.txt", writer.ToString().Replace(Environment.NewLine, "\r\n"));
+                AssertFile.Contains("log.txt", writer.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
             }
         }
 
@@ -63,14 +63,14 @@ namespace BullseyeTests
         {
             var badInput = "badInput";
             var badInputDuration = dryRun ? (TimeSpan?)null : TimeSpan.FromMilliseconds(1.234);
-            var badInputEx = new Exception("badInputEx");
+            var badInputEx = new InvalidOperationException("badInputEx");
             var badInputId = Guid.ParseExact("AA123".PadRight(32, '0'), "N");
 
             var badInputsTarget = "badInputsTarget";
 
             var badTarget = "badTarget";
             var badTargetDuration = dryRun ? (TimeSpan?)null : TimeSpan.FromMilliseconds(3.456);
-            var badTargetEx = new Exception("badTargetEx");
+            var badTargetEx = new InvalidOperationException("badTargetEx");
 
             var emptyTargets = new List<string>();
 

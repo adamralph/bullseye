@@ -65,7 +65,7 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "Then I am told that the non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing", exception.Message));
+                .x(() => Assert.Contains("non-existing", exception.Message, StringComparison.Ordinal));
 
             "And the existing target is not run"
                 .x(() => Assert.False(existing));
@@ -86,10 +86,10 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "Then I am told that the first non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing", exception.Message));
+                .x(() => Assert.Contains("non-existing", exception.Message, StringComparison.Ordinal));
 
             "Then I am told that the second non-existent target could not be found"
-                .x(() => Assert.Contains("also-non-existing", exception.Message));
+                .x(() => Assert.Contains("also-non-existing", exception.Message, StringComparison.Ordinal));
 
             "And the existing target is not run"
                 .x(() => Assert.False(existing));
@@ -121,10 +121,10 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "Then I am told that the option is unknown"
-                .x(() => Assert.Contains("Unknown option -b", exception.Message));
+                .x(() => Assert.Contains("Unknown option -b", exception.Message, StringComparison.Ordinal));
 
             "Then I am told how to get help"
-                .x(() => Assert.Contains(". \"--help\" for usage", exception.Message));
+                .x(() => Assert.Contains(". \"--help\" for usage", exception.Message, StringComparison.Ordinal));
 
             "And the target is not run"
                 .x(() => Assert.False(ran));
@@ -143,10 +143,10 @@ namespace BullseyeTests
                 .x(() => Assert.NotNull(exception));
 
             "Then I am told that the option is unknown"
-                .x(() => Assert.Contains("Unknown options -b -z", exception.Message));
+                .x(() => Assert.Contains("Unknown options -b -z", exception.Message, StringComparison.Ordinal));
 
             "Then I am told how to get help"
-                .x(() => Assert.Contains(". \"--help\" for usage", exception.Message));
+                .x(() => Assert.Contains(". \"--help\" for usage", exception.Message, StringComparison.Ordinal));
 
             "And the target is not run"
                 .x(() => Assert.False(ran));
