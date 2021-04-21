@@ -31,7 +31,7 @@ logPrefix1: goodTarget1: Succeeded
 logPrefix1: goodTarget2: Starting...
 logPrefix1: goodTarget2: Succeeded
 logPrefix1: badTarget: Starting...
-logPrefix1: badTarget: System.Exception: badTargetEx
+logPrefix1: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix1: badTarget: Failed! badTargetEx
 logPrefix1: goodInputsTarget: Starting...
 logPrefix1: goodInputsTarget/goodInput1: Starting...
@@ -43,7 +43,7 @@ logPrefix1: badInputsTarget: Starting...
 logPrefix1: badInputsTarget/goodInput1: Starting...
 logPrefix1: badInputsTarget/goodInput1: Succeeded
 logPrefix1: badInputsTarget/badInput: Starting...
-logPrefix1: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix1: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix1: badInputsTarget/badInput: Failed! badInputEx
 logPrefix1: badInputsTarget: Failed!
 logPrefix1: ──────────────────────────────────────
@@ -113,7 +113,7 @@ logPrefix2: goodTarget1: Succeeded
 logPrefix2: goodTarget2: Starting...
 logPrefix2: goodTarget2: Succeeded (1 m 14 s)
 logPrefix2: badTarget: Starting...
-logPrefix2: badTarget: System.Exception: badTargetEx
+logPrefix2: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix2: badTarget: Failed! badTargetEx (3 ms)
 logPrefix2: goodInputsTarget: Starting...
 logPrefix2: goodInputsTarget/goodInput1: Starting...
@@ -125,7 +125,7 @@ logPrefix2: badInputsTarget: Starting...
 logPrefix2: badInputsTarget/goodInput1: Starting...
 logPrefix2: badInputsTarget/goodInput1: Succeeded (1.23 s)
 logPrefix2: badInputsTarget/badInput: Starting...
-logPrefix2: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix2: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix2: badInputsTarget/badInput: Failed! badInputEx (1 ms)
 logPrefix2: badInputsTarget: Failed! (1.24 s)
 logPrefix2: ----------------------------------------------
@@ -195,7 +195,7 @@ logPrefix3: goodTarget1: Succeeded
 logPrefix3: goodTarget2: Starting...
 logPrefix3: goodTarget2: Succeeded
 logPrefix3: badTarget: Starting...
-logPrefix3: badTarget: System.Exception: badTargetEx
+logPrefix3: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix3: badTarget: Failed! badTargetEx
 logPrefix3: goodInputsTarget: Starting...
 logPrefix3: goodInputsTarget/goodInput1: Starting...
@@ -207,7 +207,7 @@ logPrefix3: badInputsTarget: Starting...
 logPrefix3: badInputsTarget/goodInput1: Starting...
 logPrefix3: badInputsTarget/goodInput1: Succeeded
 logPrefix3: badInputsTarget/badInput: Starting...
-logPrefix3: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix3: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix3: badInputsTarget/badInput: Failed! badInputEx
 logPrefix3: badInputsTarget: Failed!
 logPrefix3: ──────────────────────────────────────
@@ -277,7 +277,7 @@ logPrefix4: goodTarget1: Succeeded
 logPrefix4: goodTarget2: Starting...
 logPrefix4: goodTarget2: Succeeded
 logPrefix4: badTarget: Starting...
-logPrefix4: badTarget: System.Exception: badTargetEx
+logPrefix4: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix4: badTarget: Failed! badTargetEx
 logPrefix4: goodInputsTarget: Starting...
 logPrefix4: goodInputsTarget/goodInput1: Starting...
@@ -289,7 +289,7 @@ logPrefix4: badInputsTarget: Starting...
 logPrefix4: badInputsTarget/goodInput1: Starting...
 logPrefix4: badInputsTarget/goodInput1: Succeeded
 logPrefix4: badInputsTarget/badInput: Starting...
-logPrefix4: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix4: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix4: badInputsTarget/badInput: Failed! badInputEx
 logPrefix4: badInputsTarget: Failed!
 logPrefix4: ──────────────────────────────────────
@@ -359,7 +359,7 @@ logPrefix5: goodTarget1: Succeeded
 logPrefix5: goodTarget2: Starting...
 logPrefix5: goodTarget2: Succeeded
 logPrefix5: badTarget: Starting...
-logPrefix5: badTarget: System.Exception: badTargetEx
+logPrefix5: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix5: badTarget: Failed! badTargetEx
 logPrefix5: goodInputsTarget: Starting...
 logPrefix5: goodInputsTarget/goodInput1: Starting...
@@ -371,7 +371,7 @@ logPrefix5: badInputsTarget: Starting...
 logPrefix5: badInputsTarget/goodInput1: Starting...
 logPrefix5: badInputsTarget/goodInput1: Succeeded
 logPrefix5: badInputsTarget/badInput: Starting...
-logPrefix5: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix5: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix5: badInputsTarget/badInput: Failed! badInputEx
 logPrefix5: badInputsTarget: Failed!
 logPrefix5: ──────────────────────────────────────
@@ -441,7 +441,7 @@ logPrefix6: goodTarget1: Succeeded
 logPrefix6: goodTarget2: Starting...
 logPrefix6: goodTarget2: Succeeded
 logPrefix6: badTarget: Starting...
-logPrefix6: badTarget: System.Exception: badTargetEx
+logPrefix6: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix6: badTarget: Failed! badTargetEx
 logPrefix6: goodInputsTarget: Starting...
 logPrefix6: goodInputsTarget/goodInput1: Starting...
@@ -453,7 +453,7 @@ logPrefix6: badInputsTarget: Starting...
 logPrefix6: badInputsTarget/goodInput1: Starting...
 logPrefix6: badInputsTarget/goodInput1: Succeeded
 logPrefix6: badInputsTarget/badInput: Starting...
-logPrefix6: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix6: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix6: badInputsTarget/badInput: Failed! badInputEx
 logPrefix6: badInputsTarget: Failed!
 logPrefix6: ──────────────────────────────────────
@@ -523,7 +523,7 @@ logPrefix7: goodTarget1: Succeeded
 logPrefix7: goodTarget2: Starting...
 logPrefix7: goodTarget2: Succeeded
 logPrefix7: badTarget: Starting...
-logPrefix7: badTarget: System.Exception: badTargetEx
+logPrefix7: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix7: badTarget: Failed! badTargetEx
 logPrefix7: goodInputsTarget: Starting...
 logPrefix7: goodInputsTarget/goodInput1: Starting...
@@ -535,7 +535,7 @@ logPrefix7: badInputsTarget: Starting...
 logPrefix7: badInputsTarget/goodInput1: Starting...
 logPrefix7: badInputsTarget/goodInput1: Succeeded
 logPrefix7: badInputsTarget/badInput: Starting...
-logPrefix7: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix7: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix7: badInputsTarget/badInput: Failed! badInputEx
 logPrefix7: badInputsTarget: Failed!
 logPrefix7: ──────────────────────────────────────
@@ -605,7 +605,7 @@ logPrefix8: goodTarget1: Succeeded
 logPrefix8: goodTarget2: Starting...
 logPrefix8: goodTarget2: Succeeded
 logPrefix8: badTarget: Starting...
-logPrefix8: badTarget: System.Exception: badTargetEx
+logPrefix8: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix8: badTarget: Failed! badTargetEx
 logPrefix8: goodInputsTarget: Starting...
 logPrefix8: goodInputsTarget/goodInput1: Starting...
@@ -617,7 +617,7 @@ logPrefix8: badInputsTarget: Starting...
 logPrefix8: badInputsTarget/goodInput1: Starting...
 logPrefix8: badInputsTarget/goodInput1: Succeeded
 logPrefix8: badInputsTarget/badInput: Starting...
-logPrefix8: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix8: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix8: badInputsTarget/badInput: Failed! badInputEx
 logPrefix8: badInputsTarget: Failed!
 logPrefix8: --------------------------------------
@@ -687,7 +687,7 @@ logPrefix9: goodTarget1: Succeeded
 logPrefix9: goodTarget2: Starting...
 logPrefix9: goodTarget2: Succeeded
 logPrefix9: badTarget: Starting...
-logPrefix9: badTarget: System.Exception: badTargetEx
+logPrefix9: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix9: badTarget: Failed! badTargetEx
 logPrefix9: goodInputsTarget: Starting...
 logPrefix9: goodInputsTarget/goodInput1: Starting...
@@ -699,7 +699,7 @@ logPrefix9: badInputsTarget: Starting...
 logPrefix9: badInputsTarget/goodInput1: Starting...
 logPrefix9: badInputsTarget/goodInput1: Succeeded
 logPrefix9: badInputsTarget/badInput: Starting...
-logPrefix9: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix9: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix9: badInputsTarget/badInput: Failed! badInputEx
 logPrefix9: badInputsTarget: Failed!
 logPrefix9: ──────────────────────────────────────
@@ -769,7 +769,7 @@ logPrefix10: goodTarget1: Succeeded
 logPrefix10: goodTarget2: Starting...
 logPrefix10: goodTarget2: Succeeded
 logPrefix10: badTarget: Starting...
-logPrefix10: badTarget: System.Exception: badTargetEx
+logPrefix10: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix10: badTarget: Failed! badTargetEx
 logPrefix10: goodInputsTarget: Starting...
 logPrefix10: goodInputsTarget/goodInput1: Starting...
@@ -781,7 +781,7 @@ logPrefix10: badInputsTarget: Starting...
 logPrefix10: badInputsTarget/goodInput1: Starting...
 logPrefix10: badInputsTarget/goodInput1: Succeeded
 logPrefix10: badInputsTarget/badInput: Starting...
-logPrefix10: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix10: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix10: badInputsTarget/badInput: Failed! badInputEx
 logPrefix10: badInputsTarget: Failed!
 logPrefix10: ──────────────────────────────────────
@@ -851,7 +851,7 @@ logPrefix11: goodTarget1: Succeeded
 logPrefix11: goodTarget2: Starting...
 logPrefix11: goodTarget2: Succeeded
 logPrefix11: badTarget: Starting...
-logPrefix11: badTarget: System.Exception: badTargetEx
+logPrefix11: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix11: badTarget: Failed! badTargetEx
 logPrefix11: goodInputsTarget: Starting...
 logPrefix11: goodInputsTarget/goodInput1: Starting...
@@ -863,7 +863,7 @@ logPrefix11: badInputsTarget: Starting...
 logPrefix11: badInputsTarget/goodInput1: Starting...
 logPrefix11: badInputsTarget/goodInput1: Succeeded
 logPrefix11: badInputsTarget/badInput: Starting...
-logPrefix11: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix11: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix11: badInputsTarget/badInput: Failed! badInputEx
 logPrefix11: badInputsTarget: Failed!
 logPrefix11: ──────────────────────────────────────
@@ -933,7 +933,7 @@ logPrefix12: goodTarget1: Succeeded
 logPrefix12: goodTarget2: Starting...
 logPrefix12: goodTarget2: Succeeded
 logPrefix12: badTarget: Starting...
-logPrefix12: badTarget: System.Exception: badTargetEx
+logPrefix12: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix12: badTarget: Failed! badTargetEx
 logPrefix12: goodInputsTarget: Starting...
 logPrefix12: goodInputsTarget/goodInput1: Starting...
@@ -945,7 +945,7 @@ logPrefix12: badInputsTarget: Starting...
 logPrefix12: badInputsTarget/goodInput1: Starting...
 logPrefix12: badInputsTarget/goodInput1: Succeeded
 logPrefix12: badInputsTarget/badInput: Starting...
-logPrefix12: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix12: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix12: badInputsTarget/badInput: Failed! badInputEx
 logPrefix12: badInputsTarget: Failed!
 logPrefix12: ──────────────────────────────────────
@@ -1015,7 +1015,7 @@ logPrefix13: goodTarget1: Succeeded
 logPrefix13: goodTarget2: Starting...
 logPrefix13: goodTarget2: Succeeded
 logPrefix13: badTarget: Starting...
-logPrefix13: badTarget: System.Exception: badTargetEx
+logPrefix13: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix13: badTarget: Failed! badTargetEx
 logPrefix13: goodInputsTarget: Starting...
 logPrefix13: goodInputsTarget/goodInput1: Starting...
@@ -1027,7 +1027,7 @@ logPrefix13: badInputsTarget: Starting...
 logPrefix13: badInputsTarget/goodInput1: Starting...
 logPrefix13: badInputsTarget/goodInput1: Succeeded
 logPrefix13: badInputsTarget/badInput: Starting...
-logPrefix13: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix13: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix13: badInputsTarget/badInput: Failed! badInputEx
 logPrefix13: badInputsTarget: Failed!
 logPrefix13: ──────────────────────────────────────
@@ -1097,7 +1097,7 @@ logPrefix14: goodTarget1: Succeeded
 logPrefix14: goodTarget2: Starting...
 logPrefix14: goodTarget2: Succeeded
 logPrefix14: badTarget: Starting...
-logPrefix14: badTarget: System.Exception: badTargetEx
+logPrefix14: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix14: badTarget: Failed! badTargetEx
 logPrefix14: goodInputsTarget: Starting...
 logPrefix14: goodInputsTarget/goodInput1: Starting...
@@ -1109,7 +1109,7 @@ logPrefix14: badInputsTarget: Starting...
 logPrefix14: badInputsTarget/goodInput1: Starting...
 logPrefix14: badInputsTarget/goodInput1: Succeeded
 logPrefix14: badInputsTarget/badInput: Starting...
-logPrefix14: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix14: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix14: badInputsTarget/badInput: Failed! badInputEx
 logPrefix14: badInputsTarget: Failed!
 logPrefix14: ──────────────────────────────────────
@@ -1179,7 +1179,7 @@ logPrefix15: goodTarget1: Succeeded
 logPrefix15: goodTarget2: Starting...
 logPrefix15: goodTarget2: Succeeded
 logPrefix15: badTarget: Starting...
-logPrefix15: badTarget: System.Exception: badTargetEx
+logPrefix15: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix15: badTarget: Failed! badTargetEx
 logPrefix15: goodInputsTarget: Starting...
 logPrefix15: goodInputsTarget/goodInput1: Starting...
@@ -1191,7 +1191,7 @@ logPrefix15: badInputsTarget: Starting...
 logPrefix15: badInputsTarget/goodInput1: Starting...
 logPrefix15: badInputsTarget/goodInput1: Succeeded
 logPrefix15: badInputsTarget/badInput: Starting...
-logPrefix15: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix15: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix15: badInputsTarget/badInput: Failed! badInputEx
 logPrefix15: badInputsTarget: Failed!
 logPrefix15: ──────────────────────────────────────
@@ -1261,7 +1261,7 @@ logPrefix16: goodTarget1: Succeeded
 logPrefix16: goodTarget2: Starting...
 logPrefix16: goodTarget2: Succeeded
 logPrefix16: badTarget: Starting...
-logPrefix16: badTarget: System.Exception: badTargetEx
+logPrefix16: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix16: badTarget: Failed! badTargetEx
 logPrefix16: goodInputsTarget: Starting...
 logPrefix16: goodInputsTarget/goodInput1: Starting...
@@ -1273,7 +1273,7 @@ logPrefix16: badInputsTarget: Starting...
 logPrefix16: badInputsTarget/goodInput1: Starting...
 logPrefix16: badInputsTarget/goodInput1: Succeeded
 logPrefix16: badInputsTarget/badInput: Starting...
-logPrefix16: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix16: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix16: badInputsTarget/badInput: Failed! badInputEx
 logPrefix16: badInputsTarget: Failed!
 logPrefix16: ──────────────────────────────────────
@@ -1343,7 +1343,7 @@ logPrefix17: goodTarget1: Succeeded
 logPrefix17: goodTarget2: Starting...
 logPrefix17: goodTarget2: Succeeded
 logPrefix17: badTarget: Starting...
-logPrefix17: badTarget: System.Exception: badTargetEx
+logPrefix17: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix17: badTarget: Failed! badTargetEx
 logPrefix17: goodInputsTarget: Starting...
 logPrefix17: goodInputsTarget/goodInput1: Starting...
@@ -1355,7 +1355,7 @@ logPrefix17: badInputsTarget: Starting...
 logPrefix17: badInputsTarget/goodInput1: Starting...
 logPrefix17: badInputsTarget/goodInput1: Succeeded
 logPrefix17: badInputsTarget/badInput: Starting...
-logPrefix17: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix17: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix17: badInputsTarget/badInput: Failed! badInputEx
 logPrefix17: badInputsTarget: Failed!
 logPrefix17: ──────────────────────────────────────
@@ -1425,7 +1425,7 @@ logPrefix18: goodTarget1: Succeeded
 logPrefix18: goodTarget2: Starting...
 logPrefix18: goodTarget2: Succeeded
 logPrefix18: badTarget: Starting...
-logPrefix18: badTarget: System.Exception: badTargetEx
+logPrefix18: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix18: badTarget: Failed! badTargetEx
 logPrefix18: goodInputsTarget: Starting...
 logPrefix18: goodInputsTarget/goodInput1: Starting...
@@ -1437,7 +1437,7 @@ logPrefix18: badInputsTarget: Starting...
 logPrefix18: badInputsTarget/goodInput1: Starting...
 logPrefix18: badInputsTarget/goodInput1: Succeeded
 logPrefix18: badInputsTarget/badInput: Starting...
-logPrefix18: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix18: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix18: badInputsTarget/badInput: Failed! badInputEx
 logPrefix18: badInputsTarget: Failed!
 logPrefix18: ──────────────────────────────────────
@@ -1507,7 +1507,7 @@ logPrefix19: goodTarget1: Succeeded
 logPrefix19: goodTarget2: Starting...
 logPrefix19: goodTarget2: Succeeded
 logPrefix19: badTarget: Starting...
-logPrefix19: badTarget: System.Exception: badTargetEx
+logPrefix19: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix19: badTarget: Failed! badTargetEx
 logPrefix19: goodInputsTarget: Starting...
 logPrefix19: goodInputsTarget/goodInput1: Starting...
@@ -1519,7 +1519,7 @@ logPrefix19: badInputsTarget: Starting...
 logPrefix19: badInputsTarget/goodInput1: Starting...
 logPrefix19: badInputsTarget/goodInput1: Succeeded
 logPrefix19: badInputsTarget/badInput: Starting...
-logPrefix19: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix19: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix19: badInputsTarget/badInput: Failed! badInputEx
 logPrefix19: badInputsTarget: Failed!
 logPrefix19: ──────────────────────────────────────
@@ -1589,7 +1589,7 @@ logPrefix20: goodTarget1: Succeeded
 logPrefix20: goodTarget2: Starting...
 logPrefix20: goodTarget2: Succeeded
 logPrefix20: badTarget: Starting...
-logPrefix20: badTarget: System.Exception: badTargetEx
+logPrefix20: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix20: badTarget: Failed! badTargetEx
 logPrefix20: goodInputsTarget: Starting...
 logPrefix20: goodInputsTarget/goodInput1: Starting...
@@ -1601,7 +1601,7 @@ logPrefix20: badInputsTarget: Starting...
 logPrefix20: badInputsTarget/goodInput1: Starting...
 logPrefix20: badInputsTarget/goodInput1: Succeeded
 logPrefix20: badInputsTarget/badInput: Starting...
-logPrefix20: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix20: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix20: badInputsTarget/badInput: Failed! badInputEx
 logPrefix20: badInputsTarget: Failed!
 logPrefix20: ──────────────────────────────────────
@@ -1671,7 +1671,7 @@ logPrefix21: goodTarget1: Succeeded
 logPrefix21: goodTarget2: Starting...
 logPrefix21: goodTarget2: Succeeded
 logPrefix21: badTarget: Starting...
-logPrefix21: badTarget: System.Exception: badTargetEx
+logPrefix21: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix21: badTarget: Failed! badTargetEx
 logPrefix21: goodInputsTarget: Starting...
 logPrefix21: goodInputsTarget/goodInput1: Starting...
@@ -1683,7 +1683,7 @@ logPrefix21: badInputsTarget: Starting...
 logPrefix21: badInputsTarget/goodInput1: Starting...
 logPrefix21: badInputsTarget/goodInput1: Succeeded
 logPrefix21: badInputsTarget/badInput: Starting...
-logPrefix21: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix21: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix21: badInputsTarget/badInput: Failed! badInputEx
 logPrefix21: badInputsTarget: Failed!
 logPrefix21: ──────────────────────────────────────
@@ -1753,7 +1753,7 @@ logPrefix22: goodTarget1: Succeeded
 logPrefix22: goodTarget2: Starting...
 logPrefix22: goodTarget2: Succeeded
 logPrefix22: badTarget: Starting...
-logPrefix22: badTarget: System.Exception: badTargetEx
+logPrefix22: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix22: badTarget: Failed! badTargetEx
 logPrefix22: goodInputsTarget: Starting...
 logPrefix22: goodInputsTarget/goodInput1: Starting...
@@ -1765,7 +1765,7 @@ logPrefix22: badInputsTarget: Starting...
 logPrefix22: badInputsTarget/goodInput1: Starting...
 logPrefix22: badInputsTarget/goodInput1: Succeeded
 logPrefix22: badInputsTarget/badInput: Starting...
-logPrefix22: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix22: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix22: badInputsTarget/badInput: Failed! badInputEx
 logPrefix22: badInputsTarget: Failed!
 logPrefix22: ──────────────────────────────────────
@@ -1835,7 +1835,7 @@ logPrefix23: goodTarget1: Succeeded
 logPrefix23: goodTarget2: Starting...
 logPrefix23: goodTarget2: Succeeded
 logPrefix23: badTarget: Starting...
-logPrefix23: badTarget: System.Exception: badTargetEx
+logPrefix23: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix23: badTarget: Failed! badTargetEx
 logPrefix23: goodInputsTarget: Starting...
 logPrefix23: goodInputsTarget/goodInput1: Starting...
@@ -1847,7 +1847,7 @@ logPrefix23: badInputsTarget: Starting...
 logPrefix23: badInputsTarget/goodInput1: Starting...
 logPrefix23: badInputsTarget/goodInput1: Succeeded
 logPrefix23: badInputsTarget/badInput: Starting...
-logPrefix23: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix23: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix23: badInputsTarget/badInput: Failed! badInputEx
 logPrefix23: badInputsTarget: Failed!
 logPrefix23: ──────────────────────────────────────
@@ -1917,7 +1917,7 @@ logPrefix24: goodTarget1: Succeeded
 logPrefix24: goodTarget2: Starting...
 logPrefix24: goodTarget2: Succeeded
 logPrefix24: badTarget: Starting...
-logPrefix24: badTarget: System.Exception: badTargetEx
+logPrefix24: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix24: badTarget: Failed! badTargetEx
 logPrefix24: goodInputsTarget: Starting...
 logPrefix24: goodInputsTarget/goodInput1: Starting...
@@ -1929,7 +1929,7 @@ logPrefix24: badInputsTarget: Starting...
 logPrefix24: badInputsTarget/goodInput1: Starting...
 logPrefix24: badInputsTarget/goodInput1: Succeeded
 logPrefix24: badInputsTarget/badInput: Starting...
-logPrefix24: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix24: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix24: badInputsTarget/badInput: Failed! badInputEx
 logPrefix24: badInputsTarget: Failed!
 logPrefix24: ──────────────────────────────────────
@@ -1999,7 +1999,7 @@ logPrefix25: goodTarget1: Succeeded
 logPrefix25: goodTarget2: Starting...
 logPrefix25: goodTarget2: Succeeded
 logPrefix25: badTarget: Starting...
-logPrefix25: badTarget: System.Exception: badTargetEx
+logPrefix25: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix25: badTarget: Failed! badTargetEx
 logPrefix25: goodInputsTarget: Starting...
 logPrefix25: goodInputsTarget/goodInput1: Starting...
@@ -2011,7 +2011,7 @@ logPrefix25: badInputsTarget: Starting...
 logPrefix25: badInputsTarget/goodInput1: Starting...
 logPrefix25: badInputsTarget/goodInput1: Succeeded
 logPrefix25: badInputsTarget/badInput: Starting...
-logPrefix25: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix25: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix25: badInputsTarget/badInput: Failed! badInputEx
 logPrefix25: badInputsTarget: Failed!
 logPrefix25: ──────────────────────────────────────
@@ -2081,7 +2081,7 @@ logPrefix26: goodTarget1: Succeeded
 logPrefix26: goodTarget2: Starting...
 logPrefix26: goodTarget2: Succeeded
 logPrefix26: badTarget: Starting...
-logPrefix26: badTarget: System.Exception: badTargetEx
+logPrefix26: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix26: badTarget: Failed! badTargetEx
 logPrefix26: goodInputsTarget: Starting...
 logPrefix26: goodInputsTarget/goodInput1: Starting...
@@ -2093,7 +2093,7 @@ logPrefix26: badInputsTarget: Starting...
 logPrefix26: badInputsTarget/goodInput1: Starting...
 logPrefix26: badInputsTarget/goodInput1: Succeeded
 logPrefix26: badInputsTarget/badInput: Starting...
-logPrefix26: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix26: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix26: badInputsTarget/badInput: Failed! badInputEx
 logPrefix26: badInputsTarget: Failed!
 logPrefix26: ──────────────────────────────────────
@@ -2163,7 +2163,7 @@ logPrefix27: goodTarget1: Succeeded
 logPrefix27: goodTarget2: Starting...
 logPrefix27: goodTarget2: Succeeded
 logPrefix27: badTarget: Starting...
-logPrefix27: badTarget: System.Exception: badTargetEx
+logPrefix27: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix27: badTarget: Failed! badTargetEx
 logPrefix27: goodInputsTarget: Starting...
 logPrefix27: goodInputsTarget/goodInput1: Starting...
@@ -2175,7 +2175,7 @@ logPrefix27: badInputsTarget: Starting...
 logPrefix27: badInputsTarget/goodInput1: Starting...
 logPrefix27: badInputsTarget/goodInput1: Succeeded
 logPrefix27: badInputsTarget/badInput: Starting...
-logPrefix27: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix27: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix27: badInputsTarget/badInput: Failed! badInputEx
 logPrefix27: badInputsTarget: Failed!
 logPrefix27: --------------------------------------
@@ -2245,7 +2245,7 @@ logPrefix28: goodTarget1: Succeeded
 logPrefix28: goodTarget2: Starting...
 logPrefix28: goodTarget2: Succeeded
 logPrefix28: badTarget: Starting...
-logPrefix28: badTarget: System.Exception: badTargetEx
+logPrefix28: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix28: badTarget: Failed! badTargetEx
 logPrefix28: goodInputsTarget: Starting...
 logPrefix28: goodInputsTarget/goodInput1: Starting...
@@ -2257,7 +2257,7 @@ logPrefix28: badInputsTarget: Starting...
 logPrefix28: badInputsTarget/goodInput1: Starting...
 logPrefix28: badInputsTarget/goodInput1: Succeeded
 logPrefix28: badInputsTarget/badInput: Starting...
-logPrefix28: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix28: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix28: badInputsTarget/badInput: Failed! badInputEx
 logPrefix28: badInputsTarget: Failed!
 logPrefix28: --------------------------------------
@@ -2327,7 +2327,7 @@ logPrefix29: goodTarget1: Succeeded
 logPrefix29: goodTarget2: Starting...
 logPrefix29: goodTarget2: Succeeded
 logPrefix29: badTarget: Starting...
-logPrefix29: badTarget: System.Exception: badTargetEx
+logPrefix29: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix29: badTarget: Failed! badTargetEx
 logPrefix29: goodInputsTarget: Starting...
 logPrefix29: goodInputsTarget/goodInput1: Starting...
@@ -2339,7 +2339,7 @@ logPrefix29: badInputsTarget: Starting...
 logPrefix29: badInputsTarget/goodInput1: Starting...
 logPrefix29: badInputsTarget/goodInput1: Succeeded
 logPrefix29: badInputsTarget/badInput: Starting...
-logPrefix29: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix29: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix29: badInputsTarget/badInput: Failed! badInputEx
 logPrefix29: badInputsTarget: Failed!
 logPrefix29: --------------------------------------
@@ -2409,7 +2409,7 @@ logPrefix30: goodTarget1: Succeeded
 logPrefix30: goodTarget2: Starting...
 logPrefix30: goodTarget2: Succeeded
 logPrefix30: badTarget: Starting...
-logPrefix30: badTarget: System.Exception: badTargetEx
+logPrefix30: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix30: badTarget: Failed! badTargetEx
 logPrefix30: goodInputsTarget: Starting...
 logPrefix30: goodInputsTarget/goodInput1: Starting...
@@ -2421,7 +2421,7 @@ logPrefix30: badInputsTarget: Starting...
 logPrefix30: badInputsTarget/goodInput1: Starting...
 logPrefix30: badInputsTarget/goodInput1: Succeeded
 logPrefix30: badInputsTarget/badInput: Starting...
-logPrefix30: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix30: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix30: badInputsTarget/badInput: Failed! badInputEx
 logPrefix30: badInputsTarget: Failed!
 logPrefix30: --------------------------------------
@@ -2491,7 +2491,7 @@ logPrefix31: goodTarget1: Succeeded
 logPrefix31: goodTarget2: Starting...
 logPrefix31: goodTarget2: Succeeded
 logPrefix31: badTarget: Starting...
-logPrefix31: badTarget: System.Exception: badTargetEx
+logPrefix31: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix31: badTarget: Failed! badTargetEx
 logPrefix31: goodInputsTarget: Starting...
 logPrefix31: goodInputsTarget/goodInput1: Starting...
@@ -2503,7 +2503,7 @@ logPrefix31: badInputsTarget: Starting...
 logPrefix31: badInputsTarget/goodInput1: Starting...
 logPrefix31: badInputsTarget/goodInput1: Succeeded
 logPrefix31: badInputsTarget/badInput: Starting...
-logPrefix31: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix31: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix31: badInputsTarget/badInput: Failed! badInputEx
 logPrefix31: badInputsTarget: Failed!
 logPrefix31: ──────────────────────────────────────
@@ -2573,7 +2573,7 @@ logPrefix32: goodTarget1: Succeeded
 logPrefix32: goodTarget2: Starting...
 logPrefix32: goodTarget2: Succeeded
 logPrefix32: badTarget: Starting...
-logPrefix32: badTarget: System.Exception: badTargetEx
+logPrefix32: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix32: badTarget: Failed! badTargetEx
 logPrefix32: goodInputsTarget: Starting...
 logPrefix32: goodInputsTarget/goodInput1: Starting...
@@ -2585,7 +2585,7 @@ logPrefix32: badInputsTarget: Starting...
 logPrefix32: badInputsTarget/goodInput1: Starting...
 logPrefix32: badInputsTarget/goodInput1: Succeeded
 logPrefix32: badInputsTarget/badInput: Starting...
-logPrefix32: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix32: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix32: badInputsTarget/badInput: Failed! badInputEx
 logPrefix32: badInputsTarget: Failed!
 logPrefix32: ──────────────────────────────────────
@@ -2655,7 +2655,7 @@ logPrefix33: goodTarget1: Succeeded
 logPrefix33: goodTarget2: Starting...
 logPrefix33: goodTarget2: Succeeded
 logPrefix33: badTarget: Starting...
-logPrefix33: badTarget: System.Exception: badTargetEx
+logPrefix33: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix33: badTarget: Failed! badTargetEx
 logPrefix33: goodInputsTarget: Starting...
 logPrefix33: goodInputsTarget/goodInput1: Starting...
@@ -2667,7 +2667,7 @@ logPrefix33: badInputsTarget: Starting...
 logPrefix33: badInputsTarget/goodInput1: Starting...
 logPrefix33: badInputsTarget/goodInput1: Succeeded
 logPrefix33: badInputsTarget/badInput: Starting...
-logPrefix33: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix33: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix33: badInputsTarget/badInput: Failed! badInputEx
 logPrefix33: badInputsTarget: Failed!
 logPrefix33: ──────────────────────────────────────
@@ -2737,7 +2737,7 @@ logPrefix34: goodTarget1: Succeeded
 logPrefix34: goodTarget2: Starting...
 logPrefix34: goodTarget2: Succeeded
 logPrefix34: badTarget: Starting...
-logPrefix34: badTarget: System.Exception: badTargetEx
+logPrefix34: badTarget: System.InvalidOperationException: badTargetEx
 logPrefix34: badTarget: Failed! badTargetEx
 logPrefix34: goodInputsTarget: Starting...
 logPrefix34: goodInputsTarget/goodInput1: Starting...
@@ -2749,7 +2749,7 @@ logPrefix34: badInputsTarget: Starting...
 logPrefix34: badInputsTarget/goodInput1: Starting...
 logPrefix34: badInputsTarget/goodInput1: Succeeded
 logPrefix34: badInputsTarget/badInput: Starting...
-logPrefix34: badInputsTarget/badInput: System.Exception: badInputEx
+logPrefix34: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 logPrefix34: badInputsTarget/badInput: Failed! badInputEx
 logPrefix34: badInputsTarget: Failed!
 logPrefix34: ──────────────────────────────────────
@@ -2819,7 +2819,7 @@ verbose: True
 [90mlogPrefix35:[0m [36mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix35:[0m [36mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix35:[0m [36mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix35:[0m [36mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix35:[0m [36mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix35:[0m [36mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix35:[0m [36mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix35:[0m [36mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -2831,7 +2831,7 @@ verbose: True
 [90mlogPrefix35:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix35:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix35:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix35:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix35:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix35:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix35:[0m [36mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix35:[0m [37m──────────────────────────────────────[0m
@@ -2901,7 +2901,7 @@ verbose: True
 [90mlogPrefix36:[0m [36mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix36:[0m [36mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix36:[0m [36mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix36:[0m [36mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix36:[0m [36mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix36:[0m [36mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix36:[0m [36mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix36:[0m [36mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -2913,7 +2913,7 @@ verbose: True
 [90mlogPrefix36:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix36:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix36:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix36:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix36:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix36:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix36:[0m [36mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix36:[0m [37m──────────────────────────────────────[0m
@@ -2983,7 +2983,7 @@ verbose: True
 [90mlogPrefix37:[0m [36mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix37:[0m [36mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix37:[0m [36mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix37:[0m [36mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix37:[0m [36mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix37:[0m [36mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix37:[0m [36mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix37:[0m [36mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -2995,7 +2995,7 @@ verbose: True
 [90mlogPrefix37:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix37:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix37:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix37:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix37:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix37:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix37:[0m [36mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix37:[0m [37m──────────────────────────────────────[0m
@@ -3065,7 +3065,7 @@ verbose: True
 [90mlogPrefix38:[0m [36mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix38:[0m [36mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix38:[0m [36mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix38:[0m [36mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix38:[0m [36mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix38:[0m [36mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix38:[0m [36mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix38:[0m [36mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -3077,7 +3077,7 @@ verbose: True
 [90mlogPrefix38:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix38:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix38:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix38:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix38:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix38:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix38:[0m [36mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix38:[0m [37m──────────────────────────────────────[0m
@@ -3147,7 +3147,7 @@ verbose: True
 [90mlogPrefix39:[0m [36mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix39:[0m [36mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix39:[0m [36mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix39:[0m [36mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix39:[0m [36mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix39:[0m [36mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix39:[0m [36mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix39:[0m [36mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -3159,7 +3159,7 @@ verbose: True
 [90mlogPrefix39:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix39:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix39:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix39:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix39:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix39:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix39:[0m [36mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix39:[0m [37m──────────────────────────────────────[0m
@@ -3229,7 +3229,7 @@ verbose: True
 [90mlogPrefix40:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix40:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix40:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix40:[0m [34mbadTarget[90m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix40:[0m [34mbadTarget[90m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix40:[0m [34mbadTarget[90m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix40:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix40:[0m [34mgoodInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -3241,7 +3241,7 @@ verbose: True
 [90mlogPrefix40:[0m [34mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix40:[0m [34mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix40:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix40:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix40:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix40:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix40:[0m [34mbadInputsTarget[90m:[0m [91mFailed![0m[0m
 [90mlogPrefix40:[0m [90m--------------------------------------[0m
@@ -3311,7 +3311,7 @@ verbose: True
 [90mlogPrefix41:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix41:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix41:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix41:[0m [34mbadTarget[90m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix41:[0m [34mbadTarget[90m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix41:[0m [34mbadTarget[90m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix41:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix41:[0m [34mgoodInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -3323,7 +3323,7 @@ verbose: True
 [90mlogPrefix41:[0m [34mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix41:[0m [34mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix41:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix41:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix41:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix41:[0m [34mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix41:[0m [34mbadInputsTarget[90m:[0m [91mFailed![0m[0m
 [90mlogPrefix41:[0m [90m──────────────────────────────────────[0m
@@ -3393,7 +3393,7 @@ verbose: True
 [90mlogPrefix42:[0m [36mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix42:[0m [36mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix42:[0m [36mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix42:[0m [36mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix42:[0m [36mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix42:[0m [36mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix42:[0m [36mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix42:[0m [36mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -3405,7 +3405,7 @@ verbose: True
 [90mlogPrefix42:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix42:[0m [36mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix42:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix42:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix42:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix42:[0m [36mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix42:[0m [36mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix42:[0m [37m──────────────────────────────────────[0m
@@ -3475,7 +3475,7 @@ verbose: True
 [90mlogPrefix43:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix43:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix43:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix43:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix43:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix43:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix43:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix43:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -3487,7 +3487,7 @@ verbose: True
 [90mlogPrefix43:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix43:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix43:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix43:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix43:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix43:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix43:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix43:[0m [90m──────────────────────────────────────[0m
@@ -3557,7 +3557,7 @@ verbose: True
 [90mlogPrefix44:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix44:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix44:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix44:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix44:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix44:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix44:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix44:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -3569,7 +3569,7 @@ verbose: True
 [90mlogPrefix44:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix44:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix44:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix44:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix44:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix44:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix44:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix44:[0m [90m──────────────────────────────────────[0m
@@ -3639,7 +3639,7 @@ verbose: True
 [90mlogPrefix45:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix45:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix45:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix45:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix45:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix45:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix45:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix45:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -3651,7 +3651,7 @@ verbose: True
 [90mlogPrefix45:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix45:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix45:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix45:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix45:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix45:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix45:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix45:[0m [90m──────────────────────────────────────[0m
@@ -3721,7 +3721,7 @@ verbose: True
 [90mlogPrefix46:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix46:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix46:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix46:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix46:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix46:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix46:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix46:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -3733,7 +3733,7 @@ verbose: True
 [90mlogPrefix46:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix46:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix46:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix46:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix46:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix46:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix46:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix46:[0m [90m──────────────────────────────────────[0m
@@ -3803,7 +3803,7 @@ verbose: True
 [90mlogPrefix47:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix47:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix47:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix47:[0m [34mbadTarget[37m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix47:[0m [34mbadTarget[37m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix47:[0m [34mbadTarget[37m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix47:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix47:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -3815,7 +3815,7 @@ verbose: True
 [90mlogPrefix47:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix47:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix47:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix47:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix47:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix47:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix47:[0m [34mbadInputsTarget[37m:[0m [31mFailed![0m[0m
 [90mlogPrefix47:[0m [37m──────────────────────────────────────[0m
@@ -3885,7 +3885,7 @@ verbose: True
 [90mlogPrefix48:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix48:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix48:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix48:[0m [34mbadTarget[37m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix48:[0m [34mbadTarget[37m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix48:[0m [34mbadTarget[37m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix48:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix48:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -3897,7 +3897,7 @@ verbose: True
 [90mlogPrefix48:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix48:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix48:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix48:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix48:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix48:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix48:[0m [34mbadInputsTarget[37m:[0m [31mFailed![0m[0m
 [90mlogPrefix48:[0m [37m──────────────────────────────────────[0m
@@ -3967,7 +3967,7 @@ verbose: True
 [90mlogPrefix49:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix49:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix49:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix49:[0m [34mbadTarget[37m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix49:[0m [34mbadTarget[37m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix49:[0m [34mbadTarget[37m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix49:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix49:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -3979,7 +3979,7 @@ verbose: True
 [90mlogPrefix49:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix49:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix49:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix49:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix49:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix49:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix49:[0m [34mbadInputsTarget[37m:[0m [31mFailed![0m[0m
 [90mlogPrefix49:[0m [37m──────────────────────────────────────[0m
@@ -4049,7 +4049,7 @@ verbose: True
 [90mlogPrefix50:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix50:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix50:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix50:[0m [34mbadTarget[37m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix50:[0m [34mbadTarget[37m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix50:[0m [34mbadTarget[37m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix50:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix50:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -4061,7 +4061,7 @@ verbose: True
 [90mlogPrefix50:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix50:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix50:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix50:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix50:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix50:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix50:[0m [34mbadInputsTarget[37m:[0m [31mFailed![0m[0m
 [90mlogPrefix50:[0m [37m──────────────────────────────────────[0m
@@ -4131,7 +4131,7 @@ verbose: True
 [90mlogPrefix51:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix51:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix51:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix51:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix51:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix51:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix51:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix51:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -4143,7 +4143,7 @@ verbose: True
 [90mlogPrefix51:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix51:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix51:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix51:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix51:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix51:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix51:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix51:[0m [37m──────────────────────────────────────[0m
@@ -4213,7 +4213,7 @@ verbose: True
 [90mlogPrefix52:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix52:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix52:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix52:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix52:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix52:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix52:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix52:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -4225,7 +4225,7 @@ verbose: True
 [90mlogPrefix52:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix52:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix52:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix52:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix52:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix52:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix52:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix52:[0m [37m──────────────────────────────────────[0m
@@ -4295,7 +4295,7 @@ verbose: True
 [90mlogPrefix53:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix53:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix53:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix53:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix53:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix53:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix53:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix53:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -4307,7 +4307,7 @@ verbose: True
 [90mlogPrefix53:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix53:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix53:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix53:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix53:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix53:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix53:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix53:[0m [37m──────────────────────────────────────[0m
@@ -4377,7 +4377,7 @@ verbose: True
 [90mlogPrefix54:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix54:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix54:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix54:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix54:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix54:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix54:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix54:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -4389,7 +4389,7 @@ verbose: True
 [90mlogPrefix54:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix54:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix54:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix54:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix54:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix54:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix54:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix54:[0m [37m──────────────────────────────────────[0m
@@ -4459,7 +4459,7 @@ verbose: True
 [90mlogPrefix55:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix55:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix55:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix55:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix55:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix55:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix55:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix55:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -4471,7 +4471,7 @@ verbose: True
 [90mlogPrefix55:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix55:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix55:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix55:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix55:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix55:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix55:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix55:[0m [90m──────────────────────────────────────[0m
@@ -4541,7 +4541,7 @@ verbose: True
 [90mlogPrefix56:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix56:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix56:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix56:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix56:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix56:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix56:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix56:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -4553,7 +4553,7 @@ verbose: True
 [90mlogPrefix56:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix56:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix56:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix56:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix56:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix56:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix56:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix56:[0m [90m──────────────────────────────────────[0m
@@ -4623,7 +4623,7 @@ verbose: True
 [90mlogPrefix57:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix57:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix57:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix57:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix57:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix57:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix57:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix57:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -4635,7 +4635,7 @@ verbose: True
 [90mlogPrefix57:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix57:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix57:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix57:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix57:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix57:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix57:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix57:[0m [90m──────────────────────────────────────[0m
@@ -4705,7 +4705,7 @@ verbose: True
 [90mlogPrefix58:[0m [34mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix58:[0m [34mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix58:[0m [34mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix58:[0m [34mbadTarget[90m:[0m [31mSystem.Exception: badTargetEx[0m
+[90mlogPrefix58:[0m [34mbadTarget[90m:[0m [31mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix58:[0m [34mbadTarget[90m:[0m [31mFailed! badTargetEx[0m[0m
 [90mlogPrefix58:[0m [34mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix58:[0m [34mgoodInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -4717,7 +4717,7 @@ verbose: True
 [90mlogPrefix58:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix58:[0m [34mbadInputsTarget[90m/[36mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix58:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix58:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.Exception: badInputEx[0m
+[90mlogPrefix58:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix58:[0m [34mbadInputsTarget[90m/[36mbadInput[90m:[0m [31mFailed! badInputEx[0m[0m
 [90mlogPrefix58:[0m [34mbadInputsTarget[90m:[0m [31mFailed![0m[0m
 [90mlogPrefix58:[0m [90m──────────────────────────────────────[0m
@@ -4787,7 +4787,7 @@ verbose: True
 [90mlogPrefix59:[0m [94mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix59:[0m [94mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix59:[0m [94mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix59:[0m [94mbadTarget[90m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix59:[0m [94mbadTarget[90m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix59:[0m [94mbadTarget[90m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix59:[0m [94mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix59:[0m [94mgoodInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -4799,7 +4799,7 @@ verbose: True
 [90mlogPrefix59:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix59:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix59:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix59:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix59:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix59:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix59:[0m [94mbadInputsTarget[90m:[0m [91mFailed![0m[0m
 [90mlogPrefix59:[0m [90m--------------------------------------[0m
@@ -4869,7 +4869,7 @@ verbose: True
 [90mlogPrefix60:[0m [94mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix60:[0m [94mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix60:[0m [94mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix60:[0m [94mbadTarget[90m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix60:[0m [94mbadTarget[90m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix60:[0m [94mbadTarget[90m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix60:[0m [94mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix60:[0m [94mgoodInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -4881,7 +4881,7 @@ verbose: True
 [90mlogPrefix60:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix60:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix60:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix60:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix60:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix60:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix60:[0m [94mbadInputsTarget[90m:[0m [91mFailed![0m[0m
 [90mlogPrefix60:[0m [90m--------------------------------------[0m
@@ -4951,7 +4951,7 @@ verbose: True
 [90mlogPrefix61:[0m [94mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix61:[0m [94mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix61:[0m [94mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix61:[0m [94mbadTarget[90m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix61:[0m [94mbadTarget[90m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix61:[0m [94mbadTarget[90m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix61:[0m [94mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix61:[0m [94mgoodInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -4963,7 +4963,7 @@ verbose: True
 [90mlogPrefix61:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix61:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix61:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix61:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix61:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix61:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix61:[0m [94mbadInputsTarget[90m:[0m [91mFailed![0m[0m
 [90mlogPrefix61:[0m [90m--------------------------------------[0m
@@ -5033,7 +5033,7 @@ verbose: True
 [90mlogPrefix62:[0m [94mgoodTarget2[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix62:[0m [94mgoodTarget2[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix62:[0m [94mbadTarget[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix62:[0m [94mbadTarget[90m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix62:[0m [94mbadTarget[90m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix62:[0m [94mbadTarget[90m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix62:[0m [94mgoodInputsTarget[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix62:[0m [94mgoodInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
@@ -5045,7 +5045,7 @@ verbose: True
 [90mlogPrefix62:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [90mStarting...[0m[0m
 [90mlogPrefix62:[0m [94mbadInputsTarget[90m/[96mgoodInput1[90m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix62:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [90mStarting...[0m[0m
-[90mlogPrefix62:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix62:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix62:[0m [94mbadInputsTarget[90m/[96mbadInput[90m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix62:[0m [94mbadInputsTarget[90m:[0m [91mFailed![0m[0m
 [90mlogPrefix62:[0m [90m--------------------------------------[0m
@@ -5115,7 +5115,7 @@ verbose: True
 [90mlogPrefix63:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix63:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix63:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix63:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix63:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix63:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix63:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix63:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -5127,7 +5127,7 @@ verbose: True
 [90mlogPrefix63:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix63:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix63:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix63:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix63:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix63:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix63:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix63:[0m [37m──────────────────────────────────────[0m
@@ -5197,7 +5197,7 @@ verbose: True
 [90mlogPrefix64:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix64:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix64:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix64:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix64:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix64:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix64:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix64:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -5209,7 +5209,7 @@ verbose: True
 [90mlogPrefix64:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix64:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix64:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix64:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix64:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix64:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix64:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix64:[0m [37m──────────────────────────────────────[0m
@@ -5279,7 +5279,7 @@ verbose: True
 [90mlogPrefix65:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix65:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix65:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix65:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix65:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix65:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix65:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix65:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -5291,7 +5291,7 @@ verbose: True
 [90mlogPrefix65:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix65:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix65:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix65:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix65:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix65:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix65:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix65:[0m [37m──────────────────────────────────────[0m
@@ -5361,7 +5361,7 @@ verbose: True
 [90mlogPrefix66:[0m [34mgoodTarget2[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix66:[0m [34mgoodTarget2[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix66:[0m [34mbadTarget[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix66:[0m [34mbadTarget[37m:[0m [91mSystem.Exception: badTargetEx[0m
+[90mlogPrefix66:[0m [34mbadTarget[37m:[0m [91mSystem.InvalidOperationException: badTargetEx[0m
 [90mlogPrefix66:[0m [34mbadTarget[37m:[0m [91mFailed! badTargetEx[0m[0m
 [90mlogPrefix66:[0m [34mgoodInputsTarget[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix66:[0m [34mgoodInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
@@ -5373,7 +5373,7 @@ verbose: True
 [90mlogPrefix66:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [37mStarting...[0m[0m
 [90mlogPrefix66:[0m [34mbadInputsTarget[37m/[96mgoodInput1[37m:[0m [32mSucceeded[0m[0m
 [90mlogPrefix66:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [37mStarting...[0m[0m
-[90mlogPrefix66:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.Exception: badInputEx[0m
+[90mlogPrefix66:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mSystem.InvalidOperationException: badInputEx[0m
 [90mlogPrefix66:[0m [34mbadInputsTarget[37m/[96mbadInput[37m:[0m [91mFailed! badInputEx[0m[0m
 [90mlogPrefix66:[0m [34mbadInputsTarget[37m:[0m [91mFailed![0m[0m
 [90mlogPrefix66:[0m [37m──────────────────────────────────────[0m

@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable IDE0009 // Member access should be qualified.
 namespace Bullseye.Internal
 {
+#pragma warning disable IDE0009 // Member access should be qualified.
     public class Output
     {
         private readonly TextWriter writer;
@@ -17,16 +16,16 @@ namespace Bullseye.Internal
         public Output(TextWriter writer, Palette palette, OperatingSystem operatingSystem)
         {
             this.writer = writer;
-            this.p = palette;
-            this.scriptExtension = operatingSystem == OperatingSystem.Windows ? "cmd" : "sh";
+            p = palette;
+            scriptExtension = operatingSystem == OperatingSystem.Windows ? "cmd" : "sh";
         }
 
-        public Task Usage(TargetCollection targets) => this.writer.WriteAsync(this.GetUsage(targets));
+        public Task Usage(TargetCollection targets) => writer.WriteAsync(GetUsage(targets));
 
-        public Task Targets(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            this.writer.WriteAsync(this.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, null));
+        public Task Targets(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
+            writer.WriteAsync(List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, null));
 
-        private string List(TargetCollection targets, List<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, string startingPrefix)
+        private string List(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, string startingPrefix)
         {
             var lines = new List<(string, string)>();
 
@@ -39,7 +38,7 @@ namespace Bullseye.Internal
 
             return string.Join("", lines.Select(line => $"{line.Item1.PadRight(maxColumn1Width + line.Item1.Length - Palette.StripColours(line.Item1).Length)}    {line.Item2}{Environment.NewLine}"));
 
-            void Append(List<string> names, Stack<string> seenTargets, bool isRoot, string previousPrefix, int depth)
+            void Append(IReadOnlyCollection<string> names, Stack<string> seenTargets, bool isRoot, string previousPrefix, int depth)
             {
                 if (depth > maxDepth)
                 {
@@ -141,4 +140,5 @@ $@"{p.Default}Usage:{p.Reset}
 "
             + List(targets, targets.Select(target => target.Name).ToList(), 0, 0, false, "  ");
     }
+#pragma warning restore IDE0009 // Member access should be qualified.
 }

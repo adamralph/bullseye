@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Bullseye;
@@ -40,7 +41,7 @@ Target(
     async number =>
     {
         await Task.Delay((4 - number) * 10);
-        await Console.Out.WriteLineAsync(number.ToString());
+        await Console.Out.WriteLineAsync(number.ToString(CultureInfo.InvariantCulture));
     });
 
 Target(
@@ -69,9 +70,9 @@ Target(
         switch (delay)
         {
             case 10:
-                throw new Exception("bad");
+                throw new NotImplementedException("bad");
             case 20:
-                throw new Exception("ugly");
+                throw new NotImplementedException("ugly");
         }
     });
 

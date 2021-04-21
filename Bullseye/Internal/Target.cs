@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace Bullseye.Internal
 {
     public class Target
@@ -19,7 +18,7 @@ namespace Bullseye.Internal
 
         public string Description { get; }
 
-        public List<string> Dependencies { get; }
+        public IReadOnlyCollection<string> Dependencies { get; }
 
         public virtual Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly) => log.Succeeded(this.Name);
     }

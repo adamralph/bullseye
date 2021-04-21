@@ -3,10 +3,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace Bullseye.Internal
 {
-    public static class NativeMethodsWrapper
+    internal static class NativeMethodsWrapper
     {
         public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandle(TextWriter log, string logPrefix)
         {

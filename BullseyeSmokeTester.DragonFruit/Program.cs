@@ -3,7 +3,9 @@ using static Bullseye.Targets;
 
 namespace BullseyeSmokeTester.DragonFruit
 {
+#pragma warning disable CA1812 // Avoid uninstantiated internal classes
     internal static class Program
+#pragma warning restore CA1812 // Avoid uninstantiated internal classes
     {
         /// <summary>Run or list targets.</summary>
         /// <param name="foo">A value used for something.</param>

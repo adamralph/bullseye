@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace Bullseye.Internal
 {
     public class TargetCollection : KeyedCollection<string, Target>
@@ -14,7 +13,7 @@ namespace Bullseye.Internal
 
         protected override string GetKeyForItem(Target item) => item.Name;
 
-        public async Task RunAsync(List<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
+        public async Task RunAsync(IEnumerable<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
         {
             if (!skipDependencies)
             {
@@ -51,7 +50,7 @@ namespace Bullseye.Internal
             await log.Succeeded(names).Tax();
         }
 
-        private async Task RunAsync(string name, ICollection<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, Stack<string> dependencyStack)
+        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, Stack<string> dependencyStack)
         {
             dependencyStack.Push(name);
 

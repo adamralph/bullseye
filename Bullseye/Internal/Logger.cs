@@ -7,10 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using static System.Math;
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable IDE0009 // Member access should be qualified.
 namespace Bullseye.Internal
 {
+#pragma warning disable IDE0009 // Member access should be qualified.
     public class Logger
     {
         private readonly ConcurrentDictionary<string, TargetResult> results = new ConcurrentDictionary<string, TargetResult>();
@@ -62,16 +61,16 @@ namespace Bullseye.Internal
             }
         }
 
-        public Task Starting(List<string> targets) =>
+        public Task Starting(IEnumerable<string> targets) =>
             this.writer.WriteLineAsync(Message(p.Default, $"Starting...", targets, null));
 
-        public async Task Failed(List<string> targets)
+        public async Task Failed(IEnumerable<string> targets)
         {
             await this.Results().Tax();
             await this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", targets, totalDuration)).Tax();
         }
 
-        public async Task Succeeded(List<string> targets)
+        public async Task Succeeded(IEnumerable<string> targets)
         {
             await this.Results().Tax();
             await this.writer.WriteLineAsync(Message(p.Succeeded, $"Succeeded", targets, totalDuration)).Tax();
@@ -106,9 +105,7 @@ namespace Bullseye.Internal
             return this.writer.WriteLineAsync(Message(p.Failed, $"Failed!", target, result.Duration));
         }
 
-#pragma warning disable RS0027 // Public API with optional parameter(s) should have the most parameters amongst its public overloads.
         public Task Succeeded(string target, TimeSpan? duration = null)
-#pragma warning restore RS0027 // Public API with optional parameter(s) should have the most parameters amongst its public overloads.
         {
             var result = InternResult(target);
             result.Outcome = TargetOutcome.Succeeded;
@@ -266,7 +263,7 @@ namespace Bullseye.Internal
 
         private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Reset}";
 
-        private string Message(string color, string text, List<string> targets, TimeSpan? duration) =>
+        private string Message(string color, string text, IEnumerable<string> targets, TimeSpan? duration) =>
             $"{GetPrefix()}{color}{text}{p.Reset} {p.Target}({targets.Spaced()}){p.Reset}{GetSuffix(false, duration)}{p.Reset}";
 
         private string Message(string color, string text, string target) =>
@@ -349,4 +346,5 @@ namespace Bullseye.Internal
             Failed,
         }
     }
+#pragma warning restore IDE0009 // Member access should be qualified.
 }

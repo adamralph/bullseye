@@ -1,0 +1,7 @@
+[*.cs]
+
+# CA1002: Do not expose generic lists
+dotnet_diagnostic.CA1002.severity = none
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
