@@ -1,13 +1,13 @@
 [*.cs]
 
-# RS0016: Add public types and members to the declared API
-dotnet_diagnostic.RS0016.severity = none
-
 # CA1062: Validate arguments of public methods
 dotnet_diagnostic.CA1062.severity = none
 
 # CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
 dotnet_diagnostic.CS1591.severity = none
+
+# RS0016: Add public types and members to the declared API
+dotnet_diagnostic.RS0016.severity = none
 
 # RS0027: Public API with optional parameter(s) should have the most parameters amongst its public overloads.
 dotnet_diagnostic.RS0027.severity = none
