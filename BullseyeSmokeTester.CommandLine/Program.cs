@@ -6,7 +6,7 @@ using static Bullseye.Targets;
 
 var cmd = new RootCommand()
 {
-    new Option(new[] { "--foo", "-f" }, "A value used for something.") { Argument = new Argument<string>("foo") }
+    new Option<string>( new[] { "--foo", "-f" }, "A value used for something."),
 };
 
 // translate from Bullseye to System.CommandLine
