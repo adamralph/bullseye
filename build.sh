@@ -28,8 +28,11 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-col
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --help
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build
 
-dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --help
-dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --foo bar --verbose build
+# https://github.com/dotnet/command-line-api/issues/1306
+if [ "${CIRCLECI:-false}" == "false" ]; then
+  dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --help
+  dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --foo bar --verbose build
+fi
 
 dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --help
 dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --foo bar --verbose build
