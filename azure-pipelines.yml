@@ -10,7 +10,7 @@ jobs:
     steps:
       - task: UseDotNet@2
         inputs:
-          version: "5.0.201"
+          version: "5.0.300"
       - script: dotnet --info
         displayName: "Display .NET Core information."
       - script: ./build.cmd
@@ -21,7 +21,7 @@ jobs:
     steps:
       - task: UseDotNet@2
         inputs:
-          version: "5.0.201"
+          version: "5.0.300"
       - script: dotnet --info
         displayName: "Display .NET Core information."
       - script: ./build.sh
@@ -32,7 +32,7 @@ jobs:
     steps:
       - task: UseDotNet@2
         inputs:
-          version: "5.0.201"
+          version: "5.0.300"
       - script: dotnet --info
         displayName: "Display .NET Core information."
       - script: ./build.sh
