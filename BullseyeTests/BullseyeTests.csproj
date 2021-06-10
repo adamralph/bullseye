@@ -15,10 +15,4 @@
     <ProjectReference Include="..\Bullseye\Bullseye.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="log.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
