@@ -1,278 +1,249 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Bullseye.Internal;
-using Xbehave;
 using Xunit;
 using static BullseyeTests.Infra.Helper;
 
 namespace BullseyeTests
 {
-    public class Dependencies
+    public static class Dependencies
     {
-        [Scenario]
-        public void FlatDependencies(TargetCollection targets, List<string> ran)
+        [Fact]
+        public static async Task FlatDependencies()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
+            // arrange
+            var ran = new List<string>();
 
-            "And a second target"
-                .x(() => targets.Add(CreateTarget("second", () => Ensure(ref ran).Add("second"))));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => ran.Add("first")),
+                CreateTarget("second", () => ran.Add("second")),
+                CreateTarget("third", new[] { "first", "second" }, () => ran.Add("third")),
+            };
 
-            "And a third target which depends on the first and second target"
-                .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
+            // act
+            await targets.RunAsync(new List<string> { "third" }, default, default, default);
 
-            "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, default, default, default));
-
-            "Then all targets are run"
-                .x(() => Assert.Equal(3, ran.Count));
-
-            "And the first target is run first"
-                .x(() => Assert.Equal("first", ran[0]));
-
-            "And the second target is run second"
-                .x(() => Assert.Equal("second", ran[1]));
-
-            "And the third target is run third"
-                .x(() => Assert.Equal("third", ran[2]));
+            // assert
+            Assert.Equal(3, ran.Count);
+            Assert.Equal("first", ran[0]);
+            Assert.Equal("second", ran[1]);
+            Assert.Equal("third", ran[2]);
         }
 
-        [Scenario]
-        public void NestedDependencies(TargetCollection targets, List<string> ran)
+        [Fact]
+        public static async Task NestedDependencies()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
+            // arrange
+            var ran = new List<string>();
 
-            "And a second target which depends on the first target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => ran.Add("first")),
+                CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
+                CreateTarget("third", new[] { "second" }, () => ran.Add("third")),
+            };
 
-            "And a third target which depends on the second target"
-                .x(() => targets.Add(CreateTarget("third", new[] { "second" }, () => Ensure(ref ran).Add("third"))));
+            // act
+            await targets.RunAsync(new List<string> { "third" }, default, default, default);
 
-            "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, default, default, default));
-
-            "Then all targets are run"
-                .x(() => Assert.Equal(3, ran.Count));
-
-            "And the first target is run first"
-                .x(() => Assert.Equal("first", ran[0]));
-
-            "And the second target is run second"
-                .x(() => Assert.Equal("second", ran[1]));
-
-            "And the third target is run third"
-                .x(() => Assert.Equal("third", ran[2]));
+            // assert
+            Assert.Equal(3, ran.Count);
+            Assert.Equal("first", ran[0]);
+            Assert.Equal("second", ran[1]);
+            Assert.Equal("third", ran[2]);
         }
 
-        [Scenario]
-        public void DoubleDependency(TargetCollection targets, List<string> ran)
+        [Fact]
+        public static async Task DoubleDependency()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
+            // arrange
+            var ran = new List<string>();
 
-            "And a second target which depends on the first target twice"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first", "first" }, () => Ensure(ref ran).Add("second"))));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => ran.Add("first")),
+                CreateTarget("second", new[] { "first", "first" }, () => ran.Add("second")),
+            };
 
-            "When I run the second target"
-                .x(() => targets.RunAsync(new List<string> { "second" }, default, default, default));
+            // act
+            await targets.RunAsync(new List<string> { "second" }, default, default, default);
 
-            "Then both targets are run once"
-                .x(() => Assert.Equal(2, ran.Count));
-
-            "And the first target is run first"
-                .x(() => Assert.Equal("first", ran[0]));
-
-            "And the second target is run second"
-                .x(() => Assert.Equal("second", ran[1]));
+            // assert
+            Assert.Equal(2, ran.Count);
+            Assert.Equal("first", ran[0]);
+            Assert.Equal("second", ran[1]);
         }
 
-        [Scenario]
-        public void SelfDependency(TargetCollection targets, Exception exception)
+        [Fact]
+        public static async Task SelfDependency()
         {
-            "Given a target which depends on itself"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "first" })));
+            // arrange
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", new[] { "first" }),
+            };
 
-            "When I run the target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, default, default, default)));
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, default, default, default));
 
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
-
-            "And I am told that the circular dependency was detected"
-                .x(() => Assert.Contains("first -> first", exception.Message, StringComparison.Ordinal));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("first -> first", exception.Message, StringComparison.Ordinal);
         }
 
-        [Scenario]
-        public void MutualDependency(TargetCollection targets, Exception exception)
+        [Fact]
+        public static async Task MutualDependency()
         {
-            "Given a target which depends on a second target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "second" })));
+            // arrange
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", new[] { "second" }),
+                CreateTarget("second", new[] { "first" }),
+            };
 
-            "And the other target depends on the first target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first" })));
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, default, default, default));
 
-            "When I run the second target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, default, default, default)));
-
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
-
-            "And I am told that the circular dependency was detected"
-                .x(() => Assert.Contains("first -> second -> first", exception.Message, StringComparison.Ordinal));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("first -> second -> first", exception.Message, StringComparison.Ordinal);
         }
 
-        [Scenario]
-        public void CircularDependency(TargetCollection targets, Exception exception)
+        [Fact]
+        public static async Task CircularDependency()
         {
-            "Given a target which depends on a third target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", new[] { "third" })));
+            // arrange
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", new[] { "third" }),
+                CreateTarget("second", new[] { "first" }),
+                CreateTarget("third", new[] { "second" }),
+            };
 
-            "And a second target which depends on the first target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first" })));
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default));
 
-            "And a third target which depends on the second target"
-                .x(() => targets.Add(CreateTarget("third", new[] { "second" })));
-
-            "When I run the third target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default)));
-
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
-
-            "And I am told that the circular dependency was detected"
-                .x(() => Assert.Contains("first -> third -> second -> first", exception.Message, StringComparison.Ordinal));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("first -> third -> second -> first", exception.Message, StringComparison.Ordinal);
         }
 
-        [Scenario]
-        public void DoubleTransitiveDependency(TargetCollection targets, List<string> ran)
+        [Fact]
+        public static async Task DoubleTransitiveDependency()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
+            // arrange
+            var ran = new List<string>();
 
-            "And a second target which depends on the first target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => ran.Add("first")),
+                CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
+                CreateTarget("third", new[] { "first", "second" }, () => ran.Add("third")),
+            };
 
-            "And a third target which depends on the first target and the second target"
-                .x(() => targets.Add(CreateTarget("third", new[] { "first", "second" }, () => Ensure(ref ran).Add("third"))));
+            // act
+            await targets.RunAsync(new List<string> { "third" }, default, default, default);
 
-            "When I run the third target"
-                .x(() => targets.RunAsync(new List<string> { "third" }, default, default, default));
-
-            "Then all targets are run"
-                .x(() => Assert.Equal(3, ran.Count));
-
-            "And the first target is run first"
-                .x(() => Assert.Equal("first", ran[0]));
-
-            "And the second target is run second"
-                .x(() => Assert.Equal("second", ran[1]));
-
-            "And the third target is run third"
-                .x(() => Assert.Equal("third", ran[2]));
+            // assert
+            Assert.Equal(3, ran.Count);
+            Assert.Equal("first", ran[0]);
+            Assert.Equal("second", ran[1]);
+            Assert.Equal("third", ran[2]);
         }
 
-        [Scenario]
-        public void NotExistentDependencies(TargetCollection targets, bool anyRan, Exception exception)
+        [Fact]
+        public static async Task NotExistentDependencies()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => anyRan = true)));
+            // arrange
+            var anyRan = false;
 
-            "And a second target which depends on the first target and a non-existent target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existing" }, () => anyRan = true)));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => anyRan = true),
+                CreateTarget("second", new[] { "first", "non-existing" }, () => anyRan = true),
+                CreateTarget("third", new[] { "second", "also-non-existing" }, () => anyRan = true),
+            };
 
-            "And a third target which depends on the second target and another non-existent target"
-                .x(() => targets.Add(CreateTarget("third", new[] { "second", "also-non-existing" }, () => anyRan = true)));
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default));
 
-            "When I run the third target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default)));
-
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
-
-            "And I am told that the first non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing, required by second", exception.Message, StringComparison.Ordinal));
-
-            "And I am told that the second non-existent target could not be found"
-                .x(() => Assert.Contains("also-non-existing, required by third", exception.Message, StringComparison.Ordinal));
-
-            "And the other targets are not run"
-                .x(() => Assert.False(anyRan));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("non-existing, required by second", exception.Message, StringComparison.Ordinal);
+            Assert.Contains("also-non-existing, required by third", exception.Message, StringComparison.Ordinal);
+            Assert.False(anyRan);
         }
 
-        [Scenario]
-        public void SkippingDependencies(TargetCollection targets, List<string> ran)
+        [Fact]
+        public static async Task SkippingDependencies()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
+            // arrange
+            var ran = new List<string>();
 
-            "And a second target which depends on the first target and a non-existent target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first", "non-existent" }, () => Ensure(ref ran).Add("second"))));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => ran.Add("first")),
+                CreateTarget("second", new[] { "first", "non-existent" }, () => ran.Add("second")),
+            };
 
-            "When I run the second target, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "second", "-s" }, default, default, default));
+            // act
+            await targets.RunAsync(new List<string> { "second", "-s" }, default, default, default);
 
-            "Then the second target is run"
-                .x(() => Assert.Contains("second", ran));
-
-            "But the first target is not run"
-                .x(() => Assert.DoesNotContain("first", ran));
+            // assert
+            Assert.Contains("second", ran);
+            Assert.DoesNotContain("first", ran);
         }
 
-        [Scenario]
-        public void DependencyOrderWhenSkipping(TargetCollection targets, List<string> ran)
+        [Fact]
+        public static async Task DependencyOrderWhenSkipping()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => Ensure(ref ran).Add("first"))));
+            // arrange
+            var ran = new List<string>();
 
-            "And a second target which depends on the first target"
-                .x(() => targets.Add(CreateTarget("second", new[] { "first" }, () => Ensure(ref ran).Add("second"))));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => ran.Add("first")),
+                CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
+            };
 
-            "When I run the second and first targets, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, default, default, default));
+            // act
+            await targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, default, default, default);
 
-            "Then all targets are run"
-                .x(() => Assert.Equal(2, ran.Count));
-
-            "And the first target is run first"
-                .x(() => Assert.Equal("first", ran[0]));
-
-            "And the second target is run second"
-                .x(() => Assert.Equal("second", ran[1]));
+            // assert
+            Assert.Equal(2, ran.Count);
+            Assert.Equal("first", ran[0]);
+            Assert.Equal("second", ran[1]);
         }
 
-        [Scenario]
-        public void DependencyOrderWhenParallelAndSkipping(
-            TargetCollection targets,
-            int clock,
-            int buildStartTime,
-            int test1StartTime,
-            int test2StartTime)
+        [Fact]
+        public static async Task DependencyOrderWhenParallelAndSkipping()
         {
-            "Given a target that takes a long time to start up"
-                .x(() => Ensure(ref targets).Add(CreateTarget(
+            // arrange
+            var clock = 0;
+            var (buildStartTime, test1StartTime, test2StartTime) = (0, 0, 0);
+
+            var targets = new TargetCollection
+            {
+                CreateTarget(
                     "build",
                     () =>
                     {
                         Thread.Sleep(TimeSpan.FromSeconds(1)); // a weak way to encourage the tests to run first
                         buildStartTime = Interlocked.Increment(ref clock);
-                    })));
+                    }),
+                CreateTarget("test1", new[] { "build" }, () => test1StartTime = Interlocked.Increment(ref clock)),
+                CreateTarget("test2", new[] { "build" }, () => test2StartTime = Interlocked.Increment(ref clock)),
+            };
 
-            "And a second target which depends on the first target"
-                .x(() => targets.Add(CreateTarget("test1", new[] { "build" }, () => test1StartTime = Interlocked.Increment(ref clock))));
+            // act
+            await targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, default, default, default);
 
-            "And a third target which depends on the first target"
-                .x(() => targets.Add(CreateTarget("test2", new[] { "build" }, () => test2StartTime = Interlocked.Increment(ref clock))));
-
-            "When I run all the targets with parallelism, skipping dependencies"
-                .x(() => targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, default, default, default));
-
-            "Then the first target is run first"
-                .x(() => Assert.Equal(1, buildStartTime));
-
-            "And the other targets are run later"
-                .x(() => Assert.Equal(5, test1StartTime + test2StartTime));
+            // assert
+            Assert.Equal(1, buildStartTime);
+            Assert.Equal(5, test1StartTime + test2StartTime);
         }
     }
 }

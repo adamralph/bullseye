@@ -1,29 +1,30 @@
+using System.Threading.Tasks;
 using Bullseye.Internal;
-using Xbehave;
 using Xunit;
 using static BullseyeTests.Infra.Helper;
 
 namespace BullseyeTests
 {
-    public class CaseInsensitivity
+    public static class CaseInsensitivity
     {
-        [Scenario]
-        public void MixingCase(TargetCollection targets, bool first, bool second)
+        [Fact]
+        public static async Task MixingCase()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("first", () => first = true)));
+            // arrange
+            var (first, second) = (false, false);
 
-            "And another target which depends on the first target with a different case"
-                .x(() => targets.Add(CreateTarget("second", new[] { "FIRST" }, () => second = true)));
+            var targets = new TargetCollection
+            {
+                CreateTarget("first", () => first = true),
+                CreateTarget("second", new[] { "FIRST" }, () => second = true),
+            };
 
-            "When I run the second target with a different case"
-                .x(() => targets.RunAsync(new[] { "SECOND" }, default, default, default));
+            // act
+            await targets.RunAsync(new[] { "SECOND" }, default, default, default);
 
-            "Then the first target is run"
-                .x(() => Assert.True(first));
-
-            "And the second target is run"
-                .x(() => Assert.True(second));
+            // assert
+            Assert.True(first);
+            Assert.True(second);
         }
     }
 }
