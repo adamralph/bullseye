@@ -8,17 +8,6 @@ namespace BullseyeTests.Infra
 {
     internal static class Helper
     {
-        public static ref T Ensure<T>(ref T t) where T : class, new()
-        {
-#if NETCOREAPP3_1_OR_GREATER
-            t ??= new T();
-#else
-            t = t ?? new T();
-#endif
-
-            return ref t;
-        }
-
         public static Target CreateTarget(string name, Action action) => CreateTarget(name, Array.Empty<string>(), action);
 
         public static Target CreateTarget(string name, string[] dependencies, Action action) =>

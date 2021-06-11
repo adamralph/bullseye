@@ -5,20 +5,22 @@ using System.Threading.Tasks;
 using Bullseye;
 using Bullseye.Internal;
 using BullseyeTests.Infra;
-using Xbehave;
+using Xunit;
 using OperatingSystem = Bullseye.Internal.OperatingSystem;
 
 namespace BullseyeTests
 {
-    public class LoggerTests
+    public static class LoggerTests
     {
-        [Scenario]
-        public async Task Logging()
+        [Fact]
+        public static async Task Logging()
         {
+            // arrange
             using (var writer = new StringWriter())
             {
                 var ordinal = 1;
 
+                // act
                 foreach (var @bool in new[] { true, false })
                 {
                     await Write(writer, noColor: true, noExtendedChars: !@bool, default, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, ordinal++);
@@ -35,6 +37,7 @@ namespace BullseyeTests
                     }
                 }
 
+                // assert
                 await AssertFile.Contains("../../../log.txt", writer.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
             }
         }

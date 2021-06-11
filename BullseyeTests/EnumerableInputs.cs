@@ -1,44 +1,50 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Bullseye.Internal;
-using Xbehave;
 using Xunit;
 using static BullseyeTests.Infra.Helper;
 
 namespace BullseyeTests
 {
-    public class EnumerableInputs
+    public static class EnumerableInputs
     {
-        [Scenario]
-        public void WithInputs(TargetCollection targets, List<int> inputsReceived)
+        [Fact]
+        public static async Task WithInputs()
         {
-            "Given a target with inputs 1 and 2"
-                .x(() => Ensure(ref targets).Add(CreateTarget("default", new[] { 1, 2 }, input => Ensure(ref inputsReceived).Add(input))));
+            // arrange
+            var inputsReceived = new List<int>();
 
-            "When I run the target"
-                .x(() => targets.RunAsync(new List<string>(), default, default, default));
+            var targets = new TargetCollection
+            {
+                CreateTarget("default", new[] { 1, 2 }, input => inputsReceived.Add(input))
+            };
 
-            "Then the target is run twice"
-                .x(() => Assert.Equal(2, inputsReceived.Count));
+            // act
+            await targets.RunAsync(new List<string>(), default, default, default);
 
-            "And target was run with 1 first"
-                .x(() => Assert.Equal(1, inputsReceived[0]));
-
-            "And target was run with 2 second"
-                .x(() => Assert.Equal(2, inputsReceived[1]));
+            // assert
+            Assert.Equal(2, inputsReceived.Count);
+            Assert.Equal(1, inputsReceived[0]);
+            Assert.Equal(2, inputsReceived[1]);
         }
 
-        [Scenario]
-        public void WithoutInputs(TargetCollection targets, bool ran)
+        [Fact]
+        public static async Task WithoutInputs()
         {
-            "Given a target with missing inputs"
-                .x(() => Ensure(ref targets).Add(CreateTarget("default", Enumerable.Empty<object>(), input => ran = true)));
+            // arrange
+            var ran = false;
 
-            "When I run the target"
-                .x(() => targets.RunAsync(new List<string>(), default, default, default));
+            var targets = new TargetCollection
+            {
+                CreateTarget("default", Enumerable.Empty<object>(), input => ran = true),
+            };
 
-            "Then the target is not run"
-                .x(() => Assert.False(ran));
+            // act
+            await targets.RunAsync(new List<string>(), default, default, default);
+
+            // assert
+            Assert.False(ran);
         }
     }
 }

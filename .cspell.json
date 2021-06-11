@@ -16,7 +16,6 @@
       "words": [
         "arity",
         "foos",
-        "Xbehave",
         "Xunit"
       ]
     },
@@ -33,7 +32,6 @@
         "netcoreapp",
         "netstandard",
         "visualstudio",
-        "Xbehave",
         "xunit"
       ]
     },

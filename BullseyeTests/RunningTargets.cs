@@ -1,171 +1,174 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Bullseye.Internal;
-using Xbehave;
 using Xunit;
 using static BullseyeTests.Infra.Helper;
 
 namespace BullseyeTests
 {
-    public class RunningTargets
+    public static class RunningTargets
     {
-        [Scenario]
-        public void Default(TargetCollection targets, bool @default, bool other)
+        [Fact]
+        public static async Task Default()
         {
-            "Given a default target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("default", () => @default = true)));
+            // arrange
+            var (@default, other) = (false, false);
 
-            "And another target"
-                .x(() => targets.Add(CreateTarget(nameof(other), () => other = true)));
+            var targets = new TargetCollection
+            {
+                CreateTarget("default", () => @default = true),
+                CreateTarget(nameof(other), () => other = true),
+            };
 
-            "When I run without specifying any target names"
-                .x(() => targets.RunAsync(new List<string>(), default, default, default));
+            // act
+            await targets.RunAsync(new List<string>(), default, default, default);
 
-            "Then the default target is run"
-                .x(() => Assert.True(@default));
-
-            "But the other target is not run"
-                .x(() => Assert.False(other));
+            // assert
+            Assert.True(@default);
+            Assert.False(other);
         }
 
-        [Scenario]
-        public void Specific(TargetCollection targets, bool first, bool second, bool third)
+        [Fact]
+        public static async Task Specific()
         {
-            "Given three targets"
-                .x(() => targets = new TargetCollection
-                {
-                    CreateTarget(nameof(first), () => first = true),
-                    CreateTarget(nameof(second), () => second = true),
-                    CreateTarget(nameof(third), () => third = true),
-                });
+            // arrange
+            var (first, second, third) = (false, false, false);
 
-            "When I run the first two targets"
-                .x(() => targets.RunAsync(new List<string> { nameof(first), nameof(second) }, default, default, default));
+            var targets = new TargetCollection
+            {
+                CreateTarget(nameof(first), () => first = true),
+                CreateTarget(nameof(second), () => second = true),
+                CreateTarget(nameof(third), () => third = true),
+            };
 
-            "Then the first target is run"
-                .x(() => Assert.True(first));
+            // act
+            await targets.RunAsync(new List<string> { nameof(first), nameof(second) }, default, default, default);
 
-            "And the second target is run"
-                .x(() => Assert.True(second));
-
-            "But the third target is not run"
-                .x(() => Assert.False(third));
+            // assert
+            Assert.True(first);
+            Assert.True(second);
+            Assert.False(third);
         }
 
-        [Scenario]
-        public void SingleNonExistent(TargetCollection targets, bool existing, Exception exception)
+        [Fact]
+        public static async Task SingleNonExistent()
         {
-            "Given an existing target"
-                .x(() => Ensure(ref targets).Add(CreateTarget(nameof(existing), () => existing = true)));
+            // arrange
+            var existing = false;
 
-            "When I run that target and a non-existent target"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, default, default, default)));
+            var targets = new TargetCollection
+            {
+                CreateTarget(nameof(existing), () => existing = true),
+            };
 
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, default, default, default));
 
-            "Then I am told that the non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing", exception.Message, StringComparison.Ordinal));
-
-            "And the existing target is not run"
-                .x(() => Assert.False(existing));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("non-existing", exception.Message, StringComparison.Ordinal);
+            Assert.False(existing);
         }
 
-        [Scenario]
-        public void MultipleNonExistent(
-            TargetCollection targets, bool existing, Exception exception)
+        [Fact]
+        public static async Task MultipleNonExistent()
         {
-            "Given an existing target"
-                .x(() => Ensure(ref targets).Add(CreateTarget(nameof(existing), () => existing = true)));
+            // arrange
+            var existing = false;
 
-            "When I run that target and two non-existent targets"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(
-                    new List<string> { nameof(existing), "non-existing", "also-non-existing" }, default, default, default)));
+            var targets = new TargetCollection
+            {
+                CreateTarget(nameof(existing), () => existing = true),
+            };
 
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
+            // act
+            var exception = await Record.ExceptionAsync(
+                () => targets.RunAsync(new List<string> { nameof(existing), "non-existing", "also-non-existing" }, default, default, default));
 
-            "Then I am told that the first non-existent target could not be found"
-                .x(() => Assert.Contains("non-existing", exception.Message, StringComparison.Ordinal));
-
-            "Then I am told that the second non-existent target could not be found"
-                .x(() => Assert.Contains("also-non-existing", exception.Message, StringComparison.Ordinal));
-
-            "And the existing target is not run"
-                .x(() => Assert.False(existing));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("non-existing", exception.Message, StringComparison.Ordinal);
+            Assert.Contains("also-non-existing", exception.Message, StringComparison.Ordinal);
+            Assert.False(existing);
         }
 
-        [Scenario]
-        public void DryRun(TargetCollection targets, bool ran)
+        [Fact]
+        public static async Task DryRun()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
+            // arrange
+            var ran = false;
 
-            "When I run the target specifying a dry run"
-                .x(() => targets.RunAsync(new List<string> { "target", "-n" }, default, default, default));
+            var targets = new TargetCollection
+            {
+                CreateTarget("target", () => ran = true)
+            };
 
-            "Then the target is not run"
-                .x(() => Assert.False(ran));
+            // act
+            await targets.RunAsync(new List<string> { "target", "-n" }, default, default, default);
+
+            // assert
+            Assert.False(ran);
         }
 
-        [Scenario]
-        public void UnknownOption(TargetCollection targets, bool ran, Exception exception)
+        [Fact]
+        public static async Task UnknownOption()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
+            // arrange
+            var ran = false;
 
-            "When I run the target specifying an unknown option"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, default, default, default)));
+            var targets = new TargetCollection
+            {
+                CreateTarget("target", () => ran = true),
+            };
 
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, default, default, default));
 
-            "Then I am told that the option is unknown"
-                .x(() => Assert.Contains("Unknown option -b", exception.Message, StringComparison.Ordinal));
-
-            "Then I am told how to get help"
-                .x(() => Assert.Contains(". \"--help\" for usage", exception.Message, StringComparison.Ordinal));
-
-            "And the target is not run"
-                .x(() => Assert.False(ran));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("Unknown option -b", exception.Message, StringComparison.Ordinal);
+            Assert.Contains(". \"--help\" for usage", exception.Message, StringComparison.Ordinal);
+            Assert.False(ran);
         }
 
-        [Scenario]
-        public void UnknownOptions(TargetCollection targets, bool ran, Exception exception)
+        [Fact]
+        public static async Task UnknownOptions()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("target", () => ran = true)));
+            // arrange
+            var ran = false;
 
-            "When I run the target specifying unknown options"
-                .x(async () => exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, default, default, default)));
+            var targets = new TargetCollection
+            {
+                CreateTarget("target", () => ran = true),
+            };
 
-            "Then the operation fails"
-                .x(() => Assert.NotNull(exception));
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, default, default, default));
 
-            "Then I am told that the option is unknown"
-                .x(() => Assert.Contains("Unknown options -b -z", exception.Message, StringComparison.Ordinal));
-
-            "Then I am told how to get help"
-                .x(() => Assert.Contains(". \"--help\" for usage", exception.Message, StringComparison.Ordinal));
-
-            "And the target is not run"
-                .x(() => Assert.False(ran));
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("Unknown options -b -z", exception.Message, StringComparison.Ordinal);
+            Assert.Contains(". \"--help\" for usage", exception.Message, StringComparison.Ordinal);
+            Assert.False(ran);
         }
 
-        [Scenario]
-        public void Repeated(TargetCollection targets, int count)
+        [Fact]
+        public static async Task Repeated()
         {
-            "Given a target"
-                .x(() => Ensure(ref targets).Add(CreateTarget("default", () => ++count)));
+            // arrange
+            var count = 0;
+            var targets = new TargetCollection
+            {
+                CreateTarget("default", () => ++count),
+            };
 
-            "When I run the target"
-                .x(() => targets.RunAsync(default, default, default, default));
+            // act
+            await targets.RunAsync(default, default, default, default);
+            await targets.RunAsync(default, default, default, default);
 
-            "And I run the target again"
-                .x(() => targets.RunAsync(default, default, default, default));
-
-            "Then the target runs twice"
-                .x(() => Assert.Equal(2, count));
+            // assert
+            Assert.Equal(2, count);
         }
     }
 }
