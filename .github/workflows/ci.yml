@@ -4,6 +4,7 @@ on:
     tags: ["*.*.*"]
   pull_request:
 env:
+  ContinuousIntegrationBuild: true
   DOTNET_NOLOGO: true
 jobs:
   build:
