@@ -68,7 +68,7 @@
       "languageId": "csproj"
     },
     {
-      "filename": "{.cspell.json,log.txt,PublicAPI.*.txt}",
+      "filename": "{.cspell.json,log.txt,*.svg,PublicAPI.*.txt}",
       "enabled": false
     },
     {
