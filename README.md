@@ -1,5 +1,5 @@
 <!-- markdownlint-disable-next-line MD041 -->
-![Bullseye](https://raw.githubusercontent.com/adamralph/bullseye/961fd925dd660e415dbaf51f05e49e413f6dcf99/assets/bullseye.svg)
+![Bullseye](https://raw.githubusercontent.com/adamralph/bullseye/958af18a096239e9a040ff22c5d8bf08f0fc2466/assets/bullseye.svg)
 
 # Bullseye
 
