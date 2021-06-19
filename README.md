@@ -1,5 +1,5 @@
 <!-- markdownlint-disable-next-line MD041 -->
-<img src="assets/bullseye.png" width="100px" />
+![Bullseye](/assets/bullseye.svg)
 
 # Bullseye
 
