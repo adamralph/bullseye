@@ -1,46 +1,46 @@
 {
-    "version": "0.1",
-    "language": "en-GB",
-    "overrides": [
-        {
-            "filename": "{*.cmd,*.cs,*.csproj,*.sh,*.props}",
-            "language": "en-US"
-        },
-        {
-            "filename": "{.cspell.json,log.txt,*.svg,PublicAPI.*.txt}",
-            "enabled": false
-        }
-    ],
-    "words": [
-        "ADAMRALPH",
-        "arity",
-        "Autobuild",
-        "Batchfile",
-        "CircleCI",
-        "CodeQL",
-        "counterclaim",
-        "errorlevel",
-        "foos",
-        "Ibento",
-        "Juncker",
-        "LINQ",
-        "Lykke",
-        "macOS",
-        "markdownlint",
-        "MVVM",
-        "MyGet",
-        "netcoreapp",
-        "netstandard",
-        "NOLOGO",
-        "NuGet",
-        "nupkg",
-        "pipefail",
-        "refs",
-        "SHFMT",
-        "Statik",
-        "sublicense",
-        "uninstantiated",
-        "Walkies",
-        "xunit"
-    ]
+  "version": "0.1",
+  "language": "en-GB",
+  "overrides": [
+    {
+      "filename": "{*.cmd,*.cs,*.csproj,*.sh,*.props}",
+      "language": "en-US"
+    },
+    {
+      "filename": "{.cspell.json,log.txt,*.svg,PublicAPI.*.txt}",
+      "enabled": false
+    }
+  ],
+  "words": [
+    "ADAMRALPH",
+    "arity",
+    "Autobuild",
+    "Batchfile",
+    "CircleCI",
+    "CodeQL",
+    "counterclaim",
+    "errorlevel",
+    "foos",
+    "Ibento",
+    "Juncker",
+    "LINQ",
+    "Lykke",
+    "macOS",
+    "markdownlint",
+    "MVVM",
+    "MyGet",
+    "netcoreapp",
+    "netstandard",
+    "NOLOGO",
+    "NuGet",
+    "nupkg",
+    "pipefail",
+    "refs",
+    "SHFMT",
+    "Statik",
+    "sublicense",
+    "uninstantiated",
+    "Walkies",
+    "xunit"
+  ]
 }
