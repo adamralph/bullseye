@@ -1,102 +1,43 @@
 {
-  "version": "0.1",
-  "language": "en-GB",
-  "languageSettings": [
-    {
-      "languageId": "bash",
-      "words": [
-        "adamralph",
-        "pipefail",
-        "nologo",
-        "nupkg"
-      ]
-    },
-    {
-      "languageId": "csharp",
-      "words": [
+    "version": "0.1",
+    "language": "en-GB",
+    "overrides": [
+        {
+            "filename": "{*.cmd,*.cs,*.csproj,*.sh,*.props}",
+            "language": "en-US"
+        },
+        {
+            "filename": "{.cspell.json,log.txt,*.svg,PublicAPI.*.txt}",
+            "enabled": false
+        }
+    ],
+    "words": [
         "arity",
-        "foos",
-        "Xunit"
-      ]
-    },
-    {
-      "languageId": "cmd",
-      "words": [
+        "Autobuild",
+        "Batchfile",
+        "CircleCI",
+        "CodeQL",
+        "counterclaim",
         "errorlevel",
-        "nologo"
-      ]
-    },
-    {
-      "languageId": "csproj",
-      "words": [
+        "foos",
+        "Ibento",
+        "Juncker",
+        "LINQ",
+        "Lykke",
+        "macOS",
+        "markdownlint",
+        "MVVM",
+        "MyGet",
         "netcoreapp",
         "netstandard",
-        "visualstudio",
+        "NOLOGO",
+        "NuGet",
+        "pipefail",
+        "SHFMT",
+        "Statik",
+        "sublicense",
+        "uninstantiated",
+        "Walkies",
         "xunit"
-      ]
-    },
-    {
-      "languageId": "markdown",
-      "words": [
-        "Batchfile",
-        "pipefail"
-      ]
-    },
-    {
-      "languageId": "yaml",
-      "words": [
-        "adamralph",
-        "markdownlint",
-        "nologo",
-        "nupkg",
-        "refs",
-        "SHFMT"
-      ]
-    }
-  ],
-  "overrides": [
-    {
-      "filename": "{*.cmd,*.cs,*.csproj,*.sh,*.props}",
-      "language": "en-US"
-    },
-    {
-      "filename": "*.cmd",
-      "languageId": "cmd"
-    },
-    {
-      "filename": "*.csproj",
-      "languageId": "csproj"
-    },
-    {
-      "filename": "{.cspell.json,log.txt,*.svg,PublicAPI.*.txt}",
-      "enabled": false
-    },
-    {
-      "filename": "*.sh",
-      "languageId": "bash"
-    },
-    {
-      "filename": "*.yml",
-      "languageId": "yaml"
-    }
-  ],
-  "words": [
-    "Autobuild",
-    "CircleCI",
-    "CodeQL",
-    "counterclaim",
-    "Ibento",
-    "Juncker",
-    "LINQ",
-    "Lykke",
-    "macOS",
-    "markdownlint",
-    "MVVM",
-    "MyGet",
-    "NuGet",
-    "Statik",
-    "sublicense",
-    "uninstantiated",
-    "Walkies"
-  ]
+    ]
 }
