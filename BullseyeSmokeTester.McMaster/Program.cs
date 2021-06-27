@@ -11,7 +11,7 @@ var foo = app.Option<string>("-f|--foo <foo>", "A value used for something.", Co
 app.Argument("targets", "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed.", true);
 foreach (var option in Options.Definitions)
 {
-    app.Option((option.ShortName != null ? $"{option.ShortName}|" : "") + option.LongName, option.Description, CommandOptionType.NoValue);
+    _ = app.Option((option.ShortName != null ? $"{option.ShortName}|" : "") + option.LongName, option.Description, CommandOptionType.NoValue);
 }
 
 app.OnExecute(() =>

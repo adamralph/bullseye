@@ -73,6 +73,8 @@ Target(
                 throw new NotImplementedException("bad");
             case 20:
                 throw new NotImplementedException("ugly");
+            default:
+                break;
         }
     });
 
@@ -89,6 +91,8 @@ Target(
                 throw new InvalidOperationException("bad");
             case 150:
                 throw new InvalidOperationException("ugly");
+            default:
+                break;
         }
     });
 
