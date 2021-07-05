@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.8.0
+
+### Enhancements
+
+- [#597: add README.md to package](https://github.com/adamralph/bullseye/pull/597)
+
+### Fixed bugs
+
+- [#594: source stepping doesn't work](https://github.com/adamralph/bullseye/pull/594)
+
 ## 3.7.0
 
 ### Enhancements
