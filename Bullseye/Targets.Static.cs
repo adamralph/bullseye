@@ -133,7 +133,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public static void RunTargetsWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            instance.RunWithoutExitingAsync(targets, options, messageOnly, logPrefix);
+            instance.RunWithoutExiting(targets, options, messageOnly, logPrefix);
 
         /// <summary>
         /// Runs the previously specified targets.
