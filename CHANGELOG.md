@@ -10,6 +10,12 @@
 
 - [#594: source stepping doesn't work](https://github.com/adamralph/bullseye/pull/594)
 
+## 3.7.1
+
+### Fixed bugs
+
+- [#611: Static RunTargetsWithoutExiting overload with Options returns before running targets](https://github.com/adamralph/bullseye/issues/611)
+
 ## 3.7.0
 
 ### Enhancements
