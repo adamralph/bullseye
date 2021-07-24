@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,14 +31,14 @@ namespace Bullseye.Internal
                 var runningTargets = new ConcurrentDictionary<string, Task>();
                 if (parallel)
                 {
-                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, new Stack<string>()));
+                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, ImmutableStack<string>.Empty));
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var name in names)
                     {
-                        await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, new Stack<string>()).Tax();
+                        await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, ImmutableStack<string>.Empty).Tax();
                     }
                 }
             }
@@ -50,40 +51,45 @@ namespace Bullseye.Internal
             await log.Succeeded(names).Tax();
         }
 
-        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, Stack<string> dependencyStack)
+        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, ImmutableStack<string> dependencyStack)
         {
-            dependencyStack.Push(name);
+            var newStack = dependencyStack.Push(name);
 
             if (!this.Contains(name))
             {
-                await log.Verbose(dependencyStack, "Doesn't exist. Ignoring.").Tax();
+                await log.Verbose(newStack, "Doesn't exist. Ignoring.").Tax();
                 return;
             }
 
-            await log.Verbose(dependencyStack, "Walking dependencies...").Tax();
+            if (runningTargets.TryGetValue(name, out var task))
+            {
+                await log.Verbose(newStack, "Already traversed. Awaiting...").Tax();
+                await task.Tax();
+                return;
+            }
+
+            await log.Verbose(newStack, "Walking dependencies...").Tax();
 
             var target = this[name];
 
             if (parallel)
             {
-                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, dependencyStack));
+                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, newStack));
                 await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, dependencyStack).Tax();
+                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, newStack).Tax();
                 }
             }
 
             if (!skipDependencies || explicitTargets.Contains(name))
             {
-                await log.Verbose(dependencyStack, "Awaiting...").Tax();
+                await log.Verbose(newStack, "Awaiting...").Tax();
                 await runningTargets.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).Tax();
             }
-
-            _ = dependencyStack.Pop();
         }
 
         private void CheckForMissingDependencies()

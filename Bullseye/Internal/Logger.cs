@@ -53,7 +53,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public async Task Verbose(Stack<string> targets, string message)
+        public async Task Verbose(IEnumerable<string> targets, string message)
         {
             if (this.verbose)
             {
@@ -261,7 +261,7 @@ namespace Bullseye.Internal
 
         private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Reset}";
 
-        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Reset}";
+        private string Message(IEnumerable<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Reset}";
 
         private string Message(string color, string text, IEnumerable<string> targets, TimeSpan? duration) =>
             $"{GetPrefix()}{color}{text}{p.Reset} {p.Target}({targets.Spaced()}){p.Reset}{GetSuffix(false, duration)}{p.Reset}";
@@ -281,7 +281,7 @@ namespace Bullseye.Internal
         private string GetPrefix() =>
             $"{p.Prefix}{prefix}:{p.Reset} ";
 
-        private string GetPrefix(Stack<string> targets) =>
+        private string GetPrefix(IEnumerable<string> targets) =>
             $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{string.Join($"{p.Default}/{p.Target}", targets.Reverse())}{p.Default}:{p.Reset} ";
 
         private string GetPrefix(string target) =>
