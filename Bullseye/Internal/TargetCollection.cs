@@ -62,6 +62,13 @@ namespace Bullseye.Internal
                     return;
                 }
 
+                if (runningTargets.TryGetValue(name, out var runningTarget))
+                {
+                    await log.Verbose(dependencyStack, "Awaiting...").Tax();
+                    await runningTarget.Tax();
+                    return;
+                }
+
                 await log.Verbose(dependencyStack, "Walking dependencies...").Tax();
 
                 var target = this[name];
