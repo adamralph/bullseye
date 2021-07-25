@@ -23,6 +23,8 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- --verbose || goto :er
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose || goto :error
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-color || goto :error
 
+dotnet run -c Release --no-build -p BullseyeSmokeTester -- large-graph --verbose --parallel || goto :error
+
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --help || goto :error
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build || goto :error
 

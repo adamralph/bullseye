@@ -25,6 +25,8 @@ dotnet run -c Release --no-build -p BullseyeSmokeTester -- --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose
 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-color
 
+dotnet run -c Release --no-build -p BullseyeSmokeTester -- large-graph --verbose --parallel
+
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --help
 dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build
 
