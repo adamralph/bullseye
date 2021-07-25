@@ -5,10 +5,12 @@
 ### Enhancements
 
 - [#597: add README.md to package](https://github.com/adamralph/bullseye/pull/597)
+- [#622: Avoid walking the dependencies of a target more than once](https://github.com/adamralph/bullseye/issues/622)
 
 ### Fixed bugs
 
 - [#594: source stepping doesn't work](https://github.com/adamralph/bullseye/pull/594)
+- [#620: Verbose log shows incorrect targets when a dependency doesn't exist](https://github.com/adamralph/bullseye/issues/620)
 
 ## 3.7.1
 
