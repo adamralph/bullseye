@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bullseye.Internal
@@ -27,17 +27,21 @@ namespace Bullseye.Internal
 
             try
             {
-                var runningTargets = new ConcurrentDictionary<string, Task>();
-                if (parallel)
+                var runningTargets = new Dictionary<string, Task>();
+
+                using (var sync = new SemaphoreSlim(1, 1))
                 {
-                    var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, new Stack<string>()));
-                    await Task.WhenAll(tasks).Tax();
-                }
-                else
-                {
-                    foreach (var name in names)
+                    if (parallel)
                     {
-                        await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, new Stack<string>()).Tax();
+                        var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync, new Stack<string>()));
+                        await Task.WhenAll(tasks).Tax();
+                    }
+                    else
+                    {
+                        foreach (var name in names)
+                        {
+                            await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync, new Stack<string>()).Tax();
+                        }
                     }
                 }
             }
@@ -50,7 +54,7 @@ namespace Bullseye.Internal
             await log.Succeeded(names).Tax();
         }
 
-        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, Stack<string> dependencyStack)
+        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, Dictionary<string, Task> runningTargets, SemaphoreSlim sync, Stack<string> dependencyStack)
         {
             dependencyStack.Push(name);
 
@@ -62,7 +66,22 @@ namespace Bullseye.Internal
                     return;
                 }
 
-                if (runningTargets.TryGetValue(name, out var runningTarget))
+                bool gotValue;
+                Task runningTarget;
+
+                // cannot use WaitAsync() as it is not reentrant
+                sync.Wait();
+
+                try
+                {
+                    gotValue = runningTargets.TryGetValue(name, out runningTarget);
+                }
+                finally
+                {
+                    _ = sync.Release();
+                }
+
+                if (gotValue)
                 {
                     await log.Verbose(dependencyStack, "Awaiting...").Tax();
                     await runningTarget.Tax();
@@ -75,21 +94,38 @@ namespace Bullseye.Internal
 
                 if (parallel)
                 {
-                    var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, dependencyStack));
+                    var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync, dependencyStack));
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var dependency in target.Dependencies)
                     {
-                        await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, dependencyStack).Tax();
+                        await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync, dependencyStack).Tax();
                     }
                 }
 
                 if (!skipDependencies || explicitTargets.Contains(name))
                 {
                     await log.Verbose(dependencyStack, "Awaiting...").Tax();
-                    await runningTargets.GetOrAdd(name, _ => target.RunAsync(dryRun, parallel, log, messageOnly)).Tax();
+
+                    // cannot use WaitAsync() as it is not reentrant
+                    sync.Wait();
+
+                    try
+                    {
+                        if (!runningTargets.TryGetValue(name, out runningTarget))
+                        {
+                            runningTarget = target.RunAsync(dryRun, parallel, log, messageOnly);
+                            runningTargets.Add(name, runningTarget);
+                        }
+                    }
+                    finally
+                    {
+                        _ = sync.Release();
+                    }
+
+                    await runningTarget.Tax();
                 }
             }
             finally
