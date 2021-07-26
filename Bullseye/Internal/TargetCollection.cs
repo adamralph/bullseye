@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Bullseye.Internal
 
             try
             {
-                var runningTargets = new Dictionary<string, Task>();
+                var runningTargets = new ConcurrentDictionary<string, Task>();
 
                 using (var sync = new SemaphoreSlim(1, 1))
                 {
@@ -54,7 +55,7 @@ namespace Bullseye.Internal
             await log.Succeeded(names).Tax();
         }
 
-        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, Dictionary<string, Task> runningTargets, SemaphoreSlim sync, Stack<string> dependencyStack)
+        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, ConcurrentDictionary<string, Task> runningTargets, SemaphoreSlim sync, Stack<string> dependencyStack)
         {
             dependencyStack.Push(name);
 
@@ -66,22 +67,7 @@ namespace Bullseye.Internal
                     return;
                 }
 
-                bool gotValue;
-                Task runningTarget;
-
-                // cannot use WaitAsync() as it is not reentrant
-                sync.Wait();
-
-                try
-                {
-                    gotValue = runningTargets.TryGetValue(name, out runningTarget);
-                }
-                finally
-                {
-                    _ = sync.Release();
-                }
-
-                if (gotValue)
+                if (runningTargets.TryGetValue(name, out var runningTarget))
                 {
                     await log.Verbose(dependencyStack, "Awaiting...").Tax();
                     await runningTarget.Tax();
@@ -117,7 +103,7 @@ namespace Bullseye.Internal
                         if (!runningTargets.TryGetValue(name, out runningTarget))
                         {
                             runningTarget = target.RunAsync(dryRun, parallel, log, messageOnly);
-                            runningTargets.Add(name, runningTarget);
+                            _ = runningTargets.TryAdd(name, runningTarget);
                         }
                     }
                     finally
