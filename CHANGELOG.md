@@ -12,6 +12,7 @@
 - [#594: source stepping doesn't work](https://github.com/adamralph/bullseye/pull/594)
 - [#620: Verbose log shows incorrect targets when a dependency doesn't exist](https://github.com/adamralph/bullseye/issues/620)
 - [#626: Targets may be run more than once when running in parallel](https://github.com/adamralph/bullseye/issues/626)
+- [#632: Dependency paths get jumbled in verbose logs when running in parallel](https://github.com/adamralph/bullseye/issues/632)
 
 ## 3.7.1
 
