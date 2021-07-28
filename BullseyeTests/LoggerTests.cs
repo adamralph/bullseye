@@ -108,7 +108,7 @@ namespace BullseyeTests
 
             var targets = new List<string> { "target1", "target2", "target3" };
 
-            var verboseTargets = new Stack<string>(new[] { "verboseTarget1", "verboseTarget2", "verboseTarget3" });
+            var verboseTargets = new Queue<string>(new[] { "verboseTarget1", "verboseTarget2", "verboseTarget3" });
             var verboseTargetsMessage = "verboseMessage";
 
             var version = "version";

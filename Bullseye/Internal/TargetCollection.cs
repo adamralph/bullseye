@@ -33,14 +33,14 @@ namespace Bullseye.Internal
                 {
                     if (parallel)
                     {
-                        var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync, new Stack<string>()));
+                        var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync));
                         await Task.WhenAll(tasks).Tax();
                     }
                     else
                     {
                         foreach (var name in names)
                         {
-                            await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync, new Stack<string>()).Tax();
+                            await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync).Tax();
                         }
                     }
                 }
@@ -54,83 +54,81 @@ namespace Bullseye.Internal
             await log.Succeeded(names).Tax();
         }
 
-        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, Dictionary<string, Task> runningTargets, SemaphoreSlim sync, Stack<string> dependencyStack)
+        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, Dictionary<string, Task> runningTargets, SemaphoreSlim sync, Queue<string> dependencyPath = null)
         {
-            dependencyStack.Push(name);
+            if (log.IsVerbose)
+            {
+                // can switch to ImmutableQueue after dropping support for .NET Framework
+                dependencyPath = dependencyPath == null ? new Queue<string>() : new Queue<string>(dependencyPath);
+                dependencyPath.Enqueue(name);
+            }
+
+            if (!this.Contains(name))
+            {
+                await log.Verbose(dependencyPath, "Doesn't exist. Ignoring.").Tax();
+                return;
+            }
+
+            bool gotValue;
+            Task runningTarget;
+
+            // cannot use WaitAsync() as it is not reentrant
+            sync.Wait();
 
             try
             {
-                if (!this.Contains(name))
-                {
-                    await log.Verbose(dependencyStack, "Doesn't exist. Ignoring.").Tax();
-                    return;
-                }
+                gotValue = runningTargets.TryGetValue(name, out runningTarget);
+            }
+            finally
+            {
+                _ = sync.Release();
+            }
 
-                bool gotValue;
-                Task runningTarget;
+            if (gotValue)
+            {
+                await log.Verbose(dependencyPath, "Awaiting...").Tax();
+                await runningTarget.Tax();
+                return;
+            }
+
+            await log.Verbose(dependencyPath, "Walking dependencies...").Tax();
+
+            var target = this[name];
+
+            if (parallel)
+            {
+                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync, dependencyPath));
+                await Task.WhenAll(tasks).Tax();
+            }
+            else
+            {
+                foreach (var dependency in target.Dependencies)
+                {
+                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync, dependencyPath).Tax();
+                }
+            }
+
+            if (!skipDependencies || explicitTargets.Contains(name))
+            {
+                await log.Verbose(dependencyPath, "Awaiting...").Tax();
 
                 // cannot use WaitAsync() as it is not reentrant
                 sync.Wait();
 
                 try
                 {
-                    gotValue = runningTargets.TryGetValue(name, out runningTarget);
+                    if (!runningTargets.TryGetValue(name, out runningTarget))
+                    {
+                        runningTarget = target.RunAsync(dryRun, parallel, log, messageOnly);
+                        runningTargets.Add(name, runningTarget);
+                    }
                 }
                 finally
                 {
                     _ = sync.Release();
                 }
 
-                if (gotValue)
-                {
-                    await log.Verbose(dependencyStack, "Awaiting...").Tax();
-                    await runningTarget.Tax();
-                    return;
-                }
-
-                await log.Verbose(dependencyStack, "Walking dependencies...").Tax();
-
-                var target = this[name];
-
-                if (parallel)
-                {
-                    var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync, dependencyStack));
-                    await Task.WhenAll(tasks).Tax();
-                }
-                else
-                {
-                    foreach (var dependency in target.Dependencies)
-                    {
-                        await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync, dependencyStack).Tax();
-                    }
-                }
-
-                if (!skipDependencies || explicitTargets.Contains(name))
-                {
-                    await log.Verbose(dependencyStack, "Awaiting...").Tax();
-
-                    // cannot use WaitAsync() as it is not reentrant
-                    sync.Wait();
-
-                    try
-                    {
-                        if (!runningTargets.TryGetValue(name, out runningTarget))
-                        {
-                            runningTarget = target.RunAsync(dryRun, parallel, log, messageOnly);
-                            runningTargets.Add(name, runningTarget);
-                        }
-                    }
-                    finally
-                    {
-                        _ = sync.Release();
-                    }
-
-                    await runningTarget.Tax();
-                }
-            }
-            finally
-            {
-                _ = dependencyStack.Pop();
+                await runningTarget.Tax();
             }
         }
 

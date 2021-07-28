@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -101,7 +102,23 @@ targets.Add("abc", () => Console.Out.WriteLine("abc"));
 targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLine("def"));
 targets.Add("default", DependsOn("def"));
 
+var largeGraph = new Targets();
+var largeGraphTargetNames = new List<string>();
+
+foreach (var name in Enumerable.Range(1, 10).Select(i => i.ToString(CultureInfo.InvariantCulture)))
+{
+    largeGraph.Add(name, largeGraphTargetNames.TakeLast(2), () => { });
+    largeGraphTargetNames.Add(name);
+}
+
+largeGraph.Add("large-graph", DependsOn(largeGraphTargetNames.Last()));
+
 var (options, targetNames) = Options.Parse(args);
+
+if (targetNames.Contains("large-graph"))
+{
+    await largeGraph.RunAndExitAsync(targetNames, options);
+}
 
 if (!options.ShowHelp)
 {

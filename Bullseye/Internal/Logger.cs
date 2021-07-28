@@ -19,10 +19,10 @@ namespace Bullseye.Internal
         private readonly bool dryRun;
         private readonly bool parallel;
         private readonly Palette p;
-        private readonly bool verbose;
-
         private int resultOrdinal;
         private TimeSpan? totalDuration;
+
+        public bool IsVerbose { get; }
 
         public Logger(TextWriter writer, string prefix, bool skipDependencies, bool dryRun, bool parallel, Palette palette, bool verbose)
         {
@@ -32,12 +32,12 @@ namespace Bullseye.Internal
             this.dryRun = dryRun;
             this.parallel = parallel;
             this.p = palette;
-            this.verbose = verbose;
+            this.IsVerbose = verbose;
         }
 
         public async Task Version(Func<string> getVersion)
         {
-            if (this.verbose)
+            if (this.IsVerbose)
             {
                 await this.writer.WriteLineAsync(Message(p.Verbose, $"Bullseye version: {getVersion()}")).Tax();
             }
@@ -47,17 +47,17 @@ namespace Bullseye.Internal
 
         public async Task Verbose(Func<string> getMessage)
         {
-            if (this.verbose)
+            if (this.IsVerbose)
             {
                 await this.writer.WriteLineAsync(Message(p.Verbose, getMessage())).Tax();
             }
         }
 
-        public async Task Verbose(Stack<string> targets, string message)
+        public async Task Verbose(IEnumerable<string> dependencyPath, string message)
         {
-            if (this.verbose)
+            if (this.IsVerbose)
             {
-                await this.writer.WriteLineAsync(Message(targets, p.Verbose, message)).Tax();
+                await this.writer.WriteLineAsync(Message(dependencyPath, p.Verbose, message)).Tax();
             }
         }
 
@@ -261,7 +261,7 @@ namespace Bullseye.Internal
 
         private string Message(string color, string text) => $"{GetPrefix()}{color}{text}{p.Reset}";
 
-        private string Message(Stack<string> targets, string color, string text) => $"{GetPrefix(targets)}{color}{text}{p.Reset}";
+        private string Message(IEnumerable<string> dependencyPath, string color, string text) => $"{GetPrefix(dependencyPath)}{color}{text}{p.Reset}";
 
         private string Message(string color, string text, IEnumerable<string> targets, TimeSpan? duration) =>
             $"{GetPrefix()}{color}{text}{p.Reset} {p.Target}({targets.Spaced()}){p.Reset}{GetSuffix(false, duration)}{p.Reset}";
@@ -281,8 +281,8 @@ namespace Bullseye.Internal
         private string GetPrefix() =>
             $"{p.Prefix}{prefix}:{p.Reset} ";
 
-        private string GetPrefix(Stack<string> targets) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{string.Join($"{p.Default}/{p.Target}", targets.Reverse())}{p.Default}:{p.Reset} ";
+        private string GetPrefix(IEnumerable<string> dependencyPath) =>
+            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{string.Join($"{p.Default}/{p.Target}", dependencyPath)}{p.Default}:{p.Reset} ";
 
         private string GetPrefix(string target) =>
             $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}:{p.Reset} ";
