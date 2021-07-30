@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Bullseye.Internal;
 using Xunit;
@@ -22,7 +23,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string>(), default, default, default);
+            await targets.RunAsync(new List<string>(), default, default, default, default, default(TextWriter));
 
             // assert
             Assert.True(@default);
@@ -43,7 +44,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { nameof(first), nameof(second) }, default, default, default);
+            await targets.RunAsync(new List<string> { nameof(first), nameof(second) }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.True(first);
@@ -63,7 +64,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, default, default, default));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -84,7 +85,7 @@ namespace BullseyeTests
 
             // act
             var exception = await Record.ExceptionAsync(
-                () => targets.RunAsync(new List<string> { nameof(existing), "non-existing", "also-non-existing" }, default, default, default));
+                () => targets.RunAsync(new List<string> { nameof(existing), "non-existing", "also-non-existing" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -105,7 +106,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { "target", "-n" }, default, default, default);
+            await targets.RunAsync(new List<string> { "target", "-n" }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.False(ran);
@@ -123,7 +124,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, default, default, default));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -144,7 +145,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, default, default, default));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -164,8 +165,8 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(default, default, default, default);
-            await targets.RunAsync(default, default, default, default);
+            await targets.RunAsync(default, default, default, default, default, default(TextWriter));
+            await targets.RunAsync(default, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Equal(2, count);

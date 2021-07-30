@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bullseye.Internal;
@@ -21,7 +22,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string>(), default, default, default);
+            await targets.RunAsync(new List<string>(), default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Equal(2, inputsReceived.Count);
@@ -41,7 +42,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string>(), default, default, default);
+            await targets.RunAsync(new List<string>(), default, default, default, default, default(TextWriter));
 
             // assert
             Assert.False(ran);

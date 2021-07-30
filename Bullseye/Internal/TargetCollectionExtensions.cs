@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -9,19 +10,22 @@ namespace Bullseye.Internal
 {
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix, bool exit)
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix, bool exit, TextWriter outputWriter, TextWriter diagnosticsWriter)
         {
             var argList = args.Sanitize().ToList();
             var (options, names) = Options.Parse(argList);
 
-            return RunAsync(targets, names, options, messageOnly, logPrefix, exit, log => log.Verbose(() => $"Args: {string.Join(" ", argList)}"));
+            return RunAsync(targets, names, options, messageOnly, logPrefix, exit, log => log.Verbose(() => $"Args: {string.Join(" ", argList)}"), outputWriter, diagnosticsWriter);
         }
 
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit) =>
-            RunAsync(targets, names.Sanitize().ToList(), options, messageOnly, logPrefix, exit, default);
+        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, TextWriter outputWriter, TextWriter diagnosticsWriter) =>
+            RunAsync(targets, names.Sanitize().ToList(), options, messageOnly, logPrefix, exit, default, outputWriter, diagnosticsWriter);
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs)
+        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, TextWriter outputWriter, TextWriter diagnosticsWriter)
         {
+            outputWriter = outputWriter ?? Console.Out;
+            diagnosticsWriter = diagnosticsWriter ?? Console.Error;
+
             targets = targets ?? new TargetCollection();
             options = options ?? new Options();
             messageOnly = messageOnly ?? (_ => false);
@@ -32,7 +36,7 @@ namespace Bullseye.Internal
                 var entryAssembly = Assembly.GetEntryAssembly();
                 if (entryAssembly == null)
                 {
-                    await Console.Error.WriteLineAsync($"{logPrefix}: Failed to get the entry assembly. Using default log prefix \"{logPrefix}\".").Tax();
+                    await diagnosticsWriter.WriteLineAsync($"{logPrefix}: Failed to get the entry assembly. Using default log prefix \"{logPrefix}\".").Tax();
                 }
                 else
                 {
@@ -50,7 +54,7 @@ namespace Bullseye.Internal
                 catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    await Console.Error.WriteLineAsync($"{logPrefix}: Failed to clear the console: {ex}").Tax();
+                    await diagnosticsWriter.WriteLineAsync($"{logPrefix}: Failed to clear the console: {ex}").Tax();
                 }
             }
 
@@ -59,7 +63,7 @@ namespace Bullseye.Internal
             {
                 if (options.Verbose)
                 {
-                    await Console.Error.WriteLineAsync($"{logPrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
+                    await diagnosticsWriter.WriteLineAsync($"{logPrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
                 }
 
                 noColor = true;
@@ -74,11 +78,11 @@ namespace Bullseye.Internal
                             ? OperatingSystem.MacOS
                             : OperatingSystem.Unknown;
 
-            var terminal = await Terminal.TryConfigure(noColor, operatingSystem, options.Verbose ? Console.Error : NullTextWriter.Instance, logPrefix).Tax();
+            var terminal = await Terminal.TryConfigure(noColor, operatingSystem, options.Verbose ? diagnosticsWriter : NullTextWriter.Instance, logPrefix).Tax();
 
             try
             {
-                await RunAsync(targets, names, noColor, options, messageOnly, logPrefix, exit, logArgs, operatingSystem).Tax();
+                await RunAsync(targets, names, noColor, options, messageOnly, logPrefix, exit, logArgs, operatingSystem, outputWriter, diagnosticsWriter).Tax();
             }
             finally
             {
@@ -86,13 +90,13 @@ namespace Bullseye.Internal
             }
         }
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, bool noColor, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, OperatingSystem operatingSystem)
+        private static async Task RunAsync(TargetCollection targets, List<string> names, bool noColor, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, OperatingSystem operatingSystem, TextWriter outputWriter, TextWriter diagnosticsWriter)
         {
             var (host, isHostDetected) = options.Host.DetectIfUnknown();
 
             var palette = new Palette(noColor, options.NoExtendedChars, host, operatingSystem);
-            var output = new Output(Console.Out, palette, operatingSystem);
-            var log = new Logger(Console.Error, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
+            var output = new Output(outputWriter, palette, operatingSystem);
+            var log = new Logger(diagnosticsWriter, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
 
             await log.Version(() => typeof(TargetCollectionExtensions).Assembly.GetVersion()).Tax();
             await log.Verbose(() => $"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();

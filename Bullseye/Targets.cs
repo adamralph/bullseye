@@ -204,7 +204,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public void RunAndExit(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true).GetAwaiter().GetResult();
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true, Console.Out, Console.Error).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -222,7 +222,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public void RunAndExit(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true).GetAwaiter().GetResult();
+            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true, Console.Out, Console.Error).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -240,7 +240,7 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true);
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true, Console.Out, Console.Error);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -259,7 +259,7 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true);
+            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true, Console.Out, Console.Error);
 
         /// <summary>
         /// Runs the targets.
@@ -277,7 +277,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public void RunWithoutExiting(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false).GetAwaiter().GetResult();
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false, Console.Out, Console.Error).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets.
@@ -296,7 +296,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         public void RunWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false).GetAwaiter().GetResult();
+            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false, Console.Out, Console.Error).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets.
@@ -315,7 +315,7 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false);
+            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false, Console.Out, Console.Error);
 
         /// <summary>
         /// Runs the targets.
@@ -335,6 +335,6 @@ namespace Bullseye
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunWithoutExitingAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false);
+            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false, Console.Out, Console.Error);
     }
 }
