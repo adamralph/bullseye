@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Bullseye.Internal;
@@ -24,7 +26,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { "third" }, default, default, default);
+            await targets.RunAsync(new List<string> { "third" }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Equal(3, ran.Count);
@@ -47,7 +49,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { "third" }, default, default, default);
+            await targets.RunAsync(new List<string> { "third" }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Equal(3, ran.Count);
@@ -69,7 +71,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { "second" }, default, default, default);
+            await targets.RunAsync(new List<string> { "second" }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Equal(2, ran.Count);
@@ -87,7 +89,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, default, default, default));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -105,7 +107,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, default, default, default));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -124,7 +126,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -136,22 +138,29 @@ namespace BullseyeTests
         {
             // arrange
             var ran = new List<string>();
+            string diagnostics = null;
 
-            var targets = new TargetCollection
+            using (var diagnosticsWriter = new StringWriter())
             {
-                CreateTarget("first", () => ran.Add("first")),
-                CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
-                CreateTarget("third", new[] { "first", "second" }, () => ran.Add("third")),
-            };
+                var targets = new TargetCollection
+                {
+                    CreateTarget("first", () => ran.Add("first")),
+                    CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
+                    CreateTarget("third", new[] { "first", "second" }, () => ran.Add("third")),
+                };
 
-            // act
-            await targets.RunAsync(new List<string> { "third" }, default, default, default);
+                // act
+                await targets.RunAsync(new List<string> { "third", "--no-color", "--verbose" }, default, default, default, default, diagnosticsWriter);
 
-            // assert
+                // assert
+                diagnostics = diagnosticsWriter.ToString();
+            }
+
             Assert.Equal(3, ran.Count);
             Assert.Equal("first", ran[0]);
             Assert.Equal("second", ran[1]);
             Assert.Equal("third", ran[2]);
+            _ = Assert.Single(Regex.Matches(diagnostics, "first: Walking dependencies..."));
         }
 
         [Fact]
@@ -168,7 +177,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, default, default, default, default, default(TextWriter)));
 
             // assert
             Assert.NotNull(exception);
@@ -190,7 +199,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { "second", "-s" }, default, default, default);
+            await targets.RunAsync(new List<string> { "second", "-s" }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Contains("second", ran);
@@ -210,7 +219,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, default, default, default);
+            await targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Equal(2, ran.Count);
@@ -239,7 +248,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, default, default, default);
+            await targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, default, default, default, default, default(TextWriter));
 
             // assert
             Assert.Equal(1, buildStartTime);
