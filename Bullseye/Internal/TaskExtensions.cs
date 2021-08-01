@@ -8,5 +8,7 @@ namespace Bullseye.Internal
         public static ConfiguredTaskAwaitable Tax(this Task task) => task.ConfigureAwait(false);
 
         public static ConfiguredTaskAwaitable<TResult> Tax<TResult>(this Task<TResult> task) => task.ConfigureAwait(false);
+
+        public static bool IsAwaitable(this Task task) => !task.IsCanceled && !task.IsFaulted && !task.IsCompleted;
     }
 }
