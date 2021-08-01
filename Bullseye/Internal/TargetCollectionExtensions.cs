@@ -10,7 +10,14 @@ namespace Bullseye.Internal
 {
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> args, Func<Exception, bool> messageOnly, string logPrefix, bool exit, TextWriter outputWriter, TextWriter diagnosticsWriter)
+        public static Task RunAsync(
+            this TargetCollection targets,
+            IEnumerable<string> args,
+            Func<Exception, bool> messageOnly,
+            string logPrefix,
+            bool exit,
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter)
         {
             var argList = args.Sanitize().ToList();
             var (options, names) = Options.Parse(argList);
@@ -18,10 +25,27 @@ namespace Bullseye.Internal
             return RunAsync(targets, names, options, messageOnly, logPrefix, exit, log => log.Verbose(() => $"Args: {string.Join(" ", argList)}"), outputWriter, diagnosticsWriter);
         }
 
-        public static Task RunAsync(this TargetCollection targets, IEnumerable<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, TextWriter outputWriter, TextWriter diagnosticsWriter) =>
+        public static Task RunAsync(
+            this TargetCollection targets,
+            IEnumerable<string> names,
+            Options options,
+            Func<Exception, bool> messageOnly,
+            string logPrefix,
+            bool exit,
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter) =>
             RunAsync(targets, names.Sanitize().ToList(), options, messageOnly, logPrefix, exit, default, outputWriter, diagnosticsWriter);
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, TextWriter outputWriter, TextWriter diagnosticsWriter)
+        private static async Task RunAsync(
+            TargetCollection targets,
+            List<string> names,
+            Options options,
+            Func<Exception, bool> messageOnly,
+            string logPrefix,
+            bool exit,
+            Func<Logger, Task> logArgs,
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter)
         {
             outputWriter = outputWriter ?? Console.Out;
             diagnosticsWriter = diagnosticsWriter ?? Console.Error;
@@ -90,7 +114,18 @@ namespace Bullseye.Internal
             }
         }
 
-        private static async Task RunAsync(TargetCollection targets, List<string> names, bool noColor, Options options, Func<Exception, bool> messageOnly, string logPrefix, bool exit, Func<Logger, Task> logArgs, OperatingSystem operatingSystem, TextWriter outputWriter, TextWriter diagnosticsWriter)
+        private static async Task RunAsync(
+            TargetCollection targets,
+            List<string> names,
+            bool noColor,
+            Options options,
+            Func<Exception, bool> messageOnly,
+            string logPrefix,
+            bool exit,
+            Func<Logger, Task> logArgs,
+            OperatingSystem operatingSystem,
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter)
         {
             var (host, isHostDetected) = options.Host.DetectIfUnknown();
 
@@ -131,7 +166,13 @@ namespace Bullseye.Internal
             }
         }
 
-        private static async Task RunAsync(this TargetCollection targets, List<string> names, Options options, Func<Exception, bool> messageOnly, Output output, Logger log)
+        private static async Task RunAsync(
+            this TargetCollection targets,
+            List<string> names,
+            Options options,
+            Func<Exception, bool> messageOnly,
+            Output output,
+            Logger log)
         {
             if (options.UnknownOptions.Count > 0)
             {

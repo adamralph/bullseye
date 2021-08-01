@@ -13,7 +13,13 @@ namespace Bullseye.Internal
 
         protected override string GetKeyForItem(Target item) => item.Name;
 
-        public async Task RunAsync(IEnumerable<string> names, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
+        public async Task RunAsync(
+            IEnumerable<string> names,
+            bool skipDependencies,
+            bool dryRun,
+            bool parallel,
+            Logger log,
+            Func<Exception, bool> messageOnly)
         {
             if (!skipDependencies)
             {
@@ -54,7 +60,17 @@ namespace Bullseye.Internal
             await log.Succeeded(names).Tax();
         }
 
-        private async Task RunAsync(string name, IEnumerable<string> explicitTargets, bool skipDependencies, bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly, Dictionary<string, Task> runningTargets, SemaphoreSlim sync, Queue<string> dependencyPath = null)
+        private async Task RunAsync(
+            string name,
+            IEnumerable<string> explicitTargets,
+            bool skipDependencies,
+            bool dryRun,
+            bool parallel,
+            Logger log,
+            Func<Exception, bool> messageOnly,
+            Dictionary<string, Task> runningTargets,
+            SemaphoreSlim sync,
+            Queue<string> dependencyPath = null)
         {
             if (log.IsVerbose)
             {
