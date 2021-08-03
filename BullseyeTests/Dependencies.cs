@@ -161,6 +161,7 @@ namespace BullseyeTests
             Assert.Equal("second", ran[1]);
             Assert.Equal("third", ran[2]);
             _ = Assert.Single(Regex.Matches(diagnostics, "first: Walking dependencies..."));
+            _ = Assert.Single(Regex.Matches(diagnostics, "first: Awaiting..."));
         }
 
         [Fact]

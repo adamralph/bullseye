@@ -102,8 +102,12 @@ namespace Bullseye.Internal
 
             if (gotValue)
             {
-                await log.Verbose(dependencyPath, "Awaiting...").Tax();
-                await runningTarget.Tax();
+                if (runningTarget.IsAwaitable())
+                {
+                    await log.Verbose(dependencyPath, "Awaiting...").Tax();
+                    await runningTarget.Tax();
+                }
+
                 return;
             }
 
@@ -126,14 +130,16 @@ namespace Bullseye.Internal
 
             if (!skipDependencies || explicitTargets.Contains(name))
             {
-                await log.Verbose(dependencyPath, "Awaiting...").Tax();
-
                 // cannot use WaitAsync() as it is not reentrant
                 sync.Wait();
 
+                var targetAlreadyExisted = false;
+
                 try
                 {
-                    if (!runningTargets.TryGetValue(name, out runningTarget))
+                    targetAlreadyExisted = runningTargets.TryGetValue(name, out runningTarget);
+
+                    if (!targetAlreadyExisted)
                     {
                         runningTarget = target.RunAsync(dryRun, parallel, log, messageOnly);
                         runningTargets.Add(name, runningTarget);
@@ -144,7 +150,12 @@ namespace Bullseye.Internal
                     _ = sync.Release();
                 }
 
-                await runningTarget.Tax();
+                if (!targetAlreadyExisted || runningTarget.IsAwaitable())
+                {
+                    await log.Verbose(dependencyPath, "Awaiting...").Tax();
+
+                    await runningTarget.Tax();
+                }
             }
         }
 
