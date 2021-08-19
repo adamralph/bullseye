@@ -24,10 +24,6 @@ jobs:
     name: ${{ matrix.job.name }}
     runs-on: ${{ matrix.job.os }}
     steps:
-      - name: setup-dotnet 2.1.816
-        uses: actions/setup-dotnet@v1.8.1
-        with:
-          dotnet-version: "2.1.816"
       - name: setup-dotnet 3.1.410
         uses: actions/setup-dotnet@v1.8.1
         with:

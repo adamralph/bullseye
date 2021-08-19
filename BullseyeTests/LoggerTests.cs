@@ -1,6 +1,3 @@
-#if NETCOREAPP3_1_OR_GREATER
-#pragma warning disable IDE0063 // Use simple 'using' statement
-#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,30 +16,28 @@ namespace BullseyeTests
         public static async Task Logging()
         {
             // arrange
-            using (var writer = new StringWriter())
+            using var writer = new StringWriter();
+            var ordinal = 1;
+
+            // act
+            foreach (var @bool in new[] { true, false })
             {
-                var ordinal = 1;
+                await Write(writer, noColor: true, noExtendedChars: !@bool, default, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, ordinal++);
+            }
 
-                // act
-                foreach (var @bool in new[] { true, false })
+            foreach (var noColor in new[] { true, false })
+            {
+                foreach (var host in (Host[])Enum.GetValues(typeof(Host)))
                 {
-                    await Write(writer, noColor: true, noExtendedChars: !@bool, default, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, ordinal++);
-                }
-
-                foreach (var noColor in new[] { true, false })
-                {
-                    foreach (var host in (Host[])Enum.GetValues(typeof(Host)))
+                    foreach (var operatingSystem in (OperatingSystem[])Enum.GetValues(typeof(OperatingSystem)))
                     {
-                        foreach (var operatingSystem in (OperatingSystem[])Enum.GetValues(typeof(OperatingSystem)))
-                        {
-                            await Write(writer, noColor, noExtendedChars: false, host, operatingSystem, skipDependencies: true, dryRun: true, parallel: true, verbose: true, ordinal++);
-                        }
+                        await Write(writer, noColor, noExtendedChars: false, host, operatingSystem, skipDependencies: true, dryRun: true, parallel: true, verbose: true, ordinal++);
                     }
                 }
-
-                // assert
-                await AssertFile.Contains("../../../log.txt", writer.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
             }
+
+            // assert
+            await AssertFile.Contains("../../../log.txt", writer.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
         }
 
         private static async Task Write(
