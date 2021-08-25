@@ -18,7 +18,7 @@ namespace Bullseye.Internal
             bool skipDependencies,
             bool dryRun,
             bool parallel,
-            Logger log,
+            Output output,
             Func<Exception, bool> messageOnly)
         {
             if (!skipDependencies)
@@ -29,63 +29,70 @@ namespace Bullseye.Internal
             this.CheckForCircularDependencies();
             this.CheckContains(names);
 
-            await log.Starting(names).Tax();
+            var targets = names.Select(name => this[name]).ToList();
+
+            await this.RunAsync(targets, skipDependencies, dryRun, parallel, output, messageOnly).Tax();
+        }
+
+        private async Task RunAsync(
+            List<Target> targets,
+            bool skipDependencies,
+            bool dryRun,
+            bool parallel,
+            Output output,
+            Func<Exception, bool> messageOnly)
+        {
+            await output.Starting(targets).Tax();
 
             try
             {
-                var runningTargets = new Dictionary<string, Task>();
+                var runningTargets = new Dictionary<Target, Task>();
 
                 using (var sync = new SemaphoreSlim(1, 1))
                 {
                     if (parallel)
                     {
-                        var tasks = names.Select(name => this.RunAsync(name, names, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync));
+                        var tasks = targets.Select(target => this.RunAsync(target, targets, skipDependencies, dryRun, true, output, messageOnly, runningTargets, sync));
                         await Task.WhenAll(tasks).Tax();
                     }
                     else
                     {
-                        foreach (var name in names)
+                        foreach (var target in targets)
                         {
-                            await this.RunAsync(name, names, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync).Tax();
+                            await this.RunAsync(target, targets, skipDependencies, dryRun, false, output, messageOnly, runningTargets, sync).Tax();
                         }
                     }
                 }
             }
             catch (Exception)
             {
-                await log.Failed(names).Tax();
+                await output.Failed(targets).Tax();
                 throw;
             }
 
-            await log.Succeeded(names).Tax();
+            await output.Succeeded(targets).Tax();
         }
 
         private async Task RunAsync(
-            string name,
-            IEnumerable<string> explicitTargets,
+            Target target,
+            List<Target> explicitTargets,
             bool skipDependencies,
             bool dryRun,
             bool parallel,
-            Logger log,
+            Output output,
             Func<Exception, bool> messageOnly,
-            Dictionary<string, Task> runningTargets,
+            Dictionary<Target, Task> runningTargets,
             SemaphoreSlim sync,
-            Queue<string> dependencyPath = null)
+            Queue<Target> dependencyPath = null)
         {
-            if (log.IsVerbose)
+            if (output.Verbose)
             {
                 // can switch to ImmutableQueue after dropping support for .NET Framework
-                dependencyPath = dependencyPath == null ? new Queue<string>() : new Queue<string>(dependencyPath);
-                dependencyPath.Enqueue(name);
+                dependencyPath = dependencyPath == null ? new Queue<Target>() : new Queue<Target>(dependencyPath);
+                dependencyPath.Enqueue(target);
             }
 
-            if (!this.Contains(name))
-            {
-                await log.Verbose(dependencyPath, "Doesn't exist. Ignoring.").Tax();
-                return;
-            }
-
-            bool gotValue;
+            bool targetWasAlreadyStarted;
             Task runningTarget;
 
             // cannot use WaitAsync() as it is not reentrant
@@ -93,56 +100,64 @@ namespace Bullseye.Internal
 
             try
             {
-                gotValue = runningTargets.TryGetValue(name, out runningTarget);
+                targetWasAlreadyStarted = runningTargets.TryGetValue(target, out runningTarget);
             }
             finally
             {
                 _ = sync.Release();
             }
 
-            if (gotValue)
+            if (targetWasAlreadyStarted)
             {
                 if (runningTarget.IsAwaitable())
                 {
-                    await log.Verbose(dependencyPath, "Awaiting...").Tax();
+                    await output.Awaiting(target, dependencyPath).Tax();
                     await runningTarget.Tax();
                 }
 
                 return;
             }
 
-            await log.Verbose(dependencyPath, "Walking dependencies...").Tax();
-
-            var target = this[name];
+            await output.WalkingDependencies(target, dependencyPath).Tax();
 
             if (parallel)
             {
-                var tasks = target.Dependencies.Select(dependency => this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, true, log, messageOnly, runningTargets, sync, dependencyPath));
+                var tasks = target.Dependencies.Select(dependency => RunAsync(dependency));
                 await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await this.RunAsync(dependency, explicitTargets, skipDependencies, dryRun, false, log, messageOnly, runningTargets, sync, dependencyPath).Tax();
+                    await RunAsync(dependency).Tax();
                 }
             }
 
-            if (!skipDependencies || explicitTargets.Contains(name))
+            async Task RunAsync(string dependency)
+            {
+                if (!this.Contains(dependency))
+                {
+                    await output.IgnoringNonExistentDependency(target, dependency, dependencyPath).Tax();
+                }
+                else
+                {
+                    await this.RunAsync(this[dependency], explicitTargets, skipDependencies, dryRun, false, output, messageOnly, runningTargets, sync, dependencyPath).Tax();
+                }
+            }
+
+            if (!skipDependencies || explicitTargets.Contains(target))
             {
                 // cannot use WaitAsync() as it is not reentrant
                 sync.Wait();
 
-                var targetAlreadyExisted = false;
-
                 try
                 {
-                    targetAlreadyExisted = runningTargets.TryGetValue(name, out runningTarget);
+                    targetWasAlreadyStarted = runningTargets.TryGetValue(target, out runningTarget);
 
-                    if (!targetAlreadyExisted)
+                    if (!targetWasAlreadyStarted)
                     {
-                        runningTarget = target.RunAsync(dryRun, parallel, log, messageOnly);
-                        runningTargets.Add(name, runningTarget);
+                        runningTarget = target.RunAsync(dryRun, parallel, output, messageOnly, dependencyPath);
+                        runningTargets.Add(target, runningTarget);
                     }
                 }
                 finally
@@ -150,10 +165,9 @@ namespace Bullseye.Internal
                     _ = sync.Release();
                 }
 
-                if (!targetAlreadyExisted || runningTarget.IsAwaitable())
+                if (!targetWasAlreadyStarted || runningTarget.IsAwaitable())
                 {
-                    await log.Verbose(dependencyPath, "Awaiting...").Tax();
-
+                    await output.Awaiting(target, dependencyPath).Tax();
                     await runningTarget.Tax();
                 }
             }

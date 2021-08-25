@@ -13,144 +13,50 @@ namespace Bullseye.Internal
         public static Task RunAsync(
             this TargetCollection targets,
             IEnumerable<string> args,
-            Func<Exception, bool> messageOnly,
-            string logPrefix,
-            bool exit,
             TextWriter outputWriter,
-            TextWriter diagnosticsWriter)
+            TextWriter diagnostics,
+            string messagePrefix,
+            Func<Exception, bool> messageOnly,
+            bool exit)
         {
-            var argList = args.Sanitize().ToList();
-            var (options, names) = Options.Parse(argList);
+            var (options, names) = Options.Parse(args);
 
-            return RunAsync(targets, names, options, messageOnly, logPrefix, exit, log => log.Verbose(() => $"Args: {string.Join(" ", argList)}"), outputWriter, diagnosticsWriter);
+            return targets.RunAsync(args.Sanitize().ToList(), names, options, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
         }
 
         public static Task RunAsync(
             this TargetCollection targets,
             IEnumerable<string> names,
             Options options,
-            Func<Exception, bool> messageOnly,
-            string logPrefix,
-            bool exit,
             TextWriter outputWriter,
-            TextWriter diagnosticsWriter) =>
-            RunAsync(targets, names.Sanitize().ToList(), options, messageOnly, logPrefix, exit, default, outputWriter, diagnosticsWriter);
+            TextWriter diagnostics,
+            string messagePrefix,
+            Func<Exception, bool> messageOnly,
+            bool exit) =>
+            targets.RunAsync(new List<string>(), names.Sanitize().ToList(), options, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
 
         private static async Task RunAsync(
-            TargetCollection targets,
-            List<string> names,
+            this TargetCollection targets,
+            IReadOnlyCollection<string> args,
+            IReadOnlyCollection<string> names,
             Options options,
-            Func<Exception, bool> messageOnly,
-            string logPrefix,
-            bool exit,
-            Func<Logger, Task> logArgs,
             TextWriter outputWriter,
-            TextWriter diagnosticsWriter)
-        {
-            outputWriter = outputWriter ?? Console.Out;
-            diagnosticsWriter = diagnosticsWriter ?? Console.Error;
-
-            targets = targets ?? new TargetCollection();
-            options = options ?? new Options();
-            messageOnly = messageOnly ?? (_ => false);
-
-            if (logPrefix == null)
-            {
-                logPrefix = "Bullseye";
-                var entryAssembly = Assembly.GetEntryAssembly();
-                if (entryAssembly == null)
-                {
-                    await diagnosticsWriter.WriteLineAsync($"{logPrefix}: Failed to get the entry assembly. Using default log prefix \"{logPrefix}\".").Tax();
-                }
-                else
-                {
-                    logPrefix = entryAssembly.GetName().Name;
-                }
-            }
-
-            if (options.Clear)
-            {
-                try
-                {
-                    Console.Clear();
-                }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
-                {
-                    await diagnosticsWriter.WriteLineAsync($"{logPrefix}: Failed to clear the console: {ex}").Tax();
-                }
-            }
-
-            var noColor = options.NoColor;
-            if (Environment.GetEnvironmentVariable("NO_COLOR") != null)
-            {
-                if (options.Verbose)
-                {
-                    await diagnosticsWriter.WriteLineAsync($"{logPrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
-                }
-
-                noColor = true;
-            }
-
-            var operatingSystem =
-                RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                    ? OperatingSystem.Windows
-                    : RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
-                        ? OperatingSystem.Linux
-                        : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-                            ? OperatingSystem.MacOS
-                            : OperatingSystem.Unknown;
-
-            var terminal = await Terminal.TryConfigure(noColor, operatingSystem, options.Verbose ? diagnosticsWriter : NullTextWriter.Instance, logPrefix).Tax();
-
-            try
-            {
-                await RunAsync(targets, names, noColor, options, messageOnly, logPrefix, exit, logArgs, operatingSystem, outputWriter, diagnosticsWriter).Tax();
-            }
-            finally
-            {
-                await terminal.DisposeAsync().Tax();
-            }
-        }
-
-        private static async Task RunAsync(
-            TargetCollection targets,
-            List<string> names,
-            bool noColor,
-            Options options,
+            TextWriter diagnostics,
+            string messagePrefix,
             Func<Exception, bool> messageOnly,
-            string logPrefix,
-            bool exit,
-            Func<Logger, Task> logArgs,
-            OperatingSystem operatingSystem,
-            TextWriter outputWriter,
-            TextWriter diagnosticsWriter)
+            bool exit)
         {
-            var (host, isHostDetected) = options.Host.DetectIfUnknown();
-
-            var palette = new Palette(noColor, options.NoExtendedChars, host, operatingSystem);
-            var output = new Output(outputWriter, palette, operatingSystem);
-            var log = new Logger(diagnosticsWriter, logPrefix, options.SkipDependencies, options.DryRun, options.Parallel, palette, options.Verbose);
-
-            await log.Version(() => typeof(TargetCollectionExtensions).Assembly.GetVersion()).Tax();
-            await log.Verbose(() => $"Host: {host}{(host != Host.Unknown ? $" ({(isHostDetected ? "detected" : "forced")})" : "")}").Tax();
-            await log.Verbose(() => $"OS: {operatingSystem}").Tax();
-
-            if (logArgs != null)
-            {
-                await logArgs(log).Tax();
-            }
-
+            // TODO: move this to an Output level method, and pass all diagnostics messages through output
+            // and write full exception details from action execution to diagnostics
             if (exit)
             {
                 try
                 {
-                    await RunAsync(targets, names, options, messageOnly, output, log).Tax();
+                    await RunAsync(targets, args, names, options, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
                 }
                 catch (InvalidUsageException ex)
                 {
-                    await log.Error(ex.Message).Tax();
+                    await diagnostics.WriteLineAsync(ex.Message).Tax();
                     Environment.Exit(2);
                 }
                 catch (TargetFailedException)
@@ -162,44 +68,162 @@ namespace Bullseye.Internal
             }
             else
             {
-                await RunAsync(targets, names, options, messageOnly, output, log).Tax();
+                await RunAsync(targets, args, names, options, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
             }
         }
 
         private static async Task RunAsync(
             this TargetCollection targets,
-            List<string> names,
+            IReadOnlyCollection<string> args,
+            IReadOnlyCollection<string> names,
             Options options,
-            Func<Exception, bool> messageOnly,
-            Output output,
-            Logger log)
+            TextWriter outputWriter,
+            TextWriter diagnostics,
+            string messagePrefix,
+            Func<Exception, bool> messageOnly)
         {
-            if (options.UnknownOptions.Count > 0)
+            targets = targets ?? new TargetCollection();
+            args = args.Sanitize().ToList();
+            names = names.Sanitize().ToList();
+            options = options ?? new Options();
+            outputWriter = outputWriter ?? Console.Out;
+            diagnostics = diagnostics ?? Console.Error;
+            messagePrefix = messagePrefix ?? await GetMethodPrefix(diagnostics).Tax();
+            messageOnly = messageOnly ?? (_ => false);
+
+            if (options.Clear)
             {
-                throw new InvalidUsageException($"Unknown option{(options.UnknownOptions.Count > 1 ? "s" : "")} {options.UnknownOptions.Spaced()}. \"--help\" for usage.");
+                try
+                {
+                    Console.Clear();
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    await diagnostics.WriteLineAsync($"{messagePrefix}: Failed to clear the console: {ex}").Tax();
+                }
             }
 
-            if (options.ShowHelp)
+            var noColor = options.NoColor;
+
+            if (Environment.GetEnvironmentVariable("NO_COLOR") != null)
+            {
+                if (options.Verbose)
+                {
+                    await diagnostics.WriteLineAsync($"{messagePrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
+                }
+
+                noColor = true;
+            }
+
+            var (host, hostDetected) = options.Host.DetectIfUnknown();
+
+            var operatingSystem =
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                    ? OperatingSystem.Windows
+                    : RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+                        ? OperatingSystem.Linux
+                        : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                            ? OperatingSystem.MacOS
+                            : OperatingSystem.Unknown;
+
+            var output = new Output(
+                outputWriter,
+                args,
+                options.DryRun,
+                host,
+                hostDetected,
+                noColor,
+                options.NoExtendedChars,
+                operatingSystem,
+                options.Parallel,
+                messagePrefix,
+                options.SkipDependencies,
+                options.Verbose);
+
+            var outputState = await output.Initialize(options.Verbose ? diagnostics : TextWriter.Null).Tax();
+
+            try
+            {
+                await output.Header().Tax();
+
+                await RunAsync(
+                    targets,
+                    output,
+                    messageOnly,
+                    names,
+                    options.DryRun,
+                    options.ListDependencies,
+                    options.ListInputs,
+                    options.ListTargets,
+                    options.ListTree,
+                    options.Parallel,
+                    options.SkipDependencies,
+                    options.ShowHelp,
+                    options.UnknownOptions).Tax();
+            }
+            finally
+            {
+                await outputState.DisposeAsync().Tax();
+            }
+        }
+
+        private static async Task RunAsync(
+            this TargetCollection targets,
+            Output output,
+            Func<Exception, bool> messageOnly,
+            IReadOnlyCollection<string> names,
+            bool dryRun,
+            bool listDependencies,
+            bool listInputs,
+            bool listTargets,
+            bool listTree,
+            bool parallel,
+            bool skipDependencies,
+            bool showHelp,
+            IReadOnlyCollection<string> unknownOptions)
+        {
+            if (unknownOptions.Count > 0)
+            {
+                throw new InvalidUsageException($"Unknown option{(unknownOptions.Count > 1 ? "s" : "")} {unknownOptions.Spaced()}. \"--help\" for usage.");
+            }
+
+            if (showHelp)
             {
                 await output.Usage(targets).Tax();
                 return;
             }
 
-            if (options.ListTree || options.ListDependencies || options.ListInputs || options.ListTargets)
+            if (listTree || listDependencies || listInputs || listTargets)
             {
                 var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
-                var maxDepth = options.ListTree ? int.MaxValue : options.ListDependencies ? 1 : 0;
-                var maxDepthToShowInputs = options.ListTree ? int.MaxValue : 0;
-                await output.Targets(targets, rootTargets, maxDepth, maxDepthToShowInputs, options.ListInputs).Tax();
+                var maxDepth = listTree ? int.MaxValue : listDependencies ? 1 : 0;
+                var maxDepthToShowInputs = listTree ? int.MaxValue : 0;
+
+                await output.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs).Tax();
                 return;
             }
 
-            if (names.Count == 0)
+            names = names.Count > 0 ? names : new List<string> { "default" };
+
+            await targets.RunAsync(names, skipDependencies, dryRun, parallel, output, messageOnly).Tax();
+        }
+
+        private static async Task<string> GetMethodPrefix(TextWriter diagnostics)
+        {
+            var messagePrefix = "Bullseye";
+
+            if (Assembly.GetEntryAssembly() is Assembly entryAssembly)
             {
-                names.Add("default");
+                messagePrefix = entryAssembly.GetName().Name;
+            }
+            else
+            {
+                await diagnostics.WriteLineAsync($"{messagePrefix}: Failed to get the entry assembly. Using default message prefix \"{messagePrefix}\".").Tax();
             }
 
-            await targets.RunAsync(names, options.SkipDependencies, options.DryRun, options.Parallel, log, messageOnly).Tax();
+            return messagePrefix;
         }
     }
 }

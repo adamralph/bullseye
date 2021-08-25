@@ -2,30 +2,278 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bullseye.Internal
 {
-#pragma warning disable IDE0009 // Member access should be qualified.
-    public class Output
+    public partial class Output
     {
+        private const string noInputs = "No inputs!";
+        private const string starting = "Starting...";
+        private const string failed = "FAILED!";
+        private const string succeeded = "Succeeded";
+
         private readonly TextWriter writer;
-        private readonly Palette p;
+
+        private readonly IReadOnlyCollection<string> args;
+        private readonly bool dryRun;
+        private readonly Host host;
+        private readonly bool hostDetected;
+        private readonly bool noColor;
+        private readonly OperatingSystem operatingSystem;
+        private readonly bool parallel;
+        private readonly string prefix;
+        private readonly bool skipDependencies;
+
+        private readonly Palette palette;
         private readonly string scriptExtension;
 
-        public Output(TextWriter writer, Palette palette, OperatingSystem operatingSystem)
+        public bool Verbose { get; }
+
+        public Output(
+            TextWriter writer,
+            IReadOnlyCollection<string> args,
+            bool dryRun,
+            Host host,
+            bool hostDetected,
+            bool noColor,
+            bool noExtendedChars,
+            OperatingSystem operatingSystem,
+            bool parallel,
+            string prefix,
+            bool skipDependencies,
+            bool verbose)
         {
             this.writer = writer;
-            p = palette;
-            scriptExtension = operatingSystem == OperatingSystem.Windows ? "cmd" : "sh";
+
+            this.args = args ?? new List<string>();
+            this.dryRun = dryRun;
+            this.host = host;
+            this.hostDetected = hostDetected;
+            this.noColor = noColor;
+            this.operatingSystem = operatingSystem;
+            this.parallel = parallel;
+            this.prefix = prefix;
+            this.skipDependencies = skipDependencies;
+            this.Verbose = verbose;
+
+            this.palette = new Palette(noColor, noExtendedChars, host, operatingSystem);
+            this.scriptExtension = operatingSystem == OperatingSystem.Windows ? "cmd" : "sh";
         }
 
-        public Task Usage(TargetCollection targets) => writer.WriteAsync(GetUsage(targets));
+        public async Task Header(Func<string> getVersion = null)
+        {
+            if (!this.Verbose)
+            {
+                return;
+            }
 
-        public Task Targets(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            writer.WriteAsync(List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, null));
+            var version = getVersion?.Invoke() ?? typeof(Output).Assembly.GetVersion();
 
-        private string List(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, string startingPrefix)
+            var builder = new StringBuilder()
+                .AppendLine(Format($"{this.palette.Verbose}{version}{this.palette.Reset}", "Bullseye version", this.prefix, this.palette))
+                .AppendLine(Format($"{this.palette.Verbose}{this.host}{(this.host != Host.Unknown ? $" ({(this.hostDetected ? "detected" : "forced")})" : "")}{this.palette.Reset}", "Host", this.prefix, this.palette))
+                .AppendLine(Format($"{this.palette.Verbose}{this.operatingSystem}{this.palette.Reset}", "OS", this.prefix, this.palette))
+                .AppendLine(Format($"{this.palette.Verbose}{string.Join(" ", this.args)}{this.palette.Reset}", "Args", this.prefix, this.palette));
+
+            await this.writer.WriteAsync(builder.ToString()).Tax();
+        }
+
+        public async Task Usage(TargetCollection targets)
+        {
+            var usage = GetUsageLines(this.palette, this.scriptExtension)
+                + GetListLines(targets, targets.Select(target => target.Name).ToList(), 0, 0, false, "  ", this.palette);
+
+            await this.writer.WriteAsync(usage).Tax();
+        }
+
+        public Task List(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
+            this.writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, null, this.palette));
+
+        public Task Starting(IEnumerable<Target> targets) =>
+            this.writer.WriteLineAsync(Format($"{this.palette.Default}{starting}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, null, this.prefix, this.palette));
+
+        public async Task Failed(IEnumerable<Target> targets)
+        {
+            var message = GetResultLines(this.results, this.totalDuration, this.prefix, this.palette)
+                + Format($"{this.palette.Failed}{failed}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
+
+            await this.writer.WriteLineAsync(message).Tax();
+        }
+
+        public async Task Succeeded(IEnumerable<Target> targets)
+        {
+            var message = GetResultLines(this.results, this.totalDuration, this.prefix, this.palette)
+                + Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
+
+            await this.writer.WriteLineAsync(message).Tax();
+        }
+
+        public async Task Awaiting(Target target, IEnumerable<Target> dependencyPath)
+        {
+            if (this.Verbose)
+            {
+                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Awaiting{this.palette.Reset}", target, null, dependencyPath, this.prefix, this.palette)).Tax();
+            }
+        }
+
+        public async Task WalkingDependencies(Target target, IEnumerable<Target> dependencyPath)
+        {
+            if (this.Verbose)
+            {
+                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Walking dependencies{this.palette.Reset}", target, null, dependencyPath, this.prefix, this.palette)).Tax();
+            }
+        }
+
+        public async Task IgnoringNonExistentDependency(Target target, string dependency, IEnumerable<Target> dependencyPath)
+        {
+            if (this.Verbose)
+            {
+                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Ignoring non-existent dependency:{this.palette.Reset} {this.palette.Target}{dependency}{this.palette.Reset}", target, null, dependencyPath, this.prefix, this.palette)).Tax();
+            }
+        }
+
+        public Task Starting(Target target, IEnumerable<Target> dependencyPath)
+        {
+            var targetResult = this.InternResult(target);
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Default}{starting}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task Error(Target target, Exception ex) =>
+            this.writer.WriteLineAsync(Format($"{this.palette.Failed}{ex}{this.palette.Reset}", target, null, null, this.prefix, this.palette));
+
+        public Task Failed(Target target, Exception ex, TimeSpan? duration, IEnumerable<Target> dependencyPath)
+        {
+            var result = this.InternResult(target);
+            result.Outcome = TargetOutcome.Failed;
+            result.Duration = result.Duration.Add(duration);
+
+            this.totalDuration = this.totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{failed}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task Failed(Target target, IEnumerable<Target> dependencyPath)
+        {
+            var result = this.InternResult(target);
+            result.Outcome = TargetOutcome.Failed;
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{failed}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task Succeeded(Target target, TimeSpan? duration, IEnumerable<Target> dependencyPath)
+        {
+            var result = this.InternResult(target);
+            result.Outcome = TargetOutcome.Succeeded;
+            result.Duration = result.Duration.Add(duration);
+
+            this.totalDuration = this.totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task Succeeded(Target target, IEnumerable<Target> dependencyPath)
+        {
+            var result = this.InternResult(target);
+            result.Outcome = TargetOutcome.Succeeded;
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task NoInputs(Target target, IEnumerable<Target> dependencyPath)
+        {
+            var targetResult = this.InternResult(target);
+            targetResult.Outcome = TargetOutcome.NoInputs;
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Warning}{noInputs}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task Starting<TInput>(Target target, TInput input, Guid inputId, IEnumerable<Target> dependencyPath)
+        {
+            var (_, targetInputResult) = this.Intern(target, inputId);
+            targetInputResult.Input = input;
+
+            return this.writer.WriteLineAsync(Format(starting, target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task Error<TInput>(Target target, TInput input, Exception ex) =>
+            this.writer.WriteLineAsync(Format($"{this.palette.Failed}{ex}{this.palette.Reset}", target, input, null, null, this.prefix, this.palette));
+
+        public Task Failed<TInput>(Target target, TInput input, Exception ex, TimeSpan? duration, Guid inputId, IEnumerable<Target> dependencyPath)
+        {
+            var (targetResult, targetInputResult) = this.Intern(target, inputId);
+
+            targetInputResult.Input = input;
+            targetInputResult.Outcome = TargetInputOutcome.Failed;
+            targetInputResult.Duration = targetInputResult.Duration.Add(duration);
+
+            targetResult.Duration = targetResult.Duration.Add(duration);
+
+            this.totalDuration = this.totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{failed}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public Task Succeeded<TInput>(Target target, TInput input, TimeSpan? duration, Guid inputId, IEnumerable<Target> dependencyPath)
+        {
+            var (targetResult, targetInputResult) = this.Intern(target, inputId);
+
+            targetInputResult.Input = input;
+            targetInputResult.Outcome = TargetInputOutcome.Succeeded;
+            targetInputResult.Duration = targetInputResult.Duration.Add(duration);
+
+            targetResult.Duration = targetResult.Duration.Add(duration);
+
+            this.totalDuration = this.totalDuration.Add(duration);
+
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        // editorconfig-checker-disable
+        private static string GetUsageLines(Palette p, string scriptExtension) =>
+$@"{p.Default}Usage:{p.Reset}
+  {p.Invocation}[invocation]{p.Reset} {p.Option}[options]{p.Reset} {p.Target}[<targets>...]{p.Reset}
+
+{p.Default}Arguments:{p.Reset}
+  {p.Target}<targets>{p.Reset}    {p.Default}A list of targets to run or list. If not specified, the {p.Target}""default""{p.Default} target will be run, or all targets will be listed.{p.Reset}
+
+{p.Default}Options:{p.Reset}
+  {p.Option}-c{p.Default},{p.Reset} {p.Option}--clear{p.Reset}                {p.Default}Clear the console before execution{p.Reset}
+  {p.Option}-n{p.Default},{p.Reset} {p.Option}--dry-run{p.Reset}              {p.Default}Do a dry run without executing actions{p.Reset}
+  {p.Option}-d{p.Default},{p.Reset} {p.Option}--list-dependencies{p.Reset}    {p.Default}List all (or specified) targets and dependencies, then exit{p.Reset}
+  {p.Option}-i{p.Default},{p.Reset} {p.Option}--list-inputs{p.Reset}          {p.Default}List all (or specified) targets and inputs, then exit{p.Reset}
+  {p.Option}-l{p.Default},{p.Reset} {p.Option}--list-targets{p.Reset}         {p.Default}List all (or specified) targets, then exit{p.Reset}
+  {p.Option}-t{p.Default},{p.Reset} {p.Option}--list-tree{p.Reset}            {p.Default}List all (or specified) targets and dependency trees, then exit{p.Reset}
+  {p.Option}-N{p.Default},{p.Reset} {p.Option}--no-color{p.Reset}             {p.Default}Disable colored output{p.Reset}
+  {p.Option}-E{p.Default},{p.Reset} {p.Option}--no-extended-chars{p.Reset}    {p.Default}Disable extended characters{p.Reset}
+  {p.Option}-p{p.Default},{p.Reset} {p.Option}--parallel{p.Reset}             {p.Default}Run targets in parallel{p.Reset}
+  {p.Option}-s{p.Default},{p.Reset} {p.Option}--skip-dependencies{p.Reset}    {p.Default}Do not run targets' dependencies{p.Reset}
+  {p.Option}-v{p.Default},{p.Reset} {p.Option}--verbose{p.Reset}              {p.Default}Enable verbose output{p.Reset}
+  {p.Option}--appveyor{p.Reset}                 {p.Default}Force Appveyor mode (normally auto-detected){p.Reset}
+  {p.Option}--azure-pipelines{p.Reset}          {p.Default}Force Azure Pipelines mode (normally auto-detected){p.Reset}
+  {p.Option}--github-actions{p.Reset}           {p.Default}Force GitHub Actions mode (normally auto-detected){p.Reset}
+  {p.Option}--gitlab-ci{p.Reset}                {p.Default}Force GitLab CI mode (normally auto-detected){p.Reset}
+  {p.Option}--teamcity{p.Reset}                 {p.Default}Force TeamCity mode (normally auto-detected){p.Reset}
+  {p.Option}--travis{p.Reset}                   {p.Default}Force Travis CI mode (normally auto-detected){p.Reset}
+  {p.Option}-?{p.Default},{p.Reset} {p.Option}-h{p.Default},{p.Reset} {p.Option}--help{p.Reset}             {p.Default}Show help and usage information, then exit (case insensitive){p.Reset}
+
+{p.Default}Remarks:{p.Reset}
+  {p.Default}The {p.Option}--list-xxx{p.Default} options may be combined.{p.Reset}
+  {p.Default}The {p.Invocation}invocation{p.Reset} is typically a call to dotnet run, or the path to a script which wraps a call to dotnet run.
+
+{p.Default}Examples:{p.Reset}
+  {p.Invocation}./build.{scriptExtension}{p.Reset}
+  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Option}-d{p.Reset}
+  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Option}-t{p.Reset} {p.Option}-i{p.Reset} {p.Target}default{p.Reset}
+  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Target}test{p.Reset} {p.Target}pack{p.Reset}
+  {p.Invocation}dotnet run --project targets --{p.Reset} {p.Option}-n{p.Reset} {p.Target}build{p.Reset}
+
+{p.Default}Targets:{p.Reset}
+"; // editorconfig-checker-enable
+
+        private static string GetListLines(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, string startingPrefix, Palette p)
         {
             var lines = new List<(string, string)>();
 
@@ -96,49 +344,5 @@ namespace Bullseye.Internal
                 }
             }
         }
-
-        // editorconfig-checker-disable
-        private string GetUsage(TargetCollection targets) =>
-$@"{p.Default}Usage:{p.Reset}
-  {p.Invocation}[invocation]{p.Reset} {p.Option}[options]{p.Reset} {p.Target}[<targets>...]{p.Reset}
-
-{p.Default}Arguments:{p.Reset}
-  {p.Target}<targets>{p.Reset}    {p.Default}A list of targets to run or list. If not specified, the {p.Target}""default""{p.Default} target will be run, or all targets will be listed.{p.Reset}
-
-{p.Default}Options:{p.Reset}
-  {p.Option}-c{p.Default},{p.Reset} {p.Option}--clear{p.Reset}                {p.Default}Clear the console before execution{p.Reset}
-  {p.Option}-n{p.Default},{p.Reset} {p.Option}--dry-run{p.Reset}              {p.Default}Do a dry run without executing actions{p.Reset}
-  {p.Option}-d{p.Default},{p.Reset} {p.Option}--list-dependencies{p.Reset}    {p.Default}List all (or specified) targets and dependencies, then exit{p.Reset}
-  {p.Option}-i{p.Default},{p.Reset} {p.Option}--list-inputs{p.Reset}          {p.Default}List all (or specified) targets and inputs, then exit{p.Reset}
-  {p.Option}-l{p.Default},{p.Reset} {p.Option}--list-targets{p.Reset}         {p.Default}List all (or specified) targets, then exit{p.Reset}
-  {p.Option}-t{p.Default},{p.Reset} {p.Option}--list-tree{p.Reset}            {p.Default}List all (or specified) targets and dependency trees, then exit{p.Reset}
-  {p.Option}-N{p.Default},{p.Reset} {p.Option}--no-color{p.Reset}             {p.Default}Disable colored output{p.Reset}
-  {p.Option}-E{p.Default},{p.Reset} {p.Option}--no-extended-chars{p.Reset}    {p.Default}Disable extended characters{p.Reset}
-  {p.Option}-p{p.Default},{p.Reset} {p.Option}--parallel{p.Reset}             {p.Default}Run targets in parallel{p.Reset}
-  {p.Option}-s{p.Default},{p.Reset} {p.Option}--skip-dependencies{p.Reset}    {p.Default}Do not run targets' dependencies{p.Reset}
-  {p.Option}-v{p.Default},{p.Reset} {p.Option}--verbose{p.Reset}              {p.Default}Enable verbose output{p.Reset}
-  {p.Option}--appveyor{p.Reset}                 {p.Default}Force Appveyor mode (normally auto-detected){p.Reset}
-  {p.Option}--azure-pipelines{p.Reset}          {p.Default}Force Azure Pipelines mode (normally auto-detected){p.Reset}
-  {p.Option}--github-actions{p.Reset}           {p.Default}Force GitHub Actions mode (normally auto-detected){p.Reset}
-  {p.Option}--gitlab-ci{p.Reset}                {p.Default}Force GitLab CI mode (normally auto-detected){p.Reset}
-  {p.Option}--teamcity{p.Reset}                 {p.Default}Force TeamCity mode (normally auto-detected){p.Reset}
-  {p.Option}--travis{p.Reset}                   {p.Default}Force Travis CI mode (normally auto-detected){p.Reset}
-  {p.Option}-?{p.Default},{p.Reset} {p.Option}-h{p.Default},{p.Reset} {p.Option}--help{p.Reset}             {p.Default}Show help and usage information, then exit (case insensitive){p.Reset}
-
-{p.Default}Remarks:{p.Reset}
-  {p.Default}The {p.Option}--list-xxx{p.Default} options may be combined.{p.Reset}
-  {p.Default}The {p.Invocation}invocation{p.Reset} is typically a call to dotnet run, or the path to a script which wraps a call to dotnet run.
-
-{p.Default}Examples:{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Option}-d{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Option}-t{p.Reset} {p.Option}-i{p.Reset} {p.Target}default{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Target}test{p.Reset} {p.Target}pack{p.Reset}
-  {p.Invocation}dotnet run --project targets --{p.Reset} {p.Option}-n{p.Reset} {p.Target}build{p.Reset}
-
-{p.Default}Targets:{p.Reset}
-"
-            + List(targets, targets.Select(target => target.Name).ToList(), 0, 0, false, "  ");
     }
-#pragma warning restore IDE0009 // Member access should be qualified.
 }

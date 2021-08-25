@@ -19,13 +19,13 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
-        public void RunAndExit(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true, Console.Out, Console.Error).GetAwaiter().GetResult();
+        public void RunAndExit(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(args, Console.Out, Console.Error, messagePrefix, messageOnly, true).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -37,13 +37,13 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
-        public void RunAndExit(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true, Console.Out, Console.Error).GetAwaiter().GetResult();
+        public void RunAndExit(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, true).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -54,14 +54,14 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, true, Console.Out, Console.Error);
+        public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(args, Console.Out, Console.Error, messagePrefix, messageOnly, true);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -73,14 +73,14 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, true, Console.Out, Console.Error);
+        public Task RunAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, true);
 
         /// <summary>
         /// Runs the targets.
@@ -92,13 +92,13 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
-        public void RunWithoutExiting(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false, Console.Out, Console.Error).GetAwaiter().GetResult();
+        public void RunWithoutExiting(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(args, Console.Out, Console.Error, messagePrefix, messageOnly, false).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets.
@@ -111,13 +111,13 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
-        public void RunWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false, Console.Out, Console.Error).GetAwaiter().GetResult();
+        public void RunWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, false).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets.
@@ -129,14 +129,14 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, logPrefix, false, Console.Out, Console.Error);
+        public Task RunWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(args, Console.Out, Console.Error, messagePrefix, messageOnly, false);
 
         /// <summary>
         /// Runs the targets.
@@ -149,13 +149,13 @@ namespace Bullseye
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="logPrefix">
-        /// The prefix to use for log messages.
+        /// <param name="messagePrefix">
+        /// The prefix to use for output and diagnostic messages.
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunWithoutExitingAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string logPrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, messageOnly, logPrefix, false, Console.Out, Console.Error);
+        public Task RunWithoutExitingAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, false);
     }
 }

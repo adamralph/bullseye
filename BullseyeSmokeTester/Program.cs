@@ -7,15 +7,15 @@ using Bullseye;
 using static Bullseye.Targets;
 
 // spell-checker:disable
-Target("default", DependsOn("worl:d", "exclai: m", "null-action", "echo", "combo", "no-inputs"));
+Target("default", DependsOn("world", "exclaim", "null-action", "echo", "combo", "no-inputs"));
 
 Target("hell\"o", "Says hello", () => Console.Out.WriteLine("Hello"));
 
-Target("comm/a", DependsOn("hell\"o"), () => Console.Out.WriteLine(", "));
+Target("comma", DependsOn("hell\"o"), () => Console.Out.WriteLine(", "));
 
-Target("worl:d", DependsOn("comm/a"), () => Console.Out.WriteLine("World"));
+Target("world", DependsOn("comma"), () => Console.Out.WriteLine("World"));
 
-Target("exclai: m", DependsOn("worl:d"), () => Console.Out.WriteLine("!"));
+Target("exclaim", DependsOn("world"), () => Console.Out.WriteLine("!"));
 
 // spell-checker:enable
 Target("null-action", "does nothing", ForEach(1, 2), null);
@@ -125,4 +125,4 @@ if (!options.ShowHelp)
     await targets.RunWithoutExitingAsync(targetNames, options);
 }
 
-await RunTargetsAndExitAsync(targetNames, options, ex => ex is InvalidOperationException);
+await RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException);
