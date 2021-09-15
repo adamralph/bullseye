@@ -25,11 +25,11 @@ jobs:
     runs-on: ${{ matrix.job.os }}
     steps:
       - name: setup-dotnet 3.1.412
-        uses: actions/setup-dotnet@v1.8.1
+        uses: actions/setup-dotnet@v1.8.2
         with:
           dotnet-version: "3.1.412"
       - name: setup-dotnet 5.0.400
-        uses: actions/setup-dotnet@v1.8.1
+        uses: actions/setup-dotnet@v1.8.2
         with:
           dotnet-version: "5.0.400"
       - run: dotnet --info
