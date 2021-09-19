@@ -38,7 +38,7 @@ namespace BullseyeTests
             }
 
             // assert
-            await AssertFile.Contains("../../../log.txt", output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
+            await AssertFile.Contains("../../../output.txt", output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
         }
 
         private static async Task Write(
