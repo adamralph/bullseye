@@ -55,7 +55,7 @@ namespace BullseyeTests
             await writer.WriteLineAsync();
 
             var palette = new Palette(noColor, noExtendedChars, host, operatingSystem);
-            var log = new Logger(writer, $"logPrefix{ordinal}", skipDependencies, dryRun, parallel, palette, verbose);
+            var log = new Logger(writer, $"prefix{ordinal}", skipDependencies, dryRun, parallel, palette, verbose);
 
             await Write(log, dryRun);
         }
