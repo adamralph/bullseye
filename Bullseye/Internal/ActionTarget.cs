@@ -12,9 +12,9 @@ namespace Bullseye.Internal
         public ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, description, dependencies) => this.action = action;
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
         {
-            await log.Starting(this.Name).Tax();
+            await output.Starting(this, dependencyPath).Tax();
 
             TimeSpan? duration = null;
 
@@ -37,15 +37,16 @@ namespace Bullseye.Internal
                 {
                     if (!messageOnly(ex))
                     {
-                        await log.Error(this.Name, ex).Tax();
+                        await output.Error(this, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, ex, duration).Tax();
+                    await output.Failed(this, ex, duration, dependencyPath).Tax();
+
                     throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
                 }
             }
 
-            await log.Succeeded(this.Name, duration).Tax();
+            await output.Succeeded(this, duration, dependencyPath).Tax();
         }
     }
 }

@@ -29,45 +29,49 @@ namespace Bullseye.Internal
             }
         }
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Logger log, Func<Exception, bool> messageOnly)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
         {
             var inputsList = this.inputs.ToList();
+
             if (inputsList.Count == 0)
             {
-                await log.NoInputs(this.Name).Tax();
+                await output.NoInputs(this, dependencyPath).Tax();
                 return;
             }
 
-            await log.Starting(this.Name).Tax();
+            await output.Starting(this, dependencyPath).Tax();
 
             try
             {
                 if (parallel)
                 {
-                    var tasks = inputsList.Select(input => this.RunAsync(input, dryRun, log, messageOnly)).ToList();
+                    var tasks = inputsList.Select(input => this.RunAsync(input, dryRun, output, messageOnly, dependencyPath)).ToList();
+
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var input in inputsList)
                     {
-                        await this.RunAsync(input, dryRun, log, messageOnly).Tax();
+                        await this.RunAsync(input, dryRun, output, messageOnly, dependencyPath).Tax();
                     }
                 }
             }
             catch (Exception)
             {
-                await log.Failed(this.Name).Tax();
+                await output.Failed(this, dependencyPath).Tax();
                 throw;
             }
 
-            await log.Succeeded(this.Name).Tax();
+            await output.Succeeded(this, dependencyPath).Tax();
         }
 
-        private async Task RunAsync(TInput input, bool dryRun, Logger log, Func<Exception, bool> messageOnly)
+        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
         {
             var id = Guid.NewGuid();
-            await log.Starting(this.Name, input, id).Tax();
+
+            await output.Starting(this, input, id, dependencyPath).Tax();
+
             TimeSpan? duration = null;
 
             if (!dryRun && this.action != null)
@@ -89,15 +93,16 @@ namespace Bullseye.Internal
                 {
                     if (!messageOnly(ex))
                     {
-                        await log.Error(this.Name, input, ex).Tax();
+                        await output.Error(this, input, ex).Tax();
                     }
 
-                    await log.Failed(this.Name, input, ex, duration, id).Tax();
+                    await output.Failed(this, input, ex, duration, id, dependencyPath).Tax();
+
                     throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
                 }
             }
 
-            await log.Succeeded(this.Name, input, duration, id).Tax();
+            await output.Succeeded(this, input, duration, id, dependencyPath).Tax();
         }
     }
 }

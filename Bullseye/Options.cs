@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bullseye.Internal;
 
 namespace Bullseye
 {
@@ -162,13 +163,11 @@ namespace Bullseye
         /// <returns>An instance of <see cref="Options"/> and a list of target names.</returns>
         public static (Options, List<string>) Parse(IEnumerable<string> args)
         {
-            var argList = args?.ToList();
+            var argList = args.Sanitize().ToList();
 
-            return argList == null
-                ? (new Options(), new List<string>())
-                : (
-                    new Options(argList.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).Select(arg => (arg, true))),
-                    argList.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList());
+            return (
+                new Options(argList.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).Select(arg => (arg, true))),
+                argList.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList());
         }
 
         /// <summary>

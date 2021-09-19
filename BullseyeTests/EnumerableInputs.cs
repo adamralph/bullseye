@@ -22,7 +22,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string>(), default, default, default, default, default(TextWriter));
+            await targets.RunAsync(new List<string>(), default, default(TextWriter), default, default, default);
 
             // assert
             Assert.Equal(2, inputsReceived.Count);
@@ -42,7 +42,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string>(), default, default, default, default, default(TextWriter));
+            await targets.RunAsync(new List<string>(), default, default(TextWriter), default, default, default);
 
             // assert
             Assert.False(ran);
