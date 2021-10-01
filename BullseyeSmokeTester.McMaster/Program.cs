@@ -1,6 +1,6 @@
 using System.Linq;
 using Bullseye;
-using global::McMaster.Extensions.CommandLineUtils;
+using McMaster.Extensions.CommandLineUtils;
 using static Bullseye.Targets;
 
 using var app = new CommandLineApplication() { UsePagerForHelpText = false };
