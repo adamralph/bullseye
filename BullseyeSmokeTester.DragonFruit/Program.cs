@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Bullseye;
 using static Bullseye.Targets;
 
@@ -21,7 +22,7 @@ namespace BullseyeSmokeTester.DragonFruit
         /// <param name="parallel">Run targets in parallel.</param>
         /// <param name="skipDependencies">Do not run targets' dependencies.</param>
         /// <param name="verbose">Enable verbose output.</param>
-        private static void Main(
+        private static async Task Main(
             string foo,
             string[] targets,
             bool clear,
@@ -51,11 +52,11 @@ namespace BullseyeSmokeTester.DragonFruit
                 Verbose = verbose,
             };
 
-            Target("build", () => System.Console.WriteLine($"foo = {foo}"));
+            Target("build", async () => await System.Console.Out.WriteLineAsync($"foo = {foo}"));
 
             Target("default", DependsOn("build"));
 
-            RunTargetsAndExit(targets, options);
+            await RunTargetsAndExitAsync(targets, options);
         }
     }
 }
