@@ -24,41 +24,6 @@ namespace Bullseye
         /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
-        public void RunAndExit(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(args, Console.Out, Console.Error, messagePrefix, messageOnly, true).GetAwaiter().GetResult();
-
-        /// <summary>
-        /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
-        /// Any code which follows a call to this method will not be executed.
-        /// </summary>
-        /// <param name="targets">The targets to run or list.</param>
-        /// <param name="options">The options to use when running or listing targets.</param>
-        /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
-        /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
-        /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
-        /// </param>
-        public void RunAndExit(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, true).GetAwaiter().GetResult();
-
-        /// <summary>
-        /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
-        /// Any code which follows a call to this method will not be executed.
-        /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
-        /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
-        /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
-        /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
             this.targetCollection.RunAsync(args, Console.Out, Console.Error, messagePrefix, messageOnly, true);
@@ -81,43 +46,6 @@ namespace Bullseye
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunAndExitAsync(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
             this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, true);
-
-        /// <summary>
-        /// Runs the targets.
-        /// In most cases, <see cref="RunAndExit(IEnumerable{string}, Func{Exception, bool}, string)"/> should be used instead of this method.
-        /// This method should only be used if continued code execution after running targets is specifically required.
-        /// </summary>
-        /// <param name="args">The command line arguments.</param>
-        /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
-        /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
-        /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
-        /// </param>
-        public void RunWithoutExiting(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(args, Console.Out, Console.Error, messagePrefix, messageOnly, false).GetAwaiter().GetResult();
-
-        /// <summary>
-        /// Runs the targets.
-        /// In most cases, RunAndExit should be used instead of this method.
-        /// This method should only be used if continued code execution after running targets is specifically required.
-        /// </summary>
-        /// <param name="targets">The targets to run or list.</param>
-        /// <param name="options">The options to use when running or listing targets.</param>
-        /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
-        /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
-        /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
-        /// </param>
-        public void RunWithoutExiting(IEnumerable<string> targets, Options options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, false).GetAwaiter().GetResult();
 
         /// <summary>
         /// Runs the targets.

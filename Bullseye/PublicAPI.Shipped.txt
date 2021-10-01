@@ -68,12 +68,8 @@ Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable
 Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
 Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
 Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.RunAndExit(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
-Bullseye.Targets.RunAndExit(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
 Bullseye.Targets.RunAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
 Bullseye.Targets.RunAndExitAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
-Bullseye.Targets.RunWithoutExiting(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
-Bullseye.Targets.RunWithoutExiting(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
 Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
 Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
 Bullseye.Targets.Targets() -> void
@@ -81,12 +77,8 @@ static Bullseye.Options.Definitions.get -> System.Collections.Generic.IEnumerabl
 static Bullseye.Options.Parse(System.Collections.Generic.IEnumerable<string> args) -> (Bullseye.Options, System.Collections.Generic.List<string>)
 static Bullseye.Targets.DependsOn(params string[] dependencies) -> string[]
 static Bullseye.Targets.ForEach<TInput>(params TInput[] inputs) -> TInput[]
-static Bullseye.Targets.RunTargetsAndExit(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
-static Bullseye.Targets.RunTargetsAndExit(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
 static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
 static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
-static Bullseye.Targets.RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
-static Bullseye.Targets.RunTargetsWithoutExiting(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> void
 static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
 static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.Options options, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null) -> System.Threading.Tasks.Task
 static Bullseye.Targets.Target(string name, string description, System.Action action) -> void

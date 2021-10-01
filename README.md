@@ -45,10 +45,10 @@ Platform support: [.NET Standard 2.0 and later](https://docs.microsoft.com/en-us
 
   class Program
   {
-      static void Main(string[] args)
+      static async Task Main(string[] args)
       {
           Target("default", () => System.Console.WriteLine("Hello, world!"));
-          RunTargetsAndExit(args);
+          await RunTargetsAndExitAsync(args);
       }
   }
   ```
@@ -115,7 +115,7 @@ dotnet run -- eat-biscuits
 
 ## Command line arguments
 
-Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExit(args);`). This is because Bullseye effectively provides a command line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
+Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExitAsync(args);`). This is because Bullseye effectively provides a command line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
 
 ```PowerShell
 dotnet run --project targets -- --help
@@ -141,8 +141,8 @@ targets1.Add("foo", () => Console.Out.WriteLine("foo1"));
 var targets2 = new Targets();
 targets2.Add("foo", () => Console.Out.WriteLine("foo2"));
 
-targets1.RunWithoutExiting(args);
-targets2.RunWithoutExiting(args);
+await targets1.RunWithoutExitingAsync(args);
+await targets2.RunWithoutExitingAsync(args);
 ```
 
 ## NO_COLOR
@@ -153,7 +153,7 @@ Bullseye supports [NO_COLOR](https://no-color.org/).
 
 ### Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?
 
-Yes! Add the following line anywhere before calling `RunTargetsAndExit`/`RunTargetsAndExitAsync`:
+Yes! Add the following line anywhere before calling `RunTargetsAndExitAsync`:
 
 ```c#
 AppDomain.CurrentDomain.ProcessExit += (s, e) => Console.ReadKey();
@@ -165,7 +165,7 @@ Note that the common way to do this for .NET console apps is to add a line such 
 Console.ReadKey();
 ```
 
-This does not work after calling `RunTargetsAndExit`/`RunTargetsAndExit` because that is the final statement that will be executed.
+This does not work after calling `RunTargetsAndExitAsync` because that is the final statement that will be executed.
 
 In Visual Studio 2019 and later, .NET console apps pause before exiting by default, so none of this is required.
 
