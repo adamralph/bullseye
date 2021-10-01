@@ -14,17 +14,17 @@ foreach (var option in Options.Definitions)
     _ = app.Option((option.ShortName != null ? $"{option.ShortName}|" : "") + option.LongName, option.Description, CommandOptionType.NoValue);
 }
 
-app.OnExecute(() =>
+app.OnExecuteAsync(async _ =>
 {
     // translate from McMaster.Extensions.CommandLineUtils to Bullseye
     var targets = app.Arguments[0].Values;
     var options = new Options(Options.Definitions.Select(d => (d.LongName, app.Options.Single(o => "--" + o.LongName == d.LongName).HasValue())));
 
-    Target("build", () => System.Console.WriteLine($"foo = {foo.Value()}"));
+    Target("build", async () => await System.Console.Out.WriteLineAsync($"foo = {foo.Value()}"));
 
     Target("default", DependsOn("build"));
 
-    RunTargetsAndExit(targets, options);
+    await RunTargetsAndExitAsync(targets, options);
 });
 
-return app.Execute(args);
+return await app.ExecuteAsync(args);

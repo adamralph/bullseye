@@ -9,13 +9,13 @@ using static Bullseye.Targets;
 // spell-checker:disable
 Target("default", DependsOn("world", "exclaim", "null-action", "echo", "combo", "no-inputs"));
 
-Target("hell\"o", "Says hello", () => Console.Out.WriteLine("Hello"));
+Target("hell\"o", "Says hello", async () => await Console.Out.WriteLineAsync("Hello"));
 
-Target("comma", DependsOn("hell\"o"), () => Console.Out.WriteLine(", "));
+Target("comma", DependsOn("hell\"o"), async () => await Console.Out.WriteLineAsync(", "));
 
-Target("world", DependsOn("comma"), () => Console.Out.WriteLine("World"));
+Target("world", DependsOn("comma"), async () => await Console.Out.WriteLineAsync("World"));
 
-Target("exclaim", DependsOn("world"), () => Console.Out.WriteLine("!"));
+Target("exclaim", DependsOn("world"), async () => await Console.Out.WriteLineAsync("!"));
 
 // spell-checker:enable
 Target("null-action", "does nothing", ForEach(1, 2), null);
@@ -27,12 +27,12 @@ Target(
     "foo",
     "foos",
     ForEach(10, 20, 30),
-    Task.Delay);
+    async delay => await Task.Delay(delay));
 
 Target(
     "bar",
     "bars",
-    () => Task.Delay(1));
+    async () => await Task.Delay(1));
 
 Target(
     "echo",
@@ -98,8 +98,8 @@ Target(
     });
 
 var targets = new Targets();
-targets.Add("abc", () => Console.Out.WriteLine("abc"));
-targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLine("def"));
+targets.Add("abc", async () => await Console.Out.WriteLineAsync("abc"));
+targets.Add("def", DependsOn("abc"), async () => await Console.Out.WriteLineAsync("def"));
 targets.Add("default", DependsOn("def"));
 
 var largeGraph = new Targets();

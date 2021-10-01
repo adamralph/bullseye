@@ -16,18 +16,18 @@ foreach (var option in Options.Definitions)
     cmd.Add(new Option(new[] { option.ShortName, option.LongName }.Where(n => !string.IsNullOrWhiteSpace(n)).ToArray(), option.Description));
 }
 
-cmd.Handler = CommandHandler.Create<string>(foo =>
+cmd.Handler = CommandHandler.Create<string>(async foo =>
 {
     // translate from System.CommandLine to Bullseye
     var cmdLine = cmd.Parse(args);
     var targets = cmdLine.CommandResult.Tokens.Select(token => token.Value);
     var options = new Options(Options.Definitions.Select(o => (o.LongName, cmdLine.ValueForOption<bool>(o.LongName))));
 
-    Target("build", () => System.Console.WriteLine($"foo = {foo}"));
+    Target("build", async () => await System.Console.Out.WriteLineAsync($"foo = {foo}"));
 
     Target("default", DependsOn("build"));
 
-    RunTargetsAndExit(targets, options);
+    await RunTargetsAndExitAsync(targets, options);
 });
 
-return cmd.Invoke(args);
+return await cmd.InvokeAsync(args);
