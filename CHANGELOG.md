@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.0
+
+### Enhancements
+
+- [#641: Parse-able standard output](https://github.com/adamralph/bullseye/issues/641)
+
 ## 3.8.0
 
 ### Enhancements
