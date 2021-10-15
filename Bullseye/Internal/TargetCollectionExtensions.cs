@@ -12,7 +12,7 @@ namespace Bullseye.Internal
     {
         public static Task RunAsync(
             this TargetCollection targets,
-            IEnumerable<string> args,
+            IReadOnlyCollection<string> args,
             TextWriter outputWriter,
             TextWriter diagnostics,
             string messagePrefix,
@@ -21,7 +21,7 @@ namespace Bullseye.Internal
         {
             var (options, names) = Options.Parse(args);
 
-            return targets.RunAsync(args.Sanitize().ToList(), names, options, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
+            return targets.RunAsync(args, names, options, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
         }
 
         public static Task RunAsync(

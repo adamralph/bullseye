@@ -54,7 +54,7 @@ Target(
         await Console.Out.WriteLineAsync($"{o.foo},{o.bar}");
     });
 
-Target("no-inputs", Enumerable.Empty<string>(), input => { });
+Target("no-inputs", Enumerable.Empty<string>(), _ => { });
 
 Target("build", () => { });
 Target("test", DependsOn("build"), () => { });

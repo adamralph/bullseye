@@ -9,10 +9,10 @@ namespace Bullseye.Internal
 {
     public partial class Output
     {
-        private const string noInputs = "No inputs!";
-        private const string starting = "Starting...";
-        private const string failed = "FAILED!";
-        private const string succeeded = "Succeeded";
+        private const string NoInputsMessage = "No inputs!";
+        private const string StartingMessage = "Starting...";
+        private const string FailedMessage = "FAILED!";
+        private const string SucceededMessage = "Succeeded";
 
         private readonly TextWriter writer;
 
@@ -92,12 +92,12 @@ namespace Bullseye.Internal
             this.writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, null, this.palette));
 
         public Task Starting(IEnumerable<Target> targets) =>
-            this.writer.WriteLineAsync(Format($"{this.palette.Default}{starting}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, null, this.prefix, this.palette));
+            this.writer.WriteLineAsync(Format($"{this.palette.Default}{StartingMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, null, this.prefix, this.palette));
 
         public async Task Failed(IEnumerable<Target> targets)
         {
             var message = GetResultLines(this.results, this.totalDuration, this.prefix, this.palette)
-                + Format($"{this.palette.Failed}{failed}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
+                + Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
 
             await this.writer.WriteLineAsync(message).Tax();
         }
@@ -105,7 +105,7 @@ namespace Bullseye.Internal
         public async Task Succeeded(IEnumerable<Target> targets)
         {
             var message = GetResultLines(this.results, this.totalDuration, this.prefix, this.palette)
-                + Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
+                + Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
 
             await this.writer.WriteLineAsync(message).Tax();
         }
@@ -138,7 +138,7 @@ namespace Bullseye.Internal
         {
             var targetResult = this.InternResult(target);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Default}{starting}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Default}{StartingMessage}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Error(Target target, Exception ex) =>
@@ -152,7 +152,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{failed}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Failed(Target target, IEnumerable<Target> dependencyPath)
@@ -160,7 +160,7 @@ namespace Bullseye.Internal
             var result = this.InternResult(target);
             result.Outcome = TargetOutcome.Failed;
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{failed}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Succeeded(Target target, TimeSpan? duration, IEnumerable<Target> dependencyPath)
@@ -171,7 +171,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Succeeded(Target target, IEnumerable<Target> dependencyPath)
@@ -179,7 +179,7 @@ namespace Bullseye.Internal
             var result = this.InternResult(target);
             result.Outcome = TargetOutcome.Succeeded;
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task NoInputs(Target target, IEnumerable<Target> dependencyPath)
@@ -187,7 +187,7 @@ namespace Bullseye.Internal
             var targetResult = this.InternResult(target);
             targetResult.Outcome = TargetOutcome.NoInputs;
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Warning}{noInputs}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Warning}{NoInputsMessage}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Starting<TInput>(Target target, TInput input, Guid inputId, IEnumerable<Target> dependencyPath)
@@ -195,7 +195,7 @@ namespace Bullseye.Internal
             var (_, targetInputResult) = this.Intern(target, inputId);
             targetInputResult.Input = input;
 
-            return this.writer.WriteLineAsync(Format(starting, target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format(StartingMessage, target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Error<TInput>(Target target, TInput input, Exception ex) =>
@@ -213,7 +213,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{failed}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Succeeded<TInput>(Target target, TInput input, TimeSpan? duration, Guid inputId, IEnumerable<Target> dependencyPath)
@@ -228,7 +228,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{succeeded}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         // editorconfig-checker-disable
