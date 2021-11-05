@@ -37,10 +37,10 @@ namespace Bullseye.Internal
                 var target = $"{p.Target}{item.Key}{p.Reset}";
 
                 var outcome = item.Value.Outcome == TargetOutcome.Failed
-                    ? $"{p.Failed}{failed}{p.Reset}"
+                    ? $"{p.Failed}{FailedMessage}{p.Reset}"
                     : item.Value.Outcome == TargetOutcome.NoInputs
-                        ? $"{p.Warning}{noInputs}{p.Reset}"
-                        : $"{p.Succeeded}{succeeded}{p.Reset}";
+                        ? $"{p.Warning}{NoInputsMessage}{p.Reset}"
+                        : $"{p.Succeeded}{SucceededMessage}{p.Reset}";
 
                 var duration = item.Value.Duration.HasValue
                     ? $"{p.Timing}{item.Value.Duration.Humanize()}{p.Reset}"
@@ -58,7 +58,7 @@ namespace Bullseye.Internal
                 {
                     var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
 
-                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}{failed}{p.Reset}" : $"{p.Succeeded}{succeeded}{p.Reset}";
+                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}{FailedMessage}{p.Reset}" : $"{p.Succeeded}{SucceededMessage}{p.Reset}";
 
                     var inputDuration = result.Duration.HasValue
                         ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize()}{p.Reset}"

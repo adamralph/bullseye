@@ -29,7 +29,7 @@ namespace Bullseye.Internal
             }
         }
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
             var inputsList = this.inputs.ToList();
 
@@ -66,7 +66,7 @@ namespace Bullseye.Internal
             await output.Succeeded(this, dependencyPath).Tax();
         }
 
-        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
+        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
             var id = Guid.NewGuid();
 

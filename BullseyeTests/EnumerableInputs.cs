@@ -38,7 +38,7 @@ namespace BullseyeTests
 
             var targets = new TargetCollection
             {
-                CreateTarget("default", Enumerable.Empty<object>(), input => ran = true),
+                CreateTarget("default", Enumerable.Empty<object>(), _ => ran = true),
             };
 
             // act

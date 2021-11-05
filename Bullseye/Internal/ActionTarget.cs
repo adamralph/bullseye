@@ -12,7 +12,7 @@ namespace Bullseye.Internal
         public ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, description, dependencies) => this.action = action;
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
             await output.Starting(this, dependencyPath).Tax();
 

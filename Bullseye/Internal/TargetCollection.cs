@@ -14,7 +14,7 @@ namespace Bullseye.Internal
         protected override string GetKeyForItem(Target item) => item.Name;
 
         public async Task RunAsync(
-            IEnumerable<string> names,
+            IReadOnlyCollection<string> names,
             bool skipDependencies,
             bool dryRun,
             bool parallel,
@@ -122,18 +122,18 @@ namespace Bullseye.Internal
 
             if (parallel)
             {
-                var tasks = target.Dependencies.Select(dependency => RunAsync(dependency));
+                var tasks = target.Dependencies.Select(RunDependencyAsync);
                 await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var dependency in target.Dependencies)
                 {
-                    await RunAsync(dependency).Tax();
+                    await RunDependencyAsync(dependency).Tax();
                 }
             }
 
-            async Task RunAsync(string dependency)
+            async Task RunDependencyAsync(string dependency)
             {
                 if (!this.Contains(dependency))
                 {

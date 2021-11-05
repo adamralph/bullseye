@@ -75,7 +75,7 @@ namespace BullseyeTests
             var badTargetDuration = dryRun ? (TimeSpan?)null : TimeSpan.FromMilliseconds(3.456);
             var badTargetEx = new InvalidOperationException("badTargetEx");
 
-            var emptyTargets = new List<Target>();
+            var emptyTargets = Enumerable.Empty<Target>();
 
             var goodInput1 = new Target("goodInput1", default, default);
             var goodInput2 = new Target("goodInput2", default, default);
