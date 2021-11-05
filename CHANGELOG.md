@@ -5,6 +5,7 @@
 ### Enhancements
 
 - [#641: Parse-able standard output](https://github.com/adamralph/bullseye/issues/641)
+- [#663: **[BREAKING]** remove sync over async](https://github.com/adamralph/bullseye/pull/663)
 
 ## 3.8.0
 
