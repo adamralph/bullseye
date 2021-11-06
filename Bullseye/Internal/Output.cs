@@ -73,7 +73,7 @@ namespace Bullseye.Internal
 
             var builder = new StringBuilder()
                 .AppendLine(Format($"{this.palette.Verbose}{version}{this.palette.Reset}", "Bullseye version", this.prefix, this.palette))
-                .AppendLine(Format($"{this.palette.Verbose}{this.host}{(this.host != Host.Unknown ? $" ({(this.hostForced ? "forced" : "detected")})" : "")}{this.palette.Reset}", "Host", this.prefix, this.palette))
+                .AppendLine(Format($"{this.palette.Verbose}{this.host} ({(this.hostForced ? "forced" : "detected")}){this.palette.Reset}", "Host", this.prefix, this.palette))
                 .AppendLine(Format($"{this.palette.Verbose}{this.operatingSystem}{this.palette.Reset}", "OS", this.prefix, this.palette))
                 .AppendLine(Format($"{this.palette.Verbose}{string.Join(" ", this.args)}{this.palette.Reset}", "Args", this.prefix, this.palette));
 
@@ -253,6 +253,7 @@ $@"{p.Default}Usage:{p.Reset}
   {p.Option}-v{p.Default},{p.Reset} {p.Option}--verbose{p.Reset}              {p.Default}Enable verbose output{p.Reset}
   {p.Option}--appveyor{p.Reset}                 {p.Default}Force Appveyor mode (normally auto-detected){p.Reset}
   {p.Option}--azure-pipelines{p.Reset}          {p.Default}Force Azure Pipelines mode (normally auto-detected){p.Reset}
+  {p.Option}--console{p.Reset}                  {p.Default}Force console mode (normally auto-detected){p.Reset}
   {p.Option}--github-actions{p.Reset}           {p.Default}Force GitHub Actions mode (normally auto-detected){p.Reset}
   {p.Option}--gitlab-ci{p.Reset}                {p.Default}Force GitLab CI mode (normally auto-detected){p.Reset}
   {p.Option}--teamcity{p.Reset}                 {p.Default}Force TeamCity mode (normally auto-detected){p.Reset}

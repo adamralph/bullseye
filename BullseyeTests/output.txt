@@ -1,7 +1,7 @@
 ﻿
 noColor: True
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
@@ -11,7 +11,7 @@ verbose: True
 args: arg1 arg2
 
 prefix1: Bullseye version: version
-prefix1: Host: Unknown
+prefix1: Host: Console (forced)
 prefix1: OS: Unknown
 prefix1: Args: arg1 arg2
 prefix1: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -87,7 +87,7 @@ prefix1: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: True
-host: Unknown
+host: Console
 hostForced: False
 operatingSystem: Unknown
 skipDependencies: False
@@ -97,7 +97,7 @@ verbose: True
 args: arg1 arg2
 
 prefix2: Bullseye version: version
-prefix2: Host: Unknown
+prefix2: Host: Console (detected)
 prefix2: OS: Unknown
 prefix2: Args: arg1 arg2
 prefix2: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -173,7 +173,7 @@ prefix2: FAILED! (target1 target2 target3) (1 m 19 s)
 
 noColor: True
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
@@ -183,7 +183,7 @@ verbose: True
 args: 
 
 prefix3: Bullseye version: version
-prefix3: Host: Unknown
+prefix3: Host: Console (forced)
 prefix3: OS: Unknown
 prefix3: Args: 
 prefix3: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -259,7 +259,7 @@ prefix3: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: Windows
 skipDependencies: True
@@ -269,7 +269,7 @@ verbose: True
 args: 
 
 prefix4: Bullseye version: version
-prefix4: Host: Unknown
+prefix4: Host: Console (forced)
 prefix4: OS: Windows
 prefix4: Args: 
 prefix4: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -345,7 +345,7 @@ prefix4: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: Linux
 skipDependencies: True
@@ -355,7 +355,7 @@ verbose: True
 args: 
 
 prefix5: Bullseye version: version
-prefix5: Host: Unknown
+prefix5: Host: Console (forced)
 prefix5: OS: Linux
 prefix5: Args: 
 prefix5: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -431,7 +431,7 @@ prefix5: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
@@ -441,7 +441,7 @@ verbose: True
 args: 
 
 prefix6: Bullseye version: version
-prefix6: Host: Unknown
+prefix6: Host: Console (forced)
 prefix6: OS: MacOS
 prefix6: Args: 
 prefix6: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -2925,7 +2925,7 @@ prefix34: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 
 noColor: False
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
@@ -2935,7 +2935,7 @@ verbose: True
 args: 
 
 [90mprefix35:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix35:[0m [90mHost:[0m [90mUnknown[0m
+[90mprefix35:[0m [90mHost:[0m [90mConsole (forced)[0m
 [90mprefix35:[0m [90mOS:[0m [90mUnknown[0m
 [90mprefix35:[0m [90mArgs:[0m [90m[0m
 [90mprefix35:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3011,7 +3011,7 @@ args:
 
 noColor: False
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: Windows
 skipDependencies: True
@@ -3021,7 +3021,7 @@ verbose: True
 args: 
 
 [90mprefix36:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix36:[0m [90mHost:[0m [90mUnknown[0m
+[90mprefix36:[0m [90mHost:[0m [90mConsole (forced)[0m
 [90mprefix36:[0m [90mOS:[0m [90mWindows[0m
 [90mprefix36:[0m [90mArgs:[0m [90m[0m
 [90mprefix36:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3097,7 +3097,7 @@ args:
 
 noColor: False
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: Linux
 skipDependencies: True
@@ -3107,7 +3107,7 @@ verbose: True
 args: 
 
 [90mprefix37:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix37:[0m [90mHost:[0m [90mUnknown[0m
+[90mprefix37:[0m [90mHost:[0m [90mConsole (forced)[0m
 [90mprefix37:[0m [90mOS:[0m [90mLinux[0m
 [90mprefix37:[0m [90mArgs:[0m [90m[0m
 [90mprefix37:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3183,7 +3183,7 @@ args:
 
 noColor: False
 noExtendedChars: False
-host: Unknown
+host: Console
 hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
@@ -3193,7 +3193,7 @@ verbose: True
 args: 
 
 [90mprefix38:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix38:[0m [90mHost:[0m [90mUnknown[0m
+[90mprefix38:[0m [90mHost:[0m [90mConsole (forced)[0m
 [90mprefix38:[0m [90mOS:[0m [90mMacOS[0m
 [90mprefix38:[0m [90mArgs:[0m [90m[0m
 [90mprefix38:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m

@@ -30,6 +30,7 @@ namespace Bullseye
             new OptionDefinition("-v", "--verbose",           "Enable verbose output"),
             new OptionDefinition(null, "--appveyor",          "Force Appveyor mode (normally auto-detected)"),
             new OptionDefinition(null, "--azure-pipelines",   "Force Azure Pipelines mode (normally auto-detected)"),
+            new OptionDefinition(null, "--console",           "Force console mode (normally auto-detected)"),
             new OptionDefinition(null, "--github-actions",    "Force GitHub Actions mode (normally auto-detected)"),
             new OptionDefinition(null, "--gitlab-ci",         "Force GitLab CI mode (normally auto-detected)"),
             new OptionDefinition(null, "--teamcity",          "Force TeamCity mode (normally auto-detected)"),
@@ -102,42 +103,49 @@ namespace Bullseye
                     case "--appveyor":
                         if (isSet)
                         {
-                            this.Host = Host.Appveyor;
+                            this.Host = Bullseye.Host.Appveyor;
                         }
 
                         break;
                     case "--azure-pipelines":
                         if (isSet)
                         {
-                            this.Host = Host.AzurePipelines;
+                            this.Host = Bullseye.Host.AzurePipelines;
+                        }
+
+                        break;
+                    case "--console":
+                        if (isSet)
+                        {
+                            this.Host = Bullseye.Host.Console;
                         }
 
                         break;
                     case "--github-actions":
                         if (isSet)
                         {
-                            this.Host = Host.GitHubActions;
+                            this.Host = Bullseye.Host.GitHubActions;
                         }
 
                         break;
                     case "--gitlab-ci":
                         if (isSet)
                         {
-                            this.Host = Host.GitLabCI;
+                            this.Host = Bullseye.Host.GitLabCI;
                         }
 
                         break;
                     case "--travis":
                         if (isSet)
                         {
-                            this.Host = Host.Travis;
+                            this.Host = Bullseye.Host.Travis;
                         }
 
                         break;
                     case "--teamcity":
                         if (isSet)
                         {
-                            this.Host = Host.TeamCity;
+                            this.Host = Bullseye.Host.TeamCity;
                         }
 
                         break;
@@ -227,9 +235,9 @@ namespace Bullseye
 
         /// <summary>
         /// Gets or sets a value indicating whether to force the mode for a specific host environment (normally auto-detected).
-        /// If the value is set to <see cref="Host.Unknown"/> (default), then no mode is forced.
+        /// If the value is set to <c>null</c>, then no mode is forced.
         /// </summary>
-        public Host Host { get; set; }
+        public Host? Host { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether to show help and exit.
