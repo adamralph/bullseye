@@ -8,7 +8,7 @@ namespace Bullseye
     /// <summary>
     /// The options to use when running or listing targets.
     /// </summary>
-    public class Options
+    public class Options : IOptions
     {
         private readonly List<string> unknownOptions = new List<string>();
 
