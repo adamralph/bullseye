@@ -113,16 +113,16 @@ foreach (var name in Enumerable.Range(1, 10).Select(i => i.ToString(CultureInfo.
 
 largeGraph.Add("large-graph", DependsOn(largeGraphTargetNames.Last()));
 
-var (options, targetNames) = Options.Parse(args);
+var (targetNames, options, unknownOptions, showHelp) = CommandLine.Parse(args);
 
 if (targetNames.Contains("large-graph"))
 {
-    await largeGraph.RunAndExitAsync(targetNames, options);
+    await largeGraph.RunAndExitAsync(targetNames, options, unknownOptions, showHelp);
 }
 
-if (!options.ShowHelp)
+if (!showHelp)
 {
-    await targets.RunWithoutExitingAsync(targetNames, options);
+    await targets.RunWithoutExitingAsync(targetNames, options, unknownOptions);
 }
 
 await RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException);

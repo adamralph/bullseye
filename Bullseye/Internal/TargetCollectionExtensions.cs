@@ -19,27 +19,31 @@ namespace Bullseye.Internal
             Func<Exception, bool> messageOnly,
             bool exit)
         {
-            var (options, names) = Options.Parse(args);
+            var (names, options, unknownOptions, showHelp) = CommandLine.Parse(args);
 
-            return targets.RunAsync(args, names, options, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
+            return targets.RunAsync(args, names, options, unknownOptions, showHelp, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
         }
 
         public static Task RunAsync(
             this TargetCollection targets,
             IEnumerable<string> names,
             IOptions options,
+            IEnumerable<string> unknownOptions,
+            bool showHelp,
             TextWriter outputWriter,
             TextWriter diagnostics,
             string messagePrefix,
             Func<Exception, bool> messageOnly,
             bool exit) =>
-            targets.RunAsync(new List<string>(), names.Sanitize().ToList(), options, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
+            targets.RunAsync(new List<string>(), names.Sanitize().ToList(), options, unknownOptions.Sanitize().ToList(), showHelp, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
 
         private static async Task RunAsync(
             this TargetCollection targets,
             IReadOnlyCollection<string> args,
             IReadOnlyCollection<string> names,
             IOptions options,
+            IReadOnlyCollection<string> unknownOptions,
+            bool showHelp,
             TextWriter outputWriter,
             TextWriter diagnostics,
             string messagePrefix,
@@ -52,7 +56,7 @@ namespace Bullseye.Internal
             {
                 try
                 {
-                    await RunAsync(targets, args, names, options, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
+                    await RunAsync(targets, args, names, options, unknownOptions, showHelp, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
                 }
                 catch (InvalidUsageException ex)
                 {
@@ -68,7 +72,7 @@ namespace Bullseye.Internal
             }
             else
             {
-                await RunAsync(targets, args, names, options, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
+                await RunAsync(targets, args, names, options, unknownOptions, showHelp, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
             }
         }
 
@@ -77,6 +81,8 @@ namespace Bullseye.Internal
             IReadOnlyCollection<string> args,
             IReadOnlyCollection<string> names,
             IOptions options,
+            IReadOnlyCollection<string> unknownOptions,
+            bool showHelp,
             TextWriter outputWriter,
             TextWriter diagnostics,
             string messagePrefix,
@@ -160,8 +166,8 @@ namespace Bullseye.Internal
                     options.ListTree,
                     options.Parallel,
                     options.SkipDependencies,
-                    options.ShowHelp,
-                    options.UnknownOptions).Tax();
+                    unknownOptions,
+                    showHelp).Tax();
             }
             finally
             {
@@ -181,8 +187,8 @@ namespace Bullseye.Internal
             bool listTree,
             bool parallel,
             bool skipDependencies,
-            bool showHelp,
-            IReadOnlyCollection<string> unknownOptions)
+            IReadOnlyCollection<string> unknownOptions,
+            bool showHelp)
         {
             if (unknownOptions.Count > 0)
             {

@@ -35,6 +35,8 @@ namespace Bullseye
         /// </summary>
         /// <param name="targets">The targets to run or list.</param>
         /// <param name="options">The options to use when running or listing targets.</param>
+        /// <param name="unknownOptions">The unknown options specified in the command line arguments.</param>
+        /// <param name="showHelp">A value indicating whether to show help.</param>
         /// <param name="messageOnly">
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
@@ -45,8 +47,8 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> targets, IOptions options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, true);
+        public Task RunAndExitAsync(IEnumerable<string> targets, IOptions options, IEnumerable<string> unknownOptions = null, bool showHelp = false, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, Console.Out, Console.Error, messagePrefix, messageOnly, true);
 
         /// <summary>
         /// Runs the targets.
@@ -74,6 +76,8 @@ namespace Bullseye
         /// </summary>
         /// <param name="targets">The targets to run or list.</param>
         /// <param name="options">The options to use when running or listing targets.</param>
+        /// <param name="unknownOptions">The unknown options specified in the command line arguments.</param>
+        /// <param name="showHelp">A value indicating whether to show help.</param>
         /// <param name="messageOnly">
         /// A predicate that is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
@@ -84,7 +88,7 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunWithoutExitingAsync(IEnumerable<string> targets, IOptions options, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, Console.Out, Console.Error, messagePrefix, messageOnly, false);
+        public Task RunWithoutExitingAsync(IEnumerable<string> targets, IOptions options, IEnumerable<string> unknownOptions = null, bool showHelp = false, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, Console.Out, Console.Error, messagePrefix, messageOnly, false);
     }
 }
