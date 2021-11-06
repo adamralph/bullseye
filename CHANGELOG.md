@@ -4,8 +4,17 @@
 
 ### Enhancements
 
+- [#532: **[BREAKING]** Expand help option formats to a superset of those supported by System.CommandLine](https://github.com/adamralph/bullseye/issues/532)
+- [#640: Group target log lines in GitHub Actions](https://github.com/adamralph/bullseye/issues/640)
 - [#641: Parse-able standard output](https://github.com/adamralph/bullseye/issues/641)
+- [#642: **[BREAKING]** Better options API](https://github.com/adamralph/bullseye/issues/642)
 - [#663: **[BREAKING]** remove sync over async](https://github.com/adamralph/bullseye/pull/663)
+- [#673: **[BREAKING]** allow forcing of console (default) mode](https://github.com/adamralph/bullseye/pull/673)
+- [#675: accept IOptions instead of Options](https://github.com/adamralph/bullseye/pull/675)
+
+### Fixed bugs
+
+- [#674: **[BREAKING]** fix AppVeyor casing](https://github.com/adamralph/bullseye/pull/674)
 
 ## 3.8.0
 
