@@ -2,7 +2,7 @@
 noColor: True
 noExtendedChars: False
 host: Unknown
-hostDetected: True
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -88,7 +88,7 @@ prefix1: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: True
 host: Unknown
-hostDetected: False
+hostForced: False
 operatingSystem: Unknown
 skipDependencies: False
 dryRun: False
@@ -174,7 +174,7 @@ prefix2: FAILED! (target1 target2 target3) (1 m 19 s)
 noColor: True
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -260,7 +260,7 @@ prefix3: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -346,7 +346,7 @@ prefix4: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -432,7 +432,7 @@ prefix5: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -518,7 +518,7 @@ prefix6: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -604,7 +604,7 @@ prefix7: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -690,7 +690,7 @@ prefix8: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -776,7 +776,7 @@ prefix9: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 noColor: True
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -862,7 +862,7 @@ prefix10: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -948,7 +948,7 @@ prefix11: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -1034,7 +1034,7 @@ prefix12: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -1120,7 +1120,7 @@ prefix13: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -1206,7 +1206,7 @@ prefix14: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -1292,7 +1292,7 @@ prefix15: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -1378,7 +1378,7 @@ prefix16: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -1464,7 +1464,7 @@ prefix17: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -1550,7 +1550,7 @@ prefix18: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -1636,7 +1636,7 @@ prefix19: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -1722,7 +1722,7 @@ prefix20: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -1808,7 +1808,7 @@ prefix21: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -1894,7 +1894,7 @@ prefix22: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -1980,7 +1980,7 @@ prefix23: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -2066,7 +2066,7 @@ prefix24: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -2152,7 +2152,7 @@ prefix25: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -2238,7 +2238,7 @@ prefix26: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -2324,7 +2324,7 @@ prefix27: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -2410,7 +2410,7 @@ prefix28: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -2496,7 +2496,7 @@ prefix29: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -2582,7 +2582,7 @@ prefix30: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -2668,7 +2668,7 @@ prefix31: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -2754,7 +2754,7 @@ prefix32: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -2840,7 +2840,7 @@ prefix33: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: True
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -2926,7 +2926,7 @@ prefix34: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenc
 noColor: False
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -3012,7 +3012,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -3098,7 +3098,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -3184,7 +3184,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Unknown
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -3270,7 +3270,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -3356,7 +3356,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -3442,7 +3442,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -3528,7 +3528,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Appveyor
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -3614,7 +3614,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -3700,7 +3700,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -3786,7 +3786,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -3872,7 +3872,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: AzurePipelines
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -3958,7 +3958,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -4044,7 +4044,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -4130,7 +4130,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -4216,7 +4216,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitHubActions
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -4302,7 +4302,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -4388,7 +4388,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -4474,7 +4474,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -4560,7 +4560,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: GitLabCI
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -4646,7 +4646,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -4732,7 +4732,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -4818,7 +4818,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -4904,7 +4904,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: Travis
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -4990,7 +4990,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -5076,7 +5076,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -5162,7 +5162,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -5248,7 +5248,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: TeamCity
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
@@ -5334,7 +5334,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
 dryRun: True
@@ -5420,7 +5420,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: Windows
 skipDependencies: True
 dryRun: True
@@ -5506,7 +5506,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: Linux
 skipDependencies: True
 dryRun: True
@@ -5592,7 +5592,7 @@ args:
 noColor: False
 noExtendedChars: False
 host: VisualStudioCode
-hostDetected: False
+hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
 dryRun: True
