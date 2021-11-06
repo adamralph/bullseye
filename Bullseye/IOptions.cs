@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Bullseye
 {
     /// <summary>
@@ -67,15 +65,5 @@ namespace Bullseye
         /// If the value is set to <c>null</c>, then no mode is forced.
         /// </summary>
         Host? Host { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether to show help and exit.
-        /// </summary>
-        bool ShowHelp { get; }
-
-        /// <summary>
-        /// Gets the list of unknown options represented by the named values passed to the constructor.
-        /// </summary>
-        IReadOnlyList<string> UnknownOptions { get; }
     }
 }
