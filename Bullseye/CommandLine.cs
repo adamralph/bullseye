@@ -10,7 +10,7 @@ namespace Bullseye
     /// </summary>
     public static class CommandLine
     {
-        private static readonly IReadOnlyList<string> helpOptions = new List<string> { "--help", "-h", "-?" };
+        private static readonly IReadOnlyList<string> helpOptions = new List<string> { "--help", "-help", "/help", "-h", "/h", "-?", "/?" };
 
         /// <summary>
         /// Converts a list of argument strings into an instance of <see cref="Options"/> and a list of target names.
@@ -21,9 +21,12 @@ namespace Bullseye
         {
             var argList = args.Sanitize().ToList();
 
-            var targets = argList.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList();
+            var helpArgs = argList.Where(arg => helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase));
+            var nonHelpArgs = argList.Where(arg => !helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase));
 
-            var nonTargets = argList.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
+            var targets = nonHelpArgs.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList();
+
+            var nonTargets = nonHelpArgs.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
 
             var optionArgs = nonTargets.Where(arg => !helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase)).Select(arg => (arg, true));
             var result = OptionsReader.Read(optionArgs);
@@ -42,8 +45,6 @@ namespace Bullseye
                 SkipDependencies = result.SkipDependencies,
                 Verbose = result.Verbose,
             };
-
-            var helpArgs = nonTargets.Where(arg => helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase));
 
             return (targets, options, result.UnknownOptions, helpArgs.Any());
         }
