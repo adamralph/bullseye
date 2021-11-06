@@ -251,7 +251,7 @@ $@"{p.Default}Usage:{p.Reset}
   {p.Option}-p{p.Default},{p.Reset} {p.Option}--parallel{p.Reset}             {p.Default}Run targets in parallel{p.Reset}
   {p.Option}-s{p.Default},{p.Reset} {p.Option}--skip-dependencies{p.Reset}    {p.Default}Do not run targets' dependencies{p.Reset}
   {p.Option}-v{p.Default},{p.Reset} {p.Option}--verbose{p.Reset}              {p.Default}Enable verbose output{p.Reset}
-  {p.Option}--appveyor{p.Reset}                 {p.Default}Force Appveyor mode (normally auto-detected){p.Reset}
+  {p.Option}--appveyor{p.Reset}                 {p.Default}Force AppVeyor mode (normally auto-detected){p.Reset}
   {p.Option}--azure-pipelines{p.Reset}          {p.Default}Force Azure Pipelines mode (normally auto-detected){p.Reset}
   {p.Option}--console{p.Reset}                  {p.Default}Force console mode (normally auto-detected){p.Reset}
   {p.Option}--github-actions{p.Reset}           {p.Default}Force GitHub Actions mode (normally auto-detected){p.Reset}

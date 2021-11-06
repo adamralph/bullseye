@@ -66,7 +66,7 @@ namespace Bullseye.Internal
                 this.TreeDown = $"{green}│{reset} ";
                 this.Horizontal = '─';
 
-                if (host == Host.Appveyor &&
+                if (host == Host.AppVeyor &&
                     (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
                 {
                     this.Default = brightBlack;
