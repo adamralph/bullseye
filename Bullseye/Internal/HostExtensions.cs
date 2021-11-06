@@ -4,11 +4,11 @@ namespace Bullseye.Internal
 {
     public static class HostExtensions
     {
-        public static Host DetectIfUnknown(this Host host)
+        public static Host DetectIfNull(this Host? host)
         {
-            if (host != Host.Unknown)
+            if (host.HasValue)
             {
-                return host;
+                return host.Value;
             }
 
             if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
@@ -40,7 +40,7 @@ namespace Bullseye.Internal
                 return Host.VisualStudioCode;
             }
 
-            return Host.Unknown;
+            return Host.Console;
         }
     }
 }

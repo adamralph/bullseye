@@ -1,11 +1,11 @@
 Bullseye.Host
 Bullseye.Host.Appveyor = 1 -> Bullseye.Host
 Bullseye.Host.AzurePipelines = 2 -> Bullseye.Host
+Bullseye.Host.Console = 0 -> Bullseye.Host
 Bullseye.Host.GitHubActions = 3 -> Bullseye.Host
 Bullseye.Host.GitLabCI = 4 -> Bullseye.Host
 Bullseye.Host.TeamCity = 6 -> Bullseye.Host
 Bullseye.Host.Travis = 5 -> Bullseye.Host
-Bullseye.Host.Unknown = 0 -> Bullseye.Host
 Bullseye.Host.VisualStudioCode = 7 -> Bullseye.Host
 Bullseye.InvalidUsageException
 Bullseye.InvalidUsageException.InvalidUsageException() -> void
@@ -21,7 +21,7 @@ Bullseye.Options.Clear.get -> bool
 Bullseye.Options.Clear.set -> void
 Bullseye.Options.DryRun.get -> bool
 Bullseye.Options.DryRun.set -> void
-Bullseye.Options.Host.get -> Bullseye.Host
+Bullseye.Options.Host.get -> Bullseye.Host?
 Bullseye.Options.Host.set -> void
 Bullseye.Options.ListDependencies.get -> bool
 Bullseye.Options.ListDependencies.set -> void
