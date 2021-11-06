@@ -28,7 +28,7 @@ namespace Bullseye
             new OptionDefinition("-p", "--parallel",          "Run targets in parallel"),
             new OptionDefinition("-s", "--skip-dependencies", "Do not run targets' dependencies"),
             new OptionDefinition("-v", "--verbose",           "Enable verbose output"),
-            new OptionDefinition(null, "--appveyor",          "Force Appveyor mode (normally auto-detected)"),
+            new OptionDefinition(null, "--appveyor",          "Force AppVeyor mode (normally auto-detected)"),
             new OptionDefinition(null, "--azure-pipelines",   "Force Azure Pipelines mode (normally auto-detected)"),
             new OptionDefinition(null, "--console",           "Force console mode (normally auto-detected)"),
             new OptionDefinition(null, "--github-actions",    "Force GitHub Actions mode (normally auto-detected)"),
@@ -103,7 +103,7 @@ namespace Bullseye
                     case "--appveyor":
                         if (isSet)
                         {
-                            this.Host = Bullseye.Host.Appveyor;
+                            this.Host = Bullseye.Host.AppVeyor;
                         }
 
                         break;

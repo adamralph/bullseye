@@ -9,7 +9,7 @@ _[![CodeQL analysis](https://github.com/adamralph/bullseye/workflows/.github/wor
 _[![Lint](https://github.com/adamralph/bullseye/workflows/.github/workflows/lint.yml/badge.svg)](https://github.com/adamralph/bullseye/actions/workflows/lint.yml?query=branch%3Amain)_
 _[![Spell check](https://github.com/adamralph/bullseye/workflows/.github/workflows/spell-check.yml/badge.svg)](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml?query=branch%3Amain)_
 
-_[![Appveyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/main.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/main)_
+_[![AppVeyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/main.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/main)_
 _[![Azure DevOps smoke test status](https://img.shields.io/azure-devops/build/adamralph/9b2238c8-fcb0-4618-a3ef-0ecab48ea345/1/main.svg?logo=azuredevops&label=Azure%20DevOps)](https://adamralph.visualstudio.com/bullseye/_build/latest?definitionId=1&branchName=main)_
 _[![CircleCI smoke test status](https://img.shields.io/circleci/build/github/adamralph/bullseye/main?logo=circleci&label=CircleCI)](https://circleci.com/gh/adamralph/bullseye/tree/main)_
 _[![Cirrus CI smoke test status](https://img.shields.io/cirrus/github/adamralph/bullseye/main?logo=cirrus-ci&label=Cirrus%20CI)](https://cirrus-ci.com/github/adamralph/bullseye)_

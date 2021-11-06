@@ -4,7 +4,7 @@ namespace Bullseye
     public enum Host
     {
         Console,
-        Appveyor,
+        AppVeyor,
         AzurePipelines,
         GitHubActions,
         GitLabCI,

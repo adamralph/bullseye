@@ -13,7 +13,7 @@ namespace Bullseye.Internal
 
             if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
             {
-                return Host.Appveyor;
+                return Host.AppVeyor;
             }
             else if (Environment.GetEnvironmentVariable("TF_BUILD")?.ToUpperInvariant() == "TRUE")
             {

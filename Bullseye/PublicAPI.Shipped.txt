@@ -1,5 +1,5 @@
 Bullseye.Host
-Bullseye.Host.Appveyor = 1 -> Bullseye.Host
+Bullseye.Host.AppVeyor = 1 -> Bullseye.Host
 Bullseye.Host.AzurePipelines = 2 -> Bullseye.Host
 Bullseye.Host.Console = 0 -> Bullseye.Host
 Bullseye.Host.GitHubActions = 3 -> Bullseye.Host

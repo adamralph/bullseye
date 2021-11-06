@@ -1,4 +1,4 @@
-﻿
+
 noColor: True
 noExtendedChars: False
 host: Console
@@ -517,7 +517,7 @@ prefix6: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
@@ -527,7 +527,7 @@ verbose: True
 args: 
 
 prefix7: Bullseye version: version
-prefix7: Host: Appveyor (forced)
+prefix7: Host: AppVeyor (forced)
 prefix7: OS: Unknown
 prefix7: Args: 
 prefix7: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -603,7 +603,7 @@ prefix7: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: Windows
 skipDependencies: True
@@ -613,7 +613,7 @@ verbose: True
 args: 
 
 prefix8: Bullseye version: version
-prefix8: Host: Appveyor (forced)
+prefix8: Host: AppVeyor (forced)
 prefix8: OS: Windows
 prefix8: Args: 
 prefix8: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -689,7 +689,7 @@ prefix8: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: Linux
 skipDependencies: True
@@ -699,7 +699,7 @@ verbose: True
 args: 
 
 prefix9: Bullseye version: version
-prefix9: Host: Appveyor (forced)
+prefix9: Host: AppVeyor (forced)
 prefix9: OS: Linux
 prefix9: Args: 
 prefix9: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -775,7 +775,7 @@ prefix9: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
@@ -785,7 +785,7 @@ verbose: True
 args: 
 
 prefix10: Bullseye version: version
-prefix10: Host: Appveyor (forced)
+prefix10: Host: AppVeyor (forced)
 prefix10: OS: MacOS
 prefix10: Args: 
 prefix10: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -3269,7 +3269,7 @@ args:
 
 noColor: False
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: Unknown
 skipDependencies: True
@@ -3279,7 +3279,7 @@ verbose: True
 args: 
 
 [90mprefix39:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix39:[0m [90mHost:[0m [90mAppveyor (forced)[0m
+[90mprefix39:[0m [90mHost:[0m [90mAppVeyor (forced)[0m
 [90mprefix39:[0m [90mOS:[0m [90mUnknown[0m
 [90mprefix39:[0m [90mArgs:[0m [90m[0m
 [90mprefix39:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3355,7 +3355,7 @@ args:
 
 noColor: False
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: Windows
 skipDependencies: True
@@ -3365,7 +3365,7 @@ verbose: True
 args: 
 
 [90mprefix40:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix40:[0m [90mHost:[0m [90mAppveyor (forced)[0m
+[90mprefix40:[0m [90mHost:[0m [90mAppVeyor (forced)[0m
 [90mprefix40:[0m [90mOS:[0m [90mWindows[0m
 [90mprefix40:[0m [90mArgs:[0m [90m[0m
 [90mprefix40:[0m [34mverboseTarget3[90m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3441,7 +3441,7 @@ args:
 
 noColor: False
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: Linux
 skipDependencies: True
@@ -3451,7 +3451,7 @@ verbose: True
 args: 
 
 [90mprefix41:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix41:[0m [90mHost:[0m [90mAppveyor (forced)[0m
+[90mprefix41:[0m [90mHost:[0m [90mAppVeyor (forced)[0m
 [90mprefix41:[0m [90mOS:[0m [90mLinux[0m
 [90mprefix41:[0m [90mArgs:[0m [90m[0m
 [90mprefix41:[0m [34mverboseTarget3[90m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3527,7 +3527,7 @@ args:
 
 noColor: False
 noExtendedChars: False
-host: Appveyor
+host: AppVeyor
 hostForced: True
 operatingSystem: MacOS
 skipDependencies: True
@@ -3537,7 +3537,7 @@ verbose: True
 args: 
 
 [90mprefix42:[0m [90mBullseye version:[0m [90mversion[0m
-[90mprefix42:[0m [90mHost:[0m [90mAppveyor (forced)[0m
+[90mprefix42:[0m [90mHost:[0m [90mAppVeyor (forced)[0m
 [90mprefix42:[0m [90mOS:[0m [90mMacOS[0m
 [90mprefix42:[0m [90mArgs:[0m [90m[0m
 [90mprefix42:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
