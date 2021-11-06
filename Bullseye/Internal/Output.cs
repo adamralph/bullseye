@@ -134,6 +134,14 @@ namespace Bullseye.Internal
             }
         }
 
+        public async Task BeginGroup(Target target)
+        {
+            if (!this.parallel && this.host == Host.GitHubActions)
+            {
+                await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.prefix}:{this.palette.Reset} {this.palette.Target}{target}{this.palette.Reset}").Tax();
+            }
+        }
+
         public Task Starting(Target target, IEnumerable<Target> dependencyPath)
         {
             var targetResult = this.InternResult(target);
@@ -180,6 +188,14 @@ namespace Bullseye.Internal
             result.Outcome = TargetOutcome.Succeeded;
 
             return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+        }
+
+        public async Task EndGroup()
+        {
+            if (!this.parallel && this.host == Host.GitHubActions)
+            {
+                await this.writer.WriteLineAsync("::endgroup::").Tax();
+            }
         }
 
         public Task NoInputs(Target target, IEnumerable<Target> dependencyPath)
