@@ -14,6 +14,7 @@ namespace Bullseye.Internal
 
         public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
+            await output.BeginGroup(this).Tax();
             await output.Starting(this, dependencyPath).Tax();
 
             TimeSpan? duration = null;
@@ -41,12 +42,14 @@ namespace Bullseye.Internal
                     }
 
                     await output.Failed(this, ex, duration, dependencyPath).Tax();
+                    await output.EndGroup().Tax();
 
                     throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
                 }
             }
 
             await output.Succeeded(this, duration, dependencyPath).Tax();
+            await output.EndGroup().Tax();
         }
     }
 }

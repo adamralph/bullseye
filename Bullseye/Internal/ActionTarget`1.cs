@@ -39,6 +39,7 @@ namespace Bullseye.Internal
                 return;
             }
 
+            await output.BeginGroup(this).Tax();
             await output.Starting(this, dependencyPath).Tax();
 
             try
@@ -60,10 +61,13 @@ namespace Bullseye.Internal
             catch (Exception)
             {
                 await output.Failed(this, dependencyPath).Tax();
+                await output.EndGroup().Tax();
+
                 throw;
             }
 
             await output.Succeeded(this, dependencyPath).Tax();
+            await output.EndGroup().Tax();
         }
 
         private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
