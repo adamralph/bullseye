@@ -19,7 +19,7 @@ namespace Bullseye.Internal
         private readonly IReadOnlyCollection<string> args;
         private readonly bool dryRun;
         private readonly Host host;
-        private readonly bool hostDetected;
+        private readonly bool hostForced;
         private readonly bool noColor;
         private readonly OperatingSystem operatingSystem;
         private readonly bool parallel;
@@ -36,7 +36,7 @@ namespace Bullseye.Internal
             IReadOnlyCollection<string> args,
             bool dryRun,
             Host host,
-            bool hostDetected,
+            bool hostForced,
             bool noColor,
             bool noExtendedChars,
             OperatingSystem operatingSystem,
@@ -50,7 +50,7 @@ namespace Bullseye.Internal
             this.args = args ?? new List<string>();
             this.dryRun = dryRun;
             this.host = host;
-            this.hostDetected = hostDetected;
+            this.hostForced = hostForced;
             this.noColor = noColor;
             this.operatingSystem = operatingSystem;
             this.parallel = parallel;
@@ -73,7 +73,7 @@ namespace Bullseye.Internal
 
             var builder = new StringBuilder()
                 .AppendLine(Format($"{this.palette.Verbose}{version}{this.palette.Reset}", "Bullseye version", this.prefix, this.palette))
-                .AppendLine(Format($"{this.palette.Verbose}{this.host}{(this.host != Host.Unknown ? $" ({(this.hostDetected ? "detected" : "forced")})" : "")}{this.palette.Reset}", "Host", this.prefix, this.palette))
+                .AppendLine(Format($"{this.palette.Verbose}{this.host}{(this.host != Host.Unknown ? $" ({(this.hostForced ? "forced" : "detected")})" : "")}{this.palette.Reset}", "Host", this.prefix, this.palette))
                 .AppendLine(Format($"{this.palette.Verbose}{this.operatingSystem}{this.palette.Reset}", "OS", this.prefix, this.palette))
                 .AppendLine(Format($"{this.palette.Verbose}{string.Join(" ", this.args)}{this.palette.Reset}", "Args", this.prefix, this.palette));
 

@@ -23,7 +23,7 @@ namespace BullseyeTests
             // act
             foreach (var @bool in new[] { true, false })
             {
-                await Write(output, noColor: true, noExtendedChars: !@bool, default, hostDetected: @bool, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, new[] { "arg1", "arg2" }, ordinal++);
+                await Write(output, noColor: true, noExtendedChars: !@bool, default, hostForced: @bool, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, new[] { "arg1", "arg2" }, ordinal++);
             }
 
             foreach (var noColor in new[] { true, false })
@@ -32,7 +32,7 @@ namespace BullseyeTests
                 {
                     foreach (var operatingSystem in (OperatingSystem[])Enum.GetValues(typeof(OperatingSystem)))
                     {
-                        await Write(output, noColor, noExtendedChars: false, host, hostDetected: false, operatingSystem, skipDependencies: true, dryRun: true, parallel: true, verbose: true, args: new List<string>(), ordinal++);
+                        await Write(output, noColor, noExtendedChars: false, host, hostForced: true, operatingSystem, skipDependencies: true, dryRun: true, parallel: true, verbose: true, args: new List<string>(), ordinal++);
                     }
                 }
             }
@@ -42,13 +42,13 @@ namespace BullseyeTests
         }
 
         private static async Task Write(
-            StringWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostDetected, OperatingSystem operatingSystem, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
+            StringWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostForced, OperatingSystem operatingSystem, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
         {
             await writer.WriteLineAsync();
             await writer.WriteLineAsync($"noColor: {noColor}");
             await writer.WriteLineAsync($"noExtendedChars: {noExtendedChars}");
             await writer.WriteLineAsync($"host: {host}");
-            await writer.WriteLineAsync($"hostDetected: {hostDetected}");
+            await writer.WriteLineAsync($"hostForced: {hostForced}");
             await writer.WriteLineAsync($"operatingSystem: {operatingSystem}");
             await writer.WriteLineAsync($"skipDependencies: {skipDependencies}");
             await writer.WriteLineAsync($"dryRun: {dryRun}");
@@ -57,7 +57,7 @@ namespace BullseyeTests
             await writer.WriteLineAsync($"args: {string.Join(" ", args)}");
             await writer.WriteLineAsync();
 
-            var output = new Output(writer, args, dryRun, host, hostDetected, noColor, noExtendedChars, operatingSystem, parallel, $"prefix{ordinal}", skipDependencies, verbose);
+            var output = new Output(writer, args, dryRun, host, hostForced, noColor, noExtendedChars, operatingSystem, parallel, $"prefix{ordinal}", skipDependencies, verbose);
 
             await Write(output, dryRun);
         }

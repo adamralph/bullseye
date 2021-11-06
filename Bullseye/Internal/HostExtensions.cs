@@ -4,43 +4,43 @@ namespace Bullseye.Internal
 {
     public static class HostExtensions
     {
-        public static (Host, bool) DetectIfUnknown(this Host host)
+        public static Host DetectIfUnknown(this Host host)
         {
             if (host != Host.Unknown)
             {
-                return (host, false);
+                return host;
             }
 
             if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
             {
-                return (Host.Appveyor, true);
+                return Host.Appveyor;
             }
             else if (Environment.GetEnvironmentVariable("TF_BUILD")?.ToUpperInvariant() == "TRUE")
             {
-                return (Host.AzurePipelines, true);
+                return Host.AzurePipelines;
             }
             else if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS")?.ToUpperInvariant() == "TRUE")
             {
-                return (Host.GitHubActions, true);
+                return Host.GitHubActions;
             }
             else if (Environment.GetEnvironmentVariable("GITLAB_CI")?.ToUpperInvariant() == "TRUE")
             {
-                return (Host.GitLabCI, true);
+                return Host.GitLabCI;
             }
             else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TRAVIS_OS_NAME")))
             {
-                return (Host.Travis, true);
+                return Host.Travis;
             }
             else if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME")))
             {
-                return (Host.TeamCity, true);
+                return Host.TeamCity;
             }
             else if (Environment.GetEnvironmentVariable("TERM_PROGRAM")?.ToUpperInvariant() == "VSCODE")
             {
-                return (Host.VisualStudioCode, true);
+                return Host.VisualStudioCode;
             }
 
-            return (host, false);
+            return Host.Unknown;
         }
     }
 }
