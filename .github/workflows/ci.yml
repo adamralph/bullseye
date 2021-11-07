@@ -24,14 +24,14 @@ jobs:
     name: ${{ matrix.job.name }}
     runs-on: ${{ matrix.job.os }}
     steps:
-      - name: setup-dotnet 3.1.413
+      - name: setup-dotnet 3.1.414
         uses: actions/setup-dotnet@v1.8.2
         with:
-          dotnet-version: "3.1.413"
-      - name: setup-dotnet 5.0.401
+          dotnet-version: "3.1.414"
+      - name: setup-dotnet 5.0.402
         uses: actions/setup-dotnet@v1.8.2
         with:
-          dotnet-version: "5.0.401"
+          dotnet-version: "5.0.402"
       - run: dotnet --info
       - uses: actions/checkout@v2.4.0
         with:
