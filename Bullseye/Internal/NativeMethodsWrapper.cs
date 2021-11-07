@@ -9,6 +9,8 @@ namespace Bullseye.Internal
     {
         public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandle(TextWriter diagnostics, string messagePrefix)
         {
+            diagnostics = diagnostics ?? Console.Error;
+
             var (handle, error) = (NativeMethods.GetStdHandle(NativeMethods.StdHandle.STD_OUTPUT_HANDLE), Marshal.GetLastWin32Error());
 
             if (error != 0)
@@ -23,6 +25,8 @@ namespace Bullseye.Internal
 
         public static async Task<(NativeMethods.ConsoleOutputModes mode, bool succeeded)> TryGetConsoleScreenBufferOutputMode(IntPtr standardOutputHandle, TextWriter diagnostics, string messagePrefix)
         {
+            diagnostics = diagnostics ?? Console.Error;
+
             if (!NativeMethods.GetConsoleMode(standardOutputHandle, out var mode))
             {
                 await diagnostics.WriteLineAsync($"{messagePrefix}: Failed to get the current output mode of the console screen buffer (GetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").Tax();
@@ -35,6 +39,8 @@ namespace Bullseye.Internal
 
         public static async Task TrySetConsoleScreenBufferOutputMode(IntPtr standardOutputHandle, NativeMethods.ConsoleOutputModes mode, TextWriter diagnostics, string messagePrefix)
         {
+            diagnostics = diagnostics ?? Console.Error;
+
             if (!NativeMethods.SetConsoleMode(standardOutputHandle, mode))
             {
                 await diagnostics.WriteLineAsync($"{messagePrefix}: Failed to set the output mode of the console screen buffer (SetConsoleMode). Error code: {Marshal.GetLastWin32Error()}").Tax();

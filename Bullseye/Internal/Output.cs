@@ -45,7 +45,7 @@ namespace Bullseye.Internal
             bool skipDependencies,
             bool verbose)
         {
-            this.writer = writer;
+            this.writer = writer ?? Console.Out;
 
             this.args = args ?? new List<string>();
             this.dryRun = dryRun;
@@ -160,7 +160,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex?.Message}{this.palette.Reset}", target, duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Failed(Target target, IEnumerable<Target> dependencyPath)
@@ -229,7 +229,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex?.Message}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
         }
 
         public Task Succeeded<TInput>(Target target, TInput input, TimeSpan? duration, Guid inputId, IEnumerable<Target> dependencyPath)
@@ -294,7 +294,7 @@ $@"{p.Default}Usage:{p.Reset}
         {
             var lines = new List<(string, string)>();
 
-            foreach (var rootTarget in rootTargets)
+            foreach (var rootTarget in rootTargets ?? Enumerable.Empty<string>())
             {
                 Append(new List<string> { rootTarget }, new Stack<string>(), true, "", 0);
             }

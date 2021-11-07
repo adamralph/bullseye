@@ -14,22 +14,25 @@ namespace Bullseye.Internal
         protected override string GetKeyForItem(Target item) => item.Name;
 
         public async Task RunAsync(
-            IReadOnlyCollection<string> names,
+            IEnumerable<string> names,
             bool dryRun,
             bool parallel,
             bool skipDependencies,
             Func<Exception, bool> messageOnly,
             Output output)
         {
+            var nameList = names.Sanitize().ToList();
+            output = output ?? throw new ArgumentNullException(nameof(output));
+
             if (!skipDependencies)
             {
                 this.CheckForMissingDependencies();
             }
 
             this.CheckForCircularDependencies();
-            this.CheckContains(names);
+            this.CheckContains(nameList);
 
-            var targets = names.Select(name => this[name]).ToList();
+            var targets = nameList.Select(name => this[name]).ToList();
 
             await this.RunAsync(targets, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
         }
@@ -225,7 +228,7 @@ namespace Bullseye.Internal
             }
         }
 
-        private void CheckContains(IEnumerable<string> names)
+        private void CheckContains(List<string> names)
         {
             var notFound = new SortedSet<string>(names.Where(name => !this.Contains(name)));
 

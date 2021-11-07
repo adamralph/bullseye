@@ -20,7 +20,7 @@ namespace Bullseye.Internal
 
         public IReadOnlyCollection<string> Dependencies { get; }
 
-        public virtual Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath) => output.Succeeded(this, null, dependencyPath);
+        public virtual Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath) => output.Succeeded(this, null, dependencyPath);
 
         public override string ToString() => this.Name;
     }

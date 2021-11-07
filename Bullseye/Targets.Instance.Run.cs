@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Bullseye.Internal;
 
@@ -30,7 +29,7 @@ namespace Bullseye
             IEnumerable<string> args,
             Func<Exception, bool> messageOnly = null,
             string messagePrefix = null) =>
-            this.targetCollection.RunAsync(args.Sanitize().ToList(), messageOnly, messagePrefix, Console.Out, Console.Error, true);
+            this.targetCollection.RunAsync(args, messageOnly, messagePrefix, Console.Out, Console.Error, true);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -79,7 +78,7 @@ namespace Bullseye
             IEnumerable<string> args,
             Func<Exception, bool> messageOnly = null,
             string messagePrefix = null) =>
-            this.targetCollection.RunAsync(args.Sanitize().ToList(), messageOnly, messagePrefix, Console.Out, Console.Error, false);
+            this.targetCollection.RunAsync(args, messageOnly, messagePrefix, Console.Out, Console.Error, false);
 
         /// <summary>
         /// Runs the targets.

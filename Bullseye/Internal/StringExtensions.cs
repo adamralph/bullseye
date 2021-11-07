@@ -4,6 +4,6 @@ namespace Bullseye.Internal
 {
     public static class StringExtensions
     {
-        public static string Spaced(this IEnumerable<string> strings) => string.Join(" ", strings);
+        public static string Spaced(this IEnumerable<string> strings) => strings == null ? null : string.Join(" ", strings);
     }
 }
