@@ -11,6 +11,7 @@
 - [#663: **[BREAKING]** remove sync over async](https://github.com/adamralph/bullseye/pull/663)
 - [#673: **[BREAKING]** allow forcing of console (default) mode](https://github.com/adamralph/bullseye/pull/673)
 - [#675: accept IOptions instead of Options](https://github.com/adamralph/bullseye/pull/675)
+- [#682: accept custom output and diagnostic writers](https://github.com/adamralph/bullseye/pull/682)
 
 ### Fixed bugs
 
