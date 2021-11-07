@@ -167,6 +167,11 @@ namespace Bullseye.Internal
 
             public static string StripColours(string text)
             {
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    return text;
+                }
+
                 foreach (var number in numbers)
                 {
                     text = text.Replace($"\x1b[{number}m", "");

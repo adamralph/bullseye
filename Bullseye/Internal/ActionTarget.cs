@@ -12,8 +12,10 @@ namespace Bullseye.Internal
         public ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, description, dependencies) => this.action = action;
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
         {
+            output = output ?? throw new ArgumentNullException(nameof(output));
+
             await output.BeginGroup(this).Tax();
             await output.Starting(this, dependencyPath).Tax();
 
@@ -36,7 +38,7 @@ namespace Bullseye.Internal
                 }
                 catch (Exception ex)
                 {
-                    if (!messageOnly(ex))
+                    if (messageOnly != null && !messageOnly(ex))
                     {
                         await output.Error(this, ex).Tax();
                     }

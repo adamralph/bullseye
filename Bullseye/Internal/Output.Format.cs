@@ -15,7 +15,7 @@ namespace Bullseye.Internal
             TimeSpan? duration,
             string prefix,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {message} {p.Target}({targets.Select(target => target.Name).Spaced()}){p.Reset}{(dryRun ? $" {p.Option}(dry run){p.Reset}" : "")}{(parallel ? $" {p.Option}(parallel){p.Reset}" : "")}{(skipDependencies ? $" {p.Option}(skip dependencies){p.Reset}" : "")}{(duration.HasValue ? $" {p.Timing}({duration.Value.Humanize()}){p.Reset}" : "")}";
+            $"{p.Prefix}{prefix}:{p.Reset} {message} {p.Target}({targets?.Select(target => target.Name).Spaced()}){p.Reset}{(dryRun ? $" {p.Option}(dry run){p.Reset}" : "")}{(parallel ? $" {p.Option}(parallel){p.Reset}" : "")}{(skipDependencies ? $" {p.Option}(skip dependencies){p.Reset}" : "")}{(duration.HasValue ? $" {p.Timing}({duration.Value.Humanize()}){p.Reset}" : "")}";
 
         private static string Format(
             string message,

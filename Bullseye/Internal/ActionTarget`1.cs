@@ -8,14 +8,14 @@ namespace Bullseye.Internal
 {
     public class ActionTarget<TInput> : Target, IHaveInputs
     {
-        private readonly Func<TInput, Task> action;
         private readonly IEnumerable<TInput> inputs;
+        private readonly Func<TInput, Task> action;
 
         public ActionTarget(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
             : base(name, description, dependencies)
         {
-            this.action = action;
             this.inputs = inputs ?? Enumerable.Empty<TInput>();
+            this.action = action;
         }
 
         public IEnumerable<object> Inputs
@@ -29,8 +29,10 @@ namespace Bullseye.Internal
             }
         }
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
         {
+            output = output ?? throw new ArgumentNullException(nameof(output));
+
             var inputsList = this.inputs.ToList();
 
             if (inputsList.Count == 0)
@@ -70,7 +72,7 @@ namespace Bullseye.Internal
             await output.EndGroup().Tax();
         }
 
-        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
         {
             var id = Guid.NewGuid();
 
@@ -95,7 +97,7 @@ namespace Bullseye.Internal
                 }
                 catch (Exception ex)
                 {
-                    if (!messageOnly(ex))
+                    if (messageOnly != null && !messageOnly(ex))
                     {
                         await output.Error(this, input, ex).Tax();
                     }

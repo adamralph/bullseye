@@ -12,16 +12,18 @@ namespace Bullseye.Internal
     {
         public static Task RunAsync(
             this TargetCollection targets,
-            IReadOnlyCollection<string> args,
+            IEnumerable<string> args,
             Func<Exception, bool> messageOnly,
             string messagePrefix,
             TextWriter outputWriter,
             TextWriter diagnosticsWriter,
             bool exit)
         {
-            var (names, options, unknownOptions, showHelp) = CommandLine.Parse(args);
+            var argList = args.Sanitize().ToList();
 
-            return targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, exit);
+            var (names, options, unknownOptions, showHelp) = ArgsParser.Parse(argList);
+
+            return targets.RunAsync(argList, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, exit);
         }
 
         public static Task RunAsync(
@@ -50,13 +52,11 @@ namespace Bullseye.Internal
             TextWriter diagnosticsWriter,
             bool exit)
         {
-            // TODO: move this to an Output level method, and pass all diagnostics messages through output
-            // and write full exception details from action execution to diagnostics
             if (exit)
             {
                 try
                 {
-                    await RunAsync(targets, args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
+                    await targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
                 }
                 catch (InvalidUsageException ex)
                 {
@@ -72,7 +72,7 @@ namespace Bullseye.Internal
             }
             else
             {
-                await RunAsync(targets, args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
+                await targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
             }
         }
 
@@ -88,14 +88,9 @@ namespace Bullseye.Internal
             TextWriter outputWriter,
             TextWriter diagnosticsWriter)
         {
-            targets = targets ?? new TargetCollection();
-            args = args.Sanitize().ToList();
-            names = names.Sanitize().ToList();
             options = options ?? new Options();
-            outputWriter = outputWriter ?? Console.Out;
             diagnosticsWriter = diagnosticsWriter ?? Console.Error;
             messagePrefix = messagePrefix ?? await GetMethodPrefix(diagnosticsWriter).Tax();
-            messageOnly = messageOnly ?? (_ => false);
 
             if (options.Clear)
             {
@@ -154,8 +149,7 @@ namespace Bullseye.Internal
             {
                 await output.Header().Tax();
 
-                await RunAsync(
-                    targets,
+                await targets.RunAsync(
                     names,
                     options.DryRun,
                     options.ListDependencies,
@@ -190,6 +184,8 @@ namespace Bullseye.Internal
             Func<Exception, bool> messageOnly,
             Output output)
         {
+            targets = targets ?? new TargetCollection();
+
             if (unknownOptions.Count > 0)
             {
                 throw new InvalidUsageException($"Unknown option{(unknownOptions.Count > 1 ? "s" : "")} {unknownOptions.Spaced()}. \"--help\" for usage.");
