@@ -21,7 +21,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new[] { "SECOND" }, default, default(TextWriter), default, default, default);
+            await targets.RunAsync(new[] { "SECOND" }, default, default, default, default(TextWriter), default);
 
             // assert
             Assert.True(first);

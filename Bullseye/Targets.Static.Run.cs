@@ -24,7 +24,10 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+        public static Task RunTargetsAndExitAsync(
+            IEnumerable<string> args,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
             instance.RunAndExitAsync(args, messageOnly, messagePrefix);
 
         /// <summary>
@@ -45,7 +48,13 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsAndExitAsync(IEnumerable<string> targets, IOptions options, IEnumerable<string> unknownOptions = null, bool showHelp = false, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+        public static Task RunTargetsAndExitAsync(
+            IEnumerable<string> targets,
+            IOptions options,
+            IEnumerable<string> unknownOptions = null,
+            bool showHelp = false,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
             instance.RunAndExitAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix);
 
         /// <summary>
@@ -64,7 +73,10 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+        public static Task RunTargetsWithoutExitingAsync(
+            IEnumerable<string> args,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
             instance.RunWithoutExitingAsync(args, messageOnly, messagePrefix);
 
         /// <summary>
@@ -86,7 +98,13 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public static Task RunTargetsWithoutExitingAsync(IEnumerable<string> targets, IOptions options, IEnumerable<string> unknownOptions = null, bool showHelp = false, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
+        public static Task RunTargetsWithoutExitingAsync(
+            IEnumerable<string> targets,
+            IOptions options,
+            IEnumerable<string> unknownOptions = null,
+            bool showHelp = false,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
             instance.RunWithoutExitingAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix);
     }
 }

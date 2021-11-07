@@ -13,15 +13,15 @@ namespace Bullseye.Internal
         public static Task RunAsync(
             this TargetCollection targets,
             IReadOnlyCollection<string> args,
-            TextWriter outputWriter,
-            TextWriter diagnostics,
-            string messagePrefix,
             Func<Exception, bool> messageOnly,
+            string messagePrefix,
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter,
             bool exit)
         {
             var (names, options, unknownOptions, showHelp) = CommandLine.Parse(args);
 
-            return targets.RunAsync(args, names, options, unknownOptions, showHelp, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
+            return targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, exit);
         }
 
         public static Task RunAsync(
@@ -30,12 +30,12 @@ namespace Bullseye.Internal
             IOptions options,
             IEnumerable<string> unknownOptions,
             bool showHelp,
-            TextWriter outputWriter,
-            TextWriter diagnostics,
-            string messagePrefix,
             Func<Exception, bool> messageOnly,
+            string messagePrefix,
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter,
             bool exit) =>
-            targets.RunAsync(new List<string>(), names.Sanitize().ToList(), options, unknownOptions.Sanitize().ToList(), showHelp, outputWriter, diagnostics, messagePrefix, messageOnly, exit);
+            targets.RunAsync(new List<string>(), names.Sanitize().ToList(), options, unknownOptions.Sanitize().ToList(), showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, exit);
 
         private static async Task RunAsync(
             this TargetCollection targets,
@@ -44,10 +44,10 @@ namespace Bullseye.Internal
             IOptions options,
             IReadOnlyCollection<string> unknownOptions,
             bool showHelp,
-            TextWriter outputWriter,
-            TextWriter diagnostics,
-            string messagePrefix,
             Func<Exception, bool> messageOnly,
+            string messagePrefix,
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter,
             bool exit)
         {
             // TODO: move this to an Output level method, and pass all diagnostics messages through output
@@ -56,11 +56,11 @@ namespace Bullseye.Internal
             {
                 try
                 {
-                    await RunAsync(targets, args, names, options, unknownOptions, showHelp, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
+                    await RunAsync(targets, args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
                 }
                 catch (InvalidUsageException ex)
                 {
-                    await diagnostics.WriteLineAsync(ex.Message).Tax();
+                    await diagnosticsWriter.WriteLineAsync(ex.Message).Tax();
                     Environment.Exit(2);
                 }
                 catch (TargetFailedException)
@@ -72,7 +72,7 @@ namespace Bullseye.Internal
             }
             else
             {
-                await RunAsync(targets, args, names, options, unknownOptions, showHelp, outputWriter, diagnostics, messagePrefix, messageOnly).Tax();
+                await RunAsync(targets, args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
             }
         }
 
@@ -83,18 +83,18 @@ namespace Bullseye.Internal
             IOptions options,
             IReadOnlyCollection<string> unknownOptions,
             bool showHelp,
-            TextWriter outputWriter,
-            TextWriter diagnostics,
+            Func<Exception, bool> messageOnly,
             string messagePrefix,
-            Func<Exception, bool> messageOnly)
+            TextWriter outputWriter,
+            TextWriter diagnosticsWriter)
         {
             targets = targets ?? new TargetCollection();
             args = args.Sanitize().ToList();
             names = names.Sanitize().ToList();
             options = options ?? new Options();
             outputWriter = outputWriter ?? Console.Out;
-            diagnostics = diagnostics ?? Console.Error;
-            messagePrefix = messagePrefix ?? await GetMethodPrefix(diagnostics).Tax();
+            diagnosticsWriter = diagnosticsWriter ?? Console.Error;
+            messagePrefix = messagePrefix ?? await GetMethodPrefix(diagnosticsWriter).Tax();
             messageOnly = messageOnly ?? (_ => false);
 
             if (options.Clear)
@@ -107,7 +107,7 @@ namespace Bullseye.Internal
                 catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    await diagnostics.WriteLineAsync($"{messagePrefix}: Failed to clear the console: {ex}").Tax();
+                    await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: Failed to clear the console: {ex}").Tax();
                 }
             }
 
@@ -117,7 +117,7 @@ namespace Bullseye.Internal
             {
                 if (options.Verbose)
                 {
-                    await diagnostics.WriteLineAsync($"{messagePrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
+                    await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
                 }
 
                 noColor = true;
@@ -148,7 +148,7 @@ namespace Bullseye.Internal
                 options.SkipDependencies,
                 options.Verbose);
 
-            var outputState = await output.Initialize(options.Verbose ? diagnostics : TextWriter.Null).Tax();
+            var outputState = await output.Initialize(options.Verbose ? diagnosticsWriter : TextWriter.Null).Tax();
 
             try
             {
@@ -156,8 +156,6 @@ namespace Bullseye.Internal
 
                 await RunAsync(
                     targets,
-                    output,
-                    messageOnly,
                     names,
                     options.DryRun,
                     options.ListDependencies,
@@ -167,7 +165,9 @@ namespace Bullseye.Internal
                     options.Parallel,
                     options.SkipDependencies,
                     unknownOptions,
-                    showHelp).Tax();
+                    showHelp,
+                    messageOnly,
+                    output).Tax();
             }
             finally
             {
@@ -177,8 +177,6 @@ namespace Bullseye.Internal
 
         private static async Task RunAsync(
             this TargetCollection targets,
-            Output output,
-            Func<Exception, bool> messageOnly,
             IReadOnlyCollection<string> names,
             bool dryRun,
             bool listDependencies,
@@ -188,7 +186,9 @@ namespace Bullseye.Internal
             bool parallel,
             bool skipDependencies,
             IReadOnlyCollection<string> unknownOptions,
-            bool showHelp)
+            bool showHelp,
+            Func<Exception, bool> messageOnly,
+            Output output)
         {
             if (unknownOptions.Count > 0)
             {
@@ -213,7 +213,7 @@ namespace Bullseye.Internal
 
             names = names.Count > 0 ? names : new List<string> { "default" };
 
-            await targets.RunAsync(names, skipDependencies, dryRun, parallel, output, messageOnly).Tax();
+            await targets.RunAsync(names, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
         }
 
         private static async Task<string> GetMethodPrefix(TextWriter diagnostics)

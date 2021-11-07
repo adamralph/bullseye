@@ -26,8 +26,11 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(args.Sanitize().ToList(), Console.Out, Console.Error, messagePrefix, messageOnly, true);
+        public Task RunAndExitAsync(
+            IEnumerable<string> args,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
+            this.targetCollection.RunAsync(args.Sanitize().ToList(), messageOnly, messagePrefix, Console.Out, Console.Error, true);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -47,8 +50,14 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunAndExitAsync(IEnumerable<string> targets, IOptions options, IEnumerable<string> unknownOptions = null, bool showHelp = false, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, Console.Out, Console.Error, messagePrefix, messageOnly, true);
+        public Task RunAndExitAsync(
+            IEnumerable<string> targets,
+            IOptions options,
+            IEnumerable<string> unknownOptions = null,
+            bool showHelp = false,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, Console.Out, Console.Error, true);
 
         /// <summary>
         /// Runs the targets.
@@ -66,8 +75,11 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunWithoutExitingAsync(IEnumerable<string> args, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(args.Sanitize().ToList(), Console.Out, Console.Error, messagePrefix, messageOnly, false);
+        public Task RunWithoutExitingAsync(
+            IEnumerable<string> args,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
+            this.targetCollection.RunAsync(args.Sanitize().ToList(), messageOnly, messagePrefix, Console.Out, Console.Error, false);
 
         /// <summary>
         /// Runs the targets.
@@ -88,7 +100,13 @@ namespace Bullseye
         /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
         /// </param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
-        public Task RunWithoutExitingAsync(IEnumerable<string> targets, IOptions options, IEnumerable<string> unknownOptions = null, bool showHelp = false, Func<Exception, bool> messageOnly = null, string messagePrefix = null) =>
-            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, Console.Out, Console.Error, messagePrefix, messageOnly, false);
+        public Task RunWithoutExitingAsync(
+            IEnumerable<string> targets,
+            IOptions options,
+            IEnumerable<string> unknownOptions = null,
+            bool showHelp = false,
+            Func<Exception, bool> messageOnly = null,
+            string messagePrefix = null) =>
+            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, Console.Out, Console.Error, false);
     }
 }
