@@ -15,11 +15,11 @@ namespace Bullseye.Internal
 
         public async Task RunAsync(
             IReadOnlyCollection<string> names,
-            bool skipDependencies,
             bool dryRun,
             bool parallel,
-            Output output,
-            Func<Exception, bool> messageOnly)
+            bool skipDependencies,
+            Func<Exception, bool> messageOnly,
+            Output output)
         {
             if (!skipDependencies)
             {
@@ -31,16 +31,16 @@ namespace Bullseye.Internal
 
             var targets = names.Select(name => this[name]).ToList();
 
-            await this.RunAsync(targets, skipDependencies, dryRun, parallel, output, messageOnly).Tax();
+            await this.RunAsync(targets, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
         }
 
         private async Task RunAsync(
             List<Target> targets,
-            bool skipDependencies,
             bool dryRun,
             bool parallel,
-            Output output,
-            Func<Exception, bool> messageOnly)
+            bool skipDependencies,
+            Func<Exception, bool> messageOnly,
+            Output output)
         {
             await output.Starting(targets).Tax();
 
@@ -52,14 +52,14 @@ namespace Bullseye.Internal
                 {
                     if (parallel)
                     {
-                        var tasks = targets.Select(target => this.RunAsync(target, targets, skipDependencies, dryRun, true, output, messageOnly, runningTargets, sync));
+                        var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, sync));
                         await Task.WhenAll(tasks).Tax();
                     }
                     else
                     {
                         foreach (var target in targets)
                         {
-                            await this.RunAsync(target, targets, skipDependencies, dryRun, false, output, messageOnly, runningTargets, sync).Tax();
+                            await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync).Tax();
                         }
                     }
                 }
@@ -76,11 +76,11 @@ namespace Bullseye.Internal
         private async Task RunAsync(
             Target target,
             List<Target> explicitTargets,
-            bool skipDependencies,
             bool dryRun,
             bool parallel,
-            Output output,
+            bool skipDependencies,
             Func<Exception, bool> messageOnly,
+            Output output,
             Dictionary<Target, Task> runningTargets,
             SemaphoreSlim sync,
             Queue<Target> dependencyPath = null)
@@ -141,7 +141,7 @@ namespace Bullseye.Internal
                 }
                 else
                 {
-                    await this.RunAsync(this[dependency], explicitTargets, skipDependencies, dryRun, false, output, messageOnly, runningTargets, sync, dependencyPath).Tax();
+                    await this.RunAsync(this[dependency], explicitTargets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync, dependencyPath).Tax();
                 }
             }
 
