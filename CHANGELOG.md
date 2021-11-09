@@ -17,6 +17,10 @@
 
 - [#674: **[BREAKING]** fix AppVeyor casing](https://github.com/adamralph/bullseye/pull/674)
 
+### Other
+
+- [#687: **[BREAKING]** switch from netstandard2.0 to netstandard2.1](https://github.com/adamralph/bullseye/pull/687)
+
 ## 3.8.0
 
 ### Enhancements
