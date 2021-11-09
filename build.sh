@@ -10,33 +10,33 @@ dotnet test --configuration Release --no-build --nologo "${1:-}" "${2:-}"
 echo "${0##*/}": Smoke testing...
 trap '$(set +x)' EXIT
 set -x
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --help
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --list-targets
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --list-dependencies
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --list-inputs
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --list-dependencies --list-inputs
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --list-tree --list-inputs
-dotnet run -c Release --no-build -p BullseyeSmokeTester --
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --parallel
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --dry-run
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --skip-dependencies
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --dry-run --skip-dependencies
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- --verbose
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose --no-color
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --help
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-targets
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-dependencies
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-inputs
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-dependencies --list-inputs
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-tree --list-inputs
+dotnet run -c Release --no-build --project BullseyeSmokeTester --
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --parallel
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --dry-run
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --skip-dependencies
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --dry-run --skip-dependencies
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- --verbose
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose --no-color
 
-dotnet run -c Release --no-build -p BullseyeSmokeTester -- large-graph --verbose --parallel
+dotnet run -c Release --no-build --project BullseyeSmokeTester -- large-graph --verbose --parallel
 
-dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --help
-dotnet run -c Release --no-build -p BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build
+dotnet run -c Release --no-build --project BullseyeSmokeTester.DragonFruit  -- --help
+dotnet run -c Release --no-build --project BullseyeSmokeTester.DragonFruit  -- --foo bar --verbose --targets build
 
 # https://github.com/dotnet/command-line-api/issues/1306
 if [ "${CIRCLECI:-false}" == "false" ]; then
-  dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --help
-  dotnet run -c Release --no-build -p BullseyeSmokeTester.CommandLine  -- --foo bar --verbose build
+  dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- --help
+  dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- --foo bar --verbose build
 fi
 
-dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --help
-dotnet run -c Release --no-build -p BullseyeSmokeTester.McMaster     -- --foo bar --verbose build
+dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --help
+dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --foo bar --verbose build
 
-env NO_COLOR=1 dotnet run -c Release --no-build -p BullseyeSmokeTester -- -h --verbose
+env NO_COLOR=1 dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose
