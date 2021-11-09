@@ -88,9 +88,9 @@ namespace Bullseye.Internal
             TextWriter outputWriter,
             TextWriter diagnosticsWriter)
         {
-            options = options ?? new Options();
-            diagnosticsWriter = diagnosticsWriter ?? Console.Error;
-            messagePrefix = messagePrefix ?? await GetMethodPrefix(diagnosticsWriter).Tax();
+            options ??= new Options();
+            diagnosticsWriter ??= Console.Error;
+            messagePrefix ??= await GetMethodPrefix(diagnosticsWriter).Tax();
 
             if (options.Clear)
             {
@@ -184,7 +184,7 @@ namespace Bullseye.Internal
             Func<Exception, bool> messageOnly,
             Output output)
         {
-            targets = targets ?? new TargetCollection();
+            targets ??= new TargetCollection();
 
             if (unknownOptions.Count > 0)
             {

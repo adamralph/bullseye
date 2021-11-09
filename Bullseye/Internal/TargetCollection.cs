@@ -51,19 +51,18 @@ namespace Bullseye.Internal
             {
                 var runningTargets = new Dictionary<Target, Task>();
 
-                using (var sync = new SemaphoreSlim(1, 1))
+                using var sync = new SemaphoreSlim(1, 1);
+
+                if (parallel)
                 {
-                    if (parallel)
+                    var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, sync));
+                    await Task.WhenAll(tasks).Tax();
+                }
+                else
+                {
+                    foreach (var target in targets)
                     {
-                        var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, sync));
-                        await Task.WhenAll(tasks).Tax();
-                    }
-                    else
-                    {
-                        foreach (var target in targets)
-                        {
-                            await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync).Tax();
-                        }
+                        await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync).Tax();
                     }
                 }
             }

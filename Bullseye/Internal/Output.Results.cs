@@ -115,7 +115,7 @@ namespace Bullseye.Internal
             return builder.ToString();
 
             // pad right printed
-            string Prp(string text, int totalWidth, char paddingChar) =>
+            static string Prp(string text, int totalWidth, char paddingChar) =>
                 text.PadRight(totalWidth + (text.Length - Palette.StripColours(text).Length), paddingChar);
         }
 
