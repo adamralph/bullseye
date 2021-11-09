@@ -99,7 +99,9 @@ namespace Bullseye.Internal
             Task runningTarget;
 
             // cannot use WaitAsync() as it is not reentrant
+#pragma warning disable CA1849 // Call async methods when in an async method
             sync.Wait();
+#pragma warning restore CA1849 // Call async methods when in an async method
 
             try
             {
@@ -151,7 +153,9 @@ namespace Bullseye.Internal
             if (!skipDependencies || explicitTargets.Contains(target))
             {
                 // cannot use WaitAsync() as it is not reentrant
+#pragma warning disable CA1849 // Call async methods when in an async method
                 sync.Wait();
+#pragma warning restore CA1849 // Call async methods when in an async method
 
                 try
                 {
