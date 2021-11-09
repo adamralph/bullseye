@@ -9,7 +9,7 @@ namespace Bullseye.Internal
     {
         public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandle(TextWriter diagnostics, string messagePrefix)
         {
-            diagnostics = diagnostics ?? Console.Error;
+            diagnostics ??= Console.Error;
 
             var (handle, error) = (NativeMethods.GetStdHandle(NativeMethods.StdHandle.STD_OUTPUT_HANDLE), Marshal.GetLastWin32Error());
 
@@ -25,7 +25,7 @@ namespace Bullseye.Internal
 
         public static async Task<(NativeMethods.ConsoleOutputModes mode, bool succeeded)> TryGetConsoleScreenBufferOutputMode(IntPtr standardOutputHandle, TextWriter diagnostics, string messagePrefix)
         {
-            diagnostics = diagnostics ?? Console.Error;
+            diagnostics ??= Console.Error;
 
             if (!NativeMethods.GetConsoleMode(standardOutputHandle, out var mode))
             {
@@ -39,7 +39,7 @@ namespace Bullseye.Internal
 
         public static async Task TrySetConsoleScreenBufferOutputMode(IntPtr standardOutputHandle, NativeMethods.ConsoleOutputModes mode, TextWriter diagnostics, string messagePrefix)
         {
-            diagnostics = diagnostics ?? Console.Error;
+            diagnostics ??= Console.Error;
 
             if (!NativeMethods.SetConsoleMode(standardOutputHandle, mode))
             {

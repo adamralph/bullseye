@@ -320,7 +320,7 @@ $@"{p.Default}Usage:{p.Reset}
                     {
                         var prefix = isRoot
                             ? startingPrefix ?? ""
-                            : $"{previousPrefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
+                            : $"{previousPrefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
 
                         var isMissing = !targets.Contains(item.name);
 
@@ -346,7 +346,7 @@ $@"{p.Default}Usage:{p.Reset}
                         {
                             foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
                             {
-                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ").Replace(p.TreeFork, p.TreeDown)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
+                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 
                                 lines.Add(($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}", null));
                             }

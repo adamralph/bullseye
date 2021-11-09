@@ -174,7 +174,7 @@ namespace Bullseye.Internal
 
                 foreach (var number in numbers)
                 {
-                    text = text.Replace($"\x1b[{number}m", "");
+                    text = text.Replace($"\x1b[{number}m", "", StringComparison.Ordinal);
                 }
 
                 return text;
