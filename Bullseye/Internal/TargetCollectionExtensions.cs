@@ -211,7 +211,7 @@ namespace Bullseye.Internal
 
             if (listTree || listDependencies || listInputs || listTargets)
             {
-                var rootTargets = names.Any() ? names : targets.Select(target => target.Name).OrderBy(name => name).ToList();
+                var rootTargets = names.Count > 0 ? names : (IEnumerable<string>)targets.Select(target => target.Name).OrderBy(name => name);
                 var maxDepth = listTree ? int.MaxValue : listDependencies ? 1 : 0;
                 var maxDepthToShowInputs = listTree ? int.MaxValue : 0;
 

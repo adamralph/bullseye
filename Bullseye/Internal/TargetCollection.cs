@@ -23,17 +23,32 @@ namespace Bullseye.Internal
             Func<Exception, bool> messageOnly,
             Output output)
         {
-            var nameList = names.ToList();
-
             if (!skipDependencies)
             {
                 this.CheckForMissingDependencies();
             }
 
             this.CheckForCircularDependencies();
-            this.CheckContains(nameList);
 
-            var targets = nameList.Select(name => this[name]).ToList();
+            var targets = new List<Target>();
+            var notFound = new List<string>();
+
+            foreach (var name in names)
+            {
+                if (this.TryGetValue(name, out var target))
+                {
+                    targets.Add(target);
+                }
+                else
+                {
+                    notFound.Add(name);
+                }
+            }
+
+            if (notFound.Count > 0)
+            {
+                throw new InvalidUsageException($"Target{(notFound.Count > 1 ? "s" : "")} not found: {notFound.Spaced()}.");
+            }
 
             await this.RunAsync(targets, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
         }
@@ -229,16 +244,6 @@ namespace Bullseye.Internal
                 }
 
                 _ = dependents.Pop();
-            }
-        }
-
-        private void CheckContains(List<string> names)
-        {
-            var notFound = new SortedSet<string>(names.Where(name => !this.Contains(name)));
-
-            if (notFound.Count > 0)
-            {
-                throw new InvalidUsageException($"Target{(notFound.Count > 1 ? "s" : "")} not found: {notFound.Spaced()}.");
             }
         }
     }

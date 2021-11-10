@@ -83,7 +83,7 @@ namespace Bullseye.Internal
         public async Task Usage(TargetCollection targets)
         {
             var usage = GetUsageLines(this.palette, this.scriptExtension)
-                + GetListLines(targets, targets.Select(target => target.Name).ToList(), 0, 0, false, "  ", this.palette);
+                + GetListLines(targets, targets.Select(target => target.Name), 0, 0, false, "  ", this.palette);
 
             await this.writer.WriteAsync(usage).Tax();
         }
@@ -346,7 +346,7 @@ $@"{p.Default}Usage:{p.Reset}
                         {
                             foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
                             {
-                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
+                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(target.Dependencies.Count > 0 && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 
                                 lines.Add(($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}", ""));
                             }

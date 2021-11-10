@@ -15,7 +15,7 @@ namespace Bullseye.Internal
 
             var targets = nonHelpArgs.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList();
 
-            var nonTargets = nonHelpArgs.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
+            var nonTargets = nonHelpArgs.Where(arg => arg.StartsWith("-", StringComparison.Ordinal));
 
             var optionArgs = nonTargets.Where(arg => !helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase)).Select(arg => (arg, true));
             var result = OptionsReader.Read(optionArgs);
