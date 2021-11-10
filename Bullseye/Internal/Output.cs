@@ -45,9 +45,9 @@ namespace Bullseye.Internal
             bool skipDependencies,
             bool verbose)
         {
-            this.writer = writer ?? Console.Out;
+            this.writer = writer;
 
-            this.args = args ?? new List<string>();
+            this.args = args;
             this.dryRun = dryRun;
             this.host = host;
             this.hostForced = hostForced;
@@ -62,14 +62,14 @@ namespace Bullseye.Internal
             this.scriptExtension = operatingSystem == OperatingSystem.Windows ? "cmd" : "sh";
         }
 
-        public async Task Header(Func<string> getVersion = null)
+        public async Task Header(Func<string> getVersion)
         {
             if (!this.Verbose)
             {
                 return;
             }
 
-            var version = getVersion?.Invoke() ?? typeof(Output).Assembly.GetVersion();
+            var version = getVersion();
 
             var builder = new StringBuilder()
                 .AppendLine(Format($"{this.palette.Verbose}{version}{this.palette.Reset}", "Bullseye version", this.prefix, this.palette))
@@ -89,15 +89,15 @@ namespace Bullseye.Internal
         }
 
         public Task List(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-            this.writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, null, this.palette));
+            this.writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, "", this.palette));
 
         public Task Starting(IEnumerable<Target> targets) =>
-            this.writer.WriteLineAsync(Format($"{this.palette.Default}{StartingMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, null, this.prefix, this.palette));
+            this.writer.WriteLineAsync(Format($"{this.palette.Default}{StartingMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.prefix, this.palette));
 
         public async Task Failed(IEnumerable<Target> targets)
         {
             var message = GetResultLines(this.results, this.totalDuration, this.prefix, this.palette)
-                + Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
+                + Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.prefix, this.palette, this.totalDuration);
 
             await this.writer.WriteLineAsync(message).Tax();
         }
@@ -105,32 +105,32 @@ namespace Bullseye.Internal
         public async Task Succeeded(IEnumerable<Target> targets)
         {
             var message = GetResultLines(this.results, this.totalDuration, this.prefix, this.palette)
-                + Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.prefix, this.palette);
+                + Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", targets, this.dryRun, this.parallel, this.skipDependencies, this.prefix, this.palette, this.totalDuration);
 
             await this.writer.WriteLineAsync(message).Tax();
         }
 
-        public async Task Awaiting(Target target, IEnumerable<Target> dependencyPath)
+        public async Task Awaiting(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
             if (this.Verbose)
             {
-                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Awaiting{this.palette.Reset}", target, null, dependencyPath, this.prefix, this.palette)).Tax();
+                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Awaiting{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath)).Tax();
             }
         }
 
-        public async Task WalkingDependencies(Target target, IEnumerable<Target> dependencyPath)
+        public async Task WalkingDependencies(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
             if (this.Verbose)
             {
-                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Walking dependencies{this.palette.Reset}", target, null, dependencyPath, this.prefix, this.palette)).Tax();
+                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Walking dependencies{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath)).Tax();
             }
         }
 
-        public async Task IgnoringNonExistentDependency(Target target, string dependency, IEnumerable<Target> dependencyPath)
+        public async Task IgnoringNonExistentDependency(Target target, string dependency, IReadOnlyCollection<Target> dependencyPath)
         {
             if (this.Verbose)
             {
-                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Ignoring non-existent dependency:{this.palette.Reset} {this.palette.Target}{dependency}{this.palette.Reset}", target, null, dependencyPath, this.prefix, this.palette)).Tax();
+                await this.writer.WriteLineAsync(Format($"{this.palette.Verbose}Ignoring non-existent dependency:{this.palette.Reset} {this.palette.Target}{dependency}{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath)).Tax();
             }
         }
 
@@ -142,17 +142,17 @@ namespace Bullseye.Internal
             }
         }
 
-        public Task Starting(Target target, IEnumerable<Target> dependencyPath)
+        public Task Starting(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
             var targetResult = this.InternResult(target);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Default}{StartingMessage}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Default}{StartingMessage}{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath, targetResult.Duration));
         }
 
         public Task Error(Target target, Exception ex) =>
-            this.writer.WriteLineAsync(Format($"{this.palette.Failed}{ex}{this.palette.Reset}", target, null, null, this.prefix, this.palette));
+            this.writer.WriteLineAsync(Format($"{this.palette.Failed}{ex}{this.palette.Reset}", target, this.prefix, this.palette));
 
-        public Task Failed(Target target, Exception ex, TimeSpan? duration, IEnumerable<Target> dependencyPath)
+        public Task Failed(Target target, Exception ex, TimeSpan? duration, IReadOnlyCollection<Target> dependencyPath)
         {
             var result = this.InternResult(target);
             result.Outcome = TargetOutcome.Failed;
@@ -160,18 +160,18 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex?.Message}{this.palette.Reset}", target, duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath, duration));
         }
 
-        public Task Failed(Target target, IEnumerable<Target> dependencyPath)
+        public Task Failed(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
             var result = this.InternResult(target);
             result.Outcome = TargetOutcome.Failed;
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath, result.Duration));
         }
 
-        public Task Succeeded(Target target, TimeSpan? duration, IEnumerable<Target> dependencyPath)
+        public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath, TimeSpan? duration = null)
         {
             var result = this.InternResult(target);
             result.Outcome = TargetOutcome.Succeeded;
@@ -179,15 +179,15 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath, result.Duration));
         }
 
-        public Task Succeeded(Target target, IEnumerable<Target> dependencyPath)
+        public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
             var result = this.InternResult(target);
             result.Outcome = TargetOutcome.Succeeded;
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, result.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath, result.Duration));
         }
 
         public async Task EndGroup()
@@ -198,26 +198,26 @@ namespace Bullseye.Internal
             }
         }
 
-        public Task NoInputs(Target target, IEnumerable<Target> dependencyPath)
+        public Task NoInputs(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
             var targetResult = this.InternResult(target);
             targetResult.Outcome = TargetOutcome.NoInputs;
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Warning}{NoInputsMessage}{this.palette.Reset}", target, targetResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Warning}{NoInputsMessage}{this.palette.Reset}", target, this.prefix, this.palette, dependencyPath, targetResult.Duration));
         }
 
-        public Task Starting<TInput>(Target target, TInput input, Guid inputId, IEnumerable<Target> dependencyPath)
+        public Task Starting<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
         {
             var (_, targetInputResult) = this.Intern(target, inputId);
             targetInputResult.Input = input;
 
-            return this.writer.WriteLineAsync(Format(StartingMessage, target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format(StartingMessage, target, targetInputResult.Input, this.prefix, this.palette, dependencyPath, targetInputResult.Duration));
         }
 
         public Task Error<TInput>(Target target, TInput input, Exception ex) =>
-            this.writer.WriteLineAsync(Format($"{this.palette.Failed}{ex}{this.palette.Reset}", target, input, null, null, this.prefix, this.palette));
+            this.writer.WriteLineAsync(Format($"{this.palette.Failed}{ex}{this.palette.Reset}", target, input, this.prefix, this.palette));
 
-        public Task Failed<TInput>(Target target, TInput input, Exception ex, TimeSpan? duration, Guid inputId, IEnumerable<Target> dependencyPath)
+        public Task Failed<TInput>(Target target, TInput input, Exception ex, TimeSpan? duration, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
         {
             var (targetResult, targetInputResult) = this.Intern(target, inputId);
 
@@ -229,10 +229,10 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex?.Message}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex?.Message}{this.palette.Reset}", target, targetInputResult.Input, this.prefix, this.palette, dependencyPath, targetInputResult.Duration));
         }
 
-        public Task Succeeded<TInput>(Target target, TInput input, TimeSpan? duration, Guid inputId, IEnumerable<Target> dependencyPath)
+        public Task Succeeded<TInput>(Target target, TInput input, TimeSpan? duration, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
         {
             var (targetResult, targetInputResult) = this.Intern(target, inputId);
 
@@ -244,7 +244,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, targetInputResult.Input, targetInputResult.Duration, dependencyPath, this.prefix, this.palette));
+            return this.writer.WriteLineAsync(Format($"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", target, targetInputResult.Input, this.prefix, this.palette, dependencyPath, targetInputResult.Duration));
         }
 
         // editorconfig-checker-disable
@@ -294,7 +294,7 @@ $@"{p.Default}Usage:{p.Reset}
         {
             var lines = new List<(string, string)>();
 
-            foreach (var rootTarget in rootTargets ?? Enumerable.Empty<string>())
+            foreach (var rootTarget in rootTargets)
             {
                 Append(new List<string> { rootTarget }, new Stack<string>(), true, "", 0);
             }
@@ -319,7 +319,7 @@ $@"{p.Default}Usage:{p.Reset}
                     try
                     {
                         var prefix = isRoot
-                            ? startingPrefix ?? ""
+                            ? startingPrefix
                             : $"{previousPrefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
 
                         var isMissing = !targets.Contains(item.name);
@@ -328,7 +328,7 @@ $@"{p.Default}Usage:{p.Reset}
 
                         if (isMissing)
                         {
-                            lines.Add((line + $"{p.Reset} {p.Failed}(missing){p.Reset}", null));
+                            lines.Add((line + $"{p.Reset} {p.Failed}(missing){p.Reset}", ""));
                             continue;
                         }
 
@@ -348,7 +348,7 @@ $@"{p.Default}Usage:{p.Reset}
                             {
                                 var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(target.Dependencies.Any() && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 
-                                lines.Add(($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}", null));
+                                lines.Add(($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}", ""));
                             }
                         }
 

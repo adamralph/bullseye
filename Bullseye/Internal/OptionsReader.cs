@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Bullseye.Internal
 {
@@ -35,7 +34,7 @@ namespace Bullseye.Internal
             var host = (Host?)null;
             var unknownOptions = new List<string>();
 
-            foreach (var (name, isSet) in values ?? Enumerable.Empty<(string, bool)>())
+            foreach (var (name, isSet) in values)
             {
                 switch (name)
                 {

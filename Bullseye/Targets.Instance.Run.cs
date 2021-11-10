@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Bullseye.Internal;
 
@@ -11,6 +12,9 @@ namespace Bullseye
     /// </summary>
     public partial class Targets
     {
+        private static readonly List<string> defaultList = new List<string>();
+        private static readonly Func<Exception, bool> defaultFunc = _ => false;
+
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
         /// Any code which follows a call to this method will not be executed.
@@ -30,11 +34,17 @@ namespace Bullseye
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunAndExitAsync(
             IEnumerable<string> args,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, true);
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
+            this.targetCollection.RunAsync(
+                args.ToList(),
+                messageOnly ?? defaultFunc,
+                messagePrefix,
+                outputWriter ?? Console.Out,
+                diagnosticsWriter ?? Console.Error,
+                true);
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -59,13 +69,22 @@ namespace Bullseye
         public Task RunAndExitAsync(
             IEnumerable<string> targets,
             IOptions options,
-            IEnumerable<string> unknownOptions = null,
+            IEnumerable<string>? unknownOptions = null,
             bool showHelp = false,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
-            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, true);
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
+            this.targetCollection.RunAsync(
+                targets.ToList(),
+                options,
+                unknownOptions?.ToList() ?? defaultList,
+                showHelp,
+                messageOnly ?? defaultFunc,
+                messagePrefix,
+                outputWriter ?? Console.Out,
+                diagnosticsWriter ?? Console.Error,
+                true);
 
         /// <summary>
         /// Runs the targets.
@@ -87,11 +106,17 @@ namespace Bullseye
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public Task RunWithoutExitingAsync(
             IEnumerable<string> args,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
-            this.targetCollection.RunAsync(args, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, false);
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
+            this.targetCollection.RunAsync(
+                args.ToList(),
+                messageOnly ?? defaultFunc,
+                messagePrefix,
+                outputWriter ?? Console.Out,
+                diagnosticsWriter ?? Console.Error,
+                false);
 
         /// <summary>
         /// Runs the targets.
@@ -117,12 +142,21 @@ namespace Bullseye
         public Task RunWithoutExitingAsync(
             IEnumerable<string> targets,
             IOptions options,
-            IEnumerable<string> unknownOptions = null,
+            IEnumerable<string>? unknownOptions = null,
             bool showHelp = false,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
-            this.targetCollection.RunAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, false);
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
+            this.targetCollection.RunAsync(
+                targets.ToList(),
+                options,
+                unknownOptions?.ToList() ?? defaultList,
+                showHelp,
+                messageOnly ?? defaultFunc,
+                messagePrefix,
+                outputWriter ?? Console.Out,
+                diagnosticsWriter ?? Console.Error,
+                false);
     }
 }

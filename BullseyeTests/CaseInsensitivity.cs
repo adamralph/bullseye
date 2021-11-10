@@ -1,4 +1,4 @@
-using System.IO;
+using System;
 using System.Threading.Tasks;
 using Bullseye.Internal;
 using Xunit;
@@ -21,7 +21,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new[] { "SECOND" }, default, default, default, default(TextWriter), default);
+            await targets.RunAsync(new[] { "SECOND" }, _ => false, default, Console.Out, Console.Error, false);
 
             // assert
             Assert.True(first);

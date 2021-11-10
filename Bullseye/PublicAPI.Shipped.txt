@@ -1,3 +1,4 @@
+#nullable enable
 Bullseye.CommandLine
 Bullseye.Host
 Bullseye.Host.AppVeyor = 1 -> Bullseye.Host
@@ -10,8 +11,8 @@ Bullseye.Host.Travis = 5 -> Bullseye.Host
 Bullseye.Host.VisualStudioCode = 7 -> Bullseye.Host
 Bullseye.InvalidUsageException
 Bullseye.InvalidUsageException.InvalidUsageException() -> void
-Bullseye.InvalidUsageException.InvalidUsageException(string message) -> void
-Bullseye.InvalidUsageException.InvalidUsageException(string message, System.Exception innerException) -> void
+Bullseye.InvalidUsageException.InvalidUsageException(string! message) -> void
+Bullseye.InvalidUsageException.InvalidUsageException(string! message, System.Exception! innerException) -> void
 Bullseye.IOptions
 Bullseye.IOptions.Clear.get -> bool
 Bullseye.IOptions.DryRun.get -> bool
@@ -26,10 +27,12 @@ Bullseye.IOptions.Parallel.get -> bool
 Bullseye.IOptions.SkipDependencies.get -> bool
 Bullseye.IOptions.Verbose.get -> bool
 Bullseye.OptionDefinition
-Bullseye.OptionDefinition.Description.get -> string
-Bullseye.OptionDefinition.LongName.get -> string
-Bullseye.OptionDefinition.OptionDefinition(string shortName, string longName, string description) -> void
-Bullseye.OptionDefinition.ShortName.get -> string
+Bullseye.OptionDefinition.Aliases.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Bullseye.OptionDefinition.Description.get -> string!
+Bullseye.OptionDefinition.LongName.get -> string!
+Bullseye.OptionDefinition.OptionDefinition(string! longName, string! description) -> void
+Bullseye.OptionDefinition.OptionDefinition(string! shortName, string! longName, string! description) -> void
+Bullseye.OptionDefinition.ShortName.get -> string?
 Bullseye.Options
 Bullseye.Options.Clear.get -> bool
 Bullseye.Options.Clear.set -> void
@@ -50,7 +53,7 @@ Bullseye.Options.NoColor.set -> void
 Bullseye.Options.NoExtendedChars.get -> bool
 Bullseye.Options.NoExtendedChars.set -> void
 Bullseye.Options.Options() -> void
-Bullseye.Options.Options(System.Collections.Generic.IEnumerable<(string, bool)> values) -> void
+Bullseye.Options.Options(System.Collections.Generic.IEnumerable<(string!, bool)>! values) -> void
 Bullseye.Options.Parallel.get -> bool
 Bullseye.Options.Parallel.set -> void
 Bullseye.Options.SkipDependencies.get -> bool
@@ -59,55 +62,55 @@ Bullseye.Options.Verbose.get -> bool
 Bullseye.Options.Verbose.set -> void
 Bullseye.TargetFailedException
 Bullseye.TargetFailedException.TargetFailedException() -> void
-Bullseye.TargetFailedException.TargetFailedException(string message) -> void
-Bullseye.TargetFailedException.TargetFailedException(string message, System.Exception innerException) -> void
+Bullseye.TargetFailedException.TargetFailedException(string! message) -> void
+Bullseye.TargetFailedException.TargetFailedException(string! message, System.Exception! innerException) -> void
 Bullseye.Targets
-Bullseye.Targets.Add(string name, string description, System.Action action) -> void
-Bullseye.Targets.Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
-Bullseye.Targets.Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
-Bullseye.Targets.Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.Add(string name, string description, System.Func<System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.Add(string name, System.Action action) -> void
-Bullseye.Targets.Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
-Bullseye.Targets.Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
-Bullseye.Targets.Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.Add(string name, System.Func<System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-Bullseye.Targets.Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-Bullseye.Targets.Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-Bullseye.Targets.RunAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
-Bullseye.Targets.RunAndExitAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string> unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
-Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
-Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string> unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
+Bullseye.Targets.Add(string! name, string! description, System.Action! action) -> void
+Bullseye.Targets.Add(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn) -> void
+Bullseye.Targets.Add(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Action! action) -> void
+Bullseye.Targets.Add(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Func<System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.Add(string! name, string! description, System.Func<System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.Add(string! name, System.Action! action) -> void
+Bullseye.Targets.Add(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn) -> void
+Bullseye.Targets.Add(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Action! action) -> void
+Bullseye.Targets.Add(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Func<System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.Add(string! name, System.Func<System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+Bullseye.Targets.Add<TInput>(string! name, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
+Bullseye.Targets.RunAndExitAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
+Bullseye.Targets.RunAndExitAsync(System.Collections.Generic.IEnumerable<string!>! targets, Bullseye.IOptions! options, System.Collections.Generic.IEnumerable<string!>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
+Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
+Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string!>! targets, Bullseye.IOptions! options, System.Collections.Generic.IEnumerable<string!>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
 Bullseye.Targets.Targets() -> void
-static Bullseye.CommandLine.Parse(System.Collections.Generic.IEnumerable<string> args) -> (System.Collections.Generic.IReadOnlyList<string> Targets, Bullseye.Options Options, System.Collections.Generic.IReadOnlyList<string> UnknownOptions, bool showHelp)
-static Bullseye.Options.Definitions.get -> System.Collections.Generic.IReadOnlyList<Bullseye.OptionDefinition>
-static Bullseye.Targets.DependsOn(params string[] dependencies) -> string[]
-static Bullseye.Targets.ForEach<TInput>(params TInput[] inputs) -> TInput[]
-static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
-static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string> unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
-static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
-static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string> unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool> messageOnly = null, string messagePrefix = null, System.IO.TextWriter outputWriter = null, System.IO.TextWriter diagnosticsWriter = null) -> System.Threading.Tasks.Task
-static Bullseye.Targets.Target(string name, string description, System.Action action) -> void
-static Bullseye.Targets.Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
-static Bullseye.Targets.Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
-static Bullseye.Targets.Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
-static Bullseye.Targets.Target(string name, string description, System.Func<System.Threading.Tasks.Task> action) -> void
-static Bullseye.Targets.Target(string name, System.Action action) -> void
-static Bullseye.Targets.Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) -> void
-static Bullseye.Targets.Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) -> void
-static Bullseye.Targets.Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) -> void
-static Bullseye.Targets.Target(string name, System.Func<System.Threading.Tasks.Task> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) -> void
-static Bullseye.Targets.Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) -> void
+static Bullseye.CommandLine.Parse(System.Collections.Generic.IEnumerable<string!>! args) -> (System.Collections.Generic.IReadOnlyList<string!>! Targets, Bullseye.Options! Options, System.Collections.Generic.IReadOnlyList<string!>! UnknownOptions, bool showHelp)
+static Bullseye.Options.Definitions.get -> System.Collections.Generic.IReadOnlyList<Bullseye.OptionDefinition!>!
+static Bullseye.Targets.DependsOn(params string![]! dependencies) -> string![]!
+static Bullseye.Targets.ForEach<TInput>(params TInput[]! inputs) -> TInput[]!
+static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
+static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string!>! targets, Bullseye.IOptions! options, System.Collections.Generic.IEnumerable<string!>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
+static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
+static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string!>! targets, Bullseye.IOptions! options, System.Collections.Generic.IEnumerable<string!>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception!, bool>? messageOnly = null, string? messagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
+static Bullseye.Targets.Target(string! name, string! description, System.Action! action) -> void
+static Bullseye.Targets.Target(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn) -> void
+static Bullseye.Targets.Target(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Action! action) -> void
+static Bullseye.Targets.Target(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Func<System.Threading.Tasks.Task!>! action) -> void
+static Bullseye.Targets.Target(string! name, string! description, System.Func<System.Threading.Tasks.Task!>! action) -> void
+static Bullseye.Targets.Target(string! name, System.Action! action) -> void
+static Bullseye.Targets.Target(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn) -> void
+static Bullseye.Targets.Target(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Action! action) -> void
+static Bullseye.Targets.Target(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Func<System.Threading.Tasks.Task!>! action) -> void
+static Bullseye.Targets.Target(string! name, System.Func<System.Threading.Tasks.Task!>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, string! description, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, System.Collections.Generic.IEnumerable<string!>! dependsOn, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Action<TInput>! action) -> void
+static Bullseye.Targets.Target<TInput>(string! name, System.Collections.Generic.IEnumerable<TInput>! forEach, System.Func<TInput, System.Threading.Tasks.Task!>! action) -> void
