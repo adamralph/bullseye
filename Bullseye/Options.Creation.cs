@@ -24,7 +24,7 @@ namespace Bullseye
         {
             var result = OptionsReader.Read(values);
 
-            if (result.UnknownOptions.Any())
+            if (result.UnknownOptions.Count > 0)
             {
                 throw new InvalidUsageException($"Unknown option{(result.UnknownOptions.Count > 1 ? "s" : "")} {result.UnknownOptions.Spaced()}.");
             }

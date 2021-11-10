@@ -10,13 +10,13 @@ namespace BullseyeTests.Infra
         public static Target CreateTarget(string name, Action action) => CreateTarget(name, Array.Empty<string>(), action);
 
         public static Target CreateTarget(string name, string[] dependencies, Action action) =>
-            new ActionTarget(name, "", dependencies.ToList(), action.ToAsync());
+            new ActionTarget(name, "", dependencies, action.ToAsync());
 
         public static Target CreateTarget(string name, string[] dependencies) =>
 #if NET5_0_OR_GREATER
-            new(name, "", dependencies.ToList());
+            new(name, "", dependencies);
 #else
-            new Target(name, "", dependencies.ToList());
+            new Target(name, "", dependencies);
 #endif
 
         public static Target CreateTarget<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
