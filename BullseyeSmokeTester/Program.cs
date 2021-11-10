@@ -8,7 +8,7 @@ using Bullseye;
 using static Bullseye.Targets;
 
 // spell-checker:disable
-Target("default", DependsOn("world", "exclaim", "null-action", "echo", "combo", "no-inputs"));
+Target("default", DependsOn("world", "exclaim", "echo", "single", "combo", "no-inputs"));
 
 Target("hell\"o", "Says hello", async () => await Console.Out.WriteLineAsync("Hello"));
 
@@ -19,16 +19,14 @@ Target("world", DependsOn("comma"), async () => await Console.Out.WriteLineAsync
 Target("exclaim", DependsOn("world"), async () => await Console.Out.WriteLineAsync("!"));
 
 // spell-checker:enable
-Target("null-action", "does nothing", ForEach(1, 2), null);
-
-var foos = new[] { "a", "b" };
+var foos = new[] { "a", "b", null };
 var bars = new[] { 1, 2 };
 
 Target(
     "foo",
     "foos",
-    ForEach(10, 20, 30),
-    async delay => await Task.Delay(delay));
+    ForEach(10, 20, 30, (int?)null),
+    async delay => await Task.Delay(delay ?? 0));
 
 Target(
     "bar",
@@ -45,6 +43,11 @@ Target(
         await Task.Delay((4 - number) * 10);
         await Console.Out.WriteLineAsync(number.ToString(CultureInfo.InvariantCulture));
     });
+
+Target(
+    "single",
+    ForEach(foos),
+    foo => Console.Out.WriteLineAsync($"{foo}"));
 
 Target(
     "combo",

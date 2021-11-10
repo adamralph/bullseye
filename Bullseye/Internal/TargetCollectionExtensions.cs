@@ -10,34 +10,52 @@ namespace Bullseye.Internal
 {
     public static class TargetCollectionExtensions
     {
-        public static Task RunAsync(
+        public static async Task RunAsync(
             this TargetCollection targets,
-            IEnumerable<string> args,
+            IReadOnlyCollection<string> args,
             Func<Exception, bool> messageOnly,
-            string messagePrefix,
+            string? messagePrefix,
             TextWriter outputWriter,
             TextWriter diagnosticsWriter,
             bool exit)
         {
-            var argList = args.Sanitize().ToList();
+            var (names, options, unknownOptions, showHelp) = ArgsParser.Parse(args);
 
-            var (names, options, unknownOptions, showHelp) = ArgsParser.Parse(argList);
-
-            return targets.RunAsync(argList, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, exit);
+            await targets.RunAsync(
+                args,
+                names,
+                options,
+                unknownOptions,
+                showHelp,
+                messageOnly,
+                messagePrefix ?? await GetMessagePrefix(diagnosticsWriter).Tax(),
+                outputWriter,
+                diagnosticsWriter,
+                exit).Tax();
         }
 
-        public static Task RunAsync(
+        public static async Task RunAsync(
             this TargetCollection targets,
-            IEnumerable<string> names,
+            IReadOnlyCollection<string> names,
             IOptions options,
-            IEnumerable<string> unknownOptions,
+            IReadOnlyCollection<string> unknownOptions,
             bool showHelp,
             Func<Exception, bool> messageOnly,
-            string messagePrefix,
+            string? messagePrefix,
             TextWriter outputWriter,
             TextWriter diagnosticsWriter,
             bool exit) =>
-            targets.RunAsync(new List<string>(), names.Sanitize().ToList(), options, unknownOptions.Sanitize().ToList(), showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter, exit);
+            await targets.RunAsync(
+                new List<string>(),
+                names,
+                options,
+                unknownOptions,
+                showHelp,
+                messageOnly,
+                messagePrefix ?? await GetMessagePrefix(diagnosticsWriter).Tax(),
+                outputWriter,
+                diagnosticsWriter,
+                exit).Tax();
 
         private static async Task RunAsync(
             this TargetCollection targets,
@@ -88,10 +106,6 @@ namespace Bullseye.Internal
             TextWriter outputWriter,
             TextWriter diagnosticsWriter)
         {
-            options ??= new Options();
-            diagnosticsWriter ??= Console.Error;
-            messagePrefix ??= await GetMethodPrefix(diagnosticsWriter).Tax();
-
             if (options.Clear)
             {
                 try
@@ -147,7 +161,7 @@ namespace Bullseye.Internal
 
             try
             {
-                await output.Header().Tax();
+                await output.Header(() => typeof(TargetCollection).Assembly.GetVersion()).Tax();
 
                 await targets.RunAsync(
                     names,
@@ -184,8 +198,6 @@ namespace Bullseye.Internal
             Func<Exception, bool> messageOnly,
             Output output)
         {
-            targets ??= new TargetCollection();
-
             if (unknownOptions.Count > 0)
             {
                 throw new InvalidUsageException($"Unknown option{(unknownOptions.Count > 1 ? "s" : "")} {unknownOptions.Spaced()}. \"--help\" for usage.");
@@ -212,7 +224,7 @@ namespace Bullseye.Internal
             await targets.RunAsync(names, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
         }
 
-        private static async Task<string> GetMethodPrefix(TextWriter diagnostics)
+        private static async Task<string> GetMessagePrefix(TextWriter diagnosticsWriter)
         {
             var messagePrefix = "Bullseye";
 
@@ -222,7 +234,7 @@ namespace Bullseye.Internal
             }
             else
             {
-                await diagnostics.WriteLineAsync($"{messagePrefix}: Failed to get the entry assembly. Using default message prefix \"{messagePrefix}\".").Tax();
+                await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: Failed to get the entry assembly. Using default message prefix \"{messagePrefix}\".").Tax();
             }
 
             return messagePrefix;

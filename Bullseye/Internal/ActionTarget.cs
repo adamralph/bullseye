@@ -12,16 +12,14 @@ namespace Bullseye.Internal
         public ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
             : base(name, description, dependencies) => this.action = action;
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
-            output = output ?? throw new ArgumentNullException(nameof(output));
-
             await output.BeginGroup(this).Tax();
             await output.Starting(this, dependencyPath).Tax();
 
             TimeSpan? duration = null;
 
-            if (!dryRun && this.action != null)
+            if (!dryRun)
             {
                 try
                 {
@@ -38,7 +36,7 @@ namespace Bullseye.Internal
                 }
                 catch (Exception ex)
                 {
-                    if (messageOnly != null && !messageOnly(ex))
+                    if (!messageOnly(ex))
                     {
                         await output.Error(this, ex).Tax();
                     }
@@ -50,7 +48,7 @@ namespace Bullseye.Internal
                 }
             }
 
-            await output.Succeeded(this, duration, dependencyPath).Tax();
+            await output.Succeeded(this, dependencyPath, duration).Tax();
             await output.EndGroup().Tax();
         }
     }

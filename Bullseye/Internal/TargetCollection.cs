@@ -9,6 +9,8 @@ namespace Bullseye.Internal
 {
     public class TargetCollection : KeyedCollection<string, Target>
     {
+        private static readonly Queue<Target> rootDependencyPath = new Queue<Target>();
+
         public TargetCollection() : base(StringComparer.OrdinalIgnoreCase) { }
 
         protected override string GetKeyForItem(Target item) => item.Name;
@@ -21,8 +23,7 @@ namespace Bullseye.Internal
             Func<Exception, bool> messageOnly,
             Output output)
         {
-            var nameList = names.Sanitize().ToList();
-            output = output ?? throw new ArgumentNullException(nameof(output));
+            var nameList = names.ToList();
 
             if (!skipDependencies)
             {
@@ -55,14 +56,14 @@ namespace Bullseye.Internal
 
                 if (parallel)
                 {
-                    var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, sync));
+                    var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, sync, rootDependencyPath));
                     await Task.WhenAll(tasks).Tax();
                 }
                 else
                 {
                     foreach (var target in targets)
                     {
-                        await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync).Tax();
+                        await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync, rootDependencyPath).Tax();
                     }
                 }
             }
@@ -85,12 +86,12 @@ namespace Bullseye.Internal
             Output output,
             Dictionary<Target, Task> runningTargets,
             SemaphoreSlim sync,
-            Queue<Target> dependencyPath = null)
+            Queue<Target> dependencyPath)
         {
             if (output.Verbose)
             {
-                // can switch to ImmutableQueue after dropping support for .NET Framework
-                dependencyPath = dependencyPath == null ? new Queue<Target>() : new Queue<Target>(dependencyPath);
+                // can switch to ImmutableQueue after moving to .NET 5+
+                dependencyPath = new Queue<Target>(dependencyPath);
                 dependencyPath.Enqueue(target);
             }
 

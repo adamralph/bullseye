@@ -14,7 +14,7 @@ var cmd = new RootCommand()
 cmd.Add(new Argument("targets") { Arity = ArgumentArity.ZeroOrMore, Description = "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed." });
 foreach (var option in Options.Definitions)
 {
-    cmd.Add(new Option(new[] { option.ShortName, option.LongName }.Where(n => !string.IsNullOrWhiteSpace(n)).ToArray(), option.Description));
+    cmd.Add(new Option(option.Aliases.ToArray(), option.Description));
 }
 
 cmd.Handler = CommandHandler.Create<string>(async foo =>

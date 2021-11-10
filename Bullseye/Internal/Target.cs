@@ -9,9 +9,9 @@ namespace Bullseye.Internal
     {
         public Target(string name, string description, IEnumerable<string> dependencies)
         {
-            this.Name = name ?? throw new InvalidUsageException("Target name cannot be null.");
+            this.Name = name;
             this.Description = description;
-            this.Dependencies = dependencies.Sanitize().ToList();
+            this.Dependencies = dependencies.ToList();
         }
 
         public string Name { get; }
@@ -20,7 +20,7 @@ namespace Bullseye.Internal
 
         public IReadOnlyCollection<string> Dependencies { get; }
 
-        public virtual Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath) => output.Succeeded(this, null, dependencyPath);
+        public virtual Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath) => output.Succeeded(this, dependencyPath);
 
         public override string ToString() => this.Name;
     }

@@ -29,10 +29,10 @@ namespace Bullseye
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public static Task RunTargetsAndExitAsync(
             IEnumerable<string> args,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
             instance.RunAndExitAsync(args, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
 
         /// <summary>
@@ -58,12 +58,12 @@ namespace Bullseye
         public static Task RunTargetsAndExitAsync(
             IEnumerable<string> targets,
             IOptions options,
-            IEnumerable<string> unknownOptions = null,
+            IEnumerable<string>? unknownOptions = null,
             bool showHelp = false,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
             instance.RunAndExitAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
 
         /// <summary>
@@ -86,10 +86,10 @@ namespace Bullseye
         /// <returns>A <see cref="Task"/> that represents the asynchronous running of the targets.</returns>
         public static Task RunTargetsWithoutExitingAsync(
             IEnumerable<string> args,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
             instance.RunWithoutExitingAsync(args, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
 
         /// <summary>
@@ -116,12 +116,12 @@ namespace Bullseye
         public static Task RunTargetsWithoutExitingAsync(
             IEnumerable<string> targets,
             IOptions options,
-            IEnumerable<string> unknownOptions = null,
+            IEnumerable<string>? unknownOptions = null,
             bool showHelp = false,
-            Func<Exception, bool> messageOnly = null,
-            string messagePrefix = null,
-            TextWriter outputWriter = null,
-            TextWriter diagnosticsWriter = null) =>
+            Func<Exception, bool>? messageOnly = null,
+            string? messagePrefix = null,
+            TextWriter? outputWriter = null,
+            TextWriter? diagnosticsWriter = null) =>
             instance.RunWithoutExitingAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
     }
 }

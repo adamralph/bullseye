@@ -64,56 +64,56 @@ namespace BullseyeTests
 
         private static async Task Write(Output output, bool dryRun)
         {
-            var badInput = new Target("badInput", default, default);
+            var badInput = new Target("badInput", "", Enumerable.Empty<string>());
             var badInputDuration = dryRun ? (TimeSpan?)null : TimeSpan.FromMilliseconds(1.234);
             var badInputEx = new InvalidOperationException("badInputEx");
             var badInputId = Guid.ParseExact("AA123".PadRight(32, '0'), "N");
 
-            var badInputsTarget = new Target("badInputsTarget", default, default);
+            var badInputsTarget = new Target("badInputsTarget", "", Enumerable.Empty<string>());
 
-            var badTarget = new Target("badTarget", default, default);
+            var badTarget = new Target("badTarget", "", Enumerable.Empty<string>());
             var badTargetDuration = dryRun ? (TimeSpan?)null : TimeSpan.FromMilliseconds(3.456);
             var badTargetEx = new InvalidOperationException("badTargetEx");
 
             var emptyTargets = Enumerable.Empty<Target>();
 
-            var goodInput1 = new Target("goodInput1", default, default);
-            var goodInput2 = new Target("goodInput2", default, default);
+            var goodInput1 = new Target("goodInput1", "", Enumerable.Empty<string>());
+            var goodInput2 = new Target("goodInput2", "", Enumerable.Empty<string>());
             var goodInputDuration1 = dryRun ? (TimeSpan?)null : TimeSpan.FromSeconds(1.234);
             var goodInputDuration2 = dryRun ? (TimeSpan?)null : TimeSpan.FromSeconds(2.345);
             var goodInputId1 = Guid.ParseExact("BB123".PadRight(32, '0'), "N");
             var goodInputId2 = Guid.ParseExact("BB234".PadRight(32, '0'), "N");
 
-            var goodInputsTarget = new Target("goodInputsTarget", default, default);
+            var goodInputsTarget = new Target("goodInputsTarget", "", Enumerable.Empty<string>());
 
-            var goodTarget1 = new Target("goodTarget1", default, default);
-            var goodTarget2 = new Target("goodTarget2", default, default);
+            var goodTarget1 = new Target("goodTarget1", "", Enumerable.Empty<string>());
+            var goodTarget2 = new Target("goodTarget2", "", Enumerable.Empty<string>());
             var goodTargetDuration1 = (TimeSpan?)null;
             var goodTargetDuration2 = dryRun ? (TimeSpan?)null : TimeSpan.FromMinutes(1.234);
 
-            var looseInput = new Target("looseInput", default, default);
+            var looseInput = new Target("looseInput", "", Enumerable.Empty<string>());
             var looseInputDuration = (TimeSpan?)null;
             var looseInputId = Guid.ParseExact("CC123".PadRight(32, '0'), "N");
 
-            var looseTarget = new Target("looseTarget", default, default);
+            var looseTarget = new Target("looseTarget", "", Enumerable.Empty<string>());
 
-            var looseTargets = new List<Target> { new Target("looseTarget", default, default) };
+            var looseTargets = new List<Target> { new Target("looseTarget", "", Enumerable.Empty<string>()) };
 
-            var noInputsTarget = new Target("noInputsTarget", default, default);
+            var noInputsTarget = new Target("noInputsTarget", "", Enumerable.Empty<string>());
 
             var targets = new List<Target>
             {
-                new Target("target1", default, default),
-                new Target("target2", default, default),
-                new Target("target3", default, default),
+                new Target("target1", "", Enumerable.Empty<string>()),
+                new Target("target2", "", Enumerable.Empty<string>()),
+                new Target("target3", "", Enumerable.Empty<string>()),
             };
 
             var verboseTargets = new Queue<Target>(
                 new[]
                 {
-                    new Target("verboseTarget1", default, default),
-                    new Target("verboseTarget2", default, default),
-                    new Target("verboseTarget3", default, default),
+                    new Target("verboseTarget1", "", Enumerable.Empty<string>()),
+                    new Target("verboseTarget2", "", Enumerable.Empty<string>()),
+                    new Target("verboseTarget3", "", Enumerable.Empty<string>()),
                 });
 
             var version = "version";
@@ -132,10 +132,10 @@ namespace BullseyeTests
             {
                 await output.NoInputs(noInputsTarget, verboseTargets);
 
-                await output.Succeeded(goodTarget1, goodTargetDuration1, verboseTargets);
+                await output.Succeeded(goodTarget1, verboseTargets, goodTargetDuration1);
 
                 await output.Starting(goodTarget2, verboseTargets);
-                await output.Succeeded(goodTarget2, goodTargetDuration2, verboseTargets);
+                await output.Succeeded(goodTarget2, verboseTargets, goodTargetDuration2);
 
                 await output.Starting(badTarget, verboseTargets);
                 {

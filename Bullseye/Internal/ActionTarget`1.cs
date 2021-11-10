@@ -14,11 +14,11 @@ namespace Bullseye.Internal
         public ActionTarget(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
             : base(name, description, dependencies)
         {
-            this.inputs = inputs ?? Enumerable.Empty<TInput>();
+            this.inputs = inputs;
             this.action = action;
         }
 
-        public IEnumerable<object> Inputs
+        public IEnumerable<object?> Inputs
         {
             get
             {
@@ -29,10 +29,8 @@ namespace Bullseye.Internal
             }
         }
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
+        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
-            output = output ?? throw new ArgumentNullException(nameof(output));
-
             var inputsList = this.inputs.ToList();
 
             if (inputsList.Count == 0)
@@ -72,7 +70,7 @@ namespace Bullseye.Internal
             await output.EndGroup().Tax();
         }
 
-        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IEnumerable<Target> dependencyPath)
+        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
             var id = Guid.NewGuid();
 
@@ -80,7 +78,7 @@ namespace Bullseye.Internal
 
             TimeSpan? duration = null;
 
-            if (!dryRun && this.action != null)
+            if (!dryRun)
             {
                 try
                 {
@@ -97,7 +95,7 @@ namespace Bullseye.Internal
                 }
                 catch (Exception ex)
                 {
-                    if (messageOnly != null && !messageOnly(ex))
+                    if (!messageOnly(ex))
                     {
                         await output.Error(this, input, ex).Tax();
                     }

@@ -30,7 +30,7 @@ namespace Bullseye.Internal
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
 
-            var rows = new List<SummaryRow> { new SummaryRow { TargetOrInput = $"{p.Default}Target{p.Reset}", Outcome = $"{p.Default}Outcome{p.Reset}", Duration = $"{p.Default}Duration{p.Reset}", Percentage = "" } };
+            var rows = new List<SummaryRow> { new SummaryRow($"{p.Default}Target{p.Reset}", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Duration{p.Reset}", "") };
 
             foreach (var item in results.OrderBy(i => i.Value.Ordinal))
             {
@@ -50,7 +50,7 @@ namespace Bullseye.Internal
                     ? $"{p.Timing}{100 * item.Value.Duration.Value.TotalMilliseconds / totalDuration.Value.TotalMilliseconds:N1}%{p.Reset}"
                     : "";
 
-                rows.Add(new SummaryRow { TargetOrInput = target, Outcome = outcome, Duration = duration, Percentage = percentage });
+                rows.Add(new SummaryRow(target, outcome, duration, percentage));
 
                 var index = 0;
 
@@ -68,7 +68,7 @@ namespace Bullseye.Internal
                         ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.Value.TotalMilliseconds / totalDuration.Value.TotalMilliseconds:N1}%{p.Reset}"
                         : "";
 
-                    rows.Add(new SummaryRow { TargetOrInput = input, Outcome = inputOutcome, Duration = inputDuration, Percentage = inputPercentage });
+                    rows.Add(new SummaryRow(input, inputOutcome, inputDuration, inputPercentage));
 
                     ++index;
                 }
@@ -138,7 +138,7 @@ namespace Bullseye.Internal
 
             public int Ordinal { get; }
 
-            public object Input { get; set; }
+            public object? Input { get; set; }
 
             public TargetInputOutcome Outcome { get; set; }
 
@@ -147,13 +147,21 @@ namespace Bullseye.Internal
 
         private class SummaryRow
         {
-            public string TargetOrInput { get; set; }
+            public SummaryRow(string targetOrInput, string outcome, string duration, string percentage)
+            {
+                this.TargetOrInput = targetOrInput;
+                this.Outcome = outcome;
+                this.Duration = duration;
+                this.Percentage = percentage;
+            }
 
-            public string Outcome { get; set; }
+            public string TargetOrInput { get; }
 
-            public string Duration { get; set; }
+            public string Outcome { get; }
 
-            public string Percentage { get; set; }
+            public string Duration { get; }
+
+            public string Percentage { get; }
         }
 
         private enum TargetOutcome
