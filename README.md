@@ -27,7 +27,7 @@ Platform support: [.NET Standard 2.0 and later](https://docs.microsoft.com/en-us
   - [Defining dependencies](#defining-dependencies)
   - [Enumerable inputs](#enumerable-inputs)
   - [Sample wrapper scripts](#sample-wrapper-scripts)
-  - [Command line arguments](#command-line-arguments)
+  - [Command-line arguments](#command-line-arguments)
   - [Non-static API](#non-static-api)
   - [NO_COLOR](#no_color)
   - [FAQ](#faq)
@@ -113,9 +113,9 @@ dotnet run -- eat-biscuits
   dotnet run --project targets -- $args
   ```
 
-## Command line arguments
+## Command-line arguments
 
-Generally, all the command line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExitAsync(args);`). This is because Bullseye effectively provides a command line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
+Generally, all the command-line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExitAsync(args);`). This is because Bullseye effectively provides a command-line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command-line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
 
 ```PowerShell
 dotnet run --project targets -- --help
@@ -124,7 +124,7 @@ dotnet run --project targets -- --help
 ./build.ps1 -?
 ```
 
-You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye and that the help text contains both your custom arguments and the arguments supported by Bullseye. A good way to do this is to use a command line parsing package to define your custom arguments, and to provide translation between the package and Bullseye. For example, see the test projects for:
+You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye and that the help text contains both your custom arguments and the arguments supported by Bullseye. A good way to do this is to use a command-line parsing package to define your custom arguments, and to provide translation between the package and Bullseye. For example, see the test projects for:
 
 - [System.CommandLine](BullseyeSmokeTester.CommandLine/Program.cs)
 - [System.CommandLine.DragonFruit](BullseyeSmokeTester.DragonFruit/Program.cs)
@@ -203,7 +203,7 @@ To name a few:
 - [TemplatedConfiguration](https://github.com/Erwinvandervalk/TemplatedConfiguration)
 - [Xenial](https://github.com/xenial-io)
 
-Feel free to send a pull request to add your repo or organisation to this list!
+Feel free to send a pull request to add your repository or organisation to this list!
 
 ---
 
