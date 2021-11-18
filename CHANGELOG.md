@@ -4,7 +4,7 @@
 
 ### Enhancements
 
-- [#532: **[BREAKING]** Expand help option formats to a superset of those supported by System.CommandLine](https://github.com/adamralph/bullseye/issues/532)
+- [#532: **[BREAKING]** Expand help option formats](https://github.com/adamralph/bullseye/issues/532)
 - [#640: Group target log lines in GitHub Actions](https://github.com/adamralph/bullseye/issues/640)
 - [#641: Parse-able standard output](https://github.com/adamralph/bullseye/issues/641)
 - [#642: **[BREAKING]** Better options API](https://github.com/adamralph/bullseye/issues/642)
@@ -12,6 +12,7 @@
 - [#673: **[BREAKING]** allow forcing of console (default) mode](https://github.com/adamralph/bullseye/pull/673)
 - [#675: accept IOptions instead of Options](https://github.com/adamralph/bullseye/pull/675)
 - [#682: accept custom output and diagnostic writers](https://github.com/adamralph/bullseye/pull/682)
+- [#692: add nullable annotations](https://github.com/adamralph/bullseye/pull/692)
 
 ### Fixed bugs
 
@@ -134,7 +135,7 @@
 
 ### Fixed bugs
 
-- [#315: Log colouring bleeds into white space](https://github.com/adamralph/bullseye/issues/315)
+- [#315: Log colouring bleeds into whitespace](https://github.com/adamralph/bullseye/issues/315)
 - [#319: Symbols are garbled on TeamCity](https://github.com/adamralph/bullseye/issues/319)
 
 ### Other
