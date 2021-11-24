@@ -19,7 +19,7 @@ Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs 
 
 Bullseye targets can do anything. They are not restricted to building .NET projects.
 
-Platform support: [.NET Standard 2.0 and later](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
+Platform support: [.NET Standard 2.1 and later](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
 <!-- spell-checker:disable -->
 - [Bullseye](#bullseye)
