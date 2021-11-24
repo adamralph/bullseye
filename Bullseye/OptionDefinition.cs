@@ -14,6 +14,7 @@ namespace Bullseye
         /// <param name="description">The description of the option.</param>
         public OptionDefinition(string longName, string description)
         {
+            this.ShortName = "";
             this.LongName = longName;
             this.Aliases = new List<string> { longName };
             this.Description = description;
@@ -45,7 +46,7 @@ namespace Bullseye
         /// <summary>
         /// Gets the short name of the option.
         /// </summary>
-        public string? ShortName { get; }
+        public string ShortName { get; }
 
         /// <summary>
         /// Gets the long name of the option.

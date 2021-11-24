@@ -4,11 +4,11 @@ namespace Bullseye.Internal
 {
     public static class HostExtensions
     {
-        public static Host DetectIfNull(this Host? host)
+        public static Host DetectIfAutomatic(this Host host)
         {
-            if (host.HasValue)
+            if (host != Host.Automatic)
             {
-                return host.Value;
+                return host;
             }
 
             if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")

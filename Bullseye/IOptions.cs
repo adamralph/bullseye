@@ -61,9 +61,8 @@ namespace Bullseye
         bool Verbose { get; }
 
         /// <summary>
-        /// Gets a value indicating whether to force the mode for a specific host environment (normally auto-detected).
-        /// If the value is set to <c>null</c>, then no mode is forced.
+        /// Gets a value indicating which mode to use for a specific host environment.
         /// </summary>
-        Host? Host { get; }
+        Host Host { get; }
     }
 }
