@@ -57,7 +57,7 @@ namespace BullseyeTests
             await writer.WriteLineAsync($"args: {string.Join(" ", args)}");
             await writer.WriteLineAsync();
 
-            var output = new Output(writer, args, dryRun, host, hostForced, noColor, noExtendedChars, operatingSystem, parallel, $"prefix{ordinal}", skipDependencies, verbose);
+            var output = new Output(writer, TextWriter.Null, args, dryRun, host, hostForced, noColor, noExtendedChars, operatingSystem, parallel, () => $"prefix{ordinal}", skipDependencies, verbose);
 
             await Write(output, dryRun);
         }

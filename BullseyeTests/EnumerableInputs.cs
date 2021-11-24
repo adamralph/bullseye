@@ -22,7 +22,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string>(), _ => false, default, Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string>(), _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Equal(2, inputsReceived.Count);
@@ -42,7 +42,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string>(), _ => false, default, Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string>(), _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.False(ran);

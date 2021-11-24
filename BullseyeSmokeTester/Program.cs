@@ -129,4 +129,6 @@ if (!showHelp)
     await targets.RunWithoutExitingAsync(targetNames, options, unknownOptions);
 }
 
-await RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException);
+var line = 0;
+
+await RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException, () => $"{line++} targets");
