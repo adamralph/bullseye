@@ -21,7 +21,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new[] { "SECOND" }, _ => false, default, Console.Out, Console.Error, false);
+            await targets.RunAsync(new[] { "SECOND" }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.True(first);

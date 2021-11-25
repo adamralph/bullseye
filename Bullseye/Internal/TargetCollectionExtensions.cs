@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -14,7 +13,7 @@ namespace Bullseye.Internal
             this TargetCollection targets,
             IReadOnlyCollection<string> args,
             Func<Exception, bool> messageOnly,
-            string? messagePrefix,
+            Func<string> getMessagePrefix,
             TextWriter outputWriter,
             TextWriter diagnosticsWriter,
             bool exit)
@@ -28,7 +27,7 @@ namespace Bullseye.Internal
                 unknownOptions,
                 showHelp,
                 messageOnly,
-                messagePrefix ?? await GetMessagePrefix(diagnosticsWriter).Tax(),
+                getMessagePrefix,
                 outputWriter,
                 diagnosticsWriter,
                 exit).Tax();
@@ -41,7 +40,7 @@ namespace Bullseye.Internal
             IReadOnlyCollection<string> unknownOptions,
             bool showHelp,
             Func<Exception, bool> messageOnly,
-            string? messagePrefix,
+            Func<string> getMessagePrefix,
             TextWriter outputWriter,
             TextWriter diagnosticsWriter,
             bool exit) =>
@@ -52,7 +51,7 @@ namespace Bullseye.Internal
                 unknownOptions,
                 showHelp,
                 messageOnly,
-                messagePrefix ?? await GetMessagePrefix(diagnosticsWriter).Tax(),
+                getMessagePrefix,
                 outputWriter,
                 diagnosticsWriter,
                 exit).Tax();
@@ -65,7 +64,7 @@ namespace Bullseye.Internal
             IReadOnlyCollection<string> unknownOptions,
             bool showHelp,
             Func<Exception, bool> messageOnly,
-            string messagePrefix,
+            Func<string> getMessagePrefix,
             TextWriter outputWriter,
             TextWriter diagnosticsWriter,
             bool exit)
@@ -74,7 +73,7 @@ namespace Bullseye.Internal
             {
                 try
                 {
-                    await targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
+                    await targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter).Tax();
                 }
                 catch (InvalidUsageException ex)
                 {
@@ -90,7 +89,7 @@ namespace Bullseye.Internal
             }
             else
             {
-                await targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter).Tax();
+                await targets.RunAsync(args, names, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter).Tax();
             }
         }
 
@@ -102,7 +101,7 @@ namespace Bullseye.Internal
             IReadOnlyCollection<string> unknownOptions,
             bool showHelp,
             Func<Exception, bool> messageOnly,
-            string messagePrefix,
+            Func<string> getMessagePrefix,
             TextWriter outputWriter,
             TextWriter diagnosticsWriter)
         {
@@ -116,7 +115,7 @@ namespace Bullseye.Internal
                 catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
                 {
-                    await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: Failed to clear the console: {ex}").Tax();
+                    await diagnosticsWriter.WriteLineAsync($"{getMessagePrefix()}: Failed to clear the console: {ex}").Tax();
                 }
             }
 
@@ -126,7 +125,7 @@ namespace Bullseye.Internal
             {
                 if (options.Verbose)
                 {
-                    await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
+                    await diagnosticsWriter.WriteLineAsync($"{getMessagePrefix()}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
                 }
 
                 noColor = true;
@@ -145,6 +144,7 @@ namespace Bullseye.Internal
 
             var output = new Output(
                 outputWriter,
+                diagnosticsWriter,
                 args,
                 options.DryRun,
                 host,
@@ -153,11 +153,11 @@ namespace Bullseye.Internal
                 options.NoExtendedChars,
                 operatingSystem,
                 options.Parallel,
-                messagePrefix,
+                getMessagePrefix,
                 options.SkipDependencies,
                 options.Verbose);
 
-            var outputState = await output.Initialize(options.Verbose ? diagnosticsWriter : TextWriter.Null).Tax();
+            var outputState = await output.Initialize().Tax();
 
             try
             {
@@ -222,22 +222,6 @@ namespace Bullseye.Internal
             names = names.Count > 0 ? names : new List<string> { "default" };
 
             await targets.RunAsync(names, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
-        }
-
-        private static async Task<string> GetMessagePrefix(TextWriter diagnosticsWriter)
-        {
-            var messagePrefix = "Bullseye";
-
-            if (Assembly.GetEntryAssembly() is Assembly entryAssembly)
-            {
-                messagePrefix = entryAssembly.GetName().Name;
-            }
-            else
-            {
-                await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: Failed to get the entry assembly. Using default message prefix \"{messagePrefix}\".").Tax();
-            }
-
-            return messagePrefix;
         }
     }
 }

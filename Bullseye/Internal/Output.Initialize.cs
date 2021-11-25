@@ -6,20 +6,23 @@ namespace Bullseye.Internal
 {
     public partial class Output
     {
-        public async Task<IAsyncDisposable> Initialize(TextWriter diagnostics)
+        public async Task<IAsyncDisposable> Initialize()
         {
             if (this.noColor || this.operatingSystem != OperatingSystem.Windows)
             {
                 return new NullAsyncDisposable();
             }
 
-            var (handle, gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(diagnostics, this.prefix).Tax();
+            var diagnostics = this.Verbose ? this.diagnosticsWriter : TextWriter.Null;
+            var prefix = this.Verbose ? this.getPrefix : () => "";
+
+            var (handle, gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(diagnostics, prefix).Tax();
             if (!gotHandle)
             {
                 return new NullAsyncDisposable();
             }
 
-            var (oldMode, gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, diagnostics, this.prefix).Tax();
+            var (oldMode, gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, diagnostics, prefix).Tax();
             if (!gotMode)
             {
                 return new NullAsyncDisposable();
@@ -27,9 +30,9 @@ namespace Bullseye.Internal
 
             var newMode = oldMode | NativeMethods.ConsoleOutputModes.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
-            await NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, newMode, diagnostics, this.prefix).Tax();
+            await NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, newMode, diagnostics, prefix).Tax();
 
-            return new State(handle, oldMode, diagnostics, this.prefix);
+            return new State(handle, oldMode, diagnostics, prefix);
         }
 
         private class State : IAsyncDisposable
@@ -37,13 +40,13 @@ namespace Bullseye.Internal
             private readonly IntPtr handle;
             private readonly NativeMethods.ConsoleOutputModes oldMode;
             private readonly TextWriter diagnostics;
-            private readonly string messagePrefix;
+            private readonly Func<string> getMessagePrefix;
 
-            public State(IntPtr handle, NativeMethods.ConsoleOutputModes oldMode, TextWriter diagnostics, string messagePrefix) =>
-                (this.handle, this.oldMode, this.diagnostics, this.messagePrefix) = (handle, oldMode, diagnostics, messagePrefix);
+            public State(IntPtr handle, NativeMethods.ConsoleOutputModes oldMode, TextWriter diagnostics, Func<string> getMessagePrefix) =>
+                (this.handle, this.oldMode, this.diagnostics, this.getMessagePrefix) = (handle, oldMode, diagnostics, getMessagePrefix);
 
             public Task DisposeAsync() =>
-                NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(this.handle, this.oldMode, this.diagnostics, this.messagePrefix);
+                NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(this.handle, this.oldMode, this.diagnostics, this.getMessagePrefix);
         }
 
         private class NullAsyncDisposable : IAsyncDisposable

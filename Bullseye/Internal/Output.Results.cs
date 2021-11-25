@@ -25,7 +25,7 @@ namespace Bullseye.Internal
             return (targetResult, targetInputResult);
         }
 
-        private static string GetResultLines(IEnumerable<KeyValuePair<Target, TargetResult>> results, TimeSpan? totalDuration, string prefix, Palette p)
+        private static string GetResultLines(IEnumerable<KeyValuePair<Target, TargetResult>> results, TimeSpan? totalDuration, Func<string> getPrefix, Palette p)
         {
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
@@ -95,22 +95,22 @@ namespace Bullseye.Internal
             var builder = new StringBuilder();
 
             // summary start separator
-            _ = builder.AppendLine($"{p.Prefix}{prefix}:{p.Reset} {p.Default}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Reset}");
+            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Reset} {p.Default}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Reset}");
 
             // header
-            _ = builder.AppendLine($"{p.Prefix}{prefix}:{p.Reset} {Prp(rows[0].TargetOrInput, tarW, ws)}{ws}{ws}{Prp(rows[0].Outcome, outW, ws)}{ws}{ws}{Prp(rows[0].Duration, timW, ws)}");
+            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Reset} {Prp(rows[0].TargetOrInput, tarW, ws)}{ws}{ws}{Prp(rows[0].Outcome, outW, ws)}{ws}{ws}{Prp(rows[0].Duration, timW, ws)}");
 
             // header separator
-            _ = builder.AppendLine($"{p.Prefix}{prefix}:{p.Reset} {p.Default}{Prp("", tarW, p.Horizontal)}{p.Reset}{ws}{ws}{p.Default}{Prp("", outW, p.Horizontal)}{p.Reset}{ws}{ws}{p.Default}{Prp("", timW, p.Horizontal)}{p.Reset}");
+            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Reset} {p.Default}{Prp("", tarW, p.Horizontal)}{p.Reset}{ws}{ws}{p.Default}{Prp("", outW, p.Horizontal)}{p.Reset}{ws}{ws}{p.Default}{Prp("", timW, p.Horizontal)}{p.Reset}");
 
             // targets
             foreach (var row in rows.Skip(1))
             {
-                _ = builder.AppendLine($"{p.Prefix}{prefix}:{p.Reset} {Prp(row.TargetOrInput, tarW, ws)}{p.Reset}{ws}{ws}{Prp(row.Outcome, outW, ws)}{p.Reset}{ws}{ws}{Prp(row.Duration, durW, ws)}{p.Reset}{ws}{ws}{Prp(row.Percentage, perW, ws)}{p.Reset}");
+                _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Reset} {Prp(row.TargetOrInput, tarW, ws)}{p.Reset}{ws}{ws}{Prp(row.Outcome, outW, ws)}{p.Reset}{ws}{ws}{Prp(row.Duration, durW, ws)}{p.Reset}{ws}{ws}{Prp(row.Percentage, perW, ws)}{p.Reset}");
             }
 
             // summary end separator
-            _ = builder.AppendLine($"{p.Prefix}{prefix}:{p.Reset} {p.Default}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Reset}");
+            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Reset} {p.Default}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Reset}");
 
             return builder.ToString();
 

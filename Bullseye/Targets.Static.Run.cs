@@ -16,13 +16,13 @@ namespace Bullseye
         /// </summary>
         /// <param name="args">The command line arguments.</param>
         /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
+        /// A predicate which is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
+        /// <param name="getMessagePrefix">
+        /// A function which is called for each output or diagnostic message and returns the prefix to use.
+        /// If not specified or <c>null</c>, the name of the entry assembly is used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
+        /// If the entry assembly is <c>null</c>, the default prefix "Bullseye" is used.
         /// </param>
         /// <param name="outputWriter">The <see cref="TextWriter"/> to use for writing output messages. Defaults to <see cref="Console.Out"/>.</param>
         /// <param name="diagnosticsWriter">The <see cref="TextWriter"/> to use for writing diagnostic messages. Defaults to <see cref="Console.Error"/>.</param>
@@ -30,10 +30,10 @@ namespace Bullseye
         public static Task RunTargetsAndExitAsync(
             IEnumerable<string> args,
             Func<Exception, bool>? messageOnly = null,
-            string? messagePrefix = null,
+            Func<string>? getMessagePrefix = null,
             TextWriter? outputWriter = null,
             TextWriter? diagnosticsWriter = null) =>
-            instance.RunAndExitAsync(args, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
+            instance.RunAndExitAsync(args, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
 
         /// <summary>
         /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -44,13 +44,13 @@ namespace Bullseye
         /// <param name="unknownOptions">The unknown options specified in the command line arguments.</param>
         /// <param name="showHelp">A value indicating whether to show help.</param>
         /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
+        /// A predicate which is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
+        /// <param name="getMessagePrefix">
+        /// A function which is called for each output or diagnostic message and returns the prefix to use.
+        /// If not specified or <c>null</c>, the name of the entry assembly is used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
+        /// If the entry assembly is <c>null</c>, the default prefix "Bullseye" is used.
         /// </param>
         /// <param name="outputWriter">The <see cref="TextWriter"/> to use for writing output messages. Defaults to <see cref="Console.Out"/>.</param>
         /// <param name="diagnosticsWriter">The <see cref="TextWriter"/> to use for writing diagnostic messages. Defaults to <see cref="Console.Error"/>.</param>
@@ -61,25 +61,25 @@ namespace Bullseye
             IEnumerable<string>? unknownOptions = null,
             bool showHelp = false,
             Func<Exception, bool>? messageOnly = null,
-            string? messagePrefix = null,
+            Func<string>? getMessagePrefix = null,
             TextWriter? outputWriter = null,
             TextWriter? diagnosticsWriter = null) =>
-            instance.RunAndExitAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
+            instance.RunAndExitAsync(targets, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
 
         /// <summary>
         /// Runs the previously specified targets.
-        /// In most cases, <see cref="RunTargetsAndExitAsync(IEnumerable{string}, Func{Exception, bool}, string, TextWriter, TextWriter)"/> should be used instead of this method.
+        /// In most cases, <see cref="RunTargetsAndExitAsync(IEnumerable{string}, Func{Exception, bool}, Func{string}, TextWriter, TextWriter)"/> should be used instead of this method.
         /// This method should only be used if continued code execution after running targets is specifically required.
         /// </summary>
         /// <param name="args">The command line arguments.</param>
         /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
+        /// A predicate which is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
+        /// <param name="getMessagePrefix">
+        /// A function which is called for each output or diagnostic message and returns the prefix to use.
+        /// If not specified or <c>null</c>, the name of the entry assembly is used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
+        /// If the entry assembly is <c>null</c>, the default prefix "Bullseye" is used.
         /// </param>
         /// <param name="outputWriter">The <see cref="TextWriter"/> to use for writing output messages. Defaults to <see cref="Console.Out"/>.</param>
         /// <param name="diagnosticsWriter">The <see cref="TextWriter"/> to use for writing diagnostic messages. Defaults to <see cref="Console.Error"/>.</param>
@@ -87,14 +87,14 @@ namespace Bullseye
         public static Task RunTargetsWithoutExitingAsync(
             IEnumerable<string> args,
             Func<Exception, bool>? messageOnly = null,
-            string? messagePrefix = null,
+            Func<string>? getMessagePrefix = null,
             TextWriter? outputWriter = null,
             TextWriter? diagnosticsWriter = null) =>
-            instance.RunWithoutExitingAsync(args, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
+            instance.RunWithoutExitingAsync(args, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
 
         /// <summary>
         /// Runs the previously specified targets.
-        /// In most cases, <see cref="RunTargetsAndExitAsync(IEnumerable{string}, IOptions, IEnumerable{string}, bool, Func{Exception, bool}, string, TextWriter, TextWriter)"/> should be used instead of this method.
+        /// In most cases, <see cref="RunTargetsAndExitAsync(IEnumerable{string}, IOptions, IEnumerable{string}, bool, Func{Exception, bool}, Func{string}, TextWriter, TextWriter)"/> should be used instead of this method.
         /// This method should only be used if continued code execution after running targets is specifically required.
         /// </summary>
         /// <param name="targets">The targets to run or list.</param>
@@ -102,13 +102,13 @@ namespace Bullseye
         /// <param name="unknownOptions">The unknown options specified in the command line arguments.</param>
         /// <param name="showHelp">A value indicating whether to show help.</param>
         /// <param name="messageOnly">
-        /// A predicate that is called when an exception is thrown.
+        /// A predicate which is called when an exception is thrown.
         /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
         /// </param>
-        /// <param name="messagePrefix">
-        /// The prefix to use for output and diagnostic messages.
-        /// If not specified or <c>null</c>, the name of the entry assembly will be used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
-        /// If the entry assembly is <c>null</c>, the default prefix of "Bullseye" is used.
+        /// <param name="getMessagePrefix">
+        /// A function which is called for each output or diagnostic message and returns the prefix to use.
+        /// If not specified or <c>null</c>, the name of the entry assembly is used, as returned by <see cref="System.Reflection.Assembly.GetEntryAssembly"/>.
+        /// If the entry assembly is <c>null</c>, the default prefix "Bullseye" is used.
         /// </param>
         /// <param name="outputWriter">The <see cref="TextWriter"/> to use for writing output messages. Defaults to <see cref="Console.Out"/>.</param>
         /// <param name="diagnosticsWriter">The <see cref="TextWriter"/> to use for writing diagnostic messages. Defaults to <see cref="Console.Error"/>.</param>
@@ -119,9 +119,9 @@ namespace Bullseye
             IEnumerable<string>? unknownOptions = null,
             bool showHelp = false,
             Func<Exception, bool>? messageOnly = null,
-            string? messagePrefix = null,
+            Func<string>? getMessagePrefix = null,
             TextWriter? outputWriter = null,
             TextWriter? diagnosticsWriter = null) =>
-            instance.RunWithoutExitingAsync(targets, options, unknownOptions, showHelp, messageOnly, messagePrefix, outputWriter, diagnosticsWriter);
+            instance.RunWithoutExitingAsync(targets, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
     }
 }
