@@ -8,11 +8,20 @@ namespace Bullseye.Internal
     {
         private static readonly IFormatProvider provider = CultureInfo.InvariantCulture;
 
-        public static string Humanize(this TimeSpan? duration) =>
-            duration.HasValue ? Humanize(duration.Value) : string.Empty;
-
         public static string Humanize(this TimeSpan duration)
         {
+            // negative
+            if (duration < TimeSpan.Zero)
+            {
+                return "<0 ms";
+            }
+
+            // zero
+            if (duration == TimeSpan.Zero)
+            {
+                return "0 ms";
+            }
+
             // less than one millisecond
             if (Convert.ToInt64(duration.TotalMilliseconds) < 1L)
             {
@@ -43,10 +52,5 @@ namespace Bullseye.Internal
             // minutes
             return duration.TotalMinutes.ToString("N0", provider) + " m";
         }
-
-        public static TimeSpan? Add(this TimeSpan? x, TimeSpan? y) =>
-            y.HasValue
-            ? (x ?? TimeSpan.Zero).Add(y.Value)
-            : x;
     }
 }

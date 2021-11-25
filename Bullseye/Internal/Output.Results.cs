@@ -13,7 +13,7 @@ namespace Bullseye.Internal
         private readonly ConcurrentDictionary<Target, TargetResult> results = new ConcurrentDictionary<Target, TargetResult>();
 
         private int resultOrdinal;
-        private TimeSpan? totalDuration;
+        private TimeSpan totalDuration;
 
         private TargetResult InternResult(Target target) => this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
 
@@ -25,7 +25,7 @@ namespace Bullseye.Internal
             return (targetResult, targetInputResult);
         }
 
-        private static string GetResultLines(IEnumerable<KeyValuePair<Target, TargetResult>> results, TimeSpan? totalDuration, Func<string> getPrefix, Palette p)
+        private static string GetResultLines(IEnumerable<KeyValuePair<Target, TargetResult>> results, TimeSpan totalDuration, Func<string> getPrefix, Palette p)
         {
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
@@ -42,12 +42,10 @@ namespace Bullseye.Internal
                         ? $"{p.Warning}{NoInputsMessage}{p.Reset}"
                         : $"{p.Succeeded}{SucceededMessage}{p.Reset}";
 
-                var duration = item.Value.Duration.HasValue
-                    ? $"{p.Timing}{item.Value.Duration.Humanize()}{p.Reset}"
-                    : "";
+                var duration = $"{p.Timing}{item.Value.Duration.Humanize()}{p.Reset}";
 
-                var percentage = item.Value.Duration.HasValue && totalDuration.HasValue && totalDuration.Value > TimeSpan.Zero
-                    ? $"{p.Timing}{100 * item.Value.Duration.Value.TotalMilliseconds / totalDuration.Value.TotalMilliseconds:N1}%{p.Reset}"
+                var percentage = totalDuration > TimeSpan.Zero
+                    ? $"{p.Timing}{100 * item.Value.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
                     : "";
 
                 rows.Add(new SummaryRow(target, outcome, duration, percentage));
@@ -60,12 +58,10 @@ namespace Bullseye.Internal
 
                     var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}{FailedMessage}{p.Reset}" : $"{p.Succeeded}{SucceededMessage}{p.Reset}";
 
-                    var inputDuration = result.Duration.HasValue
-                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize()}{p.Reset}"
-                        : "";
+                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize()}{p.Reset}";
 
-                    var inputPercentage = result.Duration.HasValue && totalDuration.HasValue && totalDuration.Value > TimeSpan.Zero
-                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.Value.TotalMilliseconds / totalDuration.Value.TotalMilliseconds:N1}%{p.Reset}"
+                    var inputPercentage = totalDuration > TimeSpan.Zero
+                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
                         : "";
 
                     rows.Add(new SummaryRow(input, inputOutcome, inputDuration, inputPercentage));
@@ -127,7 +123,7 @@ namespace Bullseye.Internal
 
             public TargetOutcome Outcome { get; set; }
 
-            public TimeSpan? Duration { get; set; }
+            public TimeSpan Duration { get; set; }
 
             public ConcurrentDictionary<Guid, TargetInputResult> InputResults { get; } = new ConcurrentDictionary<Guid, TargetInputResult>();
         }
@@ -142,7 +138,7 @@ namespace Bullseye.Internal
 
             public TargetInputOutcome Outcome { get; set; }
 
-            public TimeSpan? Duration { get; set; }
+            public TimeSpan Duration { get; set; }
         }
 
         private class SummaryRow

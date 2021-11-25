@@ -15,41 +15,47 @@ namespace Bullseye.Internal
         public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {
             await output.BeginGroup(this).Tax();
-            await output.Starting(this, dependencyPath).Tax();
 
-            TimeSpan? duration = null;
-
-            if (!dryRun)
+            try
             {
-                try
+                await output.Starting(this, dependencyPath).Tax();
+
+                var stopWatch = new Stopwatch();
+
+                if (!dryRun)
                 {
-                    var stopWatch = Stopwatch.StartNew();
-
-                    try
-                    {
-                        await this.action().Tax();
-                    }
-                    finally
-                    {
-                        duration = stopWatch.Elapsed;
-                    }
+                    await this.RunAsync(output, messageOnly, dependencyPath, stopWatch).Tax();
                 }
-                catch (Exception ex)
-                {
-                    if (!messageOnly(ex))
-                    {
-                        await output.Error(this, ex).Tax();
-                    }
 
-                    await output.Failed(this, ex, duration, dependencyPath).Tax();
-                    await output.EndGroup().Tax();
-
-                    throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
-                }
+                await output.Succeeded(this, dependencyPath, stopWatch.Elapsed).Tax();
             }
+            finally
+            {
+                await output.EndGroup().Tax();
+            }
+        }
 
-            await output.Succeeded(this, dependencyPath, duration).Tax();
-            await output.EndGroup().Tax();
+        private async Task RunAsync(Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath, Stopwatch stopWatch)
+        {
+            stopWatch.Start();
+
+            try
+            {
+                await this.action().Tax();
+            }
+            catch (Exception ex)
+            {
+                var duration = stopWatch.Elapsed;
+
+                if (!messageOnly(ex))
+                {
+                    await output.Error(this, ex).Tax();
+                }
+
+                await output.Failed(this, ex, duration, dependencyPath).Tax();
+
+                throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
+            }
         }
     }
 }

@@ -65,22 +65,22 @@ namespace BullseyeTests
         private static async Task Write(Output output, bool dryRun)
         {
             var badInput = new Target("badInput", "", Enumerable.Empty<string>());
-            var badInputDuration = dryRun ? (TimeSpan?)null : TimeSpan.FromMilliseconds(1.234);
+            var badInputDuration = dryRun ? TimeSpan.Zero : TimeSpan.FromMilliseconds(1.234);
             var badInputEx = new InvalidOperationException("badInputEx");
             var badInputId = Guid.ParseExact("AA123".PadRight(32, '0'), "N");
 
             var badInputsTarget = new Target("badInputsTarget", "", Enumerable.Empty<string>());
 
             var badTarget = new Target("badTarget", "", Enumerable.Empty<string>());
-            var badTargetDuration = dryRun ? (TimeSpan?)null : TimeSpan.FromMilliseconds(3.456);
+            var badTargetDuration = dryRun ? TimeSpan.Zero : TimeSpan.FromMilliseconds(3.456);
             var badTargetEx = new InvalidOperationException("badTargetEx");
 
             var emptyTargets = Enumerable.Empty<Target>();
 
             var goodInput1 = new Target("goodInput1", "", Enumerable.Empty<string>());
             var goodInput2 = new Target("goodInput2", "", Enumerable.Empty<string>());
-            var goodInputDuration1 = dryRun ? (TimeSpan?)null : TimeSpan.FromSeconds(1.234);
-            var goodInputDuration2 = dryRun ? (TimeSpan?)null : TimeSpan.FromSeconds(2.345);
+            var goodInputDuration1 = dryRun ? TimeSpan.Zero : TimeSpan.FromSeconds(1.234);
+            var goodInputDuration2 = dryRun ? TimeSpan.Zero : TimeSpan.FromSeconds(2.345);
             var goodInputId1 = Guid.ParseExact("BB123".PadRight(32, '0'), "N");
             var goodInputId2 = Guid.ParseExact("BB234".PadRight(32, '0'), "N");
 
@@ -88,11 +88,11 @@ namespace BullseyeTests
 
             var goodTarget1 = new Target("goodTarget1", "", Enumerable.Empty<string>());
             var goodTarget2 = new Target("goodTarget2", "", Enumerable.Empty<string>());
-            var goodTargetDuration1 = (TimeSpan?)null;
-            var goodTargetDuration2 = dryRun ? (TimeSpan?)null : TimeSpan.FromMinutes(1.234);
+            var goodTargetDuration1 = TimeSpan.Zero;
+            var goodTargetDuration2 = dryRun ? TimeSpan.Zero : TimeSpan.FromMinutes(1.234);
 
             var looseInput = new Target("looseInput", "", Enumerable.Empty<string>());
-            var looseInputDuration = (TimeSpan?)null;
+            var looseInputDuration = TimeSpan.Zero;
             var looseInputId = Guid.ParseExact("CC123".PadRight(32, '0'), "N");
 
             var looseTarget = new Target("looseTarget", "", Enumerable.Empty<string>());
@@ -125,7 +125,7 @@ namespace BullseyeTests
 
             await output.Succeeded(emptyTargets);
 
-            await output.Succeeded(looseTarget, looseInput, looseInputDuration, looseInputId, verboseTargets);
+            await output.Succeeded(looseTarget, looseInput, looseInputId, verboseTargets, looseInputDuration);
             await output.Succeeded(looseTargets);
 
             await output.Starting(targets);
@@ -146,17 +146,17 @@ namespace BullseyeTests
                 await output.Starting(goodInputsTarget, verboseTargets);
                 {
                     await output.Starting(goodInputsTarget, goodInput1, goodInputId1, verboseTargets);
-                    await output.Succeeded(goodInputsTarget, goodInput1, goodInputDuration1, goodInputId1, verboseTargets);
+                    await output.Succeeded(goodInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
 
                     await output.Starting(goodInputsTarget, goodInput2, goodInputId2, verboseTargets);
-                    await output.Succeeded(goodInputsTarget, goodInput2, goodInputDuration2, goodInputId2, verboseTargets);
+                    await output.Succeeded(goodInputsTarget, goodInput2, goodInputId2, verboseTargets, goodInputDuration2);
                 }
                 await output.Succeeded(goodInputsTarget, verboseTargets);
 
                 await output.Starting(badInputsTarget, verboseTargets);
                 {
                     await output.Starting(badInputsTarget, goodInput1, goodInputId1, verboseTargets);
-                    await output.Succeeded(badInputsTarget, goodInput1, goodInputDuration1, goodInputId1, verboseTargets);
+                    await output.Succeeded(badInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
 
                     await output.Starting(badInputsTarget, badInput, badInputId, verboseTargets);
                     {

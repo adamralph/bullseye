@@ -8,11 +8,11 @@ namespace BullseyeTests
     {
         [Theory]
 
-        // null
-        [InlineData(null, "")]
-
         // negative
-        [InlineData(-1.2345D, "<1 ms")]
+        [InlineData(-1.2345D, "<0 ms")]
+
+        // zero
+        [InlineData(0, "0 ms")]
 
         // boundary
         [InlineData(0.5000D, "<1 ms")]
@@ -69,10 +69,10 @@ namespace BullseyeTests
         [InlineData(3_600_000.0000D, "60 m")]
         [InlineData(3_612_234.5678D, "60 m")]
         [InlineData(3_634_567.8912D, "61 m")]
-        public static void Humanization(double? milliseconds, string expected)
+        public static void Humanization(double milliseconds, string expected)
         {
             // arrange
-            var timeSpan = milliseconds.HasValue ? TimeSpan.FromMilliseconds(milliseconds.Value) : (TimeSpan?)null;
+            var timeSpan = TimeSpan.FromMilliseconds(milliseconds);
 
             // act
             var actual = timeSpan.Humanize();
