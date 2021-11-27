@@ -40,34 +40,39 @@ namespace Bullseye.Internal
             }
 
             await output.BeginGroup(this).Tax();
-            await output.Starting(this, dependencyPath).Tax();
 
             try
             {
-                if (parallel)
-                {
-                    var tasks = inputsList.Select(input => this.RunAsync(input, dryRun, output, messageOnly, dependencyPath)).ToList();
+                await output.Starting(this, dependencyPath).Tax();
 
-                    await Task.WhenAll(tasks).Tax();
-                }
-                else
+                try
                 {
-                    foreach (var input in inputsList)
+                    if (parallel)
                     {
-                        await this.RunAsync(input, dryRun, output, messageOnly, dependencyPath).Tax();
+                        var tasks = inputsList.Select(input => this.RunAsync(input, dryRun, output, messageOnly, dependencyPath)).ToList();
+
+                        await Task.WhenAll(tasks).Tax();
+                    }
+                    else
+                    {
+                        foreach (var input in inputsList)
+                        {
+                            await this.RunAsync(input, dryRun, output, messageOnly, dependencyPath).Tax();
+                        }
                     }
                 }
+                catch (Exception)
+                {
+                    await output.Failed(this, dependencyPath).Tax();
+                    throw;
+                }
+
+                await output.Succeeded(this, dependencyPath).Tax();
             }
-            catch (Exception)
+            finally
             {
-                await output.Failed(this, dependencyPath).Tax();
                 await output.EndGroup().Tax();
-
-                throw;
             }
-
-            await output.Succeeded(this, dependencyPath).Tax();
-            await output.EndGroup().Tax();
         }
 
         private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
@@ -76,37 +81,37 @@ namespace Bullseye.Internal
 
             await output.Starting(this, input, id, dependencyPath).Tax();
 
-            TimeSpan? duration = null;
+            var stopWatch = new Stopwatch();
 
             if (!dryRun)
             {
-                try
-                {
-                    var stopWatch = Stopwatch.StartNew();
-
-                    try
-                    {
-                        await this.action(input).Tax();
-                    }
-                    finally
-                    {
-                        duration = stopWatch.Elapsed;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (!messageOnly(ex))
-                    {
-                        await output.Error(this, input, ex).Tax();
-                    }
-
-                    await output.Failed(this, input, ex, duration, id, dependencyPath).Tax();
-
-                    throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
-                }
+                await this.RunAsync(input, output, messageOnly, dependencyPath, id, stopWatch).Tax();
             }
 
-            await output.Succeeded(this, input, duration, id, dependencyPath).Tax();
+            await output.Succeeded(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
+        }
+
+        private async Task RunAsync(TInput input, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath, Guid id, Stopwatch stopWatch)
+        {
+            stopWatch.Start();
+
+            try
+            {
+                await this.action(input).Tax();
+            }
+            catch (Exception ex)
+            {
+                var duration = stopWatch.Elapsed;
+
+                if (!messageOnly(ex))
+                {
+                    await output.Error(this, input, ex).Tax();
+                }
+
+                await output.Failed(this, input, ex, duration, id, dependencyPath).Tax();
+
+                throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
+            }
         }
     }
 }
