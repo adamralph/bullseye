@@ -145,6 +145,22 @@ namespace Bullseye.Internal
             }
         }
 
+        public async Task BeginGroup<TInput>(Target target, TInput input)
+        {
+            if (!this.parallel && this.host == Host.GitHubActions)
+            {
+                await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.getPrefix()}:{this.palette.Reset} {this.palette.Target}{target}{this.palette.Default}/{this.palette.Input}{input}{this.palette.Reset}").Tax();
+            }
+        }
+
+        public async Task EndGroup()
+        {
+            if (!this.parallel && this.host == Host.GitHubActions)
+            {
+                await this.writer.WriteLineAsync("::endgroup::").Tax();
+            }
+        }
+
         public Task Starting(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
             var targetResult = this.InternResult(target);
@@ -166,14 +182,6 @@ namespace Bullseye.Internal
             return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", result.Duration, dependencyPath, this.palette));
         }
 
-        public Task Failed(Target target, IReadOnlyCollection<Target> dependencyPath)
-        {
-            var result = this.InternResult(target);
-            result.Outcome = TargetOutcome.Failed;
-
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", result.Duration, dependencyPath, this.palette));
-        }
-
         public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
         {
             var result = this.InternResult(target);
@@ -183,22 +191,6 @@ namespace Bullseye.Internal
             this.totalDuration = this.totalDuration.Add(duration);
 
             return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", result.Duration, dependencyPath, this.palette));
-        }
-
-        public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath)
-        {
-            var result = this.InternResult(target);
-            result.Outcome = TargetOutcome.Succeeded;
-
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", result.Duration, dependencyPath, this.palette));
-        }
-
-        public async Task EndGroup()
-        {
-            if (!this.parallel && this.host == Host.GitHubActions)
-            {
-                await this.writer.WriteLineAsync("::endgroup::").Tax();
-            }
         }
 
         public Task NoInputs(Target target, IReadOnlyCollection<Target> dependencyPath)
@@ -220,7 +212,7 @@ namespace Bullseye.Internal
         public Task Error<TInput>(Target target, TInput input, Exception ex) =>
             this.writer.WriteLineAsync(Format(this.getPrefix(), target, input, $"{this.palette.Failed}{ex}{this.palette.Reset}", this.palette));
 
-        public Task Failed<TInput>(Target target, TInput input, Exception ex, TimeSpan duration, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
+        public Task Failed<TInput>(Target target, TInput input, Guid inputId, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
         {
             var (targetResult, targetInputResult) = this.Intern(target, inputId);
 
@@ -228,6 +220,7 @@ namespace Bullseye.Internal
             targetInputResult.Outcome = TargetInputOutcome.Failed;
             targetInputResult.Duration = targetInputResult.Duration.Add(duration);
 
+            targetResult.Outcome = TargetOutcome.Failed;
             targetResult.Duration = targetResult.Duration.Add(duration);
 
             this.totalDuration = this.totalDuration.Add(duration);
