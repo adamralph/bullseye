@@ -12,7 +12,9 @@
 - [#673: **[BREAKING]** allow forcing of console (default) mode](https://github.com/adamralph/bullseye/pull/673)
 - [#675: accept IOptions instead of Options](https://github.com/adamralph/bullseye/pull/675)
 - [#682: accept custom output and diagnostic writers](https://github.com/adamralph/bullseye/pull/682)
-- [#692: add nullable annotations](https://github.com/adamralph/bullseye/pull/692)
+- [#703: **[BREAKING]** accept a function instead of a string for the message prefix](https://github.com/adamralph/bullseye/pull/703)
+- [#704: **[BREAKING]** Nullable annotations](https://github.com/adamralph/bullseye/issues/704)
+- [#706: remove top level output messages for targets with inputs](https://github.com/adamralph/bullseye/pull/706)
 
 ### Fixed bugs
 
@@ -21,6 +23,7 @@
 ### Other
 
 - [#687: **[BREAKING]** switch from netstandard2.0 to netstandard2.1](https://github.com/adamralph/bullseye/pull/687)
+- [#710: **[BREAKING]** remove Azure Pipelines mode](https://github.com/adamralph/bullseye/pull/710)
 
 ## 3.8.0
 
