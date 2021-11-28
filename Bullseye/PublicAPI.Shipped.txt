@@ -3,13 +3,12 @@ Bullseye.CommandLine
 Bullseye.Host
 Bullseye.Host.AppVeyor = 1 -> Bullseye.Host
 Bullseye.Host.Automatic = 0 -> Bullseye.Host
-Bullseye.Host.AzurePipelines = 2 -> Bullseye.Host
-Bullseye.Host.Console = 3 -> Bullseye.Host
-Bullseye.Host.GitHubActions = 4 -> Bullseye.Host
-Bullseye.Host.GitLabCI = 5 -> Bullseye.Host
-Bullseye.Host.TeamCity = 7 -> Bullseye.Host
+Bullseye.Host.Console = 2 -> Bullseye.Host
+Bullseye.Host.GitHubActions = 3 -> Bullseye.Host
+Bullseye.Host.GitLabCI = 4 -> Bullseye.Host
+Bullseye.Host.TeamCity = 5 -> Bullseye.Host
 Bullseye.Host.Travis = 6 -> Bullseye.Host
-Bullseye.Host.VisualStudioCode = 8 -> Bullseye.Host
+Bullseye.Host.VisualStudioCode = 7 -> Bullseye.Host
 Bullseye.InvalidUsageException
 Bullseye.InvalidUsageException.InvalidUsageException() -> void
 Bullseye.InvalidUsageException.InvalidUsageException(string! message) -> void

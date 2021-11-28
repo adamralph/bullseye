@@ -85,9 +85,6 @@ namespace Bullseye.Internal
                     case "--appveyor":
                         host = isSet ? Host.AppVeyor : host;
                         break;
-                    case "--azure-pipelines":
-                        host = isSet ? Host.AzurePipelines : host;
-                        break;
                     case "--console":
                         host = isSet ? Host.Console : host;
                         break;
@@ -97,11 +94,11 @@ namespace Bullseye.Internal
                     case "--gitlab-ci":
                         host = isSet ? Host.GitLabCI : host;
                         break;
-                    case "--travis":
-                        host = isSet ? Host.Travis : host;
-                        break;
                     case "--teamcity":
                         host = isSet ? Host.TeamCity : host;
+                        break;
+                    case "--travis":
+                        host = isSet ? Host.Travis : host;
                         break;
                     default:
                         unknownOptions.Add(name);

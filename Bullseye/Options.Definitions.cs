@@ -24,7 +24,6 @@ namespace Bullseye
             new OptionDefinition("-s", "--skip-dependencies", "Do not run targets' dependencies"),
             new OptionDefinition("-v", "--verbose",           "Enable verbose output"),
             new OptionDefinition("--appveyor",                "Force AppVeyor mode (normally auto-detected)"),
-            new OptionDefinition("--azure-pipelines",         "Force Azure Pipelines mode (normally auto-detected)"),
             new OptionDefinition("--console",                 "Force console mode (normally auto-detected)"),
             new OptionDefinition("--github-actions",          "Force GitHub Actions mode (normally auto-detected)"),
             new OptionDefinition("--gitlab-ci",               "Force GitLab CI mode (normally auto-detected)"),
