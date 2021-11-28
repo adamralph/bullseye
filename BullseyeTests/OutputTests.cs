@@ -143,28 +143,20 @@ namespace BullseyeTests
                 }
                 await output.Failed(badTarget, badTargetEx, badTargetDuration, verboseTargets);
 
-                await output.Starting(goodInputsTarget, verboseTargets);
+                await output.Starting(goodInputsTarget, goodInput1, goodInputId1, verboseTargets);
+                await output.Succeeded(goodInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
+
+                await output.Starting(goodInputsTarget, goodInput2, goodInputId2, verboseTargets);
+                await output.Succeeded(goodInputsTarget, goodInput2, goodInputId2, verboseTargets, goodInputDuration2);
+
+                await output.Starting(badInputsTarget, goodInput1, goodInputId1, verboseTargets);
+                await output.Succeeded(badInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
+
+                await output.Starting(badInputsTarget, badInput, badInputId, verboseTargets);
                 {
-                    await output.Starting(goodInputsTarget, goodInput1, goodInputId1, verboseTargets);
-                    await output.Succeeded(goodInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
-
-                    await output.Starting(goodInputsTarget, goodInput2, goodInputId2, verboseTargets);
-                    await output.Succeeded(goodInputsTarget, goodInput2, goodInputId2, verboseTargets, goodInputDuration2);
+                    await output.Error(badInputsTarget, badInput, badInputEx);
                 }
-                await output.Succeeded(goodInputsTarget, verboseTargets);
-
-                await output.Starting(badInputsTarget, verboseTargets);
-                {
-                    await output.Starting(badInputsTarget, goodInput1, goodInputId1, verboseTargets);
-                    await output.Succeeded(badInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
-
-                    await output.Starting(badInputsTarget, badInput, badInputId, verboseTargets);
-                    {
-                        await output.Error(badInputsTarget, badInput, badInputEx);
-                    }
-                    await output.Failed(badInputsTarget, badInput, badInputEx, badInputDuration, badInputId, verboseTargets);
-                }
-                await output.Failed(badInputsTarget, verboseTargets);
+                await output.Failed(badInputsTarget, badInput, badInputId, badInputEx, badInputDuration, verboseTargets);
             }
             await output.Succeeded(targets);
             await output.Failed(targets);

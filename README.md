@@ -87,7 +87,7 @@ Target(
 dotnet run -- eat-biscuits
 ```
 
-<img src="https://user-images.githubusercontent.com/677704/95656205-f7cf4080-0b0c-11eb-9f82-a4fb706ae33b.png" width="444px" />
+<img src="https://user-images.githubusercontent.com/677704/143733538-54bfafd0-3e49-460f-8b99-6dd8d3afd0da.png" width="444px" />
 
 ## Sample wrapper scripts
 

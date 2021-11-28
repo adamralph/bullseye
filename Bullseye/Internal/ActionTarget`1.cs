@@ -39,35 +39,37 @@ namespace Bullseye.Internal
                 return;
             }
 
-            await output.BeginGroup(this).Tax();
+            if (parallel)
+            {
+                var tasks = inputsList.Select(input => this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath)).ToList();
+
+                await Task.WhenAll(tasks).Tax();
+            }
+            else
+            {
+                foreach (var input in inputsList)
+                {
+                    await this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
+                }
+            }
+        }
+
+        private async Task RunAsync(TInput input, Guid id, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+        {
+            await output.BeginGroup(this, input).Tax();
 
             try
             {
-                await output.Starting(this, dependencyPath).Tax();
+                await output.Starting(this, input, id, dependencyPath).Tax();
 
-                try
-                {
-                    if (parallel)
-                    {
-                        var tasks = inputsList.Select(input => this.RunAsync(input, dryRun, output, messageOnly, dependencyPath)).ToList();
+                var stopWatch = new Stopwatch();
 
-                        await Task.WhenAll(tasks).Tax();
-                    }
-                    else
-                    {
-                        foreach (var input in inputsList)
-                        {
-                            await this.RunAsync(input, dryRun, output, messageOnly, dependencyPath).Tax();
-                        }
-                    }
-                }
-                catch (Exception)
+                if (!dryRun)
                 {
-                    await output.Failed(this, dependencyPath).Tax();
-                    throw;
+                    await this.RunAsync(input, id, output, messageOnly, dependencyPath, stopWatch).Tax();
                 }
 
-                await output.Succeeded(this, dependencyPath).Tax();
+                await output.Succeeded(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
             }
             finally
             {
@@ -75,23 +77,7 @@ namespace Bullseye.Internal
             }
         }
 
-        private async Task RunAsync(TInput input, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
-        {
-            var id = Guid.NewGuid();
-
-            await output.Starting(this, input, id, dependencyPath).Tax();
-
-            var stopWatch = new Stopwatch();
-
-            if (!dryRun)
-            {
-                await this.RunAsync(input, output, messageOnly, dependencyPath, id, stopWatch).Tax();
-            }
-
-            await output.Succeeded(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
-        }
-
-        private async Task RunAsync(TInput input, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath, Guid id, Stopwatch stopWatch)
+        private async Task RunAsync(TInput input, Guid id, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath, Stopwatch stopWatch)
         {
             stopWatch.Start();
 
@@ -108,7 +94,7 @@ namespace Bullseye.Internal
                     await output.Error(this, input, ex).Tax();
                 }
 
-                await output.Failed(this, input, ex, duration, id, dependencyPath).Tax();
+                await output.Failed(this, input, id, ex, duration, dependencyPath).Tax();
 
                 throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
             }
