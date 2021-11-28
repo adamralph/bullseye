@@ -6,7 +6,7 @@ trigger:
 jobs:
   - job: Windows
     pool:
-      vmImage: "windows-2019"
+      vmImage: "windows-2022"
     steps:
       - task: UseDotNet@2
         inputs:
@@ -28,7 +28,7 @@ jobs:
         displayName: "Build the project"
   - job: macOS
     pool:
-      vmImage: "macOS-10.15"
+      vmImage: "macOS-11"
     steps:
       - task: UseDotNet@2
         inputs:
