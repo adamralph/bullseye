@@ -5,12 +5,11 @@ namespace Bullseye
     {
         Automatic,
         AppVeyor,
-        AzurePipelines,
         Console,
         GitHubActions,
         GitLabCI,
-        Travis,
         TeamCity,
+        Travis,
         VisualStudioCode,
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

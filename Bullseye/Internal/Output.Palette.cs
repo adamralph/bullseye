@@ -86,15 +86,16 @@ namespace Bullseye.Internal
                     }
                 }
 
-                if (host == Host.Travis || host == Host.AzurePipelines)
+                if (host == Host.GitHubActions)
                 {
                     this.Invocation = yellow;
-                    this.Default = brightBlack;
                     this.Failed = red;
-                    this.Input = cyan;
-                    this.Option = magenta;
                     this.Target = blue;
-                    this.Warning = yellow;
+                }
+
+                if (host == Host.GitLabCI)
+                {
+                    this.Target = blue;
                 }
 
                 if (host == Host.TeamCity)
@@ -107,16 +108,15 @@ namespace Bullseye.Internal
                     this.Horizontal = '-';
                 }
 
-                if (host == Host.GitHubActions)
+                if (host == Host.Travis)
                 {
                     this.Invocation = yellow;
+                    this.Default = brightBlack;
                     this.Failed = red;
+                    this.Input = cyan;
+                    this.Option = magenta;
                     this.Target = blue;
-                }
-
-                if (host == Host.GitLabCI)
-                {
-                    this.Target = blue;
+                    this.Warning = yellow;
                 }
 
                 if (host == Host.VisualStudioCode)
