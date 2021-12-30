@@ -56,7 +56,7 @@ Platform support: [.NET Standard 2.1 and later](https://docs.microsoft.com/en-us
 
 Voilà! You've just written and run your first Bullseye program. You will see output similar to:
 
-<img src="https://user-images.githubusercontent.com/677704/93706096-506d7800-fb23-11ea-8154-d8c8c90bada5.png" width="314px" />
+<img src="https://user-images.githubusercontent.com/677704/147760642-36018691-4710-41be-bd65-5dcfac121fc5.png" width="357px" />
 
 For help, run `dotnet run -- --help`.
 
@@ -71,7 +71,7 @@ Target("walk-dog", () => Console.WriteLine("Walkies!"));
 Target("default", DependsOn("drink-tea", "walk-dog"));
 ```
 
-<img src="https://user-images.githubusercontent.com/677704/93706154-c96ccf80-fb23-11ea-926a-9e3836e79f06.png" width="325px" />
+<img src="https://user-images.githubusercontent.com/677704/147761129-6eaced64-0a6f-4dea-bf73-57780f5d1124.png" width="374px" />
 
 ## Enumerable inputs
 
@@ -86,7 +86,7 @@ Target(
 dotnet run -- eat-biscuits
 ```
 
-<img src="https://user-images.githubusercontent.com/677704/143733538-54bfafd0-3e49-460f-8b99-6dd8d3afd0da.png" width="444px" />
+<img src="https://user-images.githubusercontent.com/677704/147761855-76d3a77a-4342-4b00-913b-a52188a65793.png" width="491px" />
 
 ## Sample wrapper scripts
 
