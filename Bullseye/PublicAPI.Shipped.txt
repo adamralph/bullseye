@@ -26,13 +26,6 @@ Bullseye.IOptions.NoExtendedChars.get -> bool
 Bullseye.IOptions.Parallel.get -> bool
 Bullseye.IOptions.SkipDependencies.get -> bool
 Bullseye.IOptions.Verbose.get -> bool
-Bullseye.OptionDefinition
-Bullseye.OptionDefinition.Aliases.get -> System.Collections.Generic.IReadOnlyList<string!>!
-Bullseye.OptionDefinition.Description.get -> string!
-Bullseye.OptionDefinition.LongName.get -> string!
-Bullseye.OptionDefinition.OptionDefinition(string! longName, string! description) -> void
-Bullseye.OptionDefinition.OptionDefinition(string! shortName, string! longName, string! description) -> void
-Bullseye.OptionDefinition.ShortName.get -> string!
 Bullseye.Options
 Bullseye.Options.Clear.get -> bool
 Bullseye.Options.Clear.set -> void
@@ -89,7 +82,7 @@ Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<s
 Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string!>! targets, Bullseye.IOptions! options, System.Collections.Generic.IEnumerable<string!>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception!, bool>? messageOnly = null, System.Func<string!>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
 Bullseye.Targets.Targets() -> void
 static Bullseye.CommandLine.Parse(System.Collections.Generic.IEnumerable<string!>! args) -> (System.Collections.Generic.IReadOnlyList<string!>! Targets, Bullseye.Options! Options, System.Collections.Generic.IReadOnlyList<string!>! UnknownOptions, bool showHelp)
-static Bullseye.Options.Definitions.get -> System.Collections.Generic.IReadOnlyList<Bullseye.OptionDefinition!>!
+static Bullseye.Options.Definitions.get -> System.Collections.Generic.IReadOnlyList<(System.Collections.Generic.IReadOnlyList<string!>! Aliases, string! Description)>!
 static Bullseye.Targets.DependsOn(params string![]! dependencies) -> string![]!
 static Bullseye.Targets.ForEach<TInput>(params TInput[]! inputs) -> TInput[]!
 static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, System.Func<string!>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
