@@ -10,16 +10,16 @@ var foo = app.Option<string>("-f|--foo <foo>", "A value used for something.", Co
 
 // translate from Bullseye to McMaster.Extensions.CommandLineUtils
 app.Argument("targets", "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed.", true);
-foreach (var option in Options.Definitions)
+foreach (var (aliases, description) in Options.Definitions)
 {
-    _ = app.Option(string.Join("|", option.Aliases), option.Description, CommandOptionType.NoValue);
+    _ = app.Option(string.Join("|", aliases), description, CommandOptionType.NoValue);
 }
 
 app.OnExecuteAsync(async _ =>
 {
     // translate from McMaster.Extensions.CommandLineUtils to Bullseye
     var targets = app.Arguments[0].Values.OfType<string>();
-    var options = new Options(Options.Definitions.Select(d => (d.LongName, app.Options.Single(o => "--" + o.LongName == d.LongName).HasValue())));
+    var options = new Options(Options.Definitions.Select(d => (d.Aliases[0], app.Options.Single(o => d.Aliases.Contains($"--{o.LongName}")).HasValue())));
 
     Target("build", async () => await System.Console.Out.WriteLineAsync($"foo = {foo.Value()}"));
 
