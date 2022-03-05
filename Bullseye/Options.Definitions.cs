@@ -5,7 +5,7 @@ namespace Bullseye
     /// <summary>
     /// The options to use when running or listing targets.
     /// </summary>
-    public partial class Options : IOptions
+    public partial class Options
     {
         /// <summary>
         /// Gets the definitions of options which can be used when running or listing targets.

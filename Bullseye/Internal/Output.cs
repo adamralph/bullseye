@@ -163,7 +163,7 @@ namespace Bullseye.Internal
 
         public Task Starting(Target target, IReadOnlyCollection<Target> dependencyPath)
         {
-            var targetResult = this.InternResult(target);
+            _ = this.InternResult(target);
 
             return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Default}{StartingMessage}{this.palette.Reset}", dependencyPath, this.palette));
         }
