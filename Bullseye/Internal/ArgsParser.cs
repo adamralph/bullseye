@@ -10,15 +10,13 @@ namespace Bullseye.Internal
 
         public static (IReadOnlyList<string> Targets, Options Options, IReadOnlyList<string> UnknownOptions, bool showHelp) Parse(IReadOnlyCollection<string> args)
         {
-            var helpArgs = args.Where(arg => helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase));
-            var nonHelpArgs = args.Where(arg => !helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase));
+            var nonHelpArgs = args.Where(arg => !helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase)).ToList();
 
             var targets = nonHelpArgs.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList();
 
-            var nonTargets = nonHelpArgs.Where(arg => arg.StartsWith("-", StringComparison.Ordinal));
-
-            var optionArgs = nonTargets.Where(arg => !helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase)).Select(arg => (arg, true));
+            var optionArgs = nonHelpArgs.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).Select(arg => (arg, true));
             var result = OptionsReader.Read(optionArgs);
+
             var options = new Options
             {
                 Clear = result.Clear,
@@ -35,7 +33,9 @@ namespace Bullseye.Internal
                 Verbose = result.Verbose,
             };
 
-            return (targets, options, result.UnknownOptions, helpArgs.Any());
+            var showHelp = nonHelpArgs.Count != args.Count;
+
+            return (targets, options, result.UnknownOptions, showHelp);
         }
     }
 }

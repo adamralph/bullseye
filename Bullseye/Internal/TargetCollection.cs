@@ -129,10 +129,10 @@ namespace Bullseye.Internal
 
             if (targetWasAlreadyStarted)
             {
-                if (runningTarget.IsAwaitable())
+                if (runningTarget!.IsAwaitable())
                 {
                     await output.Awaiting(target, dependencyPath).Tax();
-                    await runningTarget.Tax();
+                    await runningTarget!.Tax();
                 }
 
                 return;
@@ -187,10 +187,10 @@ namespace Bullseye.Internal
                     _ = sync.Release();
                 }
 
-                if (!targetWasAlreadyStarted || runningTarget.IsAwaitable())
+                if (!targetWasAlreadyStarted || runningTarget!.IsAwaitable())
                 {
                     await output.Awaiting(target, dependencyPath).Tax();
-                    await runningTarget.Tax();
+                    await runningTarget!.Tax();
                 }
             }
         }

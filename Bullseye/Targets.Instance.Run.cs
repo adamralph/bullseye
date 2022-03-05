@@ -164,7 +164,7 @@ namespace Bullseye
         {
             var messagePrefix = "Bullseye";
 
-            if (Assembly.GetEntryAssembly() is Assembly entryAssembly)
+            if (Assembly.GetEntryAssembly() is { } entryAssembly)
             {
                 messagePrefix = entryAssembly.GetName().Name;
             }
