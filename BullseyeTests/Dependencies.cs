@@ -10,7 +10,7 @@ using static BullseyeTests.Infra.Helper;
 
 namespace BullseyeTests
 {
-    public static class Dependencies
+    public static partial class Dependencies
     {
         [Fact]
         public static async Task FlatDependencies()
@@ -158,9 +158,27 @@ namespace BullseyeTests
             Assert.Equal("first", ran[0]);
             Assert.Equal("second", ran[1]);
             Assert.Equal("third", ran[2]);
-            _ = Assert.Single(Regex.Matches(output, "first: Walking dependencies..."));
-            _ = Assert.Single(Regex.Matches(output, "first: Awaiting..."));
+            _ = Assert.Single(FirstWalkingDependencies().Matches(output));
+            _ = Assert.Single(FirstAwaiting().Matches(output));
         }
+
+#if NET7_0_OR_GREATER
+        [GeneratedRegex("first: Walking dependencies...")]
+        private static partial Regex FirstWalkingDependencies();
+#elif NET6_0_OR_GREATER
+        private static Regex FirstWalkingDependencies() => new("first: Walking dependencies...");
+#else
+        private static Regex FirstWalkingDependencies() => new Regex("first: Walking dependencies...");
+#endif
+
+#if NET7_0_OR_GREATER
+        [GeneratedRegex("first: Awaiting...")]
+        private static partial Regex FirstAwaiting();
+#elif NET6_0_OR_GREATER
+        private static Regex FirstAwaiting() => new("first: Awaiting...");
+#else
+        private static Regex FirstAwaiting() => new Regex("first: Awaiting...");
+#endif
 
         [Fact]
         public static async Task NotExistentDependencies()

@@ -26,6 +26,7 @@ jobs:
           dotnet-version: |
             3.1.425
             6.0.403
+            7.0.100
       - uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0
