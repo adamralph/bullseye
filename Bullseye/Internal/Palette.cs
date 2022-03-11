@@ -4,7 +4,7 @@ namespace Bullseye.Internal
 {
     public class Palette
     {
-        private static readonly int[] numbers = new[] { 0, 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97 };
+        private static readonly int[] numbers = { 0, 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97, };
 
         public Palette(bool noColor, bool noExtendedChars, Host host, OperatingSystem operatingSystem)
         {
@@ -64,63 +64,52 @@ namespace Bullseye.Internal
             this.TreeDown = $"{green}│{reset} ";
             this.Horizontal = '─';
 
-            if (host == Host.AppVeyor &&
-                (operatingSystem == OperatingSystem.Windows || operatingSystem == OperatingSystem.Linux))
+#pragma warning disable IDE0010 // Add missing cases to switch statement
+            switch (host)
             {
-                this.Default = brightBlack;
-                this.Target = blue;
-
-                if (operatingSystem == OperatingSystem.Windows)
-                {
+                case Host.AppVeyor when operatingSystem == OperatingSystem.Windows:
+                    this.Default = brightBlack;
+                    this.Target = blue;
                     this.TreeCorner = "  ";
                     this.TreeFork = "  ";
                     this.TreeDown = "  ";
                     this.Horizontal = '-';
-                }
-
-                if (operatingSystem == OperatingSystem.Linux)
-                {
+                    break;
+                case Host.AppVeyor when operatingSystem == OperatingSystem.Linux:
+                    this.Default = brightBlack;
+                    this.Target = blue;
                     this.Timing = brightMagenta;
-                }
+                    break;
+                case Host.GitHubActions:
+                    this.Invocation = yellow;
+                    this.Failed = red;
+                    this.Target = blue;
+                    break;
+                case Host.GitLabCI:
+                    this.Target = blue;
+                    break;
+                case Host.TeamCity:
+                    this.Default = brightBlack;
+                    this.Target = brightBlue;
+                    this.TreeCorner = "  ";
+                    this.TreeFork = "  ";
+                    this.TreeDown = "  ";
+                    this.Horizontal = '-';
+                    break;
+                case Host.Travis:
+                    this.Invocation = yellow;
+                    this.Default = brightBlack;
+                    this.Failed = red;
+                    this.Input = cyan;
+                    this.Option = magenta;
+                    this.Target = blue;
+                    this.Warning = yellow;
+                    break;
+                case Host.VisualStudioCode:
+                    this.Target = blue;
+                    break;
             }
-
-            if (host == Host.GitHubActions)
-            {
-                this.Invocation = yellow;
-                this.Failed = red;
-                this.Target = blue;
-            }
-
-            if (host == Host.GitLabCI)
-            {
-                this.Target = blue;
-            }
-
-            if (host == Host.TeamCity)
-            {
-                this.Default = brightBlack;
-                this.Target = brightBlue;
-                this.TreeCorner = "  ";
-                this.TreeFork = "  ";
-                this.TreeDown = "  ";
-                this.Horizontal = '-';
-            }
-
-            if (host == Host.Travis)
-            {
-                this.Invocation = yellow;
-                this.Default = brightBlack;
-                this.Failed = red;
-                this.Input = cyan;
-                this.Option = magenta;
-                this.Target = blue;
-                this.Warning = yellow;
-            }
-
-            if (host == Host.VisualStudioCode)
-            {
-                this.Target = blue;
-            }
+#pragma warning restore IDE0010 // Add missing cases to switch statement
 
             if (noExtendedChars)
             {

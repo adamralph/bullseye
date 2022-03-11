@@ -4,7 +4,7 @@ using Bullseye;
 using McMaster.Extensions.CommandLineUtils;
 using static Bullseye.Targets;
 
-using var app = new CommandLineApplication() { UsePagerForHelpText = false };
+using var app = new CommandLineApplication { UsePagerForHelpText = false, };
 app.HelpOption();
 var foo = app.Option<string>("-f|--foo <foo>", "A value used for something.", CommandOptionType.SingleValue);
 

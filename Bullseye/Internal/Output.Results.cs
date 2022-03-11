@@ -30,38 +30,38 @@ namespace Bullseye.Internal
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
 
-            var rows = new List<SummaryRow> { new SummaryRow($"{p.Default}Target{p.Reset}", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Duration{p.Reset}", "") };
+            var rows = new List<SummaryRow> { new SummaryRow($"{p.Default}Target{p.Reset}", $"{p.Default}Outcome{p.Reset}", $"{p.Default}Duration{p.Reset}", ""), };
 
-            foreach (var item in results.OrderBy(i => i.Value.Ordinal))
+            foreach (var (target, targetResult) in results.OrderBy(i => i.Value.Ordinal))
             {
-                var target = $"{p.Target}{item.Key}{p.Reset}";
+                var outcome = targetResult.Outcome switch
+                {
+                    TargetOutcome.Failed => $"{p.Failed}{FailedMessage}{p.Reset}",
+                    TargetOutcome.NoInputs => $"{p.Warning}{NoInputsMessage}{p.Reset}",
+                    TargetOutcome.Succeeded => $"{p.Succeeded}{SucceededMessage}{p.Reset}",
+                    _ => throw new InvalidOperationException(),
+                };
 
-                var outcome = item.Value.Outcome == TargetOutcome.Failed
-                    ? $"{p.Failed}{FailedMessage}{p.Reset}"
-                    : item.Value.Outcome == TargetOutcome.NoInputs
-                        ? $"{p.Warning}{NoInputsMessage}{p.Reset}"
-                        : $"{p.Succeeded}{SucceededMessage}{p.Reset}";
-
-                var duration = $"{p.Timing}{item.Value.Duration.Humanize()}{p.Reset}";
+                var duration = $"{p.Timing}{targetResult.Duration.Humanize()}{p.Reset}";
 
                 var percentage = totalDuration > TimeSpan.Zero
-                    ? $"{p.Timing}{100 * item.Value.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
+                    ? $"{p.Timing}{100 * targetResult.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
                     : "";
 
-                rows.Add(new SummaryRow(target, outcome, duration, percentage));
+                rows.Add(new SummaryRow($"{p.Target}{target}{p.Reset}", outcome, duration, percentage));
 
                 var index = 0;
 
-                foreach (var result in item.Value.InputResults.Values.OrderBy(result => result.Ordinal))
+                foreach (var inputResult in targetResult.InputResults.Values.OrderBy(result => result.Ordinal))
                 {
-                    var input = $"{ws}{ws}{p.Input}{result.Input}{p.Reset}";
+                    var input = $"{ws}{ws}{p.Input}{inputResult.Input}{p.Reset}";
 
-                    var inputOutcome = result.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}{FailedMessage}{p.Reset}" : $"{p.Succeeded}{SucceededMessage}{p.Reset}";
+                    var inputOutcome = inputResult.Outcome == TargetInputOutcome.Failed ? $"{p.Failed}{FailedMessage}{p.Reset}" : $"{p.Succeeded}{SucceededMessage}{p.Reset}";
 
-                    var inputDuration = $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{result.Duration.Humanize()}{p.Reset}";
+                    var inputDuration = $"{(index < targetResult.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{inputResult.Duration.Humanize()}{p.Reset}";
 
                     var inputPercentage = totalDuration > TimeSpan.Zero
-                        ? $"{(index < item.Value.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * result.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
+                        ? $"{(index < targetResult.InputResults.Count - 1 ? p.TreeFork : p.TreeCorner)}{p.Timing}{100 * inputResult.Duration.TotalMilliseconds / totalDuration.TotalMilliseconds:N1}%{p.Reset}"
                         : "";
 
                     rows.Add(new SummaryRow(input, inputOutcome, inputDuration, inputPercentage));

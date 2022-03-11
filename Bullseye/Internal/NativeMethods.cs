@@ -13,7 +13,7 @@ namespace Bullseye.Internal
 
         public enum StdHandle
         {
-            STD_OUTPUT_HANDLE = -11
+            STD_OUTPUT_HANDLE = -11,
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

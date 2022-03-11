@@ -22,11 +22,11 @@ namespace BullseyeTests
             {
                 CreateTarget("first", () => ran.Add("first")),
                 CreateTarget("second", () => ran.Add("second")),
-                CreateTarget("third", new[] { "first", "second" }, () => ran.Add("third")),
+                CreateTarget("third", new[] { "first", "second", }, () => ran.Add("third")),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "third" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Equal(3, ran.Count);
@@ -44,12 +44,12 @@ namespace BullseyeTests
             var targets = new TargetCollection
             {
                 CreateTarget("first", () => ran.Add("first")),
-                CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
-                CreateTarget("third", new[] { "second" }, () => ran.Add("third")),
+                CreateTarget("second", new[] { "first", }, () => ran.Add("second")),
+                CreateTarget("third", new[] { "second", }, () => ran.Add("third")),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "third" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Equal(3, ran.Count);
@@ -67,11 +67,11 @@ namespace BullseyeTests
             var targets = new TargetCollection
             {
                 CreateTarget("first", () => ran.Add("first")),
-                CreateTarget("second", new[] { "first", "first" }, () => ran.Add("second")),
+                CreateTarget("second", new[] { "first", "first", }, () => ran.Add("second")),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "second" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { "second", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Equal(2, ran.Count);
@@ -85,11 +85,11 @@ namespace BullseyeTests
             // arrange
             var targets = new TargetCollection
             {
-                CreateTarget("first", new[] { "first" }),
+                CreateTarget("first", new[] { "first", }),
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first" }, _ => false, () => "", Console.Out, Console.Error, false));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -102,12 +102,12 @@ namespace BullseyeTests
             // arrange
             var targets = new TargetCollection
             {
-                CreateTarget("first", new[] { "second" }),
-                CreateTarget("second", new[] { "first" }),
+                CreateTarget("first", new[] { "second", }),
+                CreateTarget("second", new[] { "first", }),
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second" }, _ => false, () => "", Console.Out, Console.Error, false));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -120,13 +120,13 @@ namespace BullseyeTests
             // arrange
             var targets = new TargetCollection
             {
-                CreateTarget("first", new[] { "third" }),
-                CreateTarget("second", new[] { "first" }),
-                CreateTarget("third", new[] { "second" }),
+                CreateTarget("first", new[] { "third", }),
+                CreateTarget("second", new[] { "first", }),
+                CreateTarget("third", new[] { "second", }),
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, _ => false, () => "", Console.Out, Console.Error, false));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -139,17 +139,17 @@ namespace BullseyeTests
             // arrange
             var ran = new List<string>();
 
-            using var outputWriter = new StringWriter();
+            await using var outputWriter = new StringWriter();
 
             var targets = new TargetCollection
             {
                 CreateTarget("first", () => ran.Add("first")),
-                CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
-                CreateTarget("third", new[] { "first", "second" }, () => ran.Add("third")),
+                CreateTarget("second", new[] { "first", }, () => ran.Add("second")),
+                CreateTarget("third", new[] { "first", "second", }, () => ran.Add("third")),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "third", "--no-color", "--verbose" }, _ => false, () => "", outputWriter, Console.Error, false);
+            await targets.RunAsync(new List<string> { "third", "--no-color", "--verbose", }, _ => false, () => "", outputWriter, Console.Error, false);
 
             // assert
             var output = outputWriter.ToString();
@@ -171,12 +171,12 @@ namespace BullseyeTests
             var targets = new TargetCollection
             {
                 CreateTarget("first", () => anyRan = true),
-                CreateTarget("second", new[] { "first", "non-existing" }, () => anyRan = true),
-                CreateTarget("third", new[] { "second", "also-non-existing" }, () => anyRan = true),
+                CreateTarget("second", new[] { "first", "non-existing", }, () => anyRan = true),
+                CreateTarget("third", new[] { "second", "also-non-existing", }, () => anyRan = true),
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third" }, _ => false, () => "", Console.Out, Console.Error, false));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -194,11 +194,11 @@ namespace BullseyeTests
             var targets = new TargetCollection
             {
                 CreateTarget("first", () => ran.Add("first")),
-                CreateTarget("second", new[] { "first", "non-existent" }, () => ran.Add("second")),
+                CreateTarget("second", new[] { "first", "non-existent", }, () => ran.Add("second")),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "second", "-s" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { "second", "-s", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Contains("second", ran);
@@ -214,11 +214,11 @@ namespace BullseyeTests
             var targets = new TargetCollection
             {
                 CreateTarget("first", () => ran.Add("first")),
-                CreateTarget("second", new[] { "first" }, () => ran.Add("second")),
+                CreateTarget("second", new[] { "first", }, () => ran.Add("second")),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Equal(2, ran.Count);
@@ -242,12 +242,12 @@ namespace BullseyeTests
                         Thread.Sleep(TimeSpan.FromSeconds(1)); // a weak way to encourage the tests to run first
                         buildStartTime = Interlocked.Increment(ref clock);
                     }),
-                CreateTarget("test1", new[] { "build" }, () => test1StartTime = Interlocked.Increment(ref clock)),
-                CreateTarget("test2", new[] { "build" }, () => test2StartTime = Interlocked.Increment(ref clock)),
+                CreateTarget("test1", new[] { "build", }, () => test1StartTime = Interlocked.Increment(ref clock)),
+                CreateTarget("test2", new[] { "build", }, () => test2StartTime = Interlocked.Increment(ref clock)),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Equal(1, buildStartTime);

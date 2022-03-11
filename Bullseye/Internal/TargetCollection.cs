@@ -93,13 +93,13 @@ namespace Bullseye.Internal
 
         private async Task RunAsync(
             Target target,
-            List<Target> explicitTargets,
+            ICollection<Target> explicitTargets,
             bool dryRun,
             bool parallel,
             bool skipDependencies,
             Func<Exception, bool> messageOnly,
             Output output,
-            Dictionary<Target, Task> runningTargets,
+            IDictionary<Target, Task> runningTargets,
             SemaphoreSlim sync,
             Queue<Target> dependencyPath)
         {
@@ -233,7 +233,7 @@ namespace Bullseye.Internal
             {
                 if (dependents.Contains(target.Name))
                 {
-                    throw new InvalidUsageException($"Circular dependency: {string.Join(" -> ", dependents.Reverse().Concat(new[] { target.Name }))}");
+                    throw new InvalidUsageException($"Circular dependency: {string.Join(" -> ", dependents.Reverse().Concat(new[] { target.Name, }))}");
                 }
 
                 dependents.Push(target.Name);

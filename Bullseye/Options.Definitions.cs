@@ -10,7 +10,7 @@ namespace Bullseye
         /// <summary>
         /// Gets the definitions of options which can be used when running or listing targets.
         /// </summary>
-        public static IReadOnlyList<(IReadOnlyList<string> Aliases, string Description)> Definitions { get; } = new List<(IReadOnlyList<string> Aliases, string Description)>()
+        public static IReadOnlyList<(IReadOnlyList<string> Aliases, string Description)> Definitions { get; } = new List<(IReadOnlyList<string> Aliases, string Description)>
         {
             (new List<string>{ "-c", "--clear",             }, "Clear the console before execution"),
             (new List<string>{ "-n", "--dry-run",           }, "Do a dry run without executing actions"),

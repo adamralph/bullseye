@@ -19,8 +19,8 @@ Target("world", DependsOn("comma"), async () => await Console.Out.WriteLineAsync
 Target("exclaim", DependsOn("world"), async () => await Console.Out.WriteLineAsync("!"));
 
 // spell-checker:enable
-var foos = new[] { "a", "b", null };
-var bars = new[] { 1, 2 };
+var foos = new[] { "a", "b", null, };
+var bars = new[] { 1, 2, };
 
 Target(
     "foo",
@@ -51,7 +51,7 @@ Target(
 
 Target(
     "combo",
-    foos.SelectMany(foo => bars.Select(bar => new { foo, bar })),
+    foos.SelectMany(foo => bars.Select(bar => new { foo, bar, })),
     async o =>
     {
         await Task.Delay((4 - o.bar) * 10);
@@ -72,15 +72,15 @@ Target(
     {
         await Task.Delay(delay);
 
+#pragma warning disable IDE0010 // Add missing cases to switch statement
         switch (delay)
         {
             case 10:
                 throw new NotImplementedException("bad");
             case 20:
                 throw new NotImplementedException("ugly");
-            default:
-                break;
         }
+#pragma warning restore IDE0010 // Add missing cases to switch statement
     });
 
 Target(
@@ -90,15 +90,15 @@ Target(
     {
         await Task.Delay(delay);
 
+#pragma warning disable IDE0010 // Add missing cases to switch statement
         switch (delay)
         {
             case 1500:
                 throw new InvalidOperationException("bad");
             case 150:
                 throw new InvalidOperationException("ugly");
-            default:
-                break;
         }
+#pragma warning restore IDE0010 // Add missing cases to switch statement
     });
 
 var targets = new Targets();

@@ -43,7 +43,7 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new List<string> { nameof(first), nameof(second) }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { nameof(first), nameof(second), }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.True(first);
@@ -63,7 +63,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing" }, _ => false, () => "", Console.Out, Console.Error, false));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -84,7 +84,7 @@ namespace BullseyeTests
 
             // act
             var exception = await Record.ExceptionAsync(
-                () => targets.RunAsync(new List<string> { nameof(existing), "non-existing", "also-non-existing" }, _ => false, () => "", Console.Out, Console.Error, false));
+                () => targets.RunAsync(new List<string> { nameof(existing), "non-existing", "also-non-existing", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -101,11 +101,11 @@ namespace BullseyeTests
 
             var targets = new TargetCollection
             {
-                CreateTarget("target", () => ran = true)
+                CreateTarget("target", () => ran = true),
             };
 
             // act
-            await targets.RunAsync(new List<string> { "target", "-n" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new List<string> { "target", "-n", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.False(ran);
@@ -123,7 +123,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b" }, _ => false, () => "", Console.Out, Console.Error, false));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -144,7 +144,7 @@ namespace BullseyeTests
             };
 
             // act
-            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z" }, _ => false, () => "", Console.Out, Console.Error, false));
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z", }, _ => false, () => "", Console.Out, Console.Error, false));
 
             // assert
             Assert.NotNull(exception);
@@ -164,8 +164,8 @@ namespace BullseyeTests
             };
 
             // act
-            await targets.RunAsync(new[] { "default" }, _ => false, () => "", Console.Out, Console.Error, false);
-            await targets.RunAsync(new[] { "default" }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new[] { "default", }, _ => false, () => "", Console.Out, Console.Error, false);
+            await targets.RunAsync(new[] { "default", }, _ => false, () => "", Console.Out, Console.Error, false);
 
             // assert
             Assert.Equal(2, count);

@@ -18,7 +18,7 @@ namespace BullseyeTests
 
             var targets = new TargetCollection
             {
-                CreateTarget("default", new[] { 1, 2 }, input => inputsReceived.Add(input))
+                CreateTarget("default", new[] { 1, 2, }, input => inputsReceived.Add(input)),
             };
 
             // act

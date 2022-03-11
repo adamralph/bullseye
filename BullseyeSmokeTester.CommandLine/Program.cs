@@ -4,11 +4,11 @@ using System.Linq;
 using Bullseye;
 using static Bullseye.Targets;
 
-var foo = new Option<string>(new[] { "--foo", "-f" }, "A value used for something.");
-var cmd = new RootCommand() { foo, };
+var foo = new Option<string>(new[] { "--foo", "-f", }, "A value used for something.");
+var cmd = new RootCommand { foo, };
 
 // translate from Bullseye to System.CommandLine
-cmd.Add(new Argument("targets") { Arity = ArgumentArity.ZeroOrMore, Description = "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed." });
+cmd.Add(new Argument("targets") { Arity = ArgumentArity.ZeroOrMore, Description = "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed.", });
 foreach (var (aliases, description) in Options.Definitions)
 {
     cmd.Add(new Option<bool>(aliases.ToArray(), description));
