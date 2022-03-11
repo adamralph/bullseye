@@ -219,7 +219,7 @@ namespace Bullseye.Internal
                 return;
             }
 
-            names = names.Count > 0 ? names : new List<string> { "default" };
+            names = names.Count > 0 ? names : new List<string> { "default", };
 
             await targets.RunAsync(names, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
         }

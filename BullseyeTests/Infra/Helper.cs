@@ -8,10 +8,10 @@ namespace BullseyeTests.Infra
     {
         public static Target CreateTarget(string name, Action action) => CreateTarget(name, Array.Empty<string>(), action);
 
-        public static Target CreateTarget(string name, string[] dependencies, Action action) =>
+        public static Target CreateTarget(string name, IEnumerable<string> dependencies, Action action) =>
             new ActionTarget(name, "", dependencies, action.ToAsync());
 
-        public static Target CreateTarget(string name, string[] dependencies) =>
+        public static Target CreateTarget(string name, IEnumerable<string> dependencies) =>
 #if NET5_0_OR_GREATER
             new(name, "", dependencies);
 #else

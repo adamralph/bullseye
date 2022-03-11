@@ -18,16 +18,7 @@ namespace Bullseye.Internal
             this.action = action;
         }
 
-        public IEnumerable<object?> Inputs
-        {
-            get
-            {
-                foreach (var input in this.inputs)
-                {
-                    yield return input;
-                }
-            }
-        }
+        public IEnumerable<object?> Inputs => this.inputs.Cast<object?>();
 
         public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
         {

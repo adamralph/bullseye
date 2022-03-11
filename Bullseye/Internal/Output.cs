@@ -291,7 +291,7 @@ $@"{p.Default}Usage:{p.Reset}
 
             foreach (var rootTarget in rootTargets)
             {
-                Append(new List<string> { rootTarget }, new Stack<string>(), true, "", 0);
+                Append(new List<string> { rootTarget, }, new Stack<string>(), true, "", 0);
             }
 
             var maxColumn1Width = lines.Max(line => Palette.StripColours(line.Item1).Length);
@@ -305,7 +305,7 @@ $@"{p.Default}Usage:{p.Reset}
                     return;
                 }
 
-                foreach (var item in names.Select((name, index) => new { name, index }))
+                foreach (var item in names.Select((name, index) => new { name, index, }))
                 {
                     var circularDependency = seenTargets.Contains(item.name);
 
@@ -339,7 +339,7 @@ $@"{p.Default}Usage:{p.Reset}
 
                         if (listInputs && depth <= maxDepthToShowInputs && target is IHaveInputs hasInputs)
                         {
-                            foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index }))
+                            foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index, }))
                             {
                                 var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(target.Dependencies.Count > 0 && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
 

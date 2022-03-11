@@ -46,7 +46,7 @@ Bullseye.Options.NoColor.set -> void
 Bullseye.Options.NoExtendedChars.get -> bool
 Bullseye.Options.NoExtendedChars.set -> void
 Bullseye.Options.Options() -> void
-Bullseye.Options.Options(System.Collections.Generic.IEnumerable<(string!, bool)>! values) -> void
+Bullseye.Options.Options(System.Collections.Generic.IEnumerable<(string! Name, bool Value)>! values) -> void
 Bullseye.Options.Parallel.get -> bool
 Bullseye.Options.Parallel.set -> void
 Bullseye.Options.SkipDependencies.get -> bool

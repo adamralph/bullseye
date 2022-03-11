@@ -17,16 +17,16 @@ namespace BullseyeTests
         public static async Task Output()
         {
             // arrange
-            using var output = new StringWriter();
+            await using var output = new StringWriter();
             var ordinal = 1;
 
             // act
-            foreach (var @bool in new[] { true, false })
+            foreach (var @bool in new[] { true, false, })
             {
-                await Write(output, noColor: true, noExtendedChars: !@bool, default, hostForced: @bool, default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, new[] { "arg1", "arg2" }, ordinal++);
+                await Write(output, noColor: true, noExtendedChars: !@bool, host: default, hostForced: @bool, operatingSystem: default, skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, new[] { "arg1", "arg2", }, ordinal++);
             }
 
-            foreach (var noColor in new[] { true, false })
+            foreach (var noColor in new[] { true, false, })
             {
                 foreach (var host in (Host[])Enum.GetValues(typeof(Host)))
                 {
@@ -42,7 +42,7 @@ namespace BullseyeTests
         }
 
         private static async Task Write(
-            StringWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostForced, OperatingSystem operatingSystem, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
+            TextWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostForced, OperatingSystem operatingSystem, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
         {
             await writer.WriteLineAsync();
             await writer.WriteLineAsync($"noColor: {noColor}");
@@ -97,7 +97,7 @@ namespace BullseyeTests
 
             var looseTarget = new Target("looseTarget", "", Enumerable.Empty<string>());
 
-            var looseTargets = new List<Target> { new Target("looseTarget", "", Enumerable.Empty<string>()) };
+            var looseTargets = new List<Target> { new Target("looseTarget", "", Enumerable.Empty<string>()), };
 
             var noInputsTarget = new Target("noInputsTarget", "", Enumerable.Empty<string>());
 

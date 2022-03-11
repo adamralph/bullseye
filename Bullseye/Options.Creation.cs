@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Bullseye.Internal;
 
 namespace Bullseye
@@ -19,9 +20,9 @@ namespace Bullseye
         /// Constructs a new instance of <see cref="Options"/>.
         /// </summary>
         /// <param name="values">A list of named options and their values.</param>
-        public Options(IEnumerable<(string, bool)> values)
+        public Options(IEnumerable<(string Name, bool Value)> values)
         {
-            var result = OptionsReader.Read(values);
+            var result = OptionsReader.Read(values.Where(option => option.Value).Select(option => option.Name));
 
             if (result.UnknownOptions.Count > 0)
             {

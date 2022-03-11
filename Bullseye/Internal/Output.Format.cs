@@ -86,6 +86,6 @@ namespace Bullseye.Internal
             $"{p.Prefix}{prefix}:{p.Reset} {p.Verbose}{subject}:{p.Reset} {message}";
 
         private static string FormatDependencyPath(IReadOnlyCollection<Target> dependencyPath, Palette p) =>
-            dependencyPath.Count == 0 ? "" : $" {p.Verbose}(/{string.Join($"/", dependencyPath)}){p.Reset}";
+            dependencyPath.Count == 0 ? "" : $" {p.Verbose}(/{string.Join("/", dependencyPath)}){p.Reset}";
     }
 }

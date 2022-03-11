@@ -18,7 +18,7 @@ namespace Bullseye.Internal
             bool Verbose,
             Host Host,
             IReadOnlyList<string> UnknownOptions)
-            Read(IEnumerable<(string, bool)> values)
+            Read(IEnumerable<string> options)
         {
             var clear = false;
             var dryRun = false;
@@ -34,74 +34,74 @@ namespace Bullseye.Internal
             var host = default(Host);
             var unknownOptions = new List<string>();
 
-            foreach (var (name, isSet) in values)
+            foreach (var option in options)
             {
-                switch (name)
+                switch (option)
                 {
                     case "-c":
                     case "--clear":
-                        clear = isSet;
+                        clear = true;
                         break;
                     case "-n":
                     case "--dry-run":
-                        dryRun = isSet;
+                        dryRun = true;
                         break;
                     case "-d":
                     case "--list-dependencies":
-                        listDependencies = isSet;
+                        listDependencies = true;
                         break;
                     case "-i":
                     case "--list-inputs":
-                        listInputs = isSet;
+                        listInputs = true;
                         break;
                     case "-l":
                     case "--list-targets":
-                        listTargets = isSet;
+                        listTargets = true;
                         break;
                     case "-t":
                     case "--list-tree":
-                        listTree = isSet;
+                        listTree = true;
                         break;
                     case "-N":
                     case "--no-color":
-                        noColor = isSet;
+                        noColor = true;
                         break;
                     case "-E":
                     case "--no-extended-chars":
-                        noExtendedChars = isSet;
+                        noExtendedChars = true;
                         break;
                     case "-p":
                     case "--parallel":
-                        parallel = isSet;
+                        parallel = true;
                         break;
                     case "-s":
                     case "--skip-dependencies":
-                        skipDependencies = isSet;
+                        skipDependencies = true;
                         break;
                     case "-v":
                     case "--verbose":
-                        verbose = isSet;
+                        verbose = true;
                         break;
                     case "--appveyor":
-                        host = isSet ? Host.AppVeyor : host;
+                        host = Host.AppVeyor;
                         break;
                     case "--console":
-                        host = isSet ? Host.Console : host;
+                        host = Host.Console;
                         break;
                     case "--github-actions":
-                        host = isSet ? Host.GitHubActions : host;
+                        host = Host.GitHubActions;
                         break;
                     case "--gitlab-ci":
-                        host = isSet ? Host.GitLabCI : host;
+                        host = Host.GitLabCI;
                         break;
                     case "--teamcity":
-                        host = isSet ? Host.TeamCity : host;
+                        host = Host.TeamCity;
                         break;
                     case "--travis":
-                        host = isSet ? Host.Travis : host;
+                        host = Host.Travis;
                         break;
                     default:
-                        unknownOptions.Add(name);
+                        unknownOptions.Add(option);
                         break;
                 }
             }
