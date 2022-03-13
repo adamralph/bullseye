@@ -273,7 +273,7 @@ $@"{p.Default}Usage:{p.Reset}
 
 {p.Default}Remarks:{p.Reset}
   {p.Default}The {p.Option}--list-xxx{p.Default} options may be combined.{p.Reset}
-  {p.Default}The {p.Invocation}invocation{p.Reset} is typically a call to dotnet run, or the path to a script which wraps a call to dotnet run.
+  {p.Default}The {p.Invocation}invocation{p.Default} is typically a call to dotnet run, or the path to a script which wraps a call to dotnet run.{p.Reset}
 
 {p.Default}Examples:{p.Reset}
   {p.Invocation}./build.{scriptExtension}{p.Reset}
