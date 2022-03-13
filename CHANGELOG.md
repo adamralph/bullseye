@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.0
+
+### Fixed bugs
+
+- [#749: Help text remarks are not coloured correctly](https://github.com/adamralph/bullseye/issues/749)
+
 ## 4.0.0
 
 ### Enhancements
