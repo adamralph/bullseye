@@ -38,7 +38,16 @@ namespace BullseyeTests
             }
 
             // assert
-            await AssertFile.Contains("../../../output.txt", output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
+#if NETCOREAPP3_1
+            var expectedPath = "../../../output.netcoreapp3.1.txt";
+#endif
+#if NET5_0
+            var expectedPath = "../../../output.net5.0.txt";
+#endif
+#if NET6_0
+            var expectedPath = "../../../output.net6.0.txt";
+#endif
+            await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
         }
 
         private static async Task Write(
