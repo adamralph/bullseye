@@ -53,6 +53,7 @@ namespace BullseyeTests
 #if NET6_0
             var expectedPath = "../../../output.net6.0.txt";
 #endif
+
             await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
         }
 
