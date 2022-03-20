@@ -3,7 +3,7 @@ noColor: True
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -85,7 +85,7 @@ noColor: True
 noExtendedChars: True
 host: Automatic
 hostForced: False
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: False
 dryRun: False
 parallel: False
@@ -167,7 +167,7 @@ noColor: True
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -249,7 +249,7 @@ noColor: True
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -331,7 +331,7 @@ noColor: True
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -413,7 +413,7 @@ noColor: True
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -422,7 +422,7 @@ args:
 
 prefix6: Bullseye version: version
 prefix6: Host: Automatic (forced)
-prefix6: OS: MacOS
+prefix6: OS: macOS
 prefix6: Args: 
 prefix6: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix6: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -495,7 +495,7 @@ noColor: True
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -577,7 +577,7 @@ noColor: True
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -659,7 +659,7 @@ noColor: True
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -741,7 +741,7 @@ noColor: True
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -750,7 +750,7 @@ args:
 
 prefix10: Bullseye version: version
 prefix10: Host: AppVeyor (forced)
-prefix10: OS: MacOS
+prefix10: OS: macOS
 prefix10: Args: 
 prefix10: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix10: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -823,7 +823,7 @@ noColor: True
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -905,7 +905,7 @@ noColor: True
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -987,7 +987,7 @@ noColor: True
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1069,7 +1069,7 @@ noColor: True
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1078,7 +1078,7 @@ args:
 
 prefix14: Bullseye version: version
 prefix14: Host: Console (forced)
-prefix14: OS: MacOS
+prefix14: OS: macOS
 prefix14: Args: 
 prefix14: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix14: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -1151,7 +1151,7 @@ noColor: True
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1233,7 +1233,7 @@ noColor: True
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1315,7 +1315,7 @@ noColor: True
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1397,7 +1397,7 @@ noColor: True
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1406,7 +1406,7 @@ args:
 
 prefix18: Bullseye version: version
 prefix18: Host: GitHubActions (forced)
-prefix18: OS: MacOS
+prefix18: OS: macOS
 prefix18: Args: 
 prefix18: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix18: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -1479,7 +1479,7 @@ noColor: True
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1561,7 +1561,7 @@ noColor: True
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1643,7 +1643,7 @@ noColor: True
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1725,7 +1725,7 @@ noColor: True
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1734,7 +1734,7 @@ args:
 
 prefix22: Bullseye version: version
 prefix22: Host: GitLabCI (forced)
-prefix22: OS: MacOS
+prefix22: OS: macOS
 prefix22: Args: 
 prefix22: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix22: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -1807,7 +1807,7 @@ noColor: True
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1889,7 +1889,7 @@ noColor: True
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -1971,7 +1971,7 @@ noColor: True
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2053,7 +2053,7 @@ noColor: True
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2062,7 +2062,7 @@ args:
 
 prefix26: Bullseye version: version
 prefix26: Host: TeamCity (forced)
-prefix26: OS: MacOS
+prefix26: OS: macOS
 prefix26: Args: 
 prefix26: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix26: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -2135,7 +2135,7 @@ noColor: True
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2217,7 +2217,7 @@ noColor: True
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2299,7 +2299,7 @@ noColor: True
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2381,7 +2381,7 @@ noColor: True
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2390,7 +2390,7 @@ args:
 
 prefix30: Bullseye version: version
 prefix30: Host: Travis (forced)
-prefix30: OS: MacOS
+prefix30: OS: macOS
 prefix30: Args: 
 prefix30: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix30: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -2463,7 +2463,7 @@ noColor: True
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2545,7 +2545,7 @@ noColor: True
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2627,7 +2627,7 @@ noColor: True
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2709,7 +2709,7 @@ noColor: True
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2718,7 +2718,7 @@ args:
 
 prefix34: Bullseye version: version
 prefix34: Host: VisualStudioCode (forced)
-prefix34: OS: MacOS
+prefix34: OS: macOS
 prefix34: Args: 
 prefix34: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix34: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -2791,7 +2791,7 @@ noColor: False
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2873,7 +2873,7 @@ noColor: False
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -2955,7 +2955,7 @@ noColor: False
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3037,7 +3037,7 @@ noColor: False
 noExtendedChars: False
 host: Automatic
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3046,7 +3046,7 @@ args:
 
 [90mprefix38:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix38:[0m [90mHost:[0m [90mAutomatic (forced)[0m
-[90mprefix38:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix38:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix38:[0m [90mArgs:[0m [90m[0m
 [90mprefix38:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix38:[0m [36mverboseTarget3[37m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3119,7 +3119,7 @@ noColor: False
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3201,7 +3201,7 @@ noColor: False
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3283,7 +3283,7 @@ noColor: False
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3365,7 +3365,7 @@ noColor: False
 noExtendedChars: False
 host: AppVeyor
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3374,7 +3374,7 @@ args:
 
 [90mprefix42:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix42:[0m [90mHost:[0m [90mAppVeyor (forced)[0m
-[90mprefix42:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix42:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix42:[0m [90mArgs:[0m [90m[0m
 [90mprefix42:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix42:[0m [36mverboseTarget3[37m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3447,7 +3447,7 @@ noColor: False
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3529,7 +3529,7 @@ noColor: False
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3611,7 +3611,7 @@ noColor: False
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3693,7 +3693,7 @@ noColor: False
 noExtendedChars: False
 host: Console
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3702,7 +3702,7 @@ args:
 
 [90mprefix46:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix46:[0m [90mHost:[0m [90mConsole (forced)[0m
-[90mprefix46:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix46:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix46:[0m [90mArgs:[0m [90m[0m
 [90mprefix46:[0m [36mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix46:[0m [36mverboseTarget3[37m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -3775,7 +3775,7 @@ noColor: False
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3857,7 +3857,7 @@ noColor: False
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -3939,7 +3939,7 @@ noColor: False
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4021,7 +4021,7 @@ noColor: False
 noExtendedChars: False
 host: GitHubActions
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4030,7 +4030,7 @@ args:
 
 [90mprefix50:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix50:[0m [90mHost:[0m [90mGitHubActions (forced)[0m
-[90mprefix50:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix50:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix50:[0m [90mArgs:[0m [90m[0m
 [90mprefix50:[0m [34mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix50:[0m [34mverboseTarget3[37m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -4103,7 +4103,7 @@ noColor: False
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4185,7 +4185,7 @@ noColor: False
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4267,7 +4267,7 @@ noColor: False
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4349,7 +4349,7 @@ noColor: False
 noExtendedChars: False
 host: GitLabCI
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4358,7 +4358,7 @@ args:
 
 [90mprefix54:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix54:[0m [90mHost:[0m [90mGitLabCI (forced)[0m
-[90mprefix54:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix54:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix54:[0m [90mArgs:[0m [90m[0m
 [90mprefix54:[0m [34mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix54:[0m [34mverboseTarget3[37m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -4431,7 +4431,7 @@ noColor: False
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4513,7 +4513,7 @@ noColor: False
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4595,7 +4595,7 @@ noColor: False
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4677,7 +4677,7 @@ noColor: False
 noExtendedChars: False
 host: TeamCity
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4686,7 +4686,7 @@ args:
 
 [90mprefix58:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix58:[0m [90mHost:[0m [90mTeamCity (forced)[0m
-[90mprefix58:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix58:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix58:[0m [90mArgs:[0m [90m[0m
 [90mprefix58:[0m [94mverboseTarget3[90m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix58:[0m [94mverboseTarget3[90m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -4759,7 +4759,7 @@ noColor: False
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4841,7 +4841,7 @@ noColor: False
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -4923,7 +4923,7 @@ noColor: False
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -5005,7 +5005,7 @@ noColor: False
 noExtendedChars: False
 host: Travis
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -5014,7 +5014,7 @@ args:
 
 [90mprefix62:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix62:[0m [90mHost:[0m [90mTravis (forced)[0m
-[90mprefix62:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix62:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix62:[0m [90mArgs:[0m [90m[0m
 [90mprefix62:[0m [34mverboseTarget3[90m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix62:[0m [34mverboseTarget3[90m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
@@ -5087,7 +5087,7 @@ noColor: False
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: Unknown
+osPlatform: Unknown
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -5169,7 +5169,7 @@ noColor: False
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: Windows
+osPlatform: WINDOWS
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -5251,7 +5251,7 @@ noColor: False
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: Linux
+osPlatform: LINUX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -5333,7 +5333,7 @@ noColor: False
 noExtendedChars: False
 host: VisualStudioCode
 hostForced: True
-operatingSystem: MacOS
+osPlatform: OSX
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -5342,7 +5342,7 @@ args:
 
 [90mprefix66:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix66:[0m [90mHost:[0m [90mVisualStudioCode (forced)[0m
-[90mprefix66:[0m [90mOS:[0m [90mMacOS[0m
+[90mprefix66:[0m [90mOS:[0m [90mmacOS[0m
 [90mprefix66:[0m [90mArgs:[0m [90m[0m
 [90mprefix66:[0m [34mverboseTarget3[37m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix66:[0m [34mverboseTarget3[37m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m

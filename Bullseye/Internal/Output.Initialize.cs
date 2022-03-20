@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Bullseye.Internal
@@ -8,7 +9,7 @@ namespace Bullseye.Internal
     {
         public async Task<IAsyncDisposable> Initialize()
         {
-            if (this.noColor || this.operatingSystem != OperatingSystem.Windows)
+            if (this.noColor || this.osPlatform != OSPlatform.Windows)
             {
                 return new NullAsyncDisposable();
             }
