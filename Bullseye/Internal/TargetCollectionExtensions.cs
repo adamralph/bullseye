@@ -133,14 +133,14 @@ namespace Bullseye.Internal
 
             var host = options.Host.DetectIfAutomatic();
 
-            var operatingSystem =
+            var osPlatform =
                 RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                    ? OperatingSystem.Windows
+                    ? OSPlatform.Windows
                     : RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
-                        ? OperatingSystem.Linux
+                        ? OSPlatform.Linux
                         : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
-                            ? OperatingSystem.MacOS
-                            : OperatingSystem.Unknown;
+                            ? OSPlatform.OSX
+                            : OSPlatform.Create("Unknown");
 
             var output = new Output(
                 outputWriter,
@@ -151,7 +151,7 @@ namespace Bullseye.Internal
                 options.Host != Host.Automatic,
                 noColor,
                 options.NoExtendedChars,
-                operatingSystem,
+                osPlatform,
                 options.Parallel,
                 getMessagePrefix,
                 options.SkipDependencies,

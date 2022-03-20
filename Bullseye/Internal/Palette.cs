@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace Bullseye.Internal
 {
@@ -6,7 +7,7 @@ namespace Bullseye.Internal
     {
         private static readonly int[] numbers = { 0, 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97, };
 
-        public Palette(bool noColor, bool noExtendedChars, Host host, OperatingSystem operatingSystem)
+        public Palette(bool noColor, bool noExtendedChars, Host host, OSPlatform osPlatform)
         {
             var reset = noColor ? "" : "\x1b[0m";
 
@@ -67,7 +68,7 @@ namespace Bullseye.Internal
 #pragma warning disable IDE0010 // Add missing cases to switch statement
             switch (host)
             {
-                case Host.AppVeyor when operatingSystem == OperatingSystem.Windows:
+                case Host.AppVeyor when osPlatform == OSPlatform.Windows:
                     this.Default = brightBlack;
                     this.Target = blue;
                     this.TreeCorner = "  ";
@@ -75,7 +76,7 @@ namespace Bullseye.Internal
                     this.TreeDown = "  ";
                     this.Horizontal = '-';
                     break;
-                case Host.AppVeyor when operatingSystem == OperatingSystem.Linux:
+                case Host.AppVeyor when osPlatform == OSPlatform.Linux:
                     this.Default = brightBlack;
                     this.Target = blue;
                     this.Timing = brightMagenta;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace Bullseye.Internal
         private readonly Host host;
         private readonly bool hostForced;
         private readonly bool noColor;
-        private readonly OperatingSystem operatingSystem;
+        private readonly OSPlatform osPlatform;
         private readonly bool parallel;
         private readonly Func<string> getPrefix;
         private readonly bool skipDependencies;
@@ -41,7 +42,7 @@ namespace Bullseye.Internal
             bool hostForced,
             bool noColor,
             bool noExtendedChars,
-            OperatingSystem operatingSystem,
+            OSPlatform osPlatform,
             bool parallel,
             Func<string> getPrefix,
             bool skipDependencies,
@@ -55,14 +56,14 @@ namespace Bullseye.Internal
             this.host = host;
             this.hostForced = hostForced;
             this.noColor = noColor;
-            this.operatingSystem = operatingSystem;
+            this.osPlatform = osPlatform;
             this.parallel = parallel;
             this.getPrefix = getPrefix;
             this.skipDependencies = skipDependencies;
             this.Verbose = verbose;
 
-            this.palette = new Palette(noColor, noExtendedChars, host, operatingSystem);
-            this.scriptExtension = operatingSystem == OperatingSystem.Windows ? "cmd" : "sh";
+            this.palette = new Palette(noColor, noExtendedChars, host, osPlatform);
+            this.scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
         }
 
         public async Task Header(Func<string> getVersion)
@@ -77,7 +78,7 @@ namespace Bullseye.Internal
             var builder = new StringBuilder()
                 .AppendLine(Format(this.getPrefix(), "Bullseye version", $"{this.palette.Verbose}{version}{this.palette.Reset}", this.palette))
                 .AppendLine(Format(this.getPrefix(), "Host", $"{this.palette.Verbose}{this.host} ({(this.hostForced ? "forced" : "detected")}){this.palette.Reset}", this.palette))
-                .AppendLine(Format(this.getPrefix(), "OS", $"{this.palette.Verbose}{this.operatingSystem}{this.palette.Reset}", this.palette))
+                .AppendLine(Format(this.getPrefix(), "OS", $"{this.palette.Verbose}{this.osPlatform.Humanize()}{this.palette.Reset}", this.palette))
                 .AppendLine(Format(this.getPrefix(), "Args", $"{this.palette.Verbose}{string.Join(" ", this.args)}{this.palette.Reset}", this.palette));
 
             await this.writer.WriteAsync(builder.ToString()).Tax();
