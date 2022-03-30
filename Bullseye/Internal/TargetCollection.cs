@@ -233,7 +233,7 @@ namespace Bullseye.Internal
             {
                 if (dependents.Contains(target.Name))
                 {
-                    throw new InvalidUsageException($"Circular dependency: {string.Join(" -> ", dependents.Reverse().Concat(new[] { target.Name, }))}");
+                    throw new InvalidUsageException($"Circular dependency: {string.Join(" -> ", dependents.Reverse().Append(target.Name))}");
                 }
 
                 dependents.Push(target.Name);
