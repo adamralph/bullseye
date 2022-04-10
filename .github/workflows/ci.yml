@@ -18,7 +18,7 @@ jobs:
           - name: ubuntu
             os: ubuntu-20.04
             build: ./build.sh
-            push: true
+            upload: true
           - name: windows
             os: windows-2022
             build: ./build.cmd
@@ -35,9 +35,8 @@ jobs:
         with:
           fetch-depth: 0
       - run: ${{ matrix.job.build }} --logger GitHubActions
-      - name: push
-        env:
-          API_KEY: ${{ secrets.CI_NUGET_API_KEY }}
-          SOURCE: ${{ secrets.CI_NUGET_SOURCE }}
-        if: ${{ matrix.job.push && (env.API_KEY != '' || env.SOURCE != '') && github.ref == 'refs/heads/main' }}
-        run: dotnet nuget push ./**/*.nupkg --source ${{ env.SOURCE }} --api-key ${{ env.API_KEY }}
+      - if: ${{ matrix.job.upload }}
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: NuGet packages
+          path: ./**/*.nupkg
