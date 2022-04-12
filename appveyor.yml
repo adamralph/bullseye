@@ -14,7 +14,7 @@ init:
   - cmd: dotnet --info
   - sh: dotnet --info
 build_script:
-  - cmd: ./build.cmd
-  - sh: ./build.sh
+  - cmd: ./build
+  - sh: ./build
 test: off
 deploy: off
