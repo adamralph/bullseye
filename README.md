@@ -97,7 +97,7 @@ dotnet run -- eat-biscuits
   dotnet run --project targets -- %*
   ```
 
-- `build.sh`
+- `build`
 
   ```Shell
   #!/usr/bin/env bash
@@ -119,7 +119,7 @@ Generally, all the command-line arguments passed to `Program.cs` should be passe
 ```PowerShell
 dotnet run --project targets -- --help
 ./build.cmd --help
-./build.sh -h
+./build -h
 ./build.ps1 -?
 ```
 
