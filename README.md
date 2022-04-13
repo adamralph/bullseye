@@ -37,7 +37,7 @@ Platform support: [.NET Standard 2.1 and later](https://docs.microsoft.com/en-us
 - Create a .NET console app named `targets` and add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye).
 - Replace the contents of `Program.cs` with:
 
-  ```C#
+  ```c#
   using static Bullseye.Targets;
 
   class Program
@@ -62,7 +62,7 @@ Also see the [async quick start](https://github.com/adamralph/bullseye/wiki/Asyn
 
 ## Defining dependencies
 
-```C#
+```c#
 Target("make-tea", () => Console.WriteLine("Tea made."));
 Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
 Target("walk-dog", () => Console.WriteLine("Walkies!"));
@@ -73,14 +73,14 @@ Target("default", DependsOn("drink-tea", "walk-dog"));
 
 ## Enumerable inputs
 
-```C#
+```c#
 Target(
     "eat-biscuits",
     ForEach("digestives", "chocolate hobnobs"),
     biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
 ```
 
-```Shell
+```shell
 dotnet run -- eat-biscuits
 ```
 
@@ -90,7 +90,7 @@ dotnet run -- eat-biscuits
 
 - `build`
 
-  ```Shell
+  ```shell
   #!/usr/bin/env bash
   set -euo pipefail
   dotnet run --project targets -- "$@"
@@ -98,7 +98,7 @@ dotnet run -- eat-biscuits
 
 - `build.cmd`
 
-  ```Batchfile
+  ```batchfile
   @echo Off
   dotnet run --project targets -- %*
   ```
@@ -107,15 +107,15 @@ dotnet run -- eat-biscuits
 
 Generally, all the command-line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExitAsync(args);`). This is because Bullseye effectively provides a command-line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command-line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
 
-```Shell
+```shell
 dotnet run --project targets -- --help
 ```
 
-```Shell
+```shell
 ./build --help
 ```
 
-```Batchfile
+```batchfile
 ./build.cmd --help
 ```
 
@@ -129,7 +129,7 @@ You can also handle custom arguments in `Program.cs`, but you should ensure that
 
 For most cases, the static API described above is sufficient. For more complex scenarios where a number of target collections are required, the non-static API may be used.
 
-```C#
+```c#
 var targets1 = new Targets();
 targets1.Add("foo", () => Console.Out.WriteLine("foo1"));
 
