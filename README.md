@@ -21,18 +21,16 @@ Bullseye targets can do anything. They are not restricted to building .NET proje
 Platform support: [.NET Standard 2.1 and later](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
 <!-- spell-checker:disable -->
-- [Bullseye](#bullseye)
-  - [Quick start](#quick-start)
-  - [Defining dependencies](#defining-dependencies)
-  - [Enumerable inputs](#enumerable-inputs)
-  - [Sample wrapper scripts](#sample-wrapper-scripts)
-  - [Command-line arguments](#command-line-arguments)
-  - [Non-static API](#non-static-api)
-  - [NO_COLOR](#no_color)
-  - [FAQ](#faq)
-    - [Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?](#can-i-force-a-pause-before-exiting-when-debugging-in-visual-studio-2017-or-earlier)
-  - [Who's using Bullseye?](#whos-using-bullseye)
-<!-- spell-checker:enable -->
+- [Quick start](#quick-start)
+- [Defining dependencies](#defining-dependencies)
+- [Enumerable inputs](#enumerable-inputs)
+- [Sample wrapper scripts](#sample-wrapper-scripts)
+- [Command-line arguments](#command-line-arguments)
+- [Non-static API](#non-static-api)
+- [NO_COLOR](#no_color)
+- [FAQ](#faq)
+- [Who's using Bullseye?](#whos-using-bullseye)
+  <!-- spell-checker:enable -->
 
 ## Quick start
 
