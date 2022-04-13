@@ -80,20 +80,13 @@ Target(
     biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
 ```
 
-```PowerShell
+```Shell
 dotnet run -- eat-biscuits
 ```
 
 <img src="https://user-images.githubusercontent.com/677704/147761855-76d3a77a-4342-4b00-913b-a52188a65793.png" width="491px" />
 
 ## Sample wrapper scripts
-
-- `build.cmd`
-
-  ```Batchfile
-  @echo Off
-  dotnet run --project targets -- %*
-  ```
 
 - `build`
 
@@ -103,22 +96,27 @@ dotnet run -- eat-biscuits
   dotnet run --project targets -- "$@"
   ```
 
-- `build.ps1`
+- `build.cmd`
 
-  ```PowerShell
-  $ErrorActionPreference = "Stop";
-  dotnet run --project targets -- $args
+  ```Batchfile
+  @echo Off
+  dotnet run --project targets -- %*
   ```
 
 ## Command-line arguments
 
 Generally, all the command-line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExitAsync(args);`). This is because Bullseye effectively provides a command-line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command-line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
 
-```PowerShell
+```Shell
 dotnet run --project targets -- --help
+```
+
+```Shell
+./build --help
+```
+
+```Batchfile
 ./build.cmd --help
-./build -h
-./build.ps1 -?
 ```
 
 You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye and that the help text contains both your custom arguments and the arguments supported by Bullseye. A good way to do this is to use a command-line parsing package to define your custom arguments, and to provide translation between the package and Bullseye. For example, see the test projects for:
