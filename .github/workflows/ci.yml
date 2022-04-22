@@ -27,7 +27,7 @@ jobs:
             3.1.418
             5.0.407
             6.0.202
-      - uses: actions/checkout@v3.0.1
+      - uses: actions/checkout@v3.0.2
         with:
           fetch-depth: 0
       - run: ./build --logger GitHubActions
