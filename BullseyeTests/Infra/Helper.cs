@@ -12,7 +12,7 @@ namespace BullseyeTests.Infra
             new ActionTarget(name, "", dependencies, action.ToAsync());
 
         public static Target CreateTarget(string name, IEnumerable<string> dependencies) =>
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
             new(name, "", dependencies);
 #else
             new Target(name, "", dependencies);
