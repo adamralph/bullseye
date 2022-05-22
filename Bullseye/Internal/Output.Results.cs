@@ -71,19 +71,19 @@ namespace Bullseye.Internal
             }
 
             // target or input column width
-            var tarW = rows.Max(row => Palette.StripColours(row.TargetOrInput).Length);
+            var tarW = rows.Max(row => Palette.StripColors(row.TargetOrInput).Length);
 
             // outcome column width
-            var outW = rows.Max(row => Palette.StripColours(row.Outcome).Length);
+            var outW = rows.Max(row => Palette.StripColors(row.Outcome).Length);
 
             // duration column width
-            var durW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColours(row.Duration).Length) : 0;
+            var durW = rows.Count > 1 ? rows.Skip(1).Max(row => Palette.StripColors(row.Duration).Length) : 0;
 
             // percentage column width
-            var perW = rows.Max(row => Palette.StripColours(row.Percentage).Length);
+            var perW = rows.Max(row => Palette.StripColors(row.Percentage).Length);
 
             // timing column width (duration and percentage)
-            var timW = Max(Palette.StripColours(rows[0].Duration).Length, durW + 2 + perW);
+            var timW = Max(Palette.StripColors(rows[0].Duration).Length, durW + 2 + perW);
 
             // expand percentage column width to ensure time and percentage are as wide as duration
             perW = Max(timW - durW - 2, perW);
@@ -112,7 +112,7 @@ namespace Bullseye.Internal
 
             // pad right printed
             static string Prp(string text, int totalWidth, char paddingChar) =>
-                text.PadRight(totalWidth + (text.Length - Palette.StripColours(text).Length), paddingChar);
+                text.PadRight(totalWidth + (text.Length - Palette.StripColors(text).Length), paddingChar);
         }
 
         private class TargetResult

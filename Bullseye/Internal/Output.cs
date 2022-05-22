@@ -295,9 +295,9 @@ $@"{p.Default}Usage:{p.Reset}
                 Append(new List<string> { rootTarget, }, new Stack<string>(), true, "", 0);
             }
 
-            var maxColumn1Width = lines.Max(line => Palette.StripColours(line.Item1).Length);
+            var maxColumn1Width = lines.Max(line => Palette.StripColors(line.Item1).Length);
 
-            return string.Join("", lines.Select(line => $"{line.Item1.PadRight(maxColumn1Width + line.Item1.Length - Palette.StripColours(line.Item1).Length)}    {line.Item2}{Environment.NewLine}"));
+            return string.Join("", lines.Select(line => $"{line.Item1.PadRight(maxColumn1Width + line.Item1.Length - Palette.StripColors(line.Item1).Length)}    {line.Item2}{Environment.NewLine}"));
 
             void Append(IReadOnlyCollection<string> names, Stack<string> seenTargets, bool isRoot, string previousPrefix, int depth)
             {
