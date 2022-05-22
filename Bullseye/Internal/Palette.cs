@@ -153,7 +153,7 @@ namespace Bullseye.Internal
 
         public char Horizontal { get; }
 
-        public static string StripColours(string text)
+        public static string StripColors(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
