@@ -1,12 +1,22 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Bullseye.Internal
+namespace Bullseye
 {
+    /// <summary>
+    /// A palette of strings representing color and other characters.
+    /// </summary>
     public class Palette
     {
         private static readonly int[] numbers = { 0, 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97, };
 
+        /// <summary>
+        /// Constructs an instance of <see cref="Palette"/>.
+        /// </summary>
+        /// <param name="noColor">Whether to use color or not.</param>
+        /// <param name="noExtendedChars">Whether to use extended characters or not.</param>
+        /// <param name="host">The host environment.</param>
+        /// <param name="osPlatform">The OS platform.</param>
         public Palette(bool noColor, bool noExtendedChars, Host host, OSPlatform osPlatform)
         {
             var reset = noColor ? "" : "\x1b[0m";
@@ -48,13 +58,13 @@ namespace Bullseye.Internal
             ////brightWhite = Console.BackgroundColor == ConsoleColor.White ? white : brightWhite;
 
             this.Invocation = brightYellow;
-            this.Default = white;
-            this.Failed = brightRed;
+            this.Text = white;
+            this.Failure = brightRed;
             this.Input = brightCyan;
             this.Option = brightMagenta;
             this.Prefix = brightBlack;
-            this.Reset = reset;
-            this.Succeeded = green;
+            this.Default = reset;
+            this.Success = green;
             this.Target = cyan;
             this.Timing = magenta;
             this.Verbose = brightBlack;
@@ -62,45 +72,45 @@ namespace Bullseye.Internal
 
             this.TreeCorner = $"{green}└─{reset}";
             this.TreeFork = $"{green}├─{reset}";
-            this.TreeDown = $"{green}│{reset} ";
+            this.TreeLine = $"{green}│{reset} ";
             this.Horizontal = '─';
 
 #pragma warning disable IDE0010 // Add missing cases to switch statement
             switch (host)
             {
                 case Host.AppVeyor when osPlatform == OSPlatform.Windows:
-                    this.Default = brightBlack;
+                    this.Text = brightBlack;
                     this.Target = blue;
                     this.TreeCorner = "  ";
                     this.TreeFork = "  ";
-                    this.TreeDown = "  ";
+                    this.TreeLine = "  ";
                     this.Horizontal = '-';
                     break;
                 case Host.AppVeyor when osPlatform == OSPlatform.Linux:
-                    this.Default = brightBlack;
+                    this.Text = brightBlack;
                     this.Target = blue;
                     this.Timing = brightMagenta;
                     break;
                 case Host.GitHubActions:
                     this.Invocation = yellow;
-                    this.Failed = red;
+                    this.Failure = red;
                     this.Target = blue;
                     break;
                 case Host.GitLabCI:
                     this.Target = blue;
                     break;
                 case Host.TeamCity:
-                    this.Default = brightBlack;
+                    this.Text = brightBlack;
                     this.Target = brightBlue;
                     this.TreeCorner = "  ";
                     this.TreeFork = "  ";
-                    this.TreeDown = "  ";
+                    this.TreeLine = "  ";
                     this.Horizontal = '-';
                     break;
                 case Host.Travis:
                     this.Invocation = yellow;
-                    this.Default = brightBlack;
-                    this.Failed = red;
+                    this.Text = brightBlack;
+                    this.Failure = red;
                     this.Input = cyan;
                     this.Option = magenta;
                     this.Target = blue;
@@ -116,43 +126,96 @@ namespace Bullseye.Internal
             {
                 this.TreeCorner = "  ";
                 this.TreeFork = "  ";
-                this.TreeDown = "  ";
+                this.TreeLine = "  ";
                 this.Horizontal = '-';
             }
         }
 
+        /// <summary>
+        /// The color to use for a command invocation.
+        /// </summary>
         public string Invocation { get; }
 
-        public string Reset { get; }
-
-        public string Failed { get; }
-
-        public string Input { get; }
-
-        public string Option { get; }
-
-        public string Prefix { get; }
-
-        public string Succeeded { get; }
-
-        public string Target { get; }
-
+        /// <summary>
+        /// The default color.
+        /// </summary>
         public string Default { get; }
 
+        /// <summary>
+        /// The color to use for a failure.
+        /// </summary>
+        public string Failure { get; }
+
+        /// <summary>
+        /// The color to use for an input.
+        /// </summary>
+        public string Input { get; }
+
+        /// <summary>
+        /// The color to use for a command option.
+        /// </summary>
+        public string Option { get; }
+
+        /// <summary>
+        /// The color to use for a program prefix.
+        /// </summary>
+        public string Prefix { get; }
+
+        /// <summary>
+        /// The color to use for success.
+        /// </summary>
+        public string Success { get; }
+
+        /// <summary>
+        /// The color to use for a target.
+        /// </summary>
+        public string Target { get; }
+
+        /// <summary>
+        /// The color to use for arbitrary text.
+        /// </summary>
+        public string Text { get; }
+
+        /// <summary>
+        /// The color to use for a timing.
+        /// </summary>
         public string Timing { get; }
 
+        /// <summary>
+        /// The color to use for a verbose message.
+        /// </summary>
         public string Verbose { get; }
 
+        /// <summary>
+        /// The color to use for a warning.
+        /// </summary>
         public string Warning { get; }
 
+        /// <summary>
+        /// The string to use for a tree corner.
+        /// </summary>
         public string TreeCorner { get; }
 
+        /// <summary>
+        /// The string to use for a tree fork.
+        /// </summary>
         public string TreeFork { get; }
 
-        public string TreeDown { get; }
+        /// <summary>
+        /// The string to use for a tree line.
+        /// </summary>
+        public string TreeLine { get; }
 
+        /// <summary>
+        /// The string to use for a horizontal line.
+        /// </summary>
         public char Horizontal { get; }
 
+        /// <summary>
+        /// Strip colors from a specified <see cref="string"/>.
+        /// </summary>
+        /// <param name="text">The <see cref="string"/> from which to strip colors.</param>
+        /// <returns>A <see cref="string"/> representing the original string with colors stripped.</returns>
         public static string StripColors(string text)
         {
             if (string.IsNullOrWhiteSpace(text))

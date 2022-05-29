@@ -131,7 +131,7 @@ namespace Bullseye.Internal
                 noColor = true;
             }
 
-            var host = options.Host.DetectIfAutomatic();
+            var host = options.Host.DetectIfNull();
 
             var osPlatform =
                 RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
@@ -148,7 +148,7 @@ namespace Bullseye.Internal
                 args,
                 options.DryRun,
                 host,
-                options.Host != Host.Automatic,
+                options.Host != null,
                 noColor,
                 options.NoExtendedChars,
                 osPlatform,

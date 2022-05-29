@@ -76,10 +76,10 @@ namespace Bullseye.Internal
             var version = getVersion();
 
             var builder = new StringBuilder()
-                .AppendLine(Format(this.getPrefix(), "Bullseye version", $"{this.palette.Verbose}{version}{this.palette.Reset}", this.palette))
-                .AppendLine(Format(this.getPrefix(), "Host", $"{this.palette.Verbose}{this.host} ({(this.hostForced ? "forced" : "detected")}){this.palette.Reset}", this.palette))
-                .AppendLine(Format(this.getPrefix(), "OS", $"{this.palette.Verbose}{this.osPlatform.Humanize()}{this.palette.Reset}", this.palette))
-                .AppendLine(Format(this.getPrefix(), "Args", $"{this.palette.Verbose}{string.Join(" ", this.args)}{this.palette.Reset}", this.palette));
+                .AppendLine(Format(this.getPrefix(), "Bullseye version", $"{this.palette.Verbose}{version}{this.palette.Default}", this.palette))
+                .AppendLine(Format(this.getPrefix(), "Host", $"{this.palette.Verbose}{this.host} ({(this.hostForced ? "forced" : "detected")}){this.palette.Default}", this.palette))
+                .AppendLine(Format(this.getPrefix(), "OS", $"{this.palette.Verbose}{this.osPlatform.Humanize()}{this.palette.Default}", this.palette))
+                .AppendLine(Format(this.getPrefix(), "Args", $"{this.palette.Verbose}{string.Join(" ", this.args)}{this.palette.Default}", this.palette));
 
             await this.writer.WriteAsync(builder.ToString()).Tax();
         }
@@ -96,12 +96,12 @@ namespace Bullseye.Internal
             this.writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, "", this.palette));
 
         public Task Starting(IEnumerable<Target> targets) =>
-            this.writer.WriteLineAsync(Format(this.getPrefix(), targets, $"{this.palette.Default}{StartingMessage}{this.palette.Reset}", this.dryRun, this.parallel, this.skipDependencies, this.palette));
+            this.writer.WriteLineAsync(Format(this.getPrefix(), targets, $"{this.palette.Text}{StartingMessage}{this.palette.Default}", this.dryRun, this.parallel, this.skipDependencies, this.palette));
 
         public async Task Failed(IEnumerable<Target> targets)
         {
             var message = GetResultLines(this.results, this.totalDuration, this.getPrefix, this.palette)
-                + Format(this.getPrefix(), targets, $"{this.palette.Failed}{FailedMessage}{this.palette.Reset}", this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.palette);
+                + Format(this.getPrefix(), targets, $"{this.palette.Failure}{FailedMessage}{this.palette.Default}", this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.palette);
 
             await this.writer.WriteLineAsync(message).Tax();
         }
@@ -109,7 +109,7 @@ namespace Bullseye.Internal
         public async Task Succeeded(IEnumerable<Target> targets)
         {
             var message = GetResultLines(this.results, this.totalDuration, this.getPrefix, this.palette)
-                + Format(this.getPrefix(), targets, $"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.palette);
+                + Format(this.getPrefix(), targets, $"{this.palette.Success}{SucceededMessage}{this.palette.Default}", this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.palette);
 
             await this.writer.WriteLineAsync(message).Tax();
         }
@@ -118,7 +118,7 @@ namespace Bullseye.Internal
         {
             if (this.Verbose)
             {
-                await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Awaiting{this.palette.Reset}", dependencyPath, this.palette)).Tax();
+                await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Awaiting{this.palette.Default}", dependencyPath, this.palette)).Tax();
             }
         }
 
@@ -126,7 +126,7 @@ namespace Bullseye.Internal
         {
             if (this.Verbose)
             {
-                await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Walking dependencies{this.palette.Reset}", dependencyPath, this.palette)).Tax();
+                await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Walking dependencies{this.palette.Default}", dependencyPath, this.palette)).Tax();
             }
         }
 
@@ -134,7 +134,7 @@ namespace Bullseye.Internal
         {
             if (this.Verbose)
             {
-                await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Ignoring non-existent dependency:{this.palette.Reset} {this.palette.Target}{dependency}{this.palette.Reset}", dependencyPath, this.palette)).Tax();
+                await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Ignoring non-existent dependency:{this.palette.Default} {this.palette.Target}{dependency}{this.palette.Default}", dependencyPath, this.palette)).Tax();
             }
         }
 
@@ -142,7 +142,7 @@ namespace Bullseye.Internal
         {
             if (!this.parallel && this.host == Host.GitHubActions)
             {
-                await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.getPrefix()}:{this.palette.Reset} {this.palette.Target}{target}{this.palette.Reset}").Tax();
+                await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.getPrefix()}:{this.palette.Default} {this.palette.Target}{target}{this.palette.Default}").Tax();
             }
         }
 
@@ -150,7 +150,7 @@ namespace Bullseye.Internal
         {
             if (!this.parallel && this.host == Host.GitHubActions)
             {
-                await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.getPrefix()}:{this.palette.Reset} {this.palette.Target}{target}{this.palette.Default}/{this.palette.Input}{input}{this.palette.Reset}").Tax();
+                await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.getPrefix()}:{this.palette.Default} {this.palette.Target}{target}{this.palette.Text}/{this.palette.Input}{input}{this.palette.Default}").Tax();
             }
         }
 
@@ -166,11 +166,11 @@ namespace Bullseye.Internal
         {
             _ = this.InternResult(target);
 
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Default}{StartingMessage}{this.palette.Reset}", dependencyPath, this.palette));
+            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Text}{StartingMessage}{this.palette.Default}", dependencyPath, this.palette));
         }
 
         public Task Error(Target target, Exception ex) =>
-            this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failed}{ex}{this.palette.Reset}", this.palette));
+            this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failure}{ex}{this.palette.Default}", this.palette));
 
         public Task Failed(Target target, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
         {
@@ -180,7 +180,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", result.Duration, dependencyPath, this.palette));
+            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failure}{FailedMessage}{this.palette.Default} {this.palette.Failure}{ex.Message}{this.palette.Default}", result.Duration, dependencyPath, this.palette));
         }
 
         public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
@@ -191,7 +191,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", result.Duration, dependencyPath, this.palette));
+            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Success}{SucceededMessage}{this.palette.Default}", result.Duration, dependencyPath, this.palette));
         }
 
         public Task NoInputs(Target target, IReadOnlyCollection<Target> dependencyPath)
@@ -199,7 +199,7 @@ namespace Bullseye.Internal
             var result = this.InternResult(target);
             result.Outcome = TargetOutcome.NoInputs;
 
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Warning}{NoInputsMessage}{this.palette.Reset}", result.Duration, dependencyPath, this.palette));
+            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Warning}{NoInputsMessage}{this.palette.Default}", result.Duration, dependencyPath, this.palette));
         }
 
         public Task Starting<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
@@ -211,7 +211,7 @@ namespace Bullseye.Internal
         }
 
         public Task Error<TInput>(Target target, TInput input, Exception ex) =>
-            this.writer.WriteLineAsync(Format(this.getPrefix(), target, input, $"{this.palette.Failed}{ex}{this.palette.Reset}", this.palette));
+            this.writer.WriteLineAsync(Format(this.getPrefix(), target, input, $"{this.palette.Failure}{ex}{this.palette.Default}", this.palette));
 
         public Task Failed<TInput>(Target target, TInput input, Guid inputId, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
         {
@@ -226,7 +226,7 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, targetInputResult.Input, $"{this.palette.Failed}{FailedMessage}{this.palette.Reset} {this.palette.Failed}{ex.Message}{this.palette.Reset}", targetInputResult.Duration, dependencyPath, this.palette));
+            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, targetInputResult.Input, $"{this.palette.Failure}{FailedMessage}{this.palette.Default} {this.palette.Failure}{ex.Message}{this.palette.Default}", targetInputResult.Duration, dependencyPath, this.palette));
         }
 
         public Task Succeeded<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
@@ -241,49 +241,49 @@ namespace Bullseye.Internal
 
             this.totalDuration = this.totalDuration.Add(duration);
 
-            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, targetInputResult.Input, $"{this.palette.Succeeded}{SucceededMessage}{this.palette.Reset}", targetInputResult.Duration, dependencyPath, this.palette));
+            return this.writer.WriteLineAsync(Format(this.getPrefix(), target, targetInputResult.Input, $"{this.palette.Success}{SucceededMessage}{this.palette.Default}", targetInputResult.Duration, dependencyPath, this.palette));
         }
 
         // editorconfig-checker-disable
         private static string GetUsageLines(Palette p, string scriptExtension) =>
-$@"{p.Default}Usage:{p.Reset}
-  {p.Invocation}[invocation]{p.Reset} {p.Option}[options]{p.Reset} {p.Target}[<targets>...]{p.Reset}
+$@"{p.Text}Usage:{p.Default}
+  {p.Invocation}[invocation]{p.Default} {p.Option}[options]{p.Default} {p.Target}[<targets>...]{p.Default}
 
-{p.Default}Arguments:{p.Reset}
-  {p.Target}<targets>{p.Reset}    {p.Default}A list of targets to run or list. If not specified, the {p.Target}""default""{p.Default} target will be run, or all targets will be listed. Target names may be abbreviated. For example, {p.Target}""b""{p.Default} for {p.Target}""build""{p.Default}.{p.Reset}
+{p.Text}Arguments:{p.Default}
+  {p.Target}<targets>{p.Default}    {p.Text}A list of targets to run or list. If not specified, the {p.Target}""default""{p.Text} target will be run, or all targets will be listed. Target names may be abbreviated. For example, {p.Target}""b""{p.Text} for {p.Target}""build""{p.Text}.{p.Default}
 
-{p.Default}Options:{p.Reset}
-  {p.Option}-c{p.Default},{p.Reset} {p.Option}--clear{p.Reset}                {p.Default}Clear the console before execution{p.Reset}
-  {p.Option}-n{p.Default},{p.Reset} {p.Option}--dry-run{p.Reset}              {p.Default}Do a dry run without executing actions{p.Reset}
-  {p.Option}-d{p.Default},{p.Reset} {p.Option}--list-dependencies{p.Reset}    {p.Default}List all (or specified) targets and dependencies, then exit{p.Reset}
-  {p.Option}-i{p.Default},{p.Reset} {p.Option}--list-inputs{p.Reset}          {p.Default}List all (or specified) targets and inputs, then exit{p.Reset}
-  {p.Option}-l{p.Default},{p.Reset} {p.Option}--list-targets{p.Reset}         {p.Default}List all (or specified) targets, then exit{p.Reset}
-  {p.Option}-t{p.Default},{p.Reset} {p.Option}--list-tree{p.Reset}            {p.Default}List all (or specified) targets and dependency trees, then exit{p.Reset}
-  {p.Option}-N{p.Default},{p.Reset} {p.Option}--no-color{p.Reset}             {p.Default}Disable colored output{p.Reset}
-  {p.Option}-E{p.Default},{p.Reset} {p.Option}--no-extended-chars{p.Reset}    {p.Default}Disable extended characters{p.Reset}
-  {p.Option}-p{p.Default},{p.Reset} {p.Option}--parallel{p.Reset}             {p.Default}Run targets in parallel{p.Reset}
-  {p.Option}-s{p.Default},{p.Reset} {p.Option}--skip-dependencies{p.Reset}    {p.Default}Do not run targets' dependencies{p.Reset}
-  {p.Option}-v{p.Default},{p.Reset} {p.Option}--verbose{p.Reset}              {p.Default}Enable verbose output{p.Reset}
-  {p.Option}--appveyor{p.Reset}                 {p.Default}Force AppVeyor mode (normally auto-detected){p.Reset}
-  {p.Option}--console{p.Reset}                  {p.Default}Force console mode (normally auto-detected){p.Reset}
-  {p.Option}--github-actions{p.Reset}           {p.Default}Force GitHub Actions mode (normally auto-detected){p.Reset}
-  {p.Option}--gitlab-ci{p.Reset}                {p.Default}Force GitLab CI mode (normally auto-detected){p.Reset}
-  {p.Option}--teamcity{p.Reset}                 {p.Default}Force TeamCity mode (normally auto-detected){p.Reset}
-  {p.Option}--travis{p.Reset}                   {p.Default}Force Travis CI mode (normally auto-detected){p.Reset}
-  {p.Option}-?{p.Default},{p.Reset} {p.Option}-h{p.Default},{p.Reset} {p.Option}--help{p.Reset}             {p.Default}Show help and usage information, then exit (case insensitive){p.Reset}
+{p.Text}Options:{p.Default}
+  {p.Option}-c{p.Text},{p.Default} {p.Option}--clear{p.Default}                {p.Text}Clear the console before execution{p.Default}
+  {p.Option}-n{p.Text},{p.Default} {p.Option}--dry-run{p.Default}              {p.Text}Do a dry run without executing actions{p.Default}
+  {p.Option}-d{p.Text},{p.Default} {p.Option}--list-dependencies{p.Default}    {p.Text}List all (or specified) targets and dependencies, then exit{p.Default}
+  {p.Option}-i{p.Text},{p.Default} {p.Option}--list-inputs{p.Default}          {p.Text}List all (or specified) targets and inputs, then exit{p.Default}
+  {p.Option}-l{p.Text},{p.Default} {p.Option}--list-targets{p.Default}         {p.Text}List all (or specified) targets, then exit{p.Default}
+  {p.Option}-t{p.Text},{p.Default} {p.Option}--list-tree{p.Default}            {p.Text}List all (or specified) targets and dependency trees, then exit{p.Default}
+  {p.Option}-N{p.Text},{p.Default} {p.Option}--no-color{p.Default}             {p.Text}Disable colored output{p.Default}
+  {p.Option}-E{p.Text},{p.Default} {p.Option}--no-extended-chars{p.Default}    {p.Text}Disable extended characters{p.Default}
+  {p.Option}-p{p.Text},{p.Default} {p.Option}--parallel{p.Default}             {p.Text}Run targets in parallel{p.Default}
+  {p.Option}-s{p.Text},{p.Default} {p.Option}--skip-dependencies{p.Default}    {p.Text}Do not run targets' dependencies{p.Default}
+  {p.Option}-v{p.Text},{p.Default} {p.Option}--verbose{p.Default}              {p.Text}Enable verbose output{p.Default}
+  {p.Option}--appveyor{p.Default}                 {p.Text}Force AppVeyor mode (normally auto-detected){p.Default}
+  {p.Option}--console{p.Default}                  {p.Text}Force console mode (normally auto-detected){p.Default}
+  {p.Option}--github-actions{p.Default}           {p.Text}Force GitHub Actions mode (normally auto-detected){p.Default}
+  {p.Option}--gitlab-ci{p.Default}                {p.Text}Force GitLab CI mode (normally auto-detected){p.Default}
+  {p.Option}--teamcity{p.Default}                 {p.Text}Force TeamCity mode (normally auto-detected){p.Default}
+  {p.Option}--travis{p.Default}                   {p.Text}Force Travis CI mode (normally auto-detected){p.Default}
+  {p.Option}-?{p.Text},{p.Default} {p.Option}-h{p.Text},{p.Default} {p.Option}--help{p.Default}             {p.Text}Show help and usage information, then exit (case insensitive){p.Default}
 
-{p.Default}Remarks:{p.Reset}
-  {p.Default}The {p.Option}--list-xxx{p.Default} options may be combined.{p.Reset}
-  {p.Default}The {p.Invocation}invocation{p.Default} is typically a call to dotnet run, or the path to a script which wraps a call to dotnet run.{p.Reset}
+{p.Text}Remarks:{p.Default}
+  {p.Text}The {p.Option}--list-xxx{p.Text} options may be combined.{p.Default}
+  {p.Text}The {p.Invocation}invocation{p.Text} is typically a call to dotnet run, or the path to a script which wraps a call to dotnet run.{p.Default}
 
-{p.Default}Examples:{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Option}-d{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Option}-t{p.Reset} {p.Option}-i{p.Reset} {p.Target}default{p.Reset}
-  {p.Invocation}./build.{scriptExtension}{p.Reset} {p.Target}test{p.Reset} {p.Target}pack{p.Reset}
-  {p.Invocation}dotnet run --project targets --{p.Reset} {p.Option}-n{p.Reset} {p.Target}build{p.Reset}
+{p.Text}Examples:{p.Default}
+  {p.Invocation}./build.{scriptExtension}{p.Default}
+  {p.Invocation}./build.{scriptExtension}{p.Default} {p.Option}-d{p.Default}
+  {p.Invocation}./build.{scriptExtension}{p.Default} {p.Option}-t{p.Default} {p.Option}-i{p.Default} {p.Target}default{p.Default}
+  {p.Invocation}./build.{scriptExtension}{p.Default} {p.Target}test{p.Default} {p.Target}pack{p.Default}
+  {p.Invocation}dotnet run --project targets --{p.Default} {p.Option}-n{p.Default} {p.Target}build{p.Default}
 
-{p.Default}Targets:{p.Reset}
+{p.Text}Targets:{p.Default}
 "; // editorconfig-checker-enable
 
         private static string GetListLines(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs, string startingPrefix, Palette p)
@@ -316,7 +316,7 @@ $@"{p.Default}Usage:{p.Reset}
                     {
                         var prefix = isRoot
                             ? startingPrefix
-                            : $"{previousPrefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
+                            : $"{previousPrefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeLine, StringComparison.Ordinal)}{(item.index == names.Count - 1 ? p.TreeCorner : p.TreeFork)}";
 
                         var isMissing = !targets.Contains(item.name);
 
@@ -324,17 +324,17 @@ $@"{p.Default}Usage:{p.Reset}
 
                         if (isMissing)
                         {
-                            lines.Add((line + $"{p.Reset} {p.Failed}(missing){p.Reset}", ""));
+                            lines.Add((line + $"{p.Default} {p.Failure}(missing){p.Default}", ""));
                             continue;
                         }
 
                         if (circularDependency)
                         {
-                            lines.Add((line + $"{p.Reset} {p.Failed}(circular dependency){p.Reset}", targets[item.name].Description));
+                            lines.Add((line + $"{p.Default} {p.Failure}(circular dependency){p.Default}", targets[item.name].Description));
                             continue;
                         }
 
-                        lines.Add((line + p.Reset, targets[item.name].Description));
+                        lines.Add((line + p.Default, targets[item.name].Description));
 
                         var target = targets[item.name];
 
@@ -342,9 +342,9 @@ $@"{p.Default}Usage:{p.Reset}
                         {
                             foreach (var inputItem in hasInputs.Inputs.Select((input, index) => new { input, index, }))
                             {
-                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeDown, StringComparison.Ordinal)}{(target.Dependencies.Count > 0 && depth + 1 <= maxDepth ? p.TreeDown : "  ")}";
+                                var inputPrefix = $"{prefix.Replace(p.TreeCorner, "  ", StringComparison.Ordinal).Replace(p.TreeFork, p.TreeLine, StringComparison.Ordinal)}{(target.Dependencies.Count > 0 && depth + 1 <= maxDepth ? p.TreeLine : "  ")}";
 
-                                lines.Add(($"{inputPrefix}{p.Input}{inputItem.input}{p.Reset}", ""));
+                                lines.Add(($"{inputPrefix}{p.Input}{inputItem.input}{p.Default}", ""));
                             }
                         }
 

@@ -14,7 +14,7 @@ namespace Bullseye.Internal
             bool parallel,
             bool skipDependencies,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {message} {p.Target}({targets.Select(target => target.Name).Spaced()}){p.Reset}{(dryRun ? $" {p.Option}(dry run){p.Reset}" : "")}{(parallel ? $" {p.Option}(parallel){p.Reset}" : "")}{(skipDependencies ? $" {p.Option}(skip dependencies){p.Reset}" : "")}";
+            $"{p.Prefix}{prefix}:{p.Default} {message} {p.Target}({targets.Select(target => target.Name).Spaced()}){p.Default}{(dryRun ? $" {p.Option}(dry run){p.Default}" : "")}{(parallel ? $" {p.Option}(parallel){p.Default}" : "")}{(skipDependencies ? $" {p.Option}(skip dependencies){p.Default}" : "")}";
 
         private static string Format(
             string prefix,
@@ -25,14 +25,14 @@ namespace Bullseye.Internal
             bool skipDependencies,
             TimeSpan duration,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {message} {p.Target}({targets.Select(target => target.Name).Spaced()}){p.Reset}{(dryRun ? $" {p.Option}(dry run){p.Reset}" : "")}{(parallel ? $" {p.Option}(parallel){p.Reset}" : "")}{(skipDependencies ? $" {p.Option}(skip dependencies){p.Reset}" : "")} {p.Timing}({duration.Humanize()}){p.Reset}";
+            $"{p.Prefix}{prefix}:{p.Default} {message} {p.Target}({targets.Select(target => target.Name).Spaced()}){p.Default}{(dryRun ? $" {p.Option}(dry run){p.Default}" : "")}{(parallel ? $" {p.Option}(parallel){p.Default}" : "")}{(skipDependencies ? $" {p.Option}(skip dependencies){p.Default}" : "")} {p.Timing}({duration.Humanize()}){p.Default}";
 
         private static string Format(
             string prefix,
             Target target,
             string message,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}:{p.Reset} {message}";
+            $"{p.Prefix}{prefix}:{p.Default} {p.Target}{target}{p.Text}:{p.Default} {message}";
 
         private static string Format(
             string prefix,
@@ -40,7 +40,7 @@ namespace Bullseye.Internal
             string message,
             IReadOnlyCollection<Target> dependencyPath,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}:{p.Reset} {message}{FormatDependencyPath(dependencyPath, p)}";
+            $"{p.Prefix}{prefix}:{p.Default} {p.Target}{target}{p.Text}:{p.Default} {message}{FormatDependencyPath(dependencyPath, p)}";
 
         private static string Format(
             string prefix,
@@ -49,7 +49,7 @@ namespace Bullseye.Internal
             TimeSpan duration,
             IReadOnlyCollection<Target> dependencyPath,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}:{p.Reset} {message} {p.Timing}({duration.Humanize()}){p.Reset}{FormatDependencyPath(dependencyPath, p)}";
+            $"{p.Prefix}{prefix}:{p.Default} {p.Target}{target}{p.Text}:{p.Default} {message} {p.Timing}({duration.Humanize()}){p.Default}{FormatDependencyPath(dependencyPath, p)}";
 
         private static string Format<TInput>(
             string prefix,
@@ -57,7 +57,7 @@ namespace Bullseye.Internal
             TInput input,
             string message,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}/{p.Input}{input}{p.Default}:{p.Reset} {message}";
+            $"{p.Prefix}{prefix}:{p.Default} {p.Target}{target}{p.Text}/{p.Input}{input}{p.Text}:{p.Default} {message}";
 
         private static string Format<TInput>(
             string prefix,
@@ -66,7 +66,7 @@ namespace Bullseye.Internal
             string message,
             IReadOnlyCollection<Target> dependencyPath,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}/{p.Input}{input}{p.Default}:{p.Reset} {message}{FormatDependencyPath(dependencyPath, p)}";
+            $"{p.Prefix}{prefix}:{p.Default} {p.Target}{target}{p.Text}/{p.Input}{input}{p.Text}:{p.Default} {message}{FormatDependencyPath(dependencyPath, p)}";
 
         private static string Format<TInput>(
             string prefix,
@@ -76,16 +76,16 @@ namespace Bullseye.Internal
             TimeSpan duration,
             IReadOnlyCollection<Target> dependencyPath,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Target}{target}{p.Default}/{p.Input}{input}{p.Default}:{p.Reset} {message} {p.Timing}({duration.Humanize()}){p.Reset}{FormatDependencyPath(dependencyPath, p)}";
+            $"{p.Prefix}{prefix}:{p.Default} {p.Target}{target}{p.Text}/{p.Input}{input}{p.Text}:{p.Default} {message} {p.Timing}({duration.Humanize()}){p.Default}{FormatDependencyPath(dependencyPath, p)}";
 
         private static string Format(
             string prefix,
             string subject,
             string message,
             Palette p) =>
-            $"{p.Prefix}{prefix}:{p.Reset} {p.Verbose}{subject}:{p.Reset} {message}";
+            $"{p.Prefix}{prefix}:{p.Default} {p.Verbose}{subject}:{p.Default} {message}";
 
         private static string FormatDependencyPath(IReadOnlyCollection<Target> dependencyPath, Palette p) =>
-            dependencyPath.Count == 0 ? "" : $" {p.Verbose}(/{string.Join("/", dependencyPath)}){p.Reset}";
+            dependencyPath.Count == 0 ? "" : $" {p.Verbose}(/{string.Join("/", dependencyPath)}){p.Default}";
     }
 }

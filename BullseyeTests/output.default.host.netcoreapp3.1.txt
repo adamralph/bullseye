@@ -1,7 +1,7 @@
 ﻿
 noColor: True
 noExtendedChars: False
-host: Automatic
+host: AppVeyor
 hostForced: True
 osPlatform: Unknown
 skipDependencies: True
@@ -11,7 +11,7 @@ verbose: True
 args: arg1 arg2
 
 prefix1: Bullseye version: version
-prefix1: Host: Automatic (forced)
+prefix1: Host: AppVeyor (forced)
 prefix1: OS: Unknown
 prefix1: Args: arg1 arg2
 prefix1: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -83,7 +83,7 @@ prefix1: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependenci
 
 noColor: True
 noExtendedChars: True
-host: Automatic
+host: AppVeyor
 hostForced: False
 osPlatform: Unknown
 skipDependencies: False
@@ -93,7 +93,7 @@ verbose: True
 args: arg1 arg2
 
 prefix2: Bullseye version: version
-prefix2: Host: Automatic (detected)
+prefix2: Host: AppVeyor (detected)
 prefix2: OS: Unknown
 prefix2: Args: arg1 arg2
 prefix2: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)

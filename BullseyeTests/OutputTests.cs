@@ -71,7 +71,7 @@ namespace BullseyeTests
         }
 
         public static IEnumerable<object[]> Hosts() =>
-            ((Host[])Enum.GetValues(typeof(Host))).Where(host => host != Host.Automatic).Select(host => new object[] { host, });
+            ((Host[])Enum.GetValues(typeof(Host))).Select(host => new object[] { host, });
 
         private static async Task Write(
             TextWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostForced, OSPlatform osPlatform, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
