@@ -15,7 +15,7 @@ jobs:
           - name: macos
             os: macos-12
           - name: ubuntu
-            os: ubuntu-20.04
+            os: ubuntu-22.04
           - name: windows
             os: windows-2022
     name: ${{ matrix.job.name }}
