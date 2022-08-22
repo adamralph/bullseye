@@ -36,7 +36,7 @@ namespace Bullseye.Internal
             return new State(handle, oldMode, diagnostics, prefix);
         }
 
-        private class State : IAsyncDisposable
+        private sealed class State : IAsyncDisposable
         {
             private readonly IntPtr handle;
             private readonly NativeMethods.ConsoleOutputModes oldMode;
@@ -50,7 +50,7 @@ namespace Bullseye.Internal
                 NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(this.handle, this.oldMode, this.diagnostics, this.getMessagePrefix);
         }
 
-        private class NullAsyncDisposable : IAsyncDisposable
+        private sealed class NullAsyncDisposable : IAsyncDisposable
         {
             public Task DisposeAsync() => Task.CompletedTask;
         }

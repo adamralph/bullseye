@@ -115,7 +115,7 @@ namespace Bullseye.Internal
                 text.PadRight(totalWidth + (text.Length - Palette.StripColors(text).Length), paddingChar);
         }
 
-        private class TargetResult
+        private sealed class TargetResult
         {
             public TargetResult(int ordinal) => this.Ordinal = ordinal;
 
@@ -128,7 +128,7 @@ namespace Bullseye.Internal
             public ConcurrentDictionary<Guid, TargetInputResult> InputResults { get; } = new ConcurrentDictionary<Guid, TargetInputResult>();
         }
 
-        private class TargetInputResult
+        private sealed class TargetInputResult
         {
             public TargetInputResult(int ordinal) => this.Ordinal = ordinal;
 
@@ -141,7 +141,7 @@ namespace Bullseye.Internal
             public TimeSpan Duration { get; set; }
         }
 
-        private class SummaryRow
+        private sealed class SummaryRow
         {
             public SummaryRow(string targetOrInput, string outcome, string duration, string percentage)
             {
