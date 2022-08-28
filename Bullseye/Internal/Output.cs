@@ -250,7 +250,7 @@ $@"{p.Default}Usage:{p.Reset}
   {p.Invocation}[invocation]{p.Reset} {p.Option}[options]{p.Reset} {p.Target}[<targets>...]{p.Reset}
 
 {p.Default}Arguments:{p.Reset}
-  {p.Target}<targets>{p.Reset}    {p.Default}A list of targets to run or list. If not specified, the {p.Target}""default""{p.Default} target will be run, or all targets will be listed.{p.Reset}
+  {p.Target}<targets>{p.Reset}    {p.Default}A list of targets to run or list. If not specified, the {p.Target}""default""{p.Default} target will be run, or all targets will be listed. Target names may be abbreviated. For example, {p.Target}""b""{p.Default} for {p.Target}""build""{p.Default}.{p.Reset}
 
 {p.Default}Options:{p.Reset}
   {p.Option}-c{p.Default},{p.Reset} {p.Option}--clear{p.Reset}                {p.Default}Clear the console before execution{p.Reset}
