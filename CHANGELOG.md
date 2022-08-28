@@ -2,6 +2,10 @@
 
 ## 4.1.0
 
+### Enhancements
+
+- [#809: Target name abbreviation](https://github.com/adamralph/bullseye/pull/809)
+
 ### Fixed bugs
 
 - [#749: Help text remarks are not coloured correctly](https://github.com/adamralph/bullseye/issues/749)
