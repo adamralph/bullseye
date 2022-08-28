@@ -52,6 +52,44 @@ namespace BullseyeTests
         }
 
         [Fact]
+        public static async Task TargetNameAbbreviation()
+        {
+            // arrange
+            var (foo, bar) = (false, false);
+
+            var targets = new TargetCollection
+            {
+                CreateTarget(nameof(foo), () => foo = true),
+                CreateTarget(nameof(bar), () => bar = true),
+            };
+
+            // act
+            await targets.RunAsync(new List<string> { nameof(foo)[..1], }, _ => false, () => "", Console.Out, Console.Error, false);
+
+            // assert
+            Assert.True(foo);
+            Assert.False(bar);
+        }
+
+        [Fact]
+        public static async Task AmbiguousTargetNameAbbreviation()
+        {
+            // arrange
+            var targets = new TargetCollection
+            {
+                CreateTarget("foo1", () => { }),
+                CreateTarget("foo2", () => { }),
+            };
+
+            // act
+            var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "f", }, _ => false, () => "", Console.Out, Console.Error, false));
+
+            // assert
+            Assert.NotNull(exception);
+            Assert.Contains("ambiguous target", exception.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
         public static async Task SingleNonExistent()
         {
             // arrange
