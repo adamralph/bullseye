@@ -209,6 +209,8 @@ namespace Bullseye.Internal
                 return;
             }
 
+            names = targets.Expand(names).ToList();
+
             if (listTree || listDependencies || listInputs || listTargets)
             {
                 var rootTargets = names.Count > 0 ? names : (IEnumerable<string>)targets.Select(target => target.Name).OrderBy(name => name);
@@ -222,6 +224,29 @@ namespace Bullseye.Internal
             names = names.Count > 0 ? names : new List<string> { "default", };
 
             await targets.RunAsync(names, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
+        }
+
+        private static IEnumerable<string> Expand(this TargetCollection targets, IEnumerable<string> names)
+        {
+            var ambiguousNames = new List<string>();
+
+            foreach (var name in names)
+            {
+                var matches = targets.Where(target => target.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                if (matches.Count > 1)
+                {
+                    ambiguousNames.Add($"{name} ({matches.Select(target => target.Name).Spaced()})");
+                    continue;
+                }
+
+                yield return matches.Any() ? matches[0].Name : name;
+            }
+
+            if (ambiguousNames.Any())
+            {
+                throw new InvalidUsageException($"Ambiguous target{(ambiguousNames.Count > 1 ? "s" : "")}: {ambiguousNames.Spaced()}");
+            }
         }
     }
 }
