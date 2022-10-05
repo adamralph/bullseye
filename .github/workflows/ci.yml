@@ -26,7 +26,7 @@ jobs:
           dotnet-version: |
             3.1.422
             6.0.400
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0
       - run: ./build --logger GitHubActions
