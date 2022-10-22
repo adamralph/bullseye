@@ -232,6 +232,13 @@ namespace Bullseye.Internal
 
             foreach (var name in names)
             {
+                var match = targets.SingleOrDefault(target => target.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                if (match != null)
+                {
+                    yield return name;
+                    continue;
+                }
+
                 var matches = targets.Where(target => target.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase)).ToList();
 
                 if (matches.Count > 1)
