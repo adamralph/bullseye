@@ -72,6 +72,26 @@ namespace BullseyeTests
         }
 
         [Fact]
+        public static async Task TargetNameAbbreviationWithTargetMatchingAbbreviation()
+        {
+            // arrange
+            var (foo, foo1) = (false, false);
+
+            var targets = new TargetCollection
+            {
+                CreateTarget(nameof(foo), () => foo = true),
+                CreateTarget(nameof(foo1), () => foo1 = true),
+            };
+
+            // act
+            await targets.RunAsync(new List<string> { nameof(foo), }, _ => false, () => "", Console.Out, Console.Error, false);
+
+            // assert
+            Assert.True(foo);
+            Assert.False(foo1);
+        }
+
+        [Fact]
         public static async Task AmbiguousTargetNameAbbreviation()
         {
             // arrange
