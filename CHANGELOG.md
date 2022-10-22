@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.1
+
+### Fixed bugs
+
+- [#820: Cannot run a target with a name that another target name starts with](https://github.com/adamralph/bullseye/issues/820)
+
 ## 4.1.0
 
 ### Enhancements
