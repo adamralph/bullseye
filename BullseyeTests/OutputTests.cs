@@ -14,7 +14,7 @@ namespace BullseyeTests
     public static class OutputTests
     {
         [Fact]
-        public static async Task Output()
+        public static async Task DefaultHost()
         {
             // arrange
             await using var output = new StringWriter();
@@ -26,33 +26,52 @@ namespace BullseyeTests
                 await Write(output, noColor: true, noExtendedChars: !@bool, host: default, hostForced: @bool, OSPlatform.Create("Unknown"), skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, new[] { "arg1", "arg2", }, ordinal++);
             }
 
+            // assert
+#if NETCOREAPP3_1
+            var expectedPath = "../../../output.default.host.netcoreapp3.1.txt";
+#endif
+#if NET6_0
+            var expectedPath = "../../../output.default.host.net6.0.txt";
+#endif
+
+            await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
+        }
+
+        [Theory]
+        [MemberData(nameof(Hosts))]
+        public static async Task AllHosts(Host host)
+        {
+            // arrange
+            await using var output = new StringWriter();
+            var ordinal = 1;
+
             foreach (var noColor in new[] { true, false, })
             {
-                foreach (var host in (Host[])Enum.GetValues(typeof(Host)))
-                {
-                    foreach (var osPlatform in new List<OSPlatform>
-                        {
-                            OSPlatform.Create("Unknown"),
-                            OSPlatform.Windows,
-                            OSPlatform.Linux,
-                            OSPlatform.OSX,
-                        })
+                foreach (var osPlatform in new List<OSPlatform>
                     {
-                        await Write(output, noColor, noExtendedChars: false, host, hostForced: true, osPlatform, skipDependencies: true, dryRun: true, parallel: true, verbose: true, args: new List<string>(), ordinal++);
-                    }
+                        OSPlatform.Create("Unknown"),
+                        OSPlatform.Windows,
+                        OSPlatform.Linux,
+                        OSPlatform.OSX,
+                    })
+                {
+                    await Write(output, noColor, noExtendedChars: false, host, hostForced: true, osPlatform, skipDependencies: true, dryRun: true, parallel: true, verbose: true, args: new List<string>(), ordinal++);
                 }
             }
 
             // assert
 #if NETCOREAPP3_1
-            var expectedPath = "../../../output.netcoreapp3.1.txt";
+            var expectedPath = $"../../../output.all.hosts.{host}.netcoreapp3.1.txt";
 #endif
 #if NET6_0
-            var expectedPath = "../../../output.net6.0.txt";
+            var expectedPath = $"../../../output.all.hosts.{host}.net6.0.txt";
 #endif
 
             await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
         }
+
+        public static IEnumerable<object[]> Hosts() =>
+            ((Host[])Enum.GetValues(typeof(Host))).Where(host => host != Host.Automatic).Select(host => new object[] { host, });
 
         private static async Task Write(
             TextWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostForced, OSPlatform osPlatform, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
