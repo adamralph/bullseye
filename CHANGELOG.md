@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.0
+
+### Enhancements
+
+- [#800: make Palette and HostExtensions public](https://github.com/adamralph/bullseye/pull/800)
+
 ## 4.1.1
 
 ### Fixed bugs
