@@ -1,14 +1,14 @@
 #nullable enable
 Bullseye.CommandLine
 Bullseye.Host
-Bullseye.Host.AppVeyor = 1 -> Bullseye.Host
-Bullseye.Host.Automatic = 0 -> Bullseye.Host
-Bullseye.Host.Console = 2 -> Bullseye.Host
-Bullseye.Host.GitHubActions = 3 -> Bullseye.Host
-Bullseye.Host.GitLabCI = 4 -> Bullseye.Host
-Bullseye.Host.TeamCity = 5 -> Bullseye.Host
-Bullseye.Host.Travis = 6 -> Bullseye.Host
-Bullseye.Host.VisualStudioCode = 7 -> Bullseye.Host
+Bullseye.Host.AppVeyor = 0 -> Bullseye.Host
+Bullseye.Host.Console = 1 -> Bullseye.Host
+Bullseye.Host.GitHubActions = 2 -> Bullseye.Host
+Bullseye.Host.GitLabCI = 3 -> Bullseye.Host
+Bullseye.Host.TeamCity = 4 -> Bullseye.Host
+Bullseye.Host.Travis = 5 -> Bullseye.Host
+Bullseye.Host.VisualStudioCode = 6 -> Bullseye.Host
+Bullseye.HostExtensions
 Bullseye.InvalidUsageException
 Bullseye.InvalidUsageException.InvalidUsageException() -> void
 Bullseye.InvalidUsageException.InvalidUsageException(string! message) -> void
@@ -16,7 +16,7 @@ Bullseye.InvalidUsageException.InvalidUsageException(string! message, System.Exc
 Bullseye.IOptions
 Bullseye.IOptions.Clear.get -> bool
 Bullseye.IOptions.DryRun.get -> bool
-Bullseye.IOptions.Host.get -> Bullseye.Host
+Bullseye.IOptions.Host.get -> Bullseye.Host?
 Bullseye.IOptions.ListDependencies.get -> bool
 Bullseye.IOptions.ListInputs.get -> bool
 Bullseye.IOptions.ListTargets.get -> bool
@@ -31,7 +31,7 @@ Bullseye.Options.Clear.get -> bool
 Bullseye.Options.Clear.set -> void
 Bullseye.Options.DryRun.get -> bool
 Bullseye.Options.DryRun.set -> void
-Bullseye.Options.Host.get -> Bullseye.Host
+Bullseye.Options.Host.get -> Bullseye.Host?
 Bullseye.Options.Host.set -> void
 Bullseye.Options.ListDependencies.get -> bool
 Bullseye.Options.ListDependencies.set -> void
@@ -53,6 +53,24 @@ Bullseye.Options.SkipDependencies.get -> bool
 Bullseye.Options.SkipDependencies.set -> void
 Bullseye.Options.Verbose.get -> bool
 Bullseye.Options.Verbose.set -> void
+Bullseye.Palette
+Bullseye.Palette.Default.get -> string!
+Bullseye.Palette.Failure.get -> string!
+Bullseye.Palette.Horizontal.get -> char
+Bullseye.Palette.Input.get -> string!
+Bullseye.Palette.Invocation.get -> string!
+Bullseye.Palette.Option.get -> string!
+Bullseye.Palette.Palette(bool noColor, bool noExtendedChars, Bullseye.Host host, System.Runtime.InteropServices.OSPlatform osPlatform) -> void
+Bullseye.Palette.Prefix.get -> string!
+Bullseye.Palette.Success.get -> string!
+Bullseye.Palette.Target.get -> string!
+Bullseye.Palette.Text.get -> string!
+Bullseye.Palette.Timing.get -> string!
+Bullseye.Palette.TreeCorner.get -> string!
+Bullseye.Palette.TreeFork.get -> string!
+Bullseye.Palette.TreeLine.get -> string!
+Bullseye.Palette.Verbose.get -> string!
+Bullseye.Palette.Warning.get -> string!
 Bullseye.TargetFailedException
 Bullseye.TargetFailedException.TargetFailedException() -> void
 Bullseye.TargetFailedException.TargetFailedException(string! message) -> void
@@ -82,7 +100,9 @@ Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<s
 Bullseye.Targets.RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string!>! targets, Bullseye.IOptions! options, System.Collections.Generic.IEnumerable<string!>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception!, bool>? messageOnly = null, System.Func<string!>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
 Bullseye.Targets.Targets() -> void
 static Bullseye.CommandLine.Parse(System.Collections.Generic.IEnumerable<string!>! args) -> (System.Collections.Generic.IReadOnlyList<string!>! Targets, Bullseye.Options! Options, System.Collections.Generic.IReadOnlyList<string!>! UnknownOptions, bool showHelp)
+static Bullseye.HostExtensions.DetectIfNull(this Bullseye.Host? host) -> Bullseye.Host
 static Bullseye.Options.Definitions.get -> System.Collections.Generic.IReadOnlyList<(System.Collections.Generic.IReadOnlyList<string!>! Aliases, string! Description)>!
+static Bullseye.Palette.StripColors(string! text) -> string!
 static Bullseye.Targets.DependsOn(params string![]! dependencies) -> string![]!
 static Bullseye.Targets.ForEach<TInput>(params TInput[]! inputs) -> TInput[]!
 static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, System.Func<string!>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!

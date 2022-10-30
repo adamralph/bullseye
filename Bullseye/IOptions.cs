@@ -63,6 +63,6 @@ namespace Bullseye
         /// <summary>
         /// Gets a value indicating which mode to use for a specific host environment.
         /// </summary>
-        Host Host { get; }
+        Host? Host { get; }
     }
 }

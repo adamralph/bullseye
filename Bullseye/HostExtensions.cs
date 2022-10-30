@@ -1,14 +1,22 @@
 using System;
 
-namespace Bullseye.Internal
+namespace Bullseye
 {
+    /// <summary>
+    /// Contains extension methods for <see cref="Host"/>.
+    /// </summary>
     public static class HostExtensions
     {
-        public static Host DetectIfAutomatic(this Host host)
+        /// <summary>
+        /// Detects the host if the current host is <c>null</c>.
+        /// </summary>
+        /// <param name="host">The current host.</param>
+        /// <returns>The current or detected host.</returns>
+        public static Host DetectIfNull(this Host? host)
         {
-            if (host != Host.Automatic)
+            if (host != null)
             {
-                return host;
+                return host.Value;
             }
 
             if (Environment.GetEnvironmentVariable("APPVEYOR")?.ToUpperInvariant() == "TRUE")
