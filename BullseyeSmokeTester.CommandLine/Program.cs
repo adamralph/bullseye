@@ -9,10 +9,10 @@ var foo = new Option<string>(new[] { "--foo", "-f", }, "A value used for somethi
 
 #pragma warning disable IDE0028
 var cmd = new RootCommand { foo, };
-#pragma warning restore IDE0028
 
 // translate from Bullseye to System.CommandLine
 cmd.Add(new Argument<string[]>("targets") { Description = "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed.", });
+#pragma warning restore IDE0028
 foreach (var (aliases, description) in Options.Definitions)
 {
     cmd.Add(new Option<bool>(aliases.ToArray(), description));
