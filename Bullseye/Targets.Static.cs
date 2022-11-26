@@ -5,7 +5,7 @@ namespace Bullseye
     /// </summary>
     public partial class Targets
     {
-        private static readonly Targets instance = new Targets();
+        private static readonly Targets instance = new();
 
         /// <summary>
         /// Cosmetic method for defining an array of <see cref="string"/>.

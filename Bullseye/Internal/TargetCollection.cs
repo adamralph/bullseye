@@ -9,7 +9,7 @@ namespace Bullseye.Internal
 {
     public class TargetCollection : KeyedCollection<string, Target>
     {
-        private static readonly Queue<Target> rootDependencyPath = new Queue<Target>();
+        private static readonly Queue<Target> rootDependencyPath = new();
 
         public TargetCollection() : base(StringComparer.OrdinalIgnoreCase) { }
 
@@ -111,7 +111,7 @@ namespace Bullseye.Internal
             }
 
             bool targetWasAlreadyStarted;
-            Task runningTarget;
+            Task? runningTarget;
 
             // cannot use WaitAsync() as it is not reentrant
 #pragma warning disable CA1849 // Call async methods when in an async method

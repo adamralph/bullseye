@@ -13,7 +13,7 @@ namespace Bullseye
     /// </summary>
     public partial class Targets
     {
-        private static readonly List<string> defaultList = new List<string>();
+        private static readonly List<string> defaultList = new();
         private static readonly Func<Exception, bool> defaultMessageOnly = _ => false;
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Bullseye
 
             if (Assembly.GetEntryAssembly() is { } entryAssembly)
             {
-                messagePrefix = entryAssembly.GetName().Name;
+                messagePrefix = entryAssembly.GetName().Name ?? messagePrefix;
             }
             else
             {
