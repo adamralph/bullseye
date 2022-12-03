@@ -16,7 +16,7 @@ namespace Bullseye.Internal
             bool Parallel,
             bool SkipDependencies,
             bool Verbose,
-            Host Host,
+            Host? Host,
             IReadOnlyList<string> UnknownOptions)
             Read(IEnumerable<string> options)
         {
@@ -31,7 +31,7 @@ namespace Bullseye.Internal
             var parallel = false;
             var skipDependencies = false;
             var verbose = false;
-            var host = default(Host);
+            Host? host = null;
             var unknownOptions = new List<string>();
 
             foreach (var option in options)
