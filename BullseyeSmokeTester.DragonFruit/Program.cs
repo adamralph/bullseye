@@ -20,6 +20,7 @@ internal static class Program
     /// <param name="listTargets">List all (or specified) targets, then exit.</param>
     /// <param name="listTree">List all (or specified) targets and dependency trees, then exit.</param>
     /// <param name="noColor">Disable colored output.</param>
+    /// <param name="noExtendedChars">Disable extended characters.</param>
     /// <param name="parallel">Run targets in parallel.</param>
     /// <param name="skipDependencies">Do not run targets' dependencies.</param>
     /// <param name="verbose">Enable verbose output.</param>
@@ -34,6 +35,7 @@ internal static class Program
         bool listTargets,
         bool listTree,
         bool noColor,
+        bool noExtendedChars,
         bool parallel,
         bool skipDependencies,
         bool verbose)
@@ -48,6 +50,7 @@ internal static class Program
             ListTargets = listTargets,
             ListTree = listTree,
             NoColor = noColor,
+            NoExtendedChars = noExtendedChars,
             Parallel = parallel,
             SkipDependencies = skipDependencies,
             Verbose = verbose,
