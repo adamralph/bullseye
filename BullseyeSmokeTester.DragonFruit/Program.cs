@@ -29,7 +29,7 @@ internal static class Program
         string[] targets,
         bool clear,
         bool dryRun,
-        Host host,
+        Host? host,
         bool listDependencies,
         bool listInputs,
         bool listTargets,
