@@ -16,74 +16,49 @@ _[![GitLab CI/CD smoke test status](https://img.shields.io/gitlab/pipeline/adamr
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
 
-Bullseye targets can do anything. They are not restricted to building .NET projects.
+Bullseye is primarily designed as a build tool for .NET projects, and is usually used together with [SimpleExec](https://gitlab.com/adamralph/simple-exec), but Bullseye targets can do anything. They are not restricted to building .NET projects.
 
 Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
 <!-- spell-checker:disable -->
 - [Quick start](#quick-start)
-- [Defining dependencies](#defining-dependencies)
 - [Enumerable inputs](#enumerable-inputs)
 - [Sample wrapper scripts](#sample-wrapper-scripts)
 - [Command-line arguments](#command-line-arguments)
 - [Non-static API](#non-static-api)
-- [NO_COLOR](#no_color)
-- [FAQ](#faq)
+- [NO\_COLOR](#no_color)
 - [Who's using Bullseye?](#whos-using-bullseye)
-  <!-- spell-checker:enable -->
+<!-- spell-checker:enable -->
 
 ## Quick start
 
-- Create a .NET console app named `targets` and add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye).
-- Replace the contents of `Program.cs` with:
+- Next to an existing .NET solution (`.sln` file), add a .NET console app named `targets` — `dotnet new console --name targets`
+- Add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye) — `dotnet add targets package Bullseye`
+- Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExeNew) — `dotnet add targets package SimpleExec`
+- Replace the contents of `targets/Program.cs` with:
 
   ```c#
-  using static System.Console;
   using static Bullseye.Targets;
+  using static SimpleExec.Command;
 
-  Target("default", () => WriteLine("Hello, world!"));
-  await RunTargetsAndExitAsync(args);
+  Target("build", () => RunAsync("dotnet", "build"));
+  Target("test", DependsOn("build"), () => RunAsync("dotnet", "test"));
+  Target("default", DependsOn("test"));
+
+  await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException);
   ```
 
-- Run the app. E.g. `dotnet run` or F5 in Visual Studio:
+- From the folder containing the `.sln` file, run the targets project — `dotnet run --project targets`.
 
-Voilà! You've just written and run your first Bullseye program. You will see output similar to:
+Voilà! You've just written and run your first Bullseye build program. You will see output similar to:
 
 <img src="https://user-images.githubusercontent.com/677704/147760642-36018691-4710-41be-bd65-5dcfac121fc5.png" width="357px" />
 
-For help, run `dotnet run -- --help`.
-
-Also see the [async quick start](https://github.com/adamralph/bullseye/wiki/Async-quick-start).
-
-## Defining dependencies
-
-```c#
-Target("make-tea", () => Console.WriteLine("Tea made."));
-Target("drink-tea", DependsOn("make-tea"), () => Console.WriteLine("Ahh... lovely!"));
-Target("walk-dog", () => Console.WriteLine("Walkies!"));
-Target("default", DependsOn("drink-tea", "walk-dog"));
-```
-
-<img src="https://user-images.githubusercontent.com/677704/147761129-6eaced64-0a6f-4dea-bf73-57780f5d1124.png" width="374px" />
-
-## Enumerable inputs
-
-```c#
-Target(
-    "eat-biscuits",
-    ForEach("digestives", "chocolate hobnobs"),
-    biscuits => Console.WriteLine($"Mmm...{biscuits}! Nom nom."));
-```
-
-```shell
-dotnet run -- eat-biscuits
-```
-
-<img src="https://user-images.githubusercontent.com/677704/147761855-76d3a77a-4342-4b00-913b-a52188a65793.png" width="491px" />
+For help, run `dotnet run --project targets --help`.
 
 ## Sample wrapper scripts
 
-- `build`
+- `build` (Linux and macOS)
 
   ```shell
   #!/usr/bin/env bash
@@ -91,12 +66,29 @@ dotnet run -- eat-biscuits
   dotnet run --project targets -- "$@"
   ```
 
-- `build.cmd`
+- `build.cmd` (Windows)
 
   ```batchfile
   @echo Off
   dotnet run --project targets -- %*
   ```
+
+## Enumerable inputs
+
+For example, you may want to run your test projects one by one, so that the timing of each one and which one, if any, failed, is displayed in the Bullseye build summary:
+
+```c#
+Target(
+    "test",
+    ForEach("MySolutionTests1", "MySolutionTests2"),
+    project => RunAsync($"dotnet test {project}")));
+```
+
+```shell
+dotnet run -- test
+```
+
+<img src="https://user-images.githubusercontent.com/677704/147761855-76d3a77a-4342-4b00-913b-a52188a65793.png" width="491px" />
 
 ## Command-line arguments
 
@@ -138,26 +130,6 @@ await targets2.RunWithoutExitingAsync(args);
 ## NO_COLOR
 
 Bullseye supports [NO_COLOR](https://no-color.org/).
-
-## FAQ
-
-### Can I force a pause before exiting when debugging in Visual Studio 2017 (or earlier)?
-
-Yes! Add the following line anywhere before calling `RunTargetsAndExitAsync`:
-
-```c#
-AppDomain.CurrentDomain.ProcessExit += (s, e) => Console.ReadKey();
-```
-
-Note that the common way to do this for .NET console apps is to add a line such as the following before the end of the `Program.Main` method:
-
-```c#
-Console.ReadKey();
-```
-
-This does not work after calling `RunTargetsAndExitAsync` because that is the final statement that will be executed.
-
-In Visual Studio 2019 and later, .NET console apps pause before exiting by default, so none of this is required.
 
 ## Who's using Bullseye?
 
