@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.1
+
+### Fixed bugs
+
+- [#841: Host is not auto-detected](https://github.com/adamralph/bullseye/issues/841)
+
 ## 4.2.0
 
 ### Enhancements
