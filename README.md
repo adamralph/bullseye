@@ -38,16 +38,11 @@ Platform support: [.NET Standard 2.1 and later](https://docs.microsoft.com/en-us
 - Replace the contents of `Program.cs` with:
 
   ```c#
+  using static System.Console;
   using static Bullseye.Targets;
 
-  class Program
-  {
-      static async Task Main(string[] args)
-      {
-          Target("default", () => System.Console.WriteLine("Hello, world!"));
-          await RunTargetsAndExitAsync(args);
-      }
-  }
+  Target("default", () => WriteLine("Hello, world!"));
+  await RunTargetsAndExitAsync(args);
   ```
 
 - Run the app. E.g. `dotnet run` or F5 in Visual Studio:
