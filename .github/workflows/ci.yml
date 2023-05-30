@@ -21,7 +21,7 @@ jobs:
     name: ${{ matrix.job.name }}
     runs-on: ${{ matrix.job.os }}
     steps:
-      - uses: actions/setup-dotnet@v3.1.0
+      - uses: actions/setup-dotnet@v3.2.0
         with:
           dotnet-version: |
             6.0.403
