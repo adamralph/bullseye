@@ -27,9 +27,6 @@ namespace BullseyeTests
             }
 
             // assert
-#if NETCOREAPP3_1
-            var expectedPath = "../../../output.default.host.netcoreapp3.1.txt";
-#endif
 #if NET6_0
             var expectedPath = "../../../output.default.host.net6.0.txt";
 #endif
@@ -63,9 +60,6 @@ namespace BullseyeTests
             }
 
             // assert
-#if NETCOREAPP3_1
-            var expectedPath = $"../../../output.all.hosts.{host}.netcoreapp3.1.txt";
-#endif
 #if NET6_0
             var expectedPath = $"../../../output.all.hosts.{host}.net6.0.txt";
 #endif
@@ -135,15 +129,15 @@ namespace BullseyeTests
 
             var looseTarget = new Target("looseTarget", "", Enumerable.Empty<string>());
 
-            var looseTargets = new List<Target> { new Target("looseTarget", "", Enumerable.Empty<string>()), };
+            var looseTargets = new List<Target> { new("looseTarget", "", Enumerable.Empty<string>()), };
 
             var noInputsTarget = new Target("noInputsTarget", "", Enumerable.Empty<string>());
 
             var targets = new List<Target>
             {
-                new Target("target1", "", Enumerable.Empty<string>()),
-                new Target("target2", "", Enumerable.Empty<string>()),
-                new Target("target3", "", Enumerable.Empty<string>()),
+                new("target1", "", Enumerable.Empty<string>()),
+                new("target2", "", Enumerable.Empty<string>()),
+                new("target3", "", Enumerable.Empty<string>()),
             };
 
             var verboseTargets = new Queue<Target>(

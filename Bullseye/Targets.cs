@@ -7,6 +7,6 @@ namespace Bullseye
     /// </summary>
     public partial class Targets
     {
-        private readonly TargetCollection targetCollection = new TargetCollection();
+        private readonly TargetCollection targetCollection = new();
     }
 }

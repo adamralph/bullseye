@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,17 +11,17 @@ namespace Bullseye.Internal
 {
     public partial class Output
     {
-        private readonly ConcurrentDictionary<Target, TargetResult> results = new ConcurrentDictionary<Target, TargetResult>();
+        private readonly ConcurrentDictionary<Target, TargetResult> results = new();
 
         private int resultOrdinal;
         private TimeSpan totalDuration;
 
-        private TargetResult InternResult(Target target) => this.results.GetOrAdd(target, key => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+        private TargetResult InternResult(Target target) => this.results.GetOrAdd(target, _ => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
 
         private (TargetResult, TargetInputResult) Intern(Target target, Guid inputId)
         {
             var targetResult = this.InternResult(target);
-            var targetInputResult = targetResult.InputResults.GetOrAdd(inputId, key => new TargetInputResult(Interlocked.Increment(ref this.resultOrdinal)));
+            var targetInputResult = targetResult.InputResults.GetOrAdd(inputId, _ => new TargetInputResult(Interlocked.Increment(ref this.resultOrdinal)));
 
             return (targetResult, targetInputResult);
         }
@@ -30,7 +31,7 @@ namespace Bullseye.Internal
             // whitespace (e.g. can change to '·' for debugging)
             var ws = ' ';
 
-            var rows = new List<SummaryRow> { new SummaryRow($"{p.Text}Target{p.Default}", $"{p.Text}Outcome{p.Default}", $"{p.Text}Duration{p.Default}", ""), };
+            var rows = new List<SummaryRow> { new($"{p.Text}Target{p.Default}", $"{p.Text}Outcome{p.Default}", $"{p.Text}Duration{p.Default}", ""), };
 
             foreach (var (target, targetResult) in results.OrderBy(i => i.Value.Ordinal))
             {
@@ -91,22 +92,22 @@ namespace Bullseye.Internal
             var builder = new StringBuilder();
 
             // summary start separator
-            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
+            _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
 
             // header
-            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Default} {Prp(rows[0].TargetOrInput, tarW, ws)}{ws}{ws}{Prp(rows[0].Outcome, outW, ws)}{ws}{ws}{Prp(rows[0].Duration, timW, ws)}");
+            _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {Prp(rows[0].TargetOrInput, tarW, ws)}{ws}{ws}{Prp(rows[0].Outcome, outW, ws)}{ws}{ws}{Prp(rows[0].Duration, timW, ws)}");
 
             // header separator
-            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", outW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", timW, p.Horizontal)}{p.Default}");
+            _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", outW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", timW, p.Horizontal)}{p.Default}");
 
             // targets
             foreach (var row in rows.Skip(1))
             {
-                _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Default} {Prp(row.TargetOrInput, tarW, ws)}{p.Default}{ws}{ws}{Prp(row.Outcome, outW, ws)}{p.Default}{ws}{ws}{Prp(row.Duration, durW, ws)}{p.Default}{ws}{ws}{Prp(row.Percentage, perW, ws)}{p.Default}");
+                _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {Prp(row.TargetOrInput, tarW, ws)}{p.Default}{ws}{ws}{Prp(row.Outcome, outW, ws)}{p.Default}{ws}{ws}{Prp(row.Duration, durW, ws)}{p.Default}{ws}{ws}{Prp(row.Percentage, perW, ws)}{p.Default}");
             }
 
             // summary end separator
-            _ = builder.AppendLine($"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
+            _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
 
             return builder.ToString();
 
@@ -125,7 +126,7 @@ namespace Bullseye.Internal
 
             public TimeSpan Duration { get; set; }
 
-            public ConcurrentDictionary<Guid, TargetInputResult> InputResults { get; } = new ConcurrentDictionary<Guid, TargetInputResult>();
+            public ConcurrentDictionary<Guid, TargetInputResult> InputResults { get; } = new();
         }
 
         private sealed class TargetInputResult
