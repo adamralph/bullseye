@@ -22,8 +22,8 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
 
 <!-- spell-checker:disable -->
 - [Quick start](#quick-start)
-- [Enumerable inputs](#enumerable-inputs)
 - [Sample wrapper scripts](#sample-wrapper-scripts)
+- [Enumerable inputs](#enumerable-inputs)
 - [Command-line arguments](#command-line-arguments)
 - [Non-static API](#non-static-api)
 - [NO\_COLOR](#no_color)
@@ -33,6 +33,7 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
 ## Quick start
 
 - Next to an existing .NET solution (`.sln` file), add a .NET console app named `targets` — `dotnet new console --name targets`
+- Switch to the new directory — `cd targets`
 - Add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye) — `dotnet add targets package Bullseye`
 - Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExeNew) — `dotnet add targets package SimpleExec`
 - Replace the contents of `targets/Program.cs` with:
@@ -48,7 +49,8 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
   await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException);
   ```
 
-- From the folder containing the `.sln` file, run the targets project — `dotnet run --project targets`.
+- Switch to the solution directory — `cd ..`
+- Run the targets project — `dotnet run --project targets`.
 
 Voilà! You've just written and run your first Bullseye build program. You will see output similar to:
 
