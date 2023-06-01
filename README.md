@@ -33,7 +33,7 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
 ## Quick start
 
 - Next to an existing .NET solution (`.sln` file), add a .NET console app named `targets` — `dotnet new console --name targets`
-- Switch to the new directory — `cd targets`
+- Change to the new directory — `cd targets`
 - Add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye) — `dotnet add targets package Bullseye`
 - Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExeNew) — `dotnet add targets package SimpleExec`
 - Replace the contents of `targets/Program.cs` with:
@@ -49,7 +49,7 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
   await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException);
   ```
 
-- Switch to the solution directory — `cd ..`
+- Change to the solution directory — `cd ..`
 - Run the targets project — `dotnet run --project targets`.
 
 Voilà! You've just written and run your first Bullseye build program. You will see output similar to:
