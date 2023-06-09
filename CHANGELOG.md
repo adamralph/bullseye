@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.0.0
+
+### Enhancements
+
+- [#839: **[BREAKING]** switch from netstandard2.1 to net6.0 and net7.0](https://github.com/adamralph/bullseye/pull/839)
+
 ## 4.2.1
 
 ### Fixed bugs
