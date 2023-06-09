@@ -29,7 +29,7 @@ namespace BullseyeTests
             Assert.False(result.Options.SkipDependencies);
             Assert.False(result.Options.Verbose);
 
-            Assert.False(result.showHelp);
+            Assert.False(result.ShowHelp);
             Assert.Empty(result.Targets);
             Assert.Empty(result.UnknownOptions);
         }
@@ -76,7 +76,7 @@ namespace BullseyeTests
             Assert.True(result.Options.SkipDependencies);
             Assert.True(result.Options.Verbose);
 
-            Assert.True(result.showHelp);
+            Assert.True(result.ShowHelp);
             Assert.Equal(new[] { "target0", "target1", }, result.Targets);
             Assert.Equal(new[] { "-0", "-1", }, result.UnknownOptions);
         }
@@ -123,7 +123,7 @@ namespace BullseyeTests
             Assert.True(result.Options.SkipDependencies);
             Assert.True(result.Options.Verbose);
 
-            Assert.True(result.showHelp);
+            Assert.True(result.ShowHelp);
             Assert.Equal(new[] { "target0", "target1", }, result.Targets);
             Assert.Equal(new[] { "--unknown0", "--unknown1", }, result.UnknownOptions);
         }
