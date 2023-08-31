@@ -5,9 +5,7 @@ using static Bullseye.Targets;
 #pragma warning disable IDE0160 // Convert to block scoped namespace
 namespace BullseyeSmokeTester.DragonFruit;
 #pragma warning restore IDE0160 // Convert to block scoped namespace
-#pragma warning disable CA1812 // Avoid uninstantiated internal classes
 internal static class Program
-#pragma warning restore CA1812 // Avoid uninstantiated internal classes
 {
     /// <summary>Run or list targets.</summary>
     /// <param name="foo">A value used for something.</param>
