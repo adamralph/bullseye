@@ -4,6 +4,10 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      xunit:
+        patterns:
+          - "xunit.*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
