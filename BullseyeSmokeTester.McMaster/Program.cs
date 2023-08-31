@@ -1,4 +1,3 @@
-#pragma warning disable CA1852 // https://github.com/dotnet/roslyn-analyzers/issues/6141
 using System.Linq;
 using Bullseye;
 using McMaster.Extensions.CommandLineUtils;
