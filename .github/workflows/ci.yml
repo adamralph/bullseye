@@ -31,7 +31,7 @@ jobs:
           fetch-depth: 0
       - run: ./build --logger GitHubActions
       - if: matrix.job.name == 'ubuntu'
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: NuGet packages
           path: ./**/*.nupkg
