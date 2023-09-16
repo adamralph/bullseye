@@ -6,6 +6,10 @@
 
 - [#839: **[BREAKING]** switch from netstandard2.1 to net6.0 and net7.0](https://github.com/adamralph/bullseye/pull/839)
 
+### Fixed bugs
+
+- [#878: **[BREAKING]** ShowHelp is incorrectly cased on CommandLine.Parse return type](https://github.com/adamralph/bullseye/pull/878)
+
 ## 4.2.1
 
 ### Fixed bugs
