@@ -5,6 +5,7 @@
 ### Enhancements
 
 - [#839: **[BREAKING]** switch from netstandard2.1 to net6.0 and net7.0](https://github.com/adamralph/bullseye/pull/839)
+- [#905: include build metadata in informational version](https://github.com/adamralph/bullseye/pull/905)
 
 ### Fixed bugs
 
