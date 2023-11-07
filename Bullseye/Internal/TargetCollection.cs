@@ -11,7 +11,28 @@ namespace Bullseye.Internal
     {
         private static readonly Queue<Target> rootDependencyPath = new();
 
-        public TargetCollection() : base(StringComparer.OrdinalIgnoreCase) { }
+        private bool ran;
+
+        public TargetCollection() : base(StringComparer.OrdinalIgnoreCase) => AppDomain.CurrentDomain.ProcessExit += this.OnProcessExit;
+
+        private void OnProcessExit(object? sender, EventArgs e)
+        {
+            Console.WriteLine("OnProcessExit");
+            if (this.ran)
+            {
+                return;
+            }
+
+            this.ran = true;
+
+            this.RunAsync(
+                Environment.GetCommandLineArgs().ToList(),
+                Targets.defaultMessageOnly,
+                Targets.GetDefaultGetMessagePrefix(Console.Error).GetAwaiter().GetResult(),
+                Console.Out,
+                Console.Error,
+                true).GetAwaiter().GetResult();
+        }
 
         protected override string GetKeyForItem(Target item) => item.Name;
 
@@ -23,6 +44,8 @@ namespace Bullseye.Internal
             Func<Exception, bool> messageOnly,
             Output output)
         {
+            this.ran = true;
+
             if (!skipDependencies)
             {
                 this.CheckForMissingDependencies();

@@ -125,9 +125,9 @@ if (targetNames.Contains("large-graph"))
 
 if (!showHelp)
 {
-    await targets.RunWithoutExitingAsync(targetNames, options, unknownOptions);
+    //await targets.RunWithoutExitingAsync(targetNames, options, unknownOptions);
 }
 
 var line = 0;
 
-await RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException, () => $"{line++} targets");
+//await RunTargetsAndExitAsync(args, ex => ex is InvalidOperationException, () => $"{line++} targets");

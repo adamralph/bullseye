@@ -18,7 +18,7 @@ namespace Bullseye
 #else
         private static readonly List<string> defaultList = new();
 #endif
-        private static readonly Func<Exception, bool> defaultMessageOnly = _ => false;
+        public static readonly Func<Exception, bool> defaultMessageOnly = _ => false;
 
         /// <summary>
         /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -164,7 +164,7 @@ namespace Bullseye
                 diagnosticsWriter ?? Console.Error,
                 false).Tax();
 
-        private static async Task<Func<string>> GetDefaultGetMessagePrefix(TextWriter diagnosticsWriter)
+        public static async Task<Func<string>> GetDefaultGetMessagePrefix(TextWriter diagnosticsWriter)
         {
             var messagePrefix = "Bullseye";
 
