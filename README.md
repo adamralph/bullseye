@@ -16,7 +16,7 @@ _[![GitLab CI/CD smoke test status](https://img.shields.io/gitlab/pipeline/adamr
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
 
-Bullseye is primarily designed as a build tool for .NET projects, and is usually used together with [SimpleExec](https://gitlab.com/adamralph/simple-exec), but Bullseye targets can do anything. They are not restricted to building .NET projects.
+Bullseye is primarily designed as a build tool for .NET projects, and is usually used together with [SimpleExec](https://github.com/adamralph/simple-exec), but Bullseye targets can do anything. They are not restricted to building .NET projects.
 
 Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 
