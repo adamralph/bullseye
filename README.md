@@ -35,7 +35,7 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
 - Next to an existing .NET solution (`.sln` file), add a .NET console app named `targets` — `dotnet new console --name targets`
 - Change to the new directory — `cd targets`
 - Add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye) — `dotnet add package Bullseye`
-- Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExeNew) — `dotnet add package SimpleExec`
+- Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExec) — `dotnet add package SimpleExec`
 - Replace the contents of `targets/Program.cs` with:
 
   ```c#
