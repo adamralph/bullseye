@@ -4,10 +4,10 @@
 
 _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](https://www.nuget.org/packages/Bullseye)_
 
-_[![Build status](https://github.com/adamralph/bullseye/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/adamralph/bullseye/actions/workflows/ci.yml?query=branch%3Amain)_
-_[![CodeQL analysis](https://github.com/adamralph/bullseye/workflows/.github/workflows/codeql-analysis.yml/badge.svg)](https://github.com/adamralph/bullseye/actions/workflows/codeql-analysis.yml?query=branch%3Amain)_
-_[![Lint](https://github.com/adamralph/bullseye/workflows/.github/workflows/lint.yml/badge.svg)](https://github.com/adamralph/bullseye/actions/workflows/lint.yml?query=branch%3Amain)_
-_[![Spell check](https://github.com/adamralph/bullseye/workflows/.github/workflows/spell-check.yml/badge.svg)](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml?query=branch%3Amain)_
+_[![Build status](https://github.com/adamralph/bullseye/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/adamralph/bullseye/actions/workflows/ci.yml)_
+_[![CodeQL analysis](https://github.com/adamralph/bullseye/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/adamralph/bullseye/actions/workflows/codeql-analysis.yml)_
+_[![Lint](https://github.com/adamralph/bullseye/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/adamralph/bullseye/actions/workflows/lint.yml)_
+_[![Spell check](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml/badge.svg?branch=main)](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml)_
 
 _[![AppVeyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/main.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/main)_
 _[![CircleCI smoke test status](https://img.shields.io/circleci/build/github/adamralph/bullseye/main?logo=circleci&label=CircleCI)](https://circleci.com/gh/adamralph/bullseye/tree/main)_
