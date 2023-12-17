@@ -17,21 +17,28 @@ namespace Bullseye.Internal
 
         private void OnProcessExit(object? sender, EventArgs e)
         {
-            Console.WriteLine("OnProcessExit");
-            if (this.ran)
+            try
             {
-                return;
+                Console.WriteLine("OnProcessExit");
+                if (this.ran)
+                {
+                    return;
+                }
+
+                this.ran = true;
+
+                this.RunAsync(
+                    Environment.GetCommandLineArgs().ToList(),
+                    Targets.defaultMessageOnly,
+                    Targets.GetDefaultGetMessagePrefix(Console.Error).GetAwaiter().GetResult(),
+                    Console.Out,
+                    Console.Error,
+                    false).GetAwaiter().GetResult();
             }
-
-            this.ran = true;
-
-            this.RunAsync(
-                Environment.GetCommandLineArgs().ToList(),
-                Targets.defaultMessageOnly,
-                Targets.GetDefaultGetMessagePrefix(Console.Error).GetAwaiter().GetResult(),
-                Console.Out,
-                Console.Error,
-                true).GetAwaiter().GetResult();
+            finally
+            {
+                // Environment.Exit();
+            }
         }
 
         protected override string GetKeyForItem(Target item) => item.Name;
