@@ -6,10 +6,13 @@
 
 - [#839: **[BREAKING]** switch from netstandard2.1 to net6.0 and net7.0](https://github.com/adamralph/bullseye/pull/839)
 - [#905: include build metadata in informational version](https://github.com/adamralph/bullseye/pull/905)
+- [#908: target .NET 8](https://github.com/adamralph/bullseye/pull/908)
+- [#923: specify DLL search path for GetStdHandle](https://github.com/adamralph/bullseye/pull/923)
 
 ### Fixed bugs
 
 - [#878: **[BREAKING]** ShowHelp is incorrectly cased on CommandLine.Parse return type](https://github.com/adamralph/bullseye/pull/878)
+- [#924: Parallel does not parallelize the ForEach params in the Target when the target is run as a dependency](https://github.com/adamralph/bullseye/issues/924)
 
 ## 4.2.1
 
