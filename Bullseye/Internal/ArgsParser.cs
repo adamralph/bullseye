@@ -40,7 +40,11 @@ namespace Bullseye.Internal
                 showHelp: nonHelpArgs.Count != args.Count);
         }
 
+#if NET8_0_OR_GREATER
+        private static bool IsTarget(string arg) => !arg.StartsWith('-');
+#else
         private static bool IsTarget(string arg) => !arg.StartsWith("-", StringComparison.Ordinal);
+#endif
 
         private static bool IsNotTarget(string arg) => !IsTarget(arg);
     }

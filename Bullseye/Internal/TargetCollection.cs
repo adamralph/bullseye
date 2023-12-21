@@ -205,7 +205,11 @@ namespace Bullseye.Internal
                 {
                     _ = (missingDependencies.TryGetValue(dependency, out var set)
                             ? set
+#if NET8_0_OR_GREATER
+                            : missingDependencies[dependency] = [])
+#else
                             : missingDependencies[dependency] = new SortedSet<string>())
+#endif
                         .Add(target.Name);
                 }
             }

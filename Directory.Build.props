@@ -6,6 +6,8 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!-- workaround for https://github.com/dotnet/roslyn/issues/41640 -->
+    <NoWarn>EnableGenerateDocumentationFile</NoWarn>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

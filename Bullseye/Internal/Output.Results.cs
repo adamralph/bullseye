@@ -116,12 +116,17 @@ namespace Bullseye.Internal
                 text.PadRight(totalWidth + (text.Length - Palette.StripColors(text).Length), paddingChar);
         }
 
+#if NET8_0_OR_GREATER
+        private sealed class TargetResult(int ordinal)
+        {
+            public int Ordinal { get; } = ordinal;
+#else
         private sealed class TargetResult
         {
             public TargetResult(int ordinal) => this.Ordinal = ordinal;
 
             public int Ordinal { get; }
-
+#endif
             public TargetOutcome Outcome { get; set; }
 
             public TimeSpan Duration { get; set; }
@@ -129,12 +134,17 @@ namespace Bullseye.Internal
             public ConcurrentDictionary<Guid, TargetInputResult> InputResults { get; } = new();
         }
 
+#if NET8_0_OR_GREATER
+        private sealed class TargetInputResult(int ordinal)
+        {
+            public int Ordinal { get; } = ordinal;
+#else
         private sealed class TargetInputResult
         {
             public TargetInputResult(int ordinal) => this.Ordinal = ordinal;
 
             public int Ordinal { get; }
-
+#endif
             public object? Input { get; set; }
 
             public TargetInputOutcome Outcome { get; set; }
@@ -142,24 +152,7 @@ namespace Bullseye.Internal
             public TimeSpan Duration { get; set; }
         }
 
-        private sealed class SummaryRow
-        {
-            public SummaryRow(string targetOrInput, string outcome, string duration, string percentage)
-            {
-                this.TargetOrInput = targetOrInput;
-                this.Outcome = outcome;
-                this.Duration = duration;
-                this.Percentage = percentage;
-            }
-
-            public string TargetOrInput { get; }
-
-            public string Outcome { get; }
-
-            public string Duration { get; }
-
-            public string Percentage { get; }
-        }
+        private sealed record SummaryRow(string TargetOrInput, string Outcome, string Duration, string Percentage);
 
         private enum TargetOutcome
         {

@@ -7,6 +7,10 @@ namespace Bullseye
     /// </summary>
     public partial class Targets
     {
+#if NET8_0_OR_GREATER
+        private readonly TargetCollection targetCollection = [];
+#else
         private readonly TargetCollection targetCollection = new();
+#endif
     }
 }

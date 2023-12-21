@@ -247,10 +247,10 @@ namespace Bullseye.Internal
                     continue;
                 }
 
-                yield return matches.Any() ? matches[0].Name : name;
+                yield return matches.Count != 0 ? matches[0].Name : name;
             }
 
-            if (ambiguousNames.Any())
+            if (ambiguousNames.Count != 0)
             {
                 throw new InvalidUsageException($"Ambiguous target{(ambiguousNames.Count > 1 ? "s" : "")}: {ambiguousNames.Spaced()}");
             }
