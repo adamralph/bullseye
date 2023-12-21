@@ -8,6 +8,45 @@ using System.Threading.Tasks;
 
 namespace Bullseye.Internal
 {
+#if NET8_0_OR_GREATER
+    public partial class Output(
+        TextWriter writer,
+        TextWriter diagnosticsWriter,
+        IReadOnlyCollection<string> args,
+        bool dryRun,
+        Host host,
+        bool hostForced,
+        bool noColor,
+        bool noExtendedChars,
+        OSPlatform osPlatform,
+        bool parallel,
+        Func<string> getPrefix,
+        bool skipDependencies,
+        bool verbose)
+    {
+        private const string NoInputsMessage = "No inputs!";
+        private const string StartingMessage = "Starting...";
+        private const string FailedMessage = "FAILED!";
+        private const string SucceededMessage = "Succeeded";
+
+        private readonly TextWriter writer = writer;
+        private readonly TextWriter diagnosticsWriter = diagnosticsWriter;
+
+        private readonly IReadOnlyCollection<string> args = args;
+        private readonly bool dryRun = dryRun;
+        private readonly Host host = host;
+        private readonly bool hostForced = hostForced;
+        private readonly bool noColor = noColor;
+        private readonly OSPlatform osPlatform = osPlatform;
+        private readonly bool parallel = parallel;
+        private readonly Func<string> getPrefix = getPrefix;
+        private readonly bool skipDependencies = skipDependencies;
+
+        private readonly Palette palette = new(noColor, noExtendedChars, host, osPlatform);
+        private readonly string scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
+
+        public bool Verbose { get; } = verbose;
+#else
     public partial class Output
     {
         private const string NoInputsMessage = "No inputs!";
@@ -65,7 +104,7 @@ namespace Bullseye.Internal
             this.palette = new Palette(noColor, noExtendedChars, host, osPlatform);
             this.scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
         }
-
+#endif
         public async Task Header(Func<string> getVersion)
         {
             if (!this.Verbose)

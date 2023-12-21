@@ -33,6 +33,9 @@ namespace BullseyeTests
 #if NET7_0
             var expectedPath = "../../../output.default.host.net7.0.txt";
 #endif
+#if NET8_0
+            var expectedPath = "../../../output.default.host.net8.0.txt";
+#endif
 
             await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
         }
@@ -65,6 +68,9 @@ namespace BullseyeTests
 #endif
 #if NET7_0
             var expectedPath = $"../../../output.all.hosts.{host}.net7.0.txt";
+#endif
+#if NET8_0
+            var expectedPath = $"../../../output.all.hosts.{host}.net8.0.txt";
 #endif
 
             await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
