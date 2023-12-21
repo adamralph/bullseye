@@ -161,7 +161,7 @@ namespace Bullseye.Internal
                 }
                 else
                 {
-                    await this.RunAsync(this[dependency], explicitTargets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync, dependencyPath).Tax();
+                    await this.RunAsync(this[dependency], explicitTargets, dryRun, parallel, skipDependencies, messageOnly, output, runningTargets, sync, dependencyPath).Tax();
                 }
             }
 
