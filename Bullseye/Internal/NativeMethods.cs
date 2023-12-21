@@ -26,6 +26,7 @@ namespace Bullseye.Internal
         public static extern IntPtr GetStdHandle(StdHandle nStdHandle);
 #else
         [LibraryImport("kernel32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static partial nint GetStdHandle(StdHandle nStdHandle);
 #endif
 
