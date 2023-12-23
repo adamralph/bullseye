@@ -76,8 +76,16 @@ namespace BullseyeTests
             await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
         }
 
-        public static IEnumerable<object[]> Hosts() =>
-            ((Host[])Enum.GetValues(typeof(Host))).Select(host => new object[] { host, });
+        public static TheoryData<Host> Hosts()
+        {
+            var hosts = new TheoryData<Host>();
+            foreach (var host in Enum.GetValues(typeof(Host)))
+            {
+                hosts.Add((Host)host);
+            }
+
+            return hosts;
+        }
 
         private static async Task Write(
             TextWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostForced, OSPlatform osPlatform, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
