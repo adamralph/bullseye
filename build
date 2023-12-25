@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo "${0##*/}": Formatting...
+dotnet format --verify-no-changes
+
 echo "${0##*/}": Building...
 dotnet build --configuration Release --nologo
 
