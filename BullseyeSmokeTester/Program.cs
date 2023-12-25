@@ -9,13 +9,13 @@ using static Bullseye.Targets;
 // spell-checker:disable
 Target("default", DependsOn("world", "exclaim", "echo", "single", "combo", "no-inputs"));
 
-Target("hell\"o", "Says hello", async () => await Console.Out.WriteLineAsync("Hello"));
+Target("hell\"o", "Says hello", () => Console.Out.WriteLineAsync("Hello"));
 
-Target("comma", DependsOn("hell\"o"), async () => await Console.Out.WriteLineAsync(", "));
+Target("comma", DependsOn("hell\"o"), () => Console.Out.WriteLineAsync(", "));
 
-Target("world", DependsOn("comma"), async () => await Console.Out.WriteLineAsync("World"));
+Target("world", DependsOn("comma"), () => Console.Out.WriteLineAsync("World"));
 
-Target("exclaim", DependsOn("world"), async () => await Console.Out.WriteLineAsync("!"));
+Target("exclaim", DependsOn("world"), () => Console.Out.WriteLineAsync("!"));
 
 // spell-checker:enable
 var foos = new[] { "a", "b", null, };
@@ -24,13 +24,11 @@ var bars = new[] { 1, 2, };
 Target(
     "foo",
     "foos",
-    ForEach(10, 20, 30, (int?)null),
-    async delay => await Task.Delay(delay ?? 0));
+    ForEach(10, 20, 30, (int?)null), delay => Task.Delay(delay ?? 0));
 
 Target(
     "bar",
-    "bars",
-    async () => await Task.Delay(1));
+    "bars", () => Task.Delay(1));
 
 Target(
     "echo",
@@ -101,8 +99,8 @@ Target(
     });
 
 var targets = new Targets();
-targets.Add("abc", async () => await Console.Out.WriteLineAsync("abc"));
-targets.Add("def", DependsOn("abc"), async () => await Console.Out.WriteLineAsync("def"));
+targets.Add("abc", () => Console.Out.WriteLineAsync("abc"));
+targets.Add("def", DependsOn("abc"), () => Console.Out.WriteLineAsync("def"));
 targets.Add("default", DependsOn("def"));
 
 var largeGraph = new Targets();

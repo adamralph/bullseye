@@ -4,28 +4,27 @@ using Bullseye.Internal;
 using Xunit;
 using static BullseyeTests.Infra.Helper;
 
-namespace BullseyeTests
+namespace BullseyeTests;
+
+public static class CaseInsensitivity
 {
-    public static class CaseInsensitivity
+    [Fact]
+    public static async Task MixingCase()
     {
-        [Fact]
-        public static async Task MixingCase()
+        // arrange
+        var (first, second) = (false, false);
+
+        var targets = new TargetCollection
         {
-            // arrange
-            var (first, second) = (false, false);
+            CreateTarget("first", () => first = true),
+            CreateTarget("second", new[] { "FIRST", }, () => second = true),
+        };
 
-            var targets = new TargetCollection
-            {
-                CreateTarget("first", () => first = true),
-                CreateTarget("second", new[] { "FIRST", }, () => second = true),
-            };
+        // act
+        await targets.RunAsync(new[] { "SECOND", }, _ => false, () => "", Console.Out, Console.Error, false);
 
-            // act
-            await targets.RunAsync(new[] { "SECOND", }, _ => false, () => "", Console.Out, Console.Error, false);
-
-            // assert
-            Assert.True(first);
-            Assert.True(second);
-        }
+        // assert
+        Assert.True(first);
+        Assert.True(second);
     }
 }

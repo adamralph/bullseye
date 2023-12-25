@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 
-namespace Bullseye.Internal
+namespace Bullseye.Internal;
+
+public interface IHaveInputs
 {
-    public interface IHaveInputs
-    {
-        IEnumerable<object?> Inputs { get; }
-    }
+    IEnumerable<object?> Inputs { get; }
 }

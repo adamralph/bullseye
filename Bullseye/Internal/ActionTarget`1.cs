@@ -4,98 +4,97 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bullseye.Internal
-{
+namespace Bullseye.Internal;
+
 #if NET8_0_OR_GREATER
-    public class ActionTarget<TInput>(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
-        : Target(name, description, dependencies), IHaveInputs
-    {
-        private readonly IEnumerable<TInput> inputs = inputs;
-        private readonly Func<TInput, Task> action = action;
+public class ActionTarget<TInput>(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
+    : Target(name, description, dependencies), IHaveInputs
+{
+    private readonly IEnumerable<TInput> inputs = inputs;
+    private readonly Func<TInput, Task> action = action;
 #else
-    public class ActionTarget<TInput> : Target, IHaveInputs
+public class ActionTarget<TInput> : Target, IHaveInputs
+{
+    private readonly IEnumerable<TInput> inputs;
+    private readonly Func<TInput, Task> action;
+
+    public ActionTarget(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
+        : base(name, description, dependencies)
     {
-        private readonly IEnumerable<TInput> inputs;
-        private readonly Func<TInput, Task> action;
-
-        public ActionTarget(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
-            : base(name, description, dependencies)
-        {
-            this.inputs = inputs;
-            this.action = action;
-        }
+        this.inputs = inputs;
+        this.action = action;
+    }
 #endif
-        public IEnumerable<object?> Inputs => this.inputs.Cast<object?>();
+    public IEnumerable<object?> Inputs => this.inputs.Cast<object?>();
 
-        public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+    public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+    {
+        var inputsList = this.inputs.ToList();
+
+        if (inputsList.Count == 0)
         {
-            var inputsList = this.inputs.ToList();
-
-            if (inputsList.Count == 0)
-            {
-                await output.NoInputs(this, dependencyPath).Tax();
-                return;
-            }
-
-            if (parallel)
-            {
-                var tasks = inputsList.Select(input => this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath)).ToList();
-
-                await Task.WhenAll(tasks).Tax();
-            }
-            else
-            {
-                foreach (var input in inputsList)
-                {
-                    await this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
-                }
-            }
+            await output.NoInputs(this, dependencyPath).Tax();
+            return;
         }
 
-        private async Task RunAsync(TInput input, Guid id, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+        if (parallel)
         {
-            await output.BeginGroup(this, input).Tax();
+            var tasks = inputsList.Select(input => this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath)).ToList();
 
-            try
+            await Task.WhenAll(tasks).Tax();
+        }
+        else
+        {
+            foreach (var input in inputsList)
             {
-                await output.Starting(this, input, id, dependencyPath).Tax();
-
-                var stopWatch = new Stopwatch();
-
-                if (!dryRun)
-                {
-                    await this.RunAsync(input, id, output, messageOnly, dependencyPath, stopWatch).Tax();
-                }
-
-                await output.Succeeded(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
-            }
-            finally
-            {
-                await output.EndGroup().Tax();
+                await this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
             }
         }
+    }
 
-        private async Task RunAsync(TInput input, Guid id, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath, Stopwatch stopWatch)
+    private async Task RunAsync(TInput input, Guid id, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+    {
+        await output.BeginGroup(this, input).Tax();
+
+        try
         {
-            stopWatch.Start();
+            await output.Starting(this, input, id, dependencyPath).Tax();
 
-            try
+            var stopWatch = new Stopwatch();
+
+            if (!dryRun)
             {
-                await this.action(input).Tax();
+                await this.RunAsync(input, id, output, messageOnly, dependencyPath, stopWatch).Tax();
             }
-            catch (Exception ex)
+
+            await output.Succeeded(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
+        }
+        finally
+        {
+            await output.EndGroup().Tax();
+        }
+    }
+
+    private async Task RunAsync(TInput input, Guid id, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath, Stopwatch stopWatch)
+    {
+        stopWatch.Start();
+
+        try
+        {
+            await this.action(input).Tax();
+        }
+        catch (Exception ex)
+        {
+            var duration = stopWatch.Elapsed;
+
+            if (!messageOnly(ex))
             {
-                var duration = stopWatch.Elapsed;
-
-                if (!messageOnly(ex))
-                {
-                    await output.Error(this, input, ex).Tax();
-                }
-
-                await output.Failed(this, input, id, ex, duration, dependencyPath).Tax();
-
-                throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
+                await output.Error(this, input, ex).Tax();
             }
+
+            await output.Failed(this, input, id, ex, duration, dependencyPath).Tax();
+
+            throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
         }
     }
 }

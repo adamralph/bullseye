@@ -16,18 +16,18 @@ foreach (var (aliases, description) in Options.Definitions)
     cmd.Add(new Option<bool>(aliases.ToArray(), description));
 }
 
-cmd.SetHandler(async () =>
+cmd.SetHandler(() =>
 {
     // translate from System.CommandLine to Bullseye
     var cmdLine = cmd.Parse(args);
     var targets = cmdLine.CommandResult.Tokens.Select(token => token.Value);
     var options = new Options(Options.Definitions.Select(d => (d.Aliases[0], cmdLine.GetValueForOption(cmd.Options.OfType<Option<bool>>().Single(o => o.HasAlias(d.Aliases[0]))))));
 
-    Target("build", async () => await System.Console.Out.WriteLineAsync($"foo = {cmdLine.GetValueForOption(foo)}"));
+    Target("build", () => System.Console.Out.WriteLineAsync($"foo = {cmdLine.GetValueForOption(foo)}"));
 
     Target("default", DependsOn("build"));
 
-    await RunTargetsAndExitAsync(targets, options);
+    return RunTargetsAndExitAsync(targets, options);
 });
 
 return await cmd.InvokeAsync(args);
