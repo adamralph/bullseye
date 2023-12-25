@@ -22,7 +22,7 @@ internal static class Program
     /// <param name="parallel">Run targets in parallel.</param>
     /// <param name="skipDependencies">Do not run targets' dependencies.</param>
     /// <param name="verbose">Enable verbose output.</param>
-    private static async Task Main(
+    private static Task Main(
         string foo,
         string[] targets,
         bool clear,
@@ -54,10 +54,10 @@ internal static class Program
             Verbose = verbose,
         };
 
-        Target("build", async () => await System.Console.Out.WriteLineAsync($"foo = {foo}"));
+        Target("build", () => System.Console.Out.WriteLineAsync($"foo = {foo}"));
 
         Target("default", DependsOn("build"));
 
-        await RunTargetsAndExitAsync(targets, options);
+        return RunTargetsAndExitAsync(targets, options);
     }
 }

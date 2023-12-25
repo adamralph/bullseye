@@ -14,17 +14,17 @@ foreach (var (aliases, description) in Options.Definitions)
     _ = app.Option(string.Join("|", aliases), description, CommandOptionType.NoValue);
 }
 
-app.OnExecuteAsync(async _ =>
+app.OnExecuteAsync(_ =>
 {
     // translate from McMaster.Extensions.CommandLineUtils to Bullseye
     var targets = app.Arguments[0].Values.OfType<string>();
     var options = new Options(Options.Definitions.Select(d => (d.Aliases[0], app.Options.Single(o => d.Aliases.Contains($"--{o.LongName}")).HasValue())));
 
-    Target("build", async () => await System.Console.Out.WriteLineAsync($"foo = {foo.Value()}"));
+    Target("build", () => System.Console.Out.WriteLineAsync($"foo = {foo.Value()}"));
 
     Target("default", DependsOn("build"));
 
-    await RunTargetsAndExitAsync(targets, options);
+    return RunTargetsAndExitAsync(targets, options);
 });
 
 return await app.ExecuteAsync(args);

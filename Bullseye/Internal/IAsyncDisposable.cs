@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
 
-namespace Bullseye.Internal
+namespace Bullseye.Internal;
+
+public interface IAsyncDisposable
 {
-    public interface IAsyncDisposable
-    {
-        Task DisposeAsync();
-    }
+    Task DisposeAsync();
 }
