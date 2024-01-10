@@ -144,6 +144,7 @@ To name a few:
 - [Elastic](https://github.com/elastic)
 - [EssentialMVVM](https://github.com/thomaslevesque/EssentialMVVM)
 - [FakeItEasy](https://github.com/FakeItEasy)
+- [Fluxzy](https://github.com/haga-rak/fluxzy.core)
 - [HumanBytes](https://github.com/thomaslevesque/HumanBytes)
 - [Ibento](https://github.com/pgermishuys/Ibento)
 - [IdentityModel](https://github.com/IdentityModel)
