@@ -54,7 +54,7 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
 
 Voilà! You've just written and run your first Bullseye build program. You will see output similar to:
 
-<img src="https://github.com/adamralph/bullseye/assets/677704/2f598c2f-89ab-43dc-929a-59f4504dfa28" width="1088px" />
+<img src="https://github.com/adamralph/bullseye/assets/677704/2f598c2f-89ab-43dc-929a-59f4504dfa28" width="1088px" alt="Bullseye quick start output"/>
 
 For help, run `dotnet run --project targets --help`.
 
@@ -91,7 +91,7 @@ Target(
 dotnet run -- test
 ```
 
-<img src="https://github.com/adamralph/bullseye/assets/677704/c25901c6-f30b-4632-8b62-fa3a755729fc" width="1085px" />
+<img src="https://github.com/adamralph/bullseye/assets/677704/c25901c6-f30b-4632-8b62-fa3a755729fc" width="1085px" alt="Bullseye enumerable inputs output"/>
 
 ## Command-line arguments
 
