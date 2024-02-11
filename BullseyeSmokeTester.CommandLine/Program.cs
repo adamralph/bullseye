@@ -3,7 +3,7 @@ using System.Linq;
 using Bullseye;
 using static Bullseye.Targets;
 
-var foo = new Option<string>(new[] { "--foo", "-f", }, "A value used for something.");
+var foo = new Option<string>(["--foo", "-f",], "A value used for something.");
 
 #pragma warning disable IDE0028
 var cmd = new RootCommand { foo, };
