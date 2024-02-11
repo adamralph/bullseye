@@ -22,14 +22,16 @@ public static class TimeSpanExtensions
             return "0 ms";
         }
 
+        var totalMilliseconds = Convert.ToInt64(duration.TotalMilliseconds);
+
         // less than one millisecond
-        if (Convert.ToInt64(duration.TotalMilliseconds) < 1L)
+        if (totalMilliseconds < 1L)
         {
             return "<1 ms";
         }
 
         // milliseconds
-        if (Convert.ToInt64(duration.TotalMilliseconds) < 1_000L)
+        if (totalMilliseconds < 1_000L)
         {
             return duration.TotalMilliseconds.ToString("F0", provider) + " ms";
         }
@@ -40,10 +42,12 @@ public static class TimeSpanExtensions
             return duration.TotalSeconds.ToString("F2", provider) + " s";
         }
 
+        var totalSeconds = Convert.ToInt64(duration.TotalSeconds);
+
         // minutes and seconds
-        if (Convert.ToInt64(duration.TotalSeconds) < 3600L)
+        if (totalSeconds < 3600L)
         {
-            var minutes = DivRem(Convert.ToInt64(duration.TotalSeconds), 60L, out var seconds);
+            var minutes = DivRem(totalSeconds, 60L, out var seconds);
             return seconds == 0
                 ? $"{minutes.ToString("F0", provider)} m"
                 : $"{minutes.ToString("F0", provider)} m {seconds.ToString("F0", provider)} s";
