@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Bullseye;
 using static Bullseye.Targets;
 
@@ -54,7 +53,7 @@ internal static class Program
             Verbose = verbose,
         };
 
-        Target("build", () => System.Console.Out.WriteLineAsync($"foo = {foo}"));
+        Target("build", () => Console.Out.WriteLineAsync($"foo = {foo}"));
 
         Target("default", DependsOn("build"));
 

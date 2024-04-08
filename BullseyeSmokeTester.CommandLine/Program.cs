@@ -1,5 +1,4 @@
 using System.CommandLine;
-using System.Linq;
 using Bullseye;
 using static Bullseye.Targets;
 
@@ -23,7 +22,7 @@ cmd.SetHandler(() =>
     var targets = cmdLine.CommandResult.Tokens.Select(token => token.Value);
     var options = new Options(Options.Definitions.Select(d => (d.Aliases[0], cmdLine.GetValueForOption(cmd.Options.OfType<Option<bool>>().Single(o => o.HasAlias(d.Aliases[0]))))));
 
-    Target("build", () => System.Console.Out.WriteLineAsync($"foo = {cmdLine.GetValueForOption(foo)}"));
+    Target("build", () => Console.Out.WriteLineAsync($"foo = {cmdLine.GetValueForOption(foo)}"));
 
     Target("default", DependsOn("build"));
 

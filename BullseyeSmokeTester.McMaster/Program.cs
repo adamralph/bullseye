@@ -1,4 +1,3 @@
-using System.Linq;
 using Bullseye;
 using McMaster.Extensions.CommandLineUtils;
 using static Bullseye.Targets;
@@ -20,7 +19,7 @@ app.OnExecuteAsync(_ =>
     var targets = app.Arguments[0].Values.OfType<string>();
     var options = new Options(Options.Definitions.Select(d => (d.Aliases[0], app.Options.Single(o => d.Aliases.Contains($"--{o.LongName}")).HasValue())));
 
-    Target("build", () => System.Console.Out.WriteLineAsync($"foo = {foo.Value()}"));
+    Target("build", () => Console.Out.WriteLineAsync($"foo = {foo.Value()}"));
 
     Target("default", DependsOn("build"));
 

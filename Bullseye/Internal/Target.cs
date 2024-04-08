@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Bullseye.Internal;
 
 #if NET8_0_OR_GREATER

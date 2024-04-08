@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Bullseye.Internal;
 
 public static class StringExtensions
