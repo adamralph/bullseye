@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Bullseye.Internal;
 using Xunit;
 using static BullseyeTests.Infra.Helper;

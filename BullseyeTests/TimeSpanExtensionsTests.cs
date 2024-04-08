@@ -1,4 +1,3 @@
-using System;
 using Bullseye.Internal;
 using Xunit;
 

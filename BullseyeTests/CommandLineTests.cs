@@ -1,4 +1,3 @@
-using System.Linq;
 using Bullseye;
 using Xunit;
 
