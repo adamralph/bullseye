@@ -35,7 +35,7 @@ jobs:
           filter: tree:0
       - run: ./build --logger GitHubActions
       - if: matrix.job.name == 'ubuntu'
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: NuGet packages
           path: ./**/*.nupkg
