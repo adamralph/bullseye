@@ -15,7 +15,7 @@ jobs:
       matrix:
         job:
           - name: macos
-            os: macos-13
+            os: macos-14
           - name: ubuntu
             os: ubuntu-22.04
           - name: windows
