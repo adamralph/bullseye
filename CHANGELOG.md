@@ -176,7 +176,7 @@
 - [#313: Use consistent colour for target names in lists](https://github.com/adamralph/bullseye/issues/313)
 - [#316: Better colour for target names in log and lists](https://github.com/adamralph/bullseye/issues/316)
 - [#317: Optimised colour palette for GitLab CI](https://github.com/adamralph/bullseye/issues/317)
-- [#318: Optimised colour palette for VS Code terminal](https://github.com/adamralph/bullseye/issues/318)
+- [#318: Optimised colour palette for Visual Studio Code terminal](https://github.com/adamralph/bullseye/issues/318)
 
 ### Fixed bugs
 
