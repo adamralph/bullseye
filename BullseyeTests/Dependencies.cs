@@ -5,7 +5,7 @@ using static BullseyeTests.Infra.Helper;
 
 namespace BullseyeTests;
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
 public static partial class Dependencies
 #else
 public static class Dependencies
@@ -161,14 +161,14 @@ public static class Dependencies
         _ = Assert.Single(FirstAwaiting().Matches(output));
     }
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
     [GeneratedRegex("first: Walking dependencies...")]
     private static partial Regex FirstWalkingDependencies();
 #else
     private static Regex FirstWalkingDependencies() => new("first: Walking dependencies...");
 #endif
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
     [GeneratedRegex("first: Awaiting...")]
     private static partial Regex FirstAwaiting();
 #else
