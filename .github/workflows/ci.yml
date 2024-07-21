@@ -26,8 +26,8 @@ jobs:
       - uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: |
-            6.0.418
-            8.0.101
+            6.0.424
+            8.0.303
       - uses: actions/checkout@v4.1.7
         with:
           fetch-depth: 0
