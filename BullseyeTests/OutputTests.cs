@@ -25,9 +25,6 @@ public static class OutputTests
 #if NET6_0
         var expectedPath = "../../../output.default.host.net6.0.txt";
 #endif
-#if NET7_0
-        var expectedPath = "../../../output.default.host.net7.0.txt";
-#endif
 #if NET8_0
         var expectedPath = "../../../output.default.host.net8.0.txt";
 #endif
@@ -60,9 +57,6 @@ public static class OutputTests
         // assert
 #if NET6_0
         var expectedPath = $"../../../output.all.hosts.{host}.net6.0.txt";
-#endif
-#if NET7_0
-        var expectedPath = $"../../../output.all.hosts.{host}.net7.0.txt";
 #endif
 #if NET8_0
         var expectedPath = $"../../../output.all.hosts.{host}.net8.0.txt";
