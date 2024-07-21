@@ -15,11 +15,11 @@ public static class CaseInsensitivity
         var targets = new TargetCollection
         {
             CreateTarget("first", () => first = true),
-            CreateTarget("second", new[] { "FIRST", }, () => second = true),
+            CreateTarget("second", ["FIRST",], () => second = true),
         };
 
         // act
-        await targets.RunAsync(new[] { "SECOND", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["SECOND",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.True(first);

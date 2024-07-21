@@ -12,7 +12,7 @@ cmd.Add(new Argument<string[]>("targets") { Description = "A list of targets to 
 #pragma warning restore IDE0028
 foreach (var (aliases, description) in Options.Definitions)
 {
-    cmd.Add(new Option<bool>(aliases.ToArray(), description));
+    cmd.Add(new Option<bool>([.. aliases,], description));
 }
 
 cmd.SetHandler(() =>

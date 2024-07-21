@@ -18,7 +18,7 @@ public static class OutputTests
         // act
         foreach (var @bool in new[] { true, false, })
         {
-            await Write(output, noColor: true, noExtendedChars: !@bool, host: default, hostForced: @bool, OSPlatform.Create("Unknown"), skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, new[] { "arg1", "arg2", }, ordinal++);
+            await Write(output, noColor: true, noExtendedChars: !@bool, host: default, hostForced: @bool, OSPlatform.Create("Unknown"), skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, ["arg1", "arg2",], ordinal++);
         }
 
         // assert
@@ -50,7 +50,7 @@ public static class OutputTests
                 OSPlatform.OSX,
             })
             {
-                await Write(output, noColor, noExtendedChars: false, host, hostForced: true, osPlatform, skipDependencies: true, dryRun: true, parallel: true, verbose: true, args: new List<string>(), ordinal++);
+                await Write(output, noColor, noExtendedChars: false, host, hostForced: true, osPlatform, skipDependencies: true, dryRun: true, parallel: true, verbose: true, args: [], ordinal++);
             }
         }
 
@@ -99,57 +99,56 @@ public static class OutputTests
 
     private static async Task Write(Output output, bool dryRun)
     {
-        var badInput = new Target("badInput", "", Enumerable.Empty<string>());
+        var badInput = new Target("badInput", "", []);
         var badInputDuration = dryRun ? TimeSpan.Zero : TimeSpan.FromMilliseconds(1.234);
         var badInputEx = new InvalidOperationException("badInputEx");
         var badInputId = Guid.ParseExact("AA123".PadRight(32, '0'), "N");
 
-        var badInputsTarget = new Target("badInputsTarget", "", Enumerable.Empty<string>());
+        var badInputsTarget = new Target("badInputsTarget", "", []);
 
-        var badTarget = new Target("badTarget", "", Enumerable.Empty<string>());
+        var badTarget = new Target("badTarget", "", []);
         var badTargetDuration = dryRun ? TimeSpan.Zero : TimeSpan.FromMilliseconds(3.456);
         var badTargetEx = new InvalidOperationException("badTargetEx");
 
         var emptyTargets = Enumerable.Empty<Target>();
 
-        var goodInput1 = new Target("goodInput1", "", Enumerable.Empty<string>());
-        var goodInput2 = new Target("goodInput2", "", Enumerable.Empty<string>());
+        var goodInput1 = new Target("goodInput1", "", []);
+        var goodInput2 = new Target("goodInput2", "", []);
         var goodInputDuration1 = dryRun ? TimeSpan.Zero : TimeSpan.FromSeconds(1.234);
         var goodInputDuration2 = dryRun ? TimeSpan.Zero : TimeSpan.FromSeconds(2.345);
         var goodInputId1 = Guid.ParseExact("BB123".PadRight(32, '0'), "N");
         var goodInputId2 = Guid.ParseExact("BB234".PadRight(32, '0'), "N");
 
-        var goodInputsTarget = new Target("goodInputsTarget", "", Enumerable.Empty<string>());
+        var goodInputsTarget = new Target("goodInputsTarget", "", []);
 
-        var goodTarget1 = new Target("goodTarget1", "", Enumerable.Empty<string>());
-        var goodTarget2 = new Target("goodTarget2", "", Enumerable.Empty<string>());
+        var goodTarget1 = new Target("goodTarget1", "", []);
+        var goodTarget2 = new Target("goodTarget2", "", []);
         var goodTargetDuration1 = TimeSpan.Zero;
         var goodTargetDuration2 = dryRun ? TimeSpan.Zero : TimeSpan.FromMinutes(1.234);
 
-        var looseInput = new Target("looseInput", "", Enumerable.Empty<string>());
+        var looseInput = new Target("looseInput", "", []);
         var looseInputDuration = TimeSpan.Zero;
         var looseInputId = Guid.ParseExact("CC123".PadRight(32, '0'), "N");
 
-        var looseTarget = new Target("looseTarget", "", Enumerable.Empty<string>());
+        var looseTarget = new Target("looseTarget", "", []);
 
-        var looseTargets = new List<Target> { new("looseTarget", "", Enumerable.Empty<string>()), };
+        var looseTargets = new List<Target> { new("looseTarget", "", []), };
 
-        var noInputsTarget = new Target("noInputsTarget", "", Enumerable.Empty<string>());
+        var noInputsTarget = new Target("noInputsTarget", "", []);
 
         var targets = new List<Target>
         {
-            new("target1", "", Enumerable.Empty<string>()),
-            new("target2", "", Enumerable.Empty<string>()),
-            new("target3", "", Enumerable.Empty<string>()),
+            new("target1", "", []),
+            new("target2", "", []),
+            new("target3", "", []),
         };
 
         var verboseTargets = new Queue<Target>(
-            new[]
-            {
-                new Target("verboseTarget1", "", Enumerable.Empty<string>()),
-                new Target("verboseTarget2", "", Enumerable.Empty<string>()),
-                new Target("verboseTarget3", "", Enumerable.Empty<string>()),
-            });
+            [
+                new Target("verboseTarget1", "", []),
+                new Target("verboseTarget2", "", []),
+                new Target("verboseTarget3", "", []),
+            ]);
 
         var version = "version";
 

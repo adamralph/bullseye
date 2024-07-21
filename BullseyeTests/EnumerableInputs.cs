@@ -18,7 +18,7 @@ public static class EnumerableInputs
         };
 
         // act
-        await targets.RunAsync(new List<string>(), _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync([], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Equal(2, inputsReceived.Count);
@@ -38,7 +38,7 @@ public static class EnumerableInputs
         };
 
         // act
-        await targets.RunAsync(new List<string>(), _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync([], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.False(ran);

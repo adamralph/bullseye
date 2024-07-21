@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
+    <LangVersion>default</LangVersion>
     <OutputType>Exe</OutputType>
     <RollForward>major</RollForward>
     <TargetFramework>net8.0</TargetFramework>

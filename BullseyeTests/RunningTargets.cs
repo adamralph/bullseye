@@ -19,7 +19,7 @@ public static class RunningTargets
         };
 
         // act
-        await targets.RunAsync(new List<string>(), _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync([], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.True(@default);
@@ -40,7 +40,7 @@ public static class RunningTargets
         };
 
         // act
-        await targets.RunAsync(new List<string> { nameof(first), nameof(second), }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync([nameof(first), nameof(second),], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.True(first);
@@ -61,7 +61,7 @@ public static class RunningTargets
         };
 
         // act
-        await targets.RunAsync(new List<string> { nameof(foo)[..1], }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync([nameof(foo)[..1],], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.True(foo);
@@ -81,7 +81,7 @@ public static class RunningTargets
         };
 
         // act
-        await targets.RunAsync(new List<string> { nameof(foo), }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync([nameof(foo),], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.True(foo);
@@ -99,7 +99,7 @@ public static class RunningTargets
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "f", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["f",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -118,7 +118,7 @@ public static class RunningTargets
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { nameof(existing), "non-existing", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync([nameof(existing), "non-existing",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -139,7 +139,7 @@ public static class RunningTargets
 
         // act
         var exception = await Record.ExceptionAsync(
-            () => targets.RunAsync(new List<string> { nameof(existing), "non-existing", "also-non-existing", }, _ => false, () => "", Console.Out, Console.Error, false));
+            () => targets.RunAsync([nameof(existing), "non-existing", "also-non-existing",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -160,7 +160,7 @@ public static class RunningTargets
         };
 
         // act
-        await targets.RunAsync(new List<string> { "target", "-n", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["target", "-n",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.False(ran);
@@ -178,7 +178,7 @@ public static class RunningTargets
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["target", "-b",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -199,7 +199,7 @@ public static class RunningTargets
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "target", "-b", "-z", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["target", "-b", "-z",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -219,8 +219,8 @@ public static class RunningTargets
         };
 
         // act
-        await targets.RunAsync(new[] { "default", }, _ => false, () => "", Console.Out, Console.Error, false);
-        await targets.RunAsync(new[] { "default", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["default",], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["default",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Equal(2, count);
