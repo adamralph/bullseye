@@ -5,11 +5,7 @@ using static BullseyeTests.Infra.Helper;
 
 namespace BullseyeTests;
 
-#if NET8_0_OR_GREATER
 public static partial class Dependencies
-#else
-public static class Dependencies
-#endif
 {
     [Fact]
     public static async Task FlatDependencies()
@@ -21,11 +17,11 @@ public static class Dependencies
         {
             CreateTarget("first", () => ran.Add("first")),
             CreateTarget("second", () => ran.Add("second")),
-            CreateTarget("third", new[] { "first", "second", }, () => ran.Add("third")),
+            CreateTarget("third", ["first", "second",], () => ran.Add("third")),
         };
 
         // act
-        await targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["third",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Equal(3, ran.Count);
@@ -43,12 +39,12 @@ public static class Dependencies
         var targets = new TargetCollection
         {
             CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", new[] { "first", }, () => ran.Add("second")),
-            CreateTarget("third", new[] { "second", }, () => ran.Add("third")),
+            CreateTarget("second", ["first",], () => ran.Add("second")),
+            CreateTarget("third", ["second",], () => ran.Add("third")),
         };
 
         // act
-        await targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["third",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Equal(3, ran.Count);
@@ -66,11 +62,11 @@ public static class Dependencies
         var targets = new TargetCollection
         {
             CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", new[] { "first", "first", }, () => ran.Add("second")),
+            CreateTarget("second", ["first", "first",], () => ran.Add("second")),
         };
 
         // act
-        await targets.RunAsync(new List<string> { "second", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["second",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Equal(2, ran.Count);
@@ -84,11 +80,11 @@ public static class Dependencies
         // arrange
         var targets = new TargetCollection
         {
-            CreateTarget("first", new[] { "first", }),
+            CreateTarget("first", ["first",]),
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "first", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["first",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -101,12 +97,12 @@ public static class Dependencies
         // arrange
         var targets = new TargetCollection
         {
-            CreateTarget("first", new[] { "second", }),
-            CreateTarget("second", new[] { "first", }),
+            CreateTarget("first", ["second",]),
+            CreateTarget("second", ["first",]),
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "second", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["second",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -119,13 +115,13 @@ public static class Dependencies
         // arrange
         var targets = new TargetCollection
         {
-            CreateTarget("first", new[] { "third", }),
-            CreateTarget("second", new[] { "first", }),
-            CreateTarget("third", new[] { "second", }),
+            CreateTarget("first", ["third",]),
+            CreateTarget("second", ["first",]),
+            CreateTarget("third", ["second",]),
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["third",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -143,12 +139,12 @@ public static class Dependencies
         var targets = new TargetCollection
         {
             CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", new[] { "first", }, () => ran.Add("second")),
-            CreateTarget("third", new[] { "first", "second", }, () => ran.Add("third")),
+            CreateTarget("second", ["first",], () => ran.Add("second")),
+            CreateTarget("third", ["first", "second",], () => ran.Add("third")),
         };
 
         // act
-        await targets.RunAsync(new List<string> { "third", "--no-color", "--verbose", }, _ => false, () => "", outputWriter, Console.Error, false);
+        await targets.RunAsync(["third", "--no-color", "--verbose",], _ => false, () => "", outputWriter, Console.Error, false);
 
         // assert
         var output = outputWriter.ToString();
@@ -184,12 +180,12 @@ public static class Dependencies
         var targets = new TargetCollection
         {
             CreateTarget("first", () => anyRan = true),
-            CreateTarget("second", new[] { "first", "non-existing", }, () => anyRan = true),
-            CreateTarget("third", new[] { "second", "also-non-existing", }, () => anyRan = true),
+            CreateTarget("second", ["first", "non-existing",], () => anyRan = true),
+            CreateTarget("third", ["second", "also-non-existing",], () => anyRan = true),
         };
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(new List<string> { "third", }, _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["third",], _ => false, () => "", Console.Out, Console.Error, false));
 
         // assert
         Assert.NotNull(exception);
@@ -207,11 +203,11 @@ public static class Dependencies
         var targets = new TargetCollection
         {
             CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", new[] { "first", "non-existent", }, () => ran.Add("second")),
+            CreateTarget("second", ["first", "non-existent",], () => ran.Add("second")),
         };
 
         // act
-        await targets.RunAsync(new List<string> { "second", "-s", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["second", "-s",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Contains("second", ran);
@@ -227,11 +223,11 @@ public static class Dependencies
         var targets = new TargetCollection
         {
             CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", new[] { "first", }, () => ran.Add("second")),
+            CreateTarget("second", ["first",], () => ran.Add("second")),
         };
 
         // act
-        await targets.RunAsync(new List<string> { "--skip-dependencies", "second", "first", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["--skip-dependencies", "second", "first",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Equal(2, ran.Count);
@@ -255,12 +251,12 @@ public static class Dependencies
                     Thread.Sleep(TimeSpan.FromSeconds(1)); // a weak way to encourage the tests to run first
                     buildStartTime = Interlocked.Increment(ref clock);
                 }),
-            CreateTarget("test1", new[] { "build", }, () => test1StartTime = Interlocked.Increment(ref clock)),
-            CreateTarget("test2", new[] { "build", }, () => test2StartTime = Interlocked.Increment(ref clock)),
+            CreateTarget("test1", ["build",], () => test1StartTime = Interlocked.Increment(ref clock)),
+            CreateTarget("test2", ["build",], () => test2StartTime = Interlocked.Increment(ref clock)),
         };
 
         // act
-        await targets.RunAsync(new List<string> { "--parallel", "--skip-dependencies", "test1", "test2", "build", }, _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunAsync(["--parallel", "--skip-dependencies", "test1", "test2", "build",], _ => false, () => "", Console.Out, Console.Error, false);
 
         // assert
         Assert.Equal(1, buildStartTime);

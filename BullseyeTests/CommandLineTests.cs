@@ -76,8 +76,8 @@ public static class CommandLineTests
         Assert.True(result.Options.Verbose);
 
         Assert.True(result.ShowHelp);
-        Assert.Equal(new[] { "target0", "target1", }, result.Targets);
-        Assert.Equal(new[] { "-0", "-1", }, result.UnknownOptions);
+        Assert.Equal(["target0", "target1",], result.Targets);
+        Assert.Equal(["-0", "-1",], result.UnknownOptions);
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public static class CommandLineTests
         Assert.True(result.Options.Verbose);
 
         Assert.True(result.ShowHelp);
-        Assert.Equal(new[] { "target0", "target1", }, result.Targets);
-        Assert.Equal(new[] { "--unknown0", "--unknown1", }, result.UnknownOptions);
+        Assert.Equal(["target0", "target1",], result.Targets);
+        Assert.Equal(["--unknown0", "--unknown1",], result.UnknownOptions);
     }
 }
