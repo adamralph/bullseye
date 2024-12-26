@@ -3,7 +3,6 @@ using System.Text;
 
 namespace Bullseye.Internal;
 
-#if NET8_0_OR_GREATER
 public partial class Output(
     TextWriter writer,
     TextWriter diagnosticsWriter,
@@ -41,65 +40,6 @@ public partial class Output(
     private readonly string scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
 
     public bool Verbose { get; } = verbose;
-#else
-public partial class Output
-{
-    private const string NoInputsMessage = "No inputs!";
-    private const string StartingMessage = "Starting...";
-    private const string FailedMessage = "FAILED!";
-    private const string SucceededMessage = "Succeeded";
-
-    private readonly TextWriter writer;
-    private readonly TextWriter diagnosticsWriter;
-
-    private readonly IReadOnlyCollection<string> args;
-    private readonly bool dryRun;
-    private readonly Host host;
-    private readonly bool hostForced;
-    private readonly bool noColor;
-    private readonly OSPlatform osPlatform;
-    private readonly bool parallel;
-    private readonly Func<string> getPrefix;
-    private readonly bool skipDependencies;
-
-    private readonly Palette palette;
-    private readonly string scriptExtension;
-
-    public bool Verbose { get; }
-
-    public Output(
-        TextWriter writer,
-        TextWriter diagnosticsWriter,
-        IReadOnlyCollection<string> args,
-        bool dryRun,
-        Host host,
-        bool hostForced,
-        bool noColor,
-        bool noExtendedChars,
-        OSPlatform osPlatform,
-        bool parallel,
-        Func<string> getPrefix,
-        bool skipDependencies,
-        bool verbose)
-    {
-        this.writer = writer;
-        this.diagnosticsWriter = diagnosticsWriter;
-
-        this.args = args;
-        this.dryRun = dryRun;
-        this.host = host;
-        this.hostForced = hostForced;
-        this.noColor = noColor;
-        this.osPlatform = osPlatform;
-        this.parallel = parallel;
-        this.getPrefix = getPrefix;
-        this.skipDependencies = skipDependencies;
-        this.Verbose = verbose;
-
-        this.palette = new Palette(noColor, noExtendedChars, host, osPlatform);
-        this.scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
-    }
-#endif
     public async Task Header(Func<string> getVersion)
     {
         if (!this.Verbose)
@@ -326,7 +266,7 @@ public partial class Output
 
         foreach (var rootTarget in rootTargets)
         {
-            Append(new List<string> { rootTarget, }, new Stack<string>(), true, "", 0);
+            Append([rootTarget,], new Stack<string>(), true, "", 0);
         }
 
         var maxColumn1Width = lines.Max(line => Palette.StripColors(line.Item1).Length);

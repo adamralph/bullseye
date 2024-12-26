@@ -40,7 +40,7 @@ public static class TargetCollectionExtensions
         TextWriter diagnosticsWriter,
         bool exit) =>
         await targets.RunAsync(
-            new List<string>(),
+            [],
             names,
             options,
             unknownOptions,
@@ -216,7 +216,7 @@ public static class TargetCollectionExtensions
             return;
         }
 
-        names = names.Count > 0 ? names : new List<string> { "default", };
+        names = names.Count > 0 ? names : ["default",];
 
         await targets.RunAsync(names, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
     }
