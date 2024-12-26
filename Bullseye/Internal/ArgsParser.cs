@@ -2,10 +2,7 @@ namespace Bullseye.Internal;
 
 public static class ArgsParser
 {
-    private static readonly IReadOnlyList<string> helpOptions = new List<string>
-    {
-        "--help", "-help", "/help", "-h", "/h", "-?", "/?",
-    };
+    private static readonly IReadOnlyList<string> helpOptions = ["--help", "-help", "/help", "-h", "/h", "-?", "/?",];
 
     public static (IReadOnlyList<string> Targets, Options Options, IReadOnlyList<string> UnknownOptions, bool showHelp)
         Parse(IReadOnlyCollection<string> args)
@@ -36,11 +33,7 @@ public static class ArgsParser
             showHelp: nonHelpArgs.Count != args.Count);
     }
 
-#if NET8_0_OR_GREATER
     private static bool IsTarget(string arg) => !arg.StartsWith('-');
-#else
-    private static bool IsTarget(string arg) => !arg.StartsWith("-", StringComparison.Ordinal);
-#endif
 
     private static bool IsNotTarget(string arg) => !IsTarget(arg);
 }

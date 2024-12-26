@@ -8,8 +8,8 @@ public partial class Options
     /// <summary>
     /// Gets the definitions of options which can be used when running or listing targets.
     /// </summary>
-    public static IReadOnlyList<(IReadOnlyList<string> Aliases, string Description)> Definitions { get; } = new List<(IReadOnlyList<string> Aliases, string Description)>
-    {
+    public static IReadOnlyList<(IReadOnlyList<string> Aliases, string Description)> Definitions { get; } =
+    [
         (new List<string>{ "-c", "--clear",             }, "Clear the console before execution"),
         (new List<string>{ "-n", "--dry-run",           }, "Do a dry run without executing actions"),
         (new List<string>{ "-d", "--list-dependencies", }, "List all (or specified) targets and dependencies, then exit"),
@@ -27,5 +27,5 @@ public partial class Options
         (new List<string>{       "--gitlab-ci",         }, "Force GitLab CI mode (normally auto-detected)"),
         (new List<string>{       "--teamcity",          }, "Force TeamCity mode (normally auto-detected)"),
         (new List<string>{       "--travis",            }, "Force Travis CI mode (normally auto-detected)"),
-    };
+    ];
 }

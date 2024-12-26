@@ -200,11 +200,7 @@ public class TargetCollection : KeyedCollection<string, Target>
             {
                 _ = (missingDependencies.TryGetValue(dependency, out var set)
                         ? set
-#if NET8_0_OR_GREATER
-                            : missingDependencies[dependency] = [])
-#else
-                        : missingDependencies[dependency] = new SortedSet<string>())
-#endif
+                        : missingDependencies[dependency] = [])
                     .Add(target.Name);
             }
         }
