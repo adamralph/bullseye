@@ -112,17 +112,10 @@ public partial class Output
             text.PadRight(totalWidth + (text.Length - Palette.StripColors(text).Length), paddingChar);
     }
 
-#if NET8_0_OR_GREATER
     private sealed class TargetResult(int ordinal)
     {
         public int Ordinal { get; } = ordinal;
-#else
-    private sealed class TargetResult
-    {
-        public TargetResult(int ordinal) => this.Ordinal = ordinal;
 
-        public int Ordinal { get; }
-#endif
         public TargetOutcome Outcome { get; set; }
 
         public TimeSpan Duration { get; set; }
@@ -130,17 +123,10 @@ public partial class Output
         public ConcurrentDictionary<Guid, TargetInputResult> InputResults { get; } = new();
     }
 
-#if NET8_0_OR_GREATER
     private sealed class TargetInputResult(int ordinal)
     {
         public int Ordinal { get; } = ordinal;
-#else
-    private sealed class TargetInputResult
-    {
-        public TargetInputResult(int ordinal) => this.Ordinal = ordinal;
 
-        public int Ordinal { get; }
-#endif
         public object? Input { get; set; }
 
         public TargetInputOutcome Outcome { get; set; }

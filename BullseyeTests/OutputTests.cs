@@ -22,11 +22,11 @@ public static class OutputTests
         }
 
         // assert
-#if NET6_0
-        var expectedPath = "../../../output.default.host.net6.0.txt";
-#endif
 #if NET8_0
         var expectedPath = "../../../output.default.host.net8.0.txt";
+#endif
+#if NET9_0
+        var expectedPath = "../../../output.default.host.net9.0.txt";
 #endif
 
         await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
@@ -55,11 +55,11 @@ public static class OutputTests
         }
 
         // assert
-#if NET6_0
-        var expectedPath = $"../../../output.all.hosts.{host}.net6.0.txt";
-#endif
 #if NET8_0
         var expectedPath = $"../../../output.all.hosts.{host}.net8.0.txt";
+#endif
+#if NET9_0
+        var expectedPath = $"../../../output.all.hosts.{host}.net9.0.txt";
 #endif
 
         await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
@@ -68,9 +68,9 @@ public static class OutputTests
     public static TheoryData<Host> Hosts()
     {
         var hosts = new TheoryData<Host>();
-        foreach (var host in Enum.GetValues(typeof(Host)))
+        foreach (var host in Enum.GetValues<Host>())
         {
-            hosts.Add((Host)host);
+            hosts.Add(host);
         }
 
         return hosts;
