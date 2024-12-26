@@ -9,7 +9,7 @@ env:
   MINVERBUILDMETADATA: build.${{ github.run_id }}.${{ github.run_attempt}}
 jobs:
   release:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/setup-dotnet@v4.0.1
         with:
