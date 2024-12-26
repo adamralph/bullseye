@@ -14,7 +14,7 @@ public static class EnumerableInputs
 
         var targets = new TargetCollection
         {
-            CreateTarget("default", new[] { 1, 2, }, inputsReceived.Add),
+            CreateTarget("default", [1, 2,], inputsReceived.Add),
         };
 
         // act
