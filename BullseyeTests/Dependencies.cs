@@ -157,19 +157,11 @@ public static partial class Dependencies
         _ = Assert.Single(FirstAwaiting().Matches(output));
     }
 
-#if NET8_0_OR_GREATER
     [GeneratedRegex("first: Walking dependencies...")]
     private static partial Regex FirstWalkingDependencies();
-#else
-    private static Regex FirstWalkingDependencies() => new("first: Walking dependencies...");
-#endif
 
-#if NET8_0_OR_GREATER
     [GeneratedRegex("first: Awaiting...")]
     private static partial Regex FirstAwaiting();
-#else
-    private static Regex FirstAwaiting() => new("first: Awaiting...");
-#endif
 
     [Fact]
     public static async Task NotExistentDependencies()

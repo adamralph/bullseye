@@ -8,11 +8,7 @@ namespace Bullseye;
 /// </summary>
 public partial class Targets
 {
-#if NET8_0_OR_GREATER
     private static readonly List<string> defaultList = [];
-#else
-    private static readonly List<string> defaultList = new();
-#endif
     private static readonly Func<Exception, bool> defaultMessageOnly = _ => false;
 
     /// <summary>

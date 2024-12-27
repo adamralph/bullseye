@@ -4,7 +4,7 @@ using Xunit.Sdk;
 
 namespace BullseyeTests.Infra;
 
-public static class AssertFile
+internal static class AssertFile
 {
     public static async Task Contains(string expectedPath, string actual)
     {
