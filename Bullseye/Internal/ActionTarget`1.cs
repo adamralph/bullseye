@@ -2,25 +2,12 @@ using System.Diagnostics;
 
 namespace Bullseye.Internal;
 
-#if NET8_0_OR_GREATER
 public class ActionTarget<TInput>(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
     : Target(name, description, dependencies), IHaveInputs
 {
     private readonly IEnumerable<TInput> inputs = inputs;
     private readonly Func<TInput, Task> action = action;
-#else
-public class ActionTarget<TInput> : Target, IHaveInputs
-{
-    private readonly IEnumerable<TInput> inputs;
-    private readonly Func<TInput, Task> action;
 
-    public ActionTarget(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
-        : base(name, description, dependencies)
-    {
-        this.inputs = inputs;
-        this.action = action;
-    }
-#endif
     public IEnumerable<object?> Inputs => this.inputs.Cast<object?>();
 
     public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
