@@ -2,19 +2,11 @@ using System.Diagnostics;
 
 namespace Bullseye.Internal;
 
-#if NET8_0_OR_GREATER
 public class ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
         : Target(name, description, dependencies)
 {
     private readonly Func<Task> action = action;
-#else
-public class ActionTarget : Target
-{
-    private readonly Func<Task> action;
 
-    public ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
-        : base(name, description, dependencies) => this.action = action;
-#endif
     public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
         await output.BeginGroup(this).Tax();
