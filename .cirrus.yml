@@ -1,4 +1,0 @@
-container:
-  image: mcr.microsoft.com/dotnet/sdk:9.0
-build_task:
-  build_script: ./build

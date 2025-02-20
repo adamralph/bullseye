@@ -10,8 +10,6 @@ _[![Lint](https://github.com/adamralph/bullseye/actions/workflows/lint.yml/badge
 _[![Spell check](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml/badge.svg?branch=main)](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml)_
 
 _[![AppVeyor smoke test status](https://img.shields.io/appveyor/ci/adamralph/bullseye/main.svg?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/adamralph/bullseye/branch/main)_
-_[![CircleCI smoke test status](https://img.shields.io/circleci/build/github/adamralph/bullseye/main?logo=circleci&label=CircleCI)](https://circleci.com/gh/adamralph/bullseye/tree/main)_
-_[![Cirrus CI smoke test status](https://img.shields.io/cirrus/github/adamralph/bullseye/main?logo=cirrus-ci&label=Cirrus%20CI)](https://cirrus-ci.com/github/adamralph/bullseye)_
 _[![GitLab CI/CD smoke test status](https://img.shields.io/gitlab/pipeline/adamralph/bullseye/main.svg?logo=gitlab&label=GitLab+CI%2fCD)](https://gitlab.com/adamralph/bullseye/-/jobs)_
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
