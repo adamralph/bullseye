@@ -204,7 +204,7 @@ public static class TargetCollectionExtensions
             return;
         }
 
-        names = targets.Expand(names).ToList();
+        names = [.. targets.Expand(names)];
 
         if (listTree || listDependencies || listInputs || listTargets)
         {
