@@ -2,11 +2,9 @@ using System.Collections.ObjectModel;
 
 namespace Bullseye.Internal;
 
-public class TargetCollection : KeyedCollection<string, Target>
+public class TargetCollection() : KeyedCollection<string, Target>(StringComparer.OrdinalIgnoreCase)
 {
     private static readonly Queue<Target> rootDependencyPath = new();
-
-    public TargetCollection() : base(StringComparer.OrdinalIgnoreCase) { }
 
     protected override string GetKeyForItem(Target item) => item.Name;
 
@@ -101,7 +99,9 @@ public class TargetCollection : KeyedCollection<string, Target>
         if (output.Verbose)
         {
             // can switch to ImmutableQueue after moving to .NET 5+
+#pragma warning disable IDE0306
             dependencyPath = new Queue<Target>(dependencyPath);
+#pragma warning restore IDE0306
             dependencyPath.Enqueue(target);
         }
 

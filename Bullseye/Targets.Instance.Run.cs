@@ -35,7 +35,7 @@ public partial class Targets
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
         await this.targetCollection.RunAsync(
-            args.ToList(),
+            [.. args],
             messageOnly ?? defaultMessageOnly,
             getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
@@ -72,7 +72,7 @@ public partial class Targets
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
         await this.targetCollection.RunAsync(
-            targets.ToList(),
+            [.. targets],
             options,
             unknownOptions?.ToList() ?? defaultList,
             showHelp,
@@ -107,7 +107,7 @@ public partial class Targets
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
         await this.targetCollection.RunAsync(
-            args.ToList(),
+            [.. args],
             messageOnly ?? defaultMessageOnly,
             getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
@@ -145,7 +145,7 @@ public partial class Targets
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
         await this.targetCollection.RunAsync(
-            targets.ToList(),
+            [.. targets],
             options,
             unknownOptions?.ToList() ?? defaultList,
             showHelp,
