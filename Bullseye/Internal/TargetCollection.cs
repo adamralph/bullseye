@@ -1,10 +1,11 @@
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Bullseye.Internal;
 
 public class TargetCollection() : KeyedCollection<string, Target>(StringComparer.OrdinalIgnoreCase)
 {
-    private static readonly Queue<Target> rootDependencyPath = new();
+    private static readonly ImmutableQueue<Target> rootDependencyPath = [];
 
     protected override string GetKeyForItem(Target item) => item.Name;
 
@@ -94,15 +95,11 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         Output output,
         IDictionary<Target, Task> runningTargets,
         SemaphoreSlim sync,
-        Queue<Target> dependencyPath)
+        ImmutableQueue<Target> dependencyPath)
     {
         if (output.Verbose)
         {
-            // can switch to ImmutableQueue after moving to .NET 5+
-#pragma warning disable IDE0306
-            dependencyPath = new Queue<Target>(dependencyPath);
-#pragma warning restore IDE0306
-            dependencyPath.Enqueue(target);
+            dependencyPath = dependencyPath.Enqueue(target);
         }
 
         bool targetWasAlreadyStarted;
@@ -126,14 +123,14 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             if (runningTarget!.IsAwaitable())
             {
-                await output.Awaiting(target, dependencyPath).Tax();
+                await output.Awaiting(target, [.. dependencyPath]).Tax();
                 await runningTarget!.Tax();
             }
 
             return;
         }
 
-        await output.WalkingDependencies(target, dependencyPath).Tax();
+        await output.WalkingDependencies(target, [.. dependencyPath]).Tax();
 
         if (parallel)
         {
@@ -152,7 +149,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             if (!this.Contains(dependency))
             {
-                await output.IgnoringNonExistentDependency(target, dependency, dependencyPath).Tax();
+                await output.IgnoringNonExistentDependency(target, dependency, [.. dependencyPath]).Tax();
             }
             else
             {
@@ -173,7 +170,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
                 if (!targetWasAlreadyStarted)
                 {
-                    runningTarget = target.RunAsync(dryRun, parallel, output, messageOnly, dependencyPath);
+                    runningTarget = target.RunAsync(dryRun, parallel, output, messageOnly, [.. dependencyPath]);
                     runningTargets.Add(target, runningTarget);
                 }
             }
@@ -184,7 +181,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
             if (!targetWasAlreadyStarted || runningTarget!.IsAwaitable())
             {
-                await output.Awaiting(target, dependencyPath).Tax();
+                await output.Awaiting(target, [.. dependencyPath]).Tax();
                 await runningTarget!.Tax();
             }
         }
