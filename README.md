@@ -41,8 +41,8 @@ Platform support: [.NET 6.0 and later](https://docs.microsoft.com/en-us/dotnet/s
   using static SimpleExec.Command;
 
   Target("build", () => RunAsync("dotnet", "build --configuration Release --nologo --verbosity quiet"));
-  Target("test", DependsOn("build"), () => RunAsync("dotnet", "test --configuration Release --no-build --nologo --verbosity quiet"));
-  Target("default", DependsOn("test"));
+  Target("test", dependsOn: ["build"], () => RunAsync("dotnet", "test --configuration Release --no-build --nologo --verbosity quiet"));
+  Target("default", dependsOn: ["test"]);
 
   await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException);
   ```
@@ -80,8 +80,8 @@ For example, you may want to run your test projects one by one, so that the timi
 ```c#
 Target(
     "test",
-    DependsOn("build"),
-    ForEach("./FooTests.Acceptance", "./FooTests.Performance"),
+    dependsOn: ["build"],
+    forEach: ["./FooTests.Acceptance", "./FooTests.Performance"],
     project => RunAsync($"dotnet", $"test {project} --configuration Release --no-build --nologo --verbosity quiet"));
 ```
 

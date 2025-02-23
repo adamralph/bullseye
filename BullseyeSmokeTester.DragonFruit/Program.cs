@@ -55,7 +55,7 @@ internal static class Program
 
         Target("build", () => Console.Out.WriteLineAsync($"foo = {foo}"));
 
-        Target("default", DependsOn("build"));
+        Target("default", dependsOn: ["build"]);
 
         return RunTargetsAndExitAsync(targets, options);
     }

@@ -103,8 +103,6 @@ static Bullseye.CommandLine.Parse(System.Collections.Generic.IEnumerable<string!
 static Bullseye.HostExtensions.DetectIfNull(this Bullseye.Host? host) -> Bullseye.Host
 static Bullseye.Options.Definitions.get -> System.Collections.Generic.IReadOnlyList<(System.Collections.Generic.IReadOnlyList<string!>! Aliases, string! Description)>!
 static Bullseye.Palette.StripColors(string! text) -> string!
-static Bullseye.Targets.DependsOn(params string![]! dependencies) -> string![]!
-static Bullseye.Targets.ForEach<TInput>(params TInput[]! inputs) -> TInput[]!
 static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, System.Func<string!>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
 static Bullseye.Targets.RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string!>! targets, Bullseye.IOptions! options, System.Collections.Generic.IEnumerable<string!>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception!, bool>? messageOnly = null, System.Func<string!>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
 static Bullseye.Targets.RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string!>! args, System.Func<System.Exception!, bool>? messageOnly = null, System.Func<string!>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) -> System.Threading.Tasks.Task!
