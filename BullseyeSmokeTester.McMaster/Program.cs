@@ -21,7 +21,7 @@ app.OnExecuteAsync(_ =>
 
     Target("build", () => Console.Out.WriteLineAsync($"foo = {foo.Value()}"));
 
-    Target("default", DependsOn("build"));
+    Target("default", dependsOn: ["build"]);
 
     return RunTargetsAndExitAsync(targets, options);
 });

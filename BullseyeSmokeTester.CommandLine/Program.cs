@@ -24,7 +24,7 @@ cmd.SetHandler(() =>
 
     Target("build", () => Console.Out.WriteLineAsync($"foo = {cmdLine.GetValueForOption(foo)}"));
 
-    Target("default", DependsOn("build"));
+    Target("default", dependsOn: ["build"]);
 
     return RunTargetsAndExitAsync(targets, options);
 });
