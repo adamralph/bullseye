@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.0.0
+
+### Other
+
+- [#936: **[BREAKING]** Remove DependsOn and ForEach](https://github.com/adamralph/bullseye/issues/936)
+
 ## 5.0.0
 
 ### Enhancements
