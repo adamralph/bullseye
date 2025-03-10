@@ -2,6 +2,10 @@
 
 ## 6.0.0
 
+### Enhancements
+
+- [#1033: Limit parallel targets to logical processor count](https://github.com/adamralph/bullseye/pull/1033)
+
 ### Other
 
 - [#936: **[BREAKING]** Remove DependsOn and ForEach](https://github.com/adamralph/bullseye/issues/936)
