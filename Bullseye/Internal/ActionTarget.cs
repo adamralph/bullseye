@@ -7,7 +7,28 @@ public class ActionTarget(string name, string description, IEnumerable<string> d
 {
     private readonly Func<Task> action = action;
 
-    public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+    public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output,
+        Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+    {
+        if (parallel)
+        {
+            await parallelTargets.WaitAsync().Tax();
+            try
+            {
+                await this.RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
+            }
+            finally
+            {
+                _ = parallelTargets.Release();
+            }
+        }
+        else
+        {
+            await this.RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
+        }
+    }
+
+    private async Task RunAsync(bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
         await output.BeginGroup(this).Tax();
 

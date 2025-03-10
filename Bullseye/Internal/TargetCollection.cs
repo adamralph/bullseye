@@ -61,18 +61,19 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             var runningTargets = new Dictionary<Target, Task>();
 
-            using var sync = new SemaphoreSlim(1, 1);
+            using var checkRunningTargets = new SemaphoreSlim(1, 1);
+            using var parallelTargets = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
 
             if (parallel)
             {
-                var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, sync, rootDependencyPath));
+                var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, rootDependencyPath));
                 await Task.WhenAll(tasks).Tax();
             }
             else
             {
                 foreach (var target in targets)
                 {
-                    await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, sync, rootDependencyPath).Tax();
+                    await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, rootDependencyPath).Tax();
                 }
             }
         }
@@ -94,7 +95,8 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         Func<Exception, bool> messageOnly,
         Output output,
         IDictionary<Target, Task> runningTargets,
-        SemaphoreSlim sync,
+        SemaphoreSlim checkRunningTargets,
+        SemaphoreSlim parallelTargets,
         ImmutableQueue<Target> dependencyPath)
     {
         if (output.Verbose)
@@ -107,7 +109,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
         // cannot use WaitAsync() as it is not reentrant
 #pragma warning disable CA1849 // Call async methods when in an async method
-        sync.Wait();
+        checkRunningTargets.Wait();
 #pragma warning restore CA1849 // Call async methods when in an async method
 
         try
@@ -116,7 +118,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         }
         finally
         {
-            _ = sync.Release();
+            _ = checkRunningTargets.Release();
         }
 
         if (targetWasAlreadyStarted)
@@ -153,7 +155,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
             }
             else
             {
-                await this.RunAsync(this[dependency], explicitTargets, dryRun, parallel, skipDependencies, messageOnly, output, runningTargets, sync, dependencyPath).Tax();
+                await this.RunAsync(this[dependency], explicitTargets, dryRun, parallel, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, dependencyPath).Tax();
             }
         }
 
@@ -161,7 +163,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             // cannot use WaitAsync() as it is not reentrant
 #pragma warning disable CA1849 // Call async methods when in an async method
-            sync.Wait();
+            checkRunningTargets.Wait();
 #pragma warning restore CA1849 // Call async methods when in an async method
 
             try
@@ -170,13 +172,13 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
                 if (!targetWasAlreadyStarted)
                 {
-                    runningTarget = target.RunAsync(dryRun, parallel, output, messageOnly, [.. dependencyPath]);
+                    runningTarget = target.RunAsync(dryRun, parallel, parallelTargets, output, messageOnly, [.. dependencyPath]);
                     runningTargets.Add(target, runningTarget);
                 }
             }
             finally
             {
-                _ = sync.Release();
+                _ = checkRunningTargets.Release();
             }
 
             if (!targetWasAlreadyStarted || runningTarget!.IsAwaitable())

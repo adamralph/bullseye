@@ -37,6 +37,8 @@ dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- -
 dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --help || goto :error
 dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --foo bar --verbose build || goto :error
 
+dotnet run -c Release --no-build --project BullseyeSmokeTester.Parallel || goto :error
+
 set NO_COLOR=1
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose || goto :error
 

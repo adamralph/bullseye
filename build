@@ -39,4 +39,6 @@ dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- -
 dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --help
 dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --foo bar --verbose build
 
+dotnet run -c Release --no-build --project BullseyeSmokeTester.Parallel
+
 env NO_COLOR=1 dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose

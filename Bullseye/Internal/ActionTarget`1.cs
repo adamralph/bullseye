@@ -10,7 +10,7 @@ public class ActionTarget<TInput>(string name, string description, IEnumerable<s
 
     public IEnumerable<object?> Inputs => this.inputs.Cast<object?>();
 
-    public override async Task RunAsync(bool dryRun, bool parallel, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+    public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
         var inputsList = this.inputs.ToList();
 
@@ -22,7 +22,18 @@ public class ActionTarget<TInput>(string name, string description, IEnumerable<s
 
         if (parallel)
         {
-            var tasks = inputsList.Select(input => this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath)).ToList();
+            var tasks = inputsList.Select(async input =>
+            {
+                await parallelTargets.WaitAsync().Tax();
+                try
+                {
+                    await this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
+                }
+                finally
+                {
+                    _ = parallelTargets.Release();
+                }
+            }).ToList();
 
             await Task.WhenAll(tasks).Tax();
         }
