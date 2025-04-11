@@ -4,6 +4,7 @@
 
 ### Enhancements
 
+- [#1013: Target .NET 9 and remove .NET 6 target](https://github.com/adamralph/bullseye/pull/1013)
 - [#1033: Limit parallel targets to logical processor count](https://github.com/adamralph/bullseye/pull/1033)
 
 ### Other
@@ -14,9 +15,9 @@
 
 ### Enhancements
 
-- [#839: **[BREAKING]** switch from netstandard2.1 to net6.0 and net7.0](https://github.com/adamralph/bullseye/pull/839)
+- [#839: **[BREAKING]** Target .NET 6 and .NET 7 and remove .NET Standard 2.1 target](https://github.com/adamralph/bullseye/pull/839)
 - [#905: include build metadata in informational version](https://github.com/adamralph/bullseye/pull/905)
-- [#908: target .NET 8](https://github.com/adamralph/bullseye/pull/908)
+- [#908: Target .NET 8](https://github.com/adamralph/bullseye/pull/908)
 - [#923: specify DLL search path for GetStdHandle](https://github.com/adamralph/bullseye/pull/923)
 
 ### Fixed bugs
@@ -64,6 +65,7 @@
 - [#673: **[BREAKING]** allow forcing of console (default) mode](https://github.com/adamralph/bullseye/pull/673)
 - [#675: accept IOptions instead of Options](https://github.com/adamralph/bullseye/pull/675)
 - [#682: accept custom output and diagnostic writers](https://github.com/adamralph/bullseye/pull/682)
+- [#687: **[BREAKING]** Target .NET Standard 2.1 and remove .NET Standard 2.0 target](https://github.com/adamralph/bullseye/pull/687)
 - [#703: **[BREAKING]** accept a function instead of a string for the message prefix](https://github.com/adamralph/bullseye/pull/703)
 - [#704: **[BREAKING]** Nullable annotations](https://github.com/adamralph/bullseye/issues/704)
 - [#706: remove top level output messages for targets with inputs](https://github.com/adamralph/bullseye/pull/706)
@@ -74,7 +76,6 @@
 
 ### Other
 
-- [#687: **[BREAKING]** switch from netstandard2.0 to netstandard2.1](https://github.com/adamralph/bullseye/pull/687)
 - [#710: **[BREAKING]** remove Azure Pipelines mode](https://github.com/adamralph/bullseye/pull/710)
 
 ## 3.8.0
