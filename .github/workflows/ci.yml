@@ -17,9 +17,9 @@ jobs:
           - name: macos
             os: macos-15
           - name: ubuntu
-            os: ubuntu-24.04
+            os: ubuntu-24.04-arm
           - name: windows
-            os: windows-2022
+            os: windows-11-arm
     name: ${{ matrix.job.name }}
     runs-on: ${{ matrix.job.os }}
     steps:
