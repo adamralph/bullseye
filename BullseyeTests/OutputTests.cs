@@ -28,6 +28,9 @@ public static class OutputTests
 #if NET9_0
         var expectedPath = "../../../output.default.host.net9.0.txt";
 #endif
+#if NET10_0
+        var expectedPath = "../../../output.default.host.net10.0.txt";
+#endif
 
         await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
     }
@@ -60,6 +63,9 @@ public static class OutputTests
 #endif
 #if NET9_0
         var expectedPath = $"../../../output.all.hosts.{host}.net9.0.txt";
+#endif
+#if NET10_0
+        var expectedPath = $"../../../output.all.hosts.{host}.net10.0.txt";
 #endif
 
         await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
