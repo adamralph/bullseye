@@ -30,7 +30,7 @@ jobs:
             8.0.416
             9.0.308
             10.0.101
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 0
           filter: tree:0
