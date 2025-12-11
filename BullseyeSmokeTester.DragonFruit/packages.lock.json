@@ -4,34 +4,34 @@
     "net10.0": {
       "System.CommandLine.DragonFruit": {
         "type": "Direct",
-        "requested": "[0.4.0-alpha.22272.1, )",
-        "resolved": "0.4.0-alpha.22272.1",
-        "contentHash": "E20ryy4/7RIbYsSj9+J2VBzdxFRG1D+Lu3bLSdfULdpSld6Vm+OuziStuxpnFf7nGaEtrN4FHpHF9uHINDMd4A==",
+        "requested": "[0.4.0-alpha.25306.1, )",
+        "resolved": "0.4.0-alpha.25306.1",
+        "contentHash": "yHMsGvSH3P9DNWCXkdh77kqSRcyAu0KzNofeNSdXy00nbculjYMf0NzS+DErcHBkhPmaFgJeGIf+F5cSk/rUkA==",
         "dependencies": {
-          "System.CommandLine": "2.0.0-beta4.22272.1",
-          "System.CommandLine.NamingConventionBinder": "2.0.0-beta4.22272.1",
-          "System.CommandLine.Rendering": "0.4.0-alpha.22272.1"
+          "System.CommandLine": "2.0.0-beta5.25306.1",
+          "System.CommandLine.NamingConventionBinder": "2.0.0-beta5.25306.1",
+          "System.CommandLine.Rendering": "0.4.0-alpha.25306.1"
         }
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta4.22272.1",
-        "contentHash": "1uqED/q2H0kKoLJ4+hI2iPSBSEdTuhfCYADeJrAqERmiGQ2NNacYKRNEQ+gFbU4glgVyK8rxI+ZOe1onEtr/Pg=="
+        "resolved": "2.0.0-beta5.25306.1",
+        "contentHash": "ce0wuowuh13Cd7GXqLCq77/YWlxQMxrVCMIO/2/QUP6CdP/JWnlYSN/N3/55wwGsUwa9CvPuT8ddjgyypUr5ag=="
       },
       "System.CommandLine.NamingConventionBinder": {
         "type": "Transitive",
-        "resolved": "2.0.0-beta4.22272.1",
-        "contentHash": "ux2eUA/syF+JtlpMDc/Lsd6PBIBuwjH3AvHnestoh5uD0WKT5b+wkQxDWVCqp9qgVjMBTLNhX19ZYFtenunt9A==",
+        "resolved": "2.0.0-beta5.25306.1",
+        "contentHash": "hEz+l/35lDcDuGg6wpTQNYwAQ6D4Nw5jFzGJu7C2sNFMkKgncGppjyH4jmWrdIuSi3GXOy4Jm+t5UwJAaxJdFQ==",
         "dependencies": {
-          "System.CommandLine": "2.0.0-beta4.22272.1"
+          "System.CommandLine": "2.0.0-beta5.25306.1"
         }
       },
       "System.CommandLine.Rendering": {
         "type": "Transitive",
-        "resolved": "0.4.0-alpha.22272.1",
-        "contentHash": "PQd7HStYn6RYjc5zuerR41sALm3qFDutzDHISB5DYbExSgll6s8zghfyYFdLioLPWpFxVyMj3L9Ki69jqqum/g==",
+        "resolved": "0.4.0-alpha.25306.1",
+        "contentHash": "N9sgman379uKGdp59naX+Zb53NCTA+DOeg6nlZGuEjdY6UTLhKXdL+UGijAEnpQXpKMOlA0mGV451m0k9mcQVg==",
         "dependencies": {
-          "System.CommandLine": "2.0.0-beta4.22272.1"
+          "System.CommandLine": "2.0.0-beta5.25306.1"
         }
       },
       "bullseye": {
