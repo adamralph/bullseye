@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net9.0": {
+    "net10.0": {
       "System.CommandLine.DragonFruit": {
         "type": "Direct",
         "requested": "[0.4.0-alpha.22272.1, )",
@@ -12,11 +12,6 @@
           "System.CommandLine.NamingConventionBinder": "2.0.0-beta4.22272.1",
           "System.CommandLine.Rendering": "0.4.0-alpha.22272.1"
         }
-      },
-      "Microsoft.CSharp": {
-        "type": "Transitive",
-        "resolved": "4.7.0",
-        "contentHash": "pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA=="
       },
       "System.CommandLine": {
         "type": "Transitive",
@@ -36,7 +31,6 @@
         "resolved": "0.4.0-alpha.22272.1",
         "contentHash": "PQd7HStYn6RYjc5zuerR41sALm3qFDutzDHISB5DYbExSgll6s8zghfyYFdLioLPWpFxVyMj3L9Ki69jqqum/g==",
         "dependencies": {
-          "Microsoft.CSharp": "4.7.0",
           "System.CommandLine": "2.0.0-beta4.22272.1"
         }
       },

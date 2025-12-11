@@ -5,7 +5,7 @@
     <LangVersion>default</LangVersion>
     <OutputType>Exe</OutputType>
     <RollForward>major</RollForward>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
