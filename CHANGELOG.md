@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.1.0
+
+### Enhancements
+
+- [#1079: Target .NET 10](https://github.com/adamralph/bullseye/pull/1079)
+
 ## 6.0.0
 
 ### Enhancements
