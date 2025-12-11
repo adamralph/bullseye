@@ -66,7 +66,9 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
             if (parallel)
             {
+#pragma warning disable CA2025 // Do not pass 'IDisposable' instances into unawaited tasks
                 var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, rootDependencyPath));
+#pragma warning restore CA2025
                 await Task.WhenAll(tasks).Tax();
             }
             else
