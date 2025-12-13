@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeTests", "BullseyeTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester", "BullseyeSmokeTester\BullseyeSmokeTester.csproj", "{B14FA656-DBFE-4755-8997-2F58FCBCDC28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester.DragonFruit", "BullseyeSmokeTester.DragonFruit\BullseyeSmokeTester.DragonFruit.csproj", "{4B0C74CC-94D5-4641-A1DD-89C42D924018}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester.CommandLine", "BullseyeSmokeTester.CommandLine\BullseyeSmokeTester.CommandLine.csproj", "{D6229B05-94BB-46F7-944E-92C53C441D11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullseyeSmokeTester.McMaster", "BullseyeSmokeTester.McMaster\BullseyeSmokeTester.McMaster.csproj", "{567C97C3-CABA-477F-B54A-923F2BF5A28F}"
@@ -35,10 +33,6 @@ Global
 		{B14FA656-DBFE-4755-8997-2F58FCBCDC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B14FA656-DBFE-4755-8997-2F58FCBCDC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B14FA656-DBFE-4755-8997-2F58FCBCDC28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B0C74CC-94D5-4641-A1DD-89C42D924018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B0C74CC-94D5-4641-A1DD-89C42D924018}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B0C74CC-94D5-4641-A1DD-89C42D924018}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B0C74CC-94D5-4641-A1DD-89C42D924018}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6229B05-94BB-46F7-944E-92C53C441D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6229B05-94BB-46F7-944E-92C53C441D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6229B05-94BB-46F7-944E-92C53C441D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
