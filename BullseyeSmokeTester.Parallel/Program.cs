@@ -19,6 +19,8 @@ await Console.Out.WriteLineAsync($"Running {targetsCount:N0} targets each with 2
 
 await RunTargetsAndExitAsync([.. targetNames, "--parallel"]);
 
+return;
+
 async Task RunTarget()
 {
     _ = Interlocked.Increment(ref runningTargetsCount);
