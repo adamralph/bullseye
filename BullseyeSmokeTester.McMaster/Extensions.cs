@@ -13,7 +13,7 @@ internal static class Extensions
             multipleValues: true);
 
         internal IReadOnlyList<CommandOption> BullseyeOptions() => [.. Options.Definitions.Select(
-            d => app.Option<bool>(string.Join("|", d.Aliases), d.Description, CommandOptionType.NoValue))];
+            d => app.Option<bool>(string.Join("|", d.Aliases), d.Description, CommandOptionType.NoValue)),];
     }
 
     extension(IEnumerable<CommandOption> options)

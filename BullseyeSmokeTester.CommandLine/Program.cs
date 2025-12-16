@@ -2,7 +2,7 @@ using System.CommandLine;
 using BullseyeSmokeTester.CommandLine;
 using static Bullseye.Targets;
 
-var foo = new Option<string>("--foo", "-f") { Description = "A value used for something." };
+var foo = new Option<string>("--foo", "-f") { Description = "A value used for something.", };
 var targets = Argument.Targets();
 var options = IEnumerable<Option>.Bullseye().ToList();
 

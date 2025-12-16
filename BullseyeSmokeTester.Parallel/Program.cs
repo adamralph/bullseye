@@ -12,12 +12,12 @@ foreach (var targetName in targetNames)
 
     Target(dep1Name, RunTarget);
     Target(dep2Name, RunTarget);
-    Target(targetName, [dep1Name, dep2Name], () => { });
+    Target(targetName, [dep1Name, dep2Name,], () => { });
 }
 
 await Console.Out.WriteLineAsync($"Running {targetsCount:N0} targets each with 2 dependencies on {Environment.ProcessorCount:N0} processors...");
 
-await RunTargetsAndExitAsync([.. targetNames, "--parallel"]);
+await RunTargetsAndExitAsync([.. targetNames, "--parallel",]);
 
 return;
 
