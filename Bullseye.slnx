@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="Bullseye/Bullseye.csproj" />
+  <Project Path="BullseyeSmokeTester.CommandLine/BullseyeSmokeTester.CommandLine.csproj" />
+  <Project Path="BullseyeSmokeTester.McMaster/BullseyeSmokeTester.McMaster.csproj" />
+  <Project Path="BullseyeSmokeTester.Parallel/BullseyeSmokeTester.Parallel.csproj" />
+  <Project Path="BullseyeSmokeTester/BullseyeSmokeTester.csproj" />
+  <Project Path="BullseyeTests/BullseyeTests.csproj" />
+</Solution>

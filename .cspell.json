@@ -46,6 +46,7 @@
     "pipefail",
     "refs",
     "SHFMT",
+    "slnx",
     "Statik",
     "sublicense",
     "TeamCity",
