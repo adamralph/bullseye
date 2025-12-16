@@ -28,7 +28,7 @@ Platform support: [.NET 8.0 and later](https://dot.net).
 
 ## Quick start
 
-- Next to an existing .NET solution (`.sln` file), add a .NET console app named `targets` — `dotnet new console --name targets`
+- Next to an existing .NET solution (`.sln`/`.slnx` file), add a .NET console app named `targets` — `dotnet new console --name targets`
 - Change to the new directory — `cd targets`
 - Add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye) — `dotnet add package Bullseye`
 - Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExec) — `dotnet add package SimpleExec`
