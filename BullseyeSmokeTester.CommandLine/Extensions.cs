@@ -10,14 +10,14 @@ internal static class Extensions
         internal static Argument<string[]> Targets() => new("targets")
         {
             Description = "A list of targets to run or list. If not specified, the \"default\" target will be run, or all targets will be listed.",
-            DefaultValueFactory = _ => []
+            DefaultValueFactory = _ => [],
         };
     }
 
     extension(IEnumerable<Option>)
     {
         internal static IEnumerable<Option<bool>> Bullseye() => Options.Definitions.Select(d =>
-            new Option<bool>(d.Aliases[0], [.. d.Aliases.Skip(1)]) { Description = d.Description });
+            new Option<bool>(d.Aliases[0], [.. d.Aliases.Skip(1),]) { Description = d.Description, });
     }
 
     extension(Command cmd)

@@ -3,15 +3,15 @@ using Bullseye;
 using static Bullseye.Targets;
 
 // spell-checker:disable
-Target("default", dependsOn: ["world", "exclaim", "echo", "single", "combo", "no-inputs"]);
+Target("default", dependsOn: ["world", "exclaim", "echo", "single", "combo", "no-inputs",]);
 
 Target("hell\"o", "Says hello", () => Console.Out.WriteLineAsync("Hello"));
 
-Target("comma", dependsOn: ["hell\"o"], () => Console.Out.WriteLineAsync(", "));
+Target("comma", dependsOn: ["hell\"o",], () => Console.Out.WriteLineAsync(", "));
 
-Target("world", dependsOn: ["comma"], () => Console.Out.WriteLineAsync("World"));
+Target("world", dependsOn: ["comma",], () => Console.Out.WriteLineAsync("World"));
 
-Target("exclaim", dependsOn: ["world"], () => Console.Out.WriteLineAsync("!"));
+Target("exclaim", dependsOn: ["world",], () => Console.Out.WriteLineAsync("!"));
 
 // spell-checker:enable
 var foos = new[] { "a", "b", null, };
@@ -20,7 +20,7 @@ var bars = new[] { 1, 2, };
 Target(
     "foo",
     "foos",
-    forEach: [10, 20, 30, (int?)null], delay => Task.Delay(delay ?? 0));
+    forEach: [10, 20, 30, (int?)null,], delay => Task.Delay(delay ?? 0));
 
 Target(
     "bar",
@@ -29,8 +29,8 @@ Target(
 Target(
     "echo",
     "echoes",
-    dependsOn: ["foo", "bar"],
-    forEach: [1, 2, 3],
+    dependsOn: ["foo", "bar",],
+    forEach: [1, 2, 3,],
     async number =>
     {
         await Task.Delay((4 - number) * 10);
@@ -39,7 +39,7 @@ Target(
 
 Target(
     "single",
-    forEach: [foos],
+    forEach: [foos,],
     foo => Console.Out.WriteLineAsync($"{foo}"));
 
 Target(
@@ -54,13 +54,13 @@ Target(
 Target("no-inputs", Enumerable.Empty<string>(), _ => { });
 
 Target("build", () => { });
-Target("test", dependsOn: ["build"], () => { });
-Target("pack", dependsOn: ["build"], () => { });
-Target("publish", dependsOn: ["pack"], () => { });
+Target("test", dependsOn: ["build",], () => { });
+Target("pack", dependsOn: ["build",], () => { });
+Target("publish", dependsOn: ["pack",], () => { });
 
 Target(
     "fail",
-    forEach: [30, 20, 10],
+    forEach: [30, 20, 10,],
     async delay =>
     {
         await Task.Delay(delay);
@@ -78,7 +78,7 @@ Target(
 
 Target(
     "fail2",
-    forEach: [2000, 1500, 200, 150],
+    forEach: [2000, 1500, 200, 150,],
     async delay =>
     {
         await Task.Delay(delay);
@@ -96,8 +96,8 @@ Target(
 
 var targets = new Targets();
 targets.Add("abc", () => Console.Out.WriteLineAsync("abc"));
-targets.Add("def", dependsOn: ["abc"], () => Console.Out.WriteLineAsync("def"));
-targets.Add("default", dependsOn: ["def"]);
+targets.Add("def", dependsOn: ["abc",], () => Console.Out.WriteLineAsync("def"));
+targets.Add("default", dependsOn: ["def",]);
 
 var largeGraph = new Targets();
 var largeGraphTargetNames = new List<string>();
@@ -108,7 +108,7 @@ foreach (var name in Enumerable.Range(1, 10).Select(i => i.ToString(CultureInfo.
     largeGraphTargetNames.Add(name);
 }
 
-largeGraph.Add("large-graph", dependsOn: [largeGraphTargetNames.Last()]);
+largeGraph.Add("large-graph", dependsOn: [largeGraphTargetNames.Last(),]);
 
 var (targetNames, options, unknownOptions, showHelp) = CommandLine.Parse(args);
 

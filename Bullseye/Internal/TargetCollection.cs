@@ -127,14 +127,14 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             if (runningTarget!.IsAwaitable())
             {
-                await output.Awaiting(target, [.. dependencyPath]).Tax();
+                await output.Awaiting(target, [.. dependencyPath,]).Tax();
                 await runningTarget!.Tax();
             }
 
             return;
         }
 
-        await output.WalkingDependencies(target, [.. dependencyPath]).Tax();
+        await output.WalkingDependencies(target, [.. dependencyPath,]).Tax();
 
         if (parallel)
         {
@@ -153,7 +153,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             if (!this.Contains(dependency))
             {
-                await output.IgnoringNonExistentDependency(target, dependency, [.. dependencyPath]).Tax();
+                await output.IgnoringNonExistentDependency(target, dependency, [.. dependencyPath,]).Tax();
             }
             else
             {
@@ -174,7 +174,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
                 if (!targetWasAlreadyStarted)
                 {
-                    runningTarget = target.RunAsync(dryRun, parallel, parallelTargets, output, messageOnly, [.. dependencyPath]);
+                    runningTarget = target.RunAsync(dryRun, parallel, parallelTargets, output, messageOnly, [.. dependencyPath,]);
                     runningTargets.Add(target, runningTarget);
                 }
             }
@@ -185,7 +185,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
             if (!targetWasAlreadyStarted || runningTarget!.IsAwaitable())
             {
-                await output.Awaiting(target, [.. dependencyPath]).Tax();
+                await output.Awaiting(target, [.. dependencyPath,]).Tax();
                 await runningTarget!.Tax();
             }
         }
