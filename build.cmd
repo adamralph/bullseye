@@ -28,11 +28,11 @@ dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose -
 
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- large-graph --verbose --parallel || goto :error
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- --help || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- --foo bar --verbose build || goto :error
+dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --help || goto :error
+dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --foo bar --verbose build || goto :error
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --help || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --foo bar --verbose build || goto :error
+dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --help || goto :error
+dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --foo bar --verbose build || goto :error
 
 dotnet run -c Release --no-build --project BullseyeSmokeTester.Parallel || goto :error
 
