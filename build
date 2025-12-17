@@ -30,11 +30,11 @@ dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose -
 
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- large-graph --verbose --parallel
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- --help
-dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine  -- --foo bar --verbose build
+dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --help
+dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --foo bar --verbose build
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --help
-dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster     -- --foo bar --verbose build
+dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --help
+dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --foo bar --verbose build
 
 dotnet run -c Release --no-build --project BullseyeSmokeTester.Parallel
 
