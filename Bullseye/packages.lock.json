@@ -10,9 +10,9 @@
       },
       "MinVer": {
         "type": "Direct",
-        "requested": "[6.1.0-beta.1, )",
-        "resolved": "6.1.0-beta.1",
-        "contentHash": "7G+74w2V7Cd9wy6JmUuRsDY/lskO9smQNlp9rF6BJr70RTQb6odJ3n6Oau23/eBuvQjI6vy4bVbQPZvDFey01g=="
+        "requested": "[6.1.0-rc.1, )",
+        "resolved": "6.1.0-rc.1",
+        "contentHash": "7OW3RUitI+Lz2MegWySLmN4gU1Q7oDK4wUz2GpmwqEOPOdcEf0lS7/9Sy7D9XgAhoXueeHC/pJKzmjd3vL+OrA=="
       }
     },
     "net8.0": {
@@ -24,9 +24,9 @@
       },
       "MinVer": {
         "type": "Direct",
-        "requested": "[6.1.0-beta.1, )",
-        "resolved": "6.1.0-beta.1",
-        "contentHash": "7G+74w2V7Cd9wy6JmUuRsDY/lskO9smQNlp9rF6BJr70RTQb6odJ3n6Oau23/eBuvQjI6vy4bVbQPZvDFey01g=="
+        "requested": "[6.1.0-rc.1, )",
+        "resolved": "6.1.0-rc.1",
+        "contentHash": "7OW3RUitI+Lz2MegWySLmN4gU1Q7oDK4wUz2GpmwqEOPOdcEf0lS7/9Sy7D9XgAhoXueeHC/pJKzmjd3vL+OrA=="
       }
     },
     "net9.0": {
@@ -38,9 +38,9 @@
       },
       "MinVer": {
         "type": "Direct",
-        "requested": "[6.1.0-beta.1, )",
-        "resolved": "6.1.0-beta.1",
-        "contentHash": "7G+74w2V7Cd9wy6JmUuRsDY/lskO9smQNlp9rF6BJr70RTQb6odJ3n6Oau23/eBuvQjI6vy4bVbQPZvDFey01g=="
+        "requested": "[6.1.0-rc.1, )",
+        "resolved": "6.1.0-rc.1",
+        "contentHash": "7OW3RUitI+Lz2MegWySLmN4gU1Q7oDK4wUz2GpmwqEOPOdcEf0lS7/9Sy7D9XgAhoXueeHC/pJKzmjd3vL+OrA=="
       }
     }
   }
