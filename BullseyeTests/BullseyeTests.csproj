@@ -11,12 +11,24 @@
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" Version="3.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="Verify.Xunit" Version="31.9.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Bullseye\Bullseye.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Clean up after Verify.Xunit">
+    <Using Remove="VerifyTests" />
+    <Using Remove="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="OutputTests.*.verified.txt">
+      <DependentUpon>OutputTests.cs</DependentUpon>
+    </None>
   </ItemGroup>
 
 </Project>

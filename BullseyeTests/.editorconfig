@@ -9,5 +9,5 @@ dotnet_diagnostic.CA1861.severity = none
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
 
-[output.*.txt]
+[*.verified.txt]
 trim_trailing_whitespace = false

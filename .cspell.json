@@ -7,7 +7,7 @@
       "language": "en-US"
     },
     {
-      "filename": "{.cspell.json,output.*.txt,*.svg,PublicAPI.*.txt}",
+      "filename": "{.cspell.json,*.verified.txt,*.svg,PublicAPI.*.txt}",
       "enabled": false
     }
   ],

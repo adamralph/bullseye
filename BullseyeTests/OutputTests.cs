@@ -1,38 +1,44 @@
 using System.Runtime.InteropServices;
 using Bullseye;
 using Bullseye.Internal;
-using BullseyeTests.Infra;
+using VerifyTests;
 using Xunit;
+using Target = Bullseye.Internal.Target;
 
 namespace BullseyeTests;
 
 public static class OutputTests
 {
+    public static TheoryData<Host> Hosts { get; } = [.. Enum.GetValues<Host>(),];
+
     [Fact]
     public static async Task DefaultHost()
     {
         // arrange
-        await using var output = new StringWriter();
+        await using var writer = new StringWriter();
         var ordinal = 1;
 
         // act
         foreach (var @bool in new[] { true, false, })
         {
-            await Write(output, noColor: true, noExtendedChars: !@bool, host: default, hostForced: @bool, OSPlatform.Create("Unknown"), skipDependencies: @bool, dryRun: @bool, parallel: @bool, verbose: true, ["arg1", "arg2",], ordinal++);
+            await writer.WriteSampleOutput(
+                noColor: true,
+                noExtendedChars: !@bool,
+                host: default,
+                hostForced: @bool,
+                OSPlatform.Create("Unknown"),
+                skipDependencies: @bool,
+                dryRun: @bool,
+                parallel: @bool,
+                verbose: true,
+                ["arg1", "arg2",],
+                ordinal++);
         }
 
         // assert
-#if NET8_0
-        var expectedPath = "../../../output.default.host.net8.0.txt";
-#endif
-#if NET9_0
-        var expectedPath = "../../../output.default.host.net9.0.txt";
-#endif
-#if NET10_0
-        var expectedPath = "../../../output.default.host.net10.0.txt";
-#endif
-
-        await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
+        var settings = new VerifySettings();
+        settings.UniqueForTargetFrameworkAndVersion();
+        _ = await Verify(writer.ToString(), settings);
     }
 
     [Theory]
@@ -40,7 +46,7 @@ public static class OutputTests
     public static async Task AllHosts(Host host)
     {
         // arrange
-        await using var output = new StringWriter();
+        await using var writer = new StringWriter();
         var ordinal = 1;
 
         foreach (var noColor in new[] { true, false, })
@@ -53,37 +59,41 @@ public static class OutputTests
                 OSPlatform.OSX,
             })
             {
-                await Write(output, noColor, noExtendedChars: false, host, hostForced: true, osPlatform, skipDependencies: true, dryRun: true, parallel: true, verbose: true, args: [], ordinal++);
+                await writer.WriteSampleOutput(
+                    noColor,
+                    noExtendedChars: false,
+                    host,
+                    hostForced: true,
+                    osPlatform,
+                    skipDependencies: true,
+                    dryRun: true,
+                    parallel: true,
+                    verbose: true,
+                    args: [],
+                    ordinal++);
             }
         }
 
         // assert
-#if NET8_0
-        var expectedPath = $"../../../output.all.hosts.{host}.net8.0.txt";
-#endif
-#if NET9_0
-        var expectedPath = $"../../../output.all.hosts.{host}.net9.0.txt";
-#endif
-#if NET10_0
-        var expectedPath = $"../../../output.all.hosts.{host}.net10.0.txt";
-#endif
-
-        await AssertFile.Contains(expectedPath, output.ToString().Replace(Environment.NewLine, "\r\n", StringComparison.Ordinal));
+        var settings = new VerifySettings();
+        settings.UniqueForTargetFrameworkAndVersion();
+        settings.UseParameters(host);
+        _ = await Verify(writer.ToString(), settings);
     }
 
-    public static TheoryData<Host> Hosts()
-    {
-        var hosts = new TheoryData<Host>();
-        foreach (var host in Enum.GetValues<Host>())
-        {
-            hosts.Add(host);
-        }
-
-        return hosts;
-    }
-
-    private static async Task Write(
-        TextWriter writer, bool noColor, bool noExtendedChars, Host host, bool hostForced, OSPlatform osPlatform, bool skipDependencies, bool dryRun, bool parallel, bool verbose, IReadOnlyCollection<string> args, int ordinal)
+    private static async Task WriteSampleOutput(
+        this TextWriter writer,
+        bool noColor,
+        bool noExtendedChars,
+        Host host,
+        bool hostForced,
+        OSPlatform osPlatform,
+        bool skipDependencies,
+        bool dryRun,
+        bool parallel,
+        bool verbose,
+        IReadOnlyCollection<string> args,
+        int ordinal)
     {
         await writer.WriteLineAsync();
         await writer.WriteLineAsync($"noColor: {noColor}");
@@ -98,12 +108,25 @@ public static class OutputTests
         await writer.WriteLineAsync($"args: {string.Join(" ", args)}");
         await writer.WriteLineAsync();
 
-        var output = new Output(writer, TextWriter.Null, args, dryRun, host, hostForced, noColor, noExtendedChars, osPlatform, parallel, () => $"prefix{ordinal}", skipDependencies, verbose);
+        var output = new Output(
+            writer,
+            TextWriter.Null,
+            args,
+            dryRun,
+            host,
+            hostForced,
+            noColor,
+            noExtendedChars,
+            osPlatform,
+            parallel,
+            () => $"prefix{ordinal}",
+            skipDependencies,
+            verbose);
 
-        await Write(output, dryRun);
+        await output.WriteSample(dryRun);
     }
 
-    private static async Task Write(Output output, bool dryRun)
+    private static async Task WriteSample(this Output output, bool dryRun)
     {
         var badInput = new Target("badInput", "", []);
         var badInputDuration = dryRun ? TimeSpan.Zero : TimeSpan.FromMilliseconds(1.234);
