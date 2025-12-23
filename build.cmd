@@ -1,15 +1,24 @@
 @echo Off
 
-echo %~nx0: Formatting...
+call :begin_group Formatting
+@echo On
 dotnet format --verify-no-changes || goto :error
+@echo Off
+call :end_group
 
-echo %~nx0: Building...
+call :begin_group Building
+@echo On
 dotnet build --configuration Release --nologo || goto :error
+@echo Off
+call :end_group
 
-echo %~nx0: Testing...
+call :begin_group Testing
+@echo On
 dotnet test --configuration Release --no-build || goto :error
+@echo Off
+call :end_group
 
-echo %~nx0: Smoke testing...
+call :begin_group "Smoke testing"
 @echo On
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- --help || goto :error
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-targets || goto :error
@@ -40,8 +49,18 @@ set NO_COLOR=1
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose || goto :error
 
 @echo Off
+call :end_group
 
 goto :EOF
+
+:begin_group
+if "%GITHUB_ACTIONS%"=="true" echo ::group::%~1
+exit /b 0
+
+:end_group
+if "%GITHUB_ACTIONS%"=="true" echo ::endgroup::
+exit /b 0
+
 :error
 @echo Off
 exit /b %errorlevel%
