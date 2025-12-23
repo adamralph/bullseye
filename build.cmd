@@ -1,24 +1,24 @@
 @echo Off
 
-call :begin_group Formatting
+call :begin_group format
 @echo On
 dotnet format --verify-no-changes || goto :error
 @echo Off
 call :end_group
 
-call :begin_group Building
+call :begin_group build
 @echo On
 dotnet build --configuration Release --nologo || goto :error
 @echo Off
 call :end_group
 
-call :begin_group Testing
+call :begin_group test
 @echo On
 dotnet test --configuration Release --no-build || goto :error
 @echo Off
 call :end_group
 
-call :begin_group "Smoke testing"
+call :begin_group smoke-test
 @echo On
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- --help || goto :error
 dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-targets || goto :error
