@@ -31,6 +31,11 @@ indent_size                                                               = 4
 [build]
 end_of_line                                                               = lf
 
+[makefile]
+indent_size                                                               = 4
+indent_style                                                              = tab
+end_of_line                                                               = lf
+
 [packages.lock.json]
 end_of_line                                                               = unset
 insert_final_newline                                                      = unset

@@ -3,7 +3,7 @@
   "language": "en-GB",
   "overrides": [
     {
-      "filename": "{*.cmd,*.cs,*.csproj,*.props,*.yml,build}",
+      "filename": "{*.cmd,*.cs,*.csproj,*.props,*.yml,build,makefile}",
       "language": "en-US"
     },
     {
@@ -23,6 +23,7 @@
     "counterclaim",
     "cref",
     "devcontainers",
+    "endef",
     "endgroup",
     "errorlevel",
     "Fluxzy",
