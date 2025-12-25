@@ -23,26 +23,13 @@ public partial class Output(
     private const string FailedMessage = "FAILED!";
     private const string SucceededMessage = "Succeeded";
 
-    private readonly TextWriter writer = writer;
-    private readonly TextWriter diagnosticsWriter = diagnosticsWriter;
-
-    private readonly IReadOnlyCollection<string> args = args;
-    private readonly bool dryRun = dryRun;
-    private readonly Host host = host;
-    private readonly bool hostForced = hostForced;
-    private readonly bool noColor = noColor;
-    private readonly OSPlatform osPlatform = osPlatform;
-    private readonly bool parallel = parallel;
-    private readonly Func<string> getPrefix = getPrefix;
-    private readonly bool skipDependencies = skipDependencies;
-
-    private readonly Palette palette = new(noColor, noExtendedChars, host, osPlatform);
-    private readonly string scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
+    private readonly Palette _palette = new(noColor, noExtendedChars, host, osPlatform);
+    private readonly string _scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
 
     public bool Verbose { get; } = verbose;
     public async Task Header(Func<string> getVersion)
     {
-        if (!this.Verbose)
+        if (!Verbose)
         {
             return;
         }
@@ -50,146 +37,146 @@ public partial class Output(
         var version = getVersion();
 
         var builder = new StringBuilder()
-            .AppendLine(Format(this.getPrefix(), "Bullseye version", $"{this.palette.Verbose}{version}{this.palette.Default}", this.palette))
-            .AppendLine(Format(this.getPrefix(), "Host", $"{this.palette.Verbose}{this.host} ({(this.hostForced ? "forced" : "detected")}){this.palette.Default}", this.palette))
-            .AppendLine(Format(this.getPrefix(), "OS", $"{this.palette.Verbose}{this.osPlatform.Humanize()}{this.palette.Default}", this.palette))
-            .AppendLine(Format(this.getPrefix(), "Args", $"{this.palette.Verbose}{string.Join(" ", this.args)}{this.palette.Default}", this.palette));
+            .AppendLine(Format(getPrefix(), "Bullseye version", $"{_palette.Verbose}{version}{_palette.Default}", _palette))
+            .AppendLine(Format(getPrefix(), "Host", $"{_palette.Verbose}{host} ({(hostForced ? "forced" : "detected")}){_palette.Default}", _palette))
+            .AppendLine(Format(getPrefix(), "OS", $"{_palette.Verbose}{osPlatform.Humanize()}{_palette.Default}", _palette))
+            .AppendLine(Format(getPrefix(), "Args", $"{_palette.Verbose}{string.Join(" ", args)}{_palette.Default}", _palette));
 
-        await this.writer.WriteAsync(builder.ToString()).Tax();
+        await writer.WriteAsync(builder.ToString()).Tax();
     }
 
     public async Task Usage(TargetCollection targets)
     {
-        var usage = GetUsageLines(this.palette, this.scriptExtension)
-                    + GetListLines(targets, targets.Select(target => target.Name), 0, 0, false, "  ", this.palette);
+        var usage = GetUsageLines(_palette, _scriptExtension)
+                    + GetListLines(targets, targets.Select(target => target.Name), 0, 0, false, "  ", _palette);
 
-        await this.writer.WriteAsync(usage).Tax();
+        await writer.WriteAsync(usage).Tax();
     }
 
     public Task List(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-        this.writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, "", this.palette));
+        writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, "", _palette));
 
     public Task Starting(IEnumerable<Target> targets) =>
-        this.writer.WriteLineAsync(Format(this.getPrefix(), targets, $"{this.palette.Text}{StartingMessage}{this.palette.Default}", this.dryRun, this.parallel, this.skipDependencies, this.palette));
+        writer.WriteLineAsync(Format(getPrefix(), targets, $"{_palette.Text}{StartingMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _palette));
 
     public async Task Failed(IEnumerable<Target> targets)
     {
-        var message = GetResultLines(this.results, this.totalDuration, this.getPrefix, this.palette)
-            + Format(this.getPrefix(), targets, $"{this.palette.Failure}{FailedMessage}{this.palette.Default}", this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.palette);
+        var message = GetResultLines(_results, _totalDuration, getPrefix, _palette)
+            + Format(getPrefix(), targets, $"{_palette.Failure}{FailedMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
 
-        await this.writer.WriteLineAsync(message).Tax();
+        await writer.WriteLineAsync(message).Tax();
     }
 
     public async Task Succeeded(IEnumerable<Target> targets)
     {
-        var message = GetResultLines(this.results, this.totalDuration, this.getPrefix, this.palette)
-            + Format(this.getPrefix(), targets, $"{this.palette.Success}{SucceededMessage}{this.palette.Default}", this.dryRun, this.parallel, this.skipDependencies, this.totalDuration, this.palette);
+        var message = GetResultLines(_results, _totalDuration, getPrefix, _palette)
+            + Format(getPrefix(), targets, $"{_palette.Success}{SucceededMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
 
-        await this.writer.WriteLineAsync(message).Tax();
+        await writer.WriteLineAsync(message).Tax();
     }
 
     public async Task Awaiting(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
-        if (this.Verbose)
+        if (Verbose)
         {
-            await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Awaiting{this.palette.Default}", dependencyPath, this.palette)).Tax();
+            await writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Verbose}Awaiting{_palette.Default}", dependencyPath, _palette)).Tax();
         }
     }
 
     public async Task WalkingDependencies(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
-        if (this.Verbose)
+        if (Verbose)
         {
-            await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Walking dependencies{this.palette.Default}", dependencyPath, this.palette)).Tax();
+            await writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Verbose}Walking dependencies{_palette.Default}", dependencyPath, _palette)).Tax();
         }
     }
 
     public async Task IgnoringNonExistentDependency(Target target, string dependency, IReadOnlyCollection<Target> dependencyPath)
     {
-        if (this.Verbose)
+        if (Verbose)
         {
-            await this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Verbose}Ignoring non-existent dependency:{this.palette.Default} {this.palette.Target}{dependency}{this.palette.Default}", dependencyPath, this.palette)).Tax();
+            await writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Verbose}Ignoring non-existent dependency:{_palette.Default} {_palette.Target}{dependency}{_palette.Default}", dependencyPath, _palette)).Tax();
         }
     }
 
     public async Task BeginGroup(Target target)
     {
-        if (!this.parallel && this.host == Host.GitHubActions)
+        if (!parallel && host == Host.GitHubActions)
         {
-            await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.getPrefix()}:{this.palette.Default} {this.palette.Target}{target}{this.palette.Default}").Tax();
+            await writer.WriteLineAsync($"::group::{_palette.Prefix}{getPrefix()}:{_palette.Default} {_palette.Target}{target}{_palette.Default}").Tax();
         }
     }
 
     public async Task BeginGroup<TInput>(Target target, TInput input)
     {
-        if (!this.parallel && this.host == Host.GitHubActions)
+        if (!parallel && host == Host.GitHubActions)
         {
-            await this.writer.WriteLineAsync($"::group::{this.palette.Prefix}{this.getPrefix()}:{this.palette.Default} {this.palette.Target}{target}{this.palette.Text}/{this.palette.Input}{input}{this.palette.Default}").Tax();
+            await writer.WriteLineAsync($"::group::{_palette.Prefix}{getPrefix()}:{_palette.Default} {_palette.Target}{target}{_palette.Text}/{_palette.Input}{input}{_palette.Default}").Tax();
         }
     }
 
     public async Task EndGroup()
     {
-        if (!this.parallel && this.host == Host.GitHubActions)
+        if (!parallel && host == Host.GitHubActions)
         {
-            await this.writer.WriteLineAsync("::endgroup::").Tax();
+            await writer.WriteLineAsync("::endgroup::").Tax();
         }
     }
 
     public Task Starting(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
-        _ = this.InternResult(target);
+        _ = InternResult(target);
 
-        return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Text}{StartingMessage}{this.palette.Default}", dependencyPath, this.palette));
+        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Text}{StartingMessage}{_palette.Default}", dependencyPath, _palette));
     }
 
     public Task Error(Target target, Exception ex) =>
-        this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failure}{ex}{this.palette.Default}", this.palette));
+        writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
 
     public Task Failed(Target target, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
     {
-        var result = this.InternResult(target);
+        var result = InternResult(target);
         result.Outcome = TargetOutcome.Failed;
         result.Duration = result.Duration.Add(duration);
 
-        this.totalDuration = this.totalDuration.Add(duration);
+        _totalDuration = _totalDuration.Add(duration);
 
-        return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Failure}{FailedMessage}{this.palette.Default} {this.palette.Failure}{ex.Message}{this.palette.Default}", result.Duration, dependencyPath, this.palette));
+        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
     public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
     {
-        var result = this.InternResult(target);
+        var result = InternResult(target);
         result.Outcome = TargetOutcome.Succeeded;
         result.Duration = result.Duration.Add(duration);
 
-        this.totalDuration = this.totalDuration.Add(duration);
+        _totalDuration = _totalDuration.Add(duration);
 
-        return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Success}{SucceededMessage}{this.palette.Default}", result.Duration, dependencyPath, this.palette));
+        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Success}{SucceededMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
     public Task NoInputs(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
-        var result = this.InternResult(target);
+        var result = InternResult(target);
         result.Outcome = TargetOutcome.NoInputs;
 
-        return this.writer.WriteLineAsync(Format(this.getPrefix(), target, $"{this.palette.Warning}{NoInputsMessage}{this.palette.Default}", result.Duration, dependencyPath, this.palette));
+        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Warning}{NoInputsMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
     public Task Starting<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
     {
-        var (_, targetInputResult) = this.Intern(target, inputId);
+        var (_, targetInputResult) = Intern(target, inputId);
         targetInputResult.Input = input;
 
-        return this.writer.WriteLineAsync(Format(this.getPrefix(), target, targetInputResult.Input, StartingMessage, dependencyPath, this.palette));
+        return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, StartingMessage, dependencyPath, _palette));
     }
 
     public Task Error<TInput>(Target target, TInput input, Exception ex) =>
-        this.writer.WriteLineAsync(Format(this.getPrefix(), target, input, $"{this.palette.Failure}{ex}{this.palette.Default}", this.palette));
+        writer.WriteLineAsync(Format(getPrefix(), target, input, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
 
     public Task Failed<TInput>(Target target, TInput input, Guid inputId, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
     {
-        var (targetResult, targetInputResult) = this.Intern(target, inputId);
+        var (targetResult, targetInputResult) = Intern(target, inputId);
 
         targetInputResult.Input = input;
         targetInputResult.Outcome = TargetInputOutcome.Failed;
@@ -198,14 +185,14 @@ public partial class Output(
         targetResult.Outcome = TargetOutcome.Failed;
         targetResult.Duration = targetResult.Duration.Add(duration);
 
-        this.totalDuration = this.totalDuration.Add(duration);
+        _totalDuration = _totalDuration.Add(duration);
 
-        return this.writer.WriteLineAsync(Format(this.getPrefix(), target, targetInputResult.Input, $"{this.palette.Failure}{FailedMessage}{this.palette.Default} {this.palette.Failure}{ex.Message}{this.palette.Default}", targetInputResult.Duration, dependencyPath, this.palette));
+        return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", targetInputResult.Duration, dependencyPath, _palette));
     }
 
     public Task Succeeded<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
     {
-        var (targetResult, targetInputResult) = this.Intern(target, inputId);
+        var (targetResult, targetInputResult) = Intern(target, inputId);
 
         targetInputResult.Input = input;
         targetInputResult.Outcome = TargetInputOutcome.Succeeded;
@@ -213,9 +200,9 @@ public partial class Output(
 
         targetResult.Duration = targetResult.Duration.Add(duration);
 
-        this.totalDuration = this.totalDuration.Add(duration);
+        _totalDuration = _totalDuration.Add(duration);
 
-        return this.writer.WriteLineAsync(Format(this.getPrefix(), target, targetInputResult.Input, $"{this.palette.Success}{SucceededMessage}{this.palette.Default}", targetInputResult.Duration, dependencyPath, this.palette));
+        return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, $"{_palette.Success}{SucceededMessage}{_palette.Default}", targetInputResult.Duration, dependencyPath, _palette));
     }
 
     // editorconfig-checker-disable

@@ -27,17 +27,17 @@ public partial class Options : IOptions
             throw new InvalidUsageException($"Unknown option{(result.UnknownOptions.Count > 1 ? "s" : "")} {result.UnknownOptions.Spaced()}.");
         }
 
-        this.Clear = result.Clear;
-        this.DryRun = result.DryRun;
-        this.Host = result.Host;
-        this.ListDependencies = result.ListDependencies;
-        this.ListInputs = result.ListInputs;
-        this.ListTargets = result.ListTargets;
-        this.ListTree = result.ListTree;
-        this.NoColor = result.NoColor;
-        this.NoExtendedChars = result.NoExtendedChars;
-        this.Parallel = result.Parallel;
-        this.SkipDependencies = result.SkipDependencies;
-        this.Verbose = result.Verbose;
+        Clear = result.Clear;
+        DryRun = result.DryRun;
+        Host = result.Host;
+        ListDependencies = result.ListDependencies;
+        ListInputs = result.ListInputs;
+        ListTargets = result.ListTargets;
+        ListTree = result.ListTree;
+        NoColor = result.NoColor;
+        NoExtendedChars = result.NoExtendedChars;
+        Parallel = result.Parallel;
+        SkipDependencies = result.SkipDependencies;
+        Verbose = result.Verbose;
     }
 }

@@ -2,12 +2,12 @@ namespace Bullseye.Internal;
 
 public static class ArgsParser
 {
-    private static readonly IReadOnlyList<string> helpOptions = ["--help", "-help", "/help", "-h", "/h", "-?", "/?",];
+    private static readonly IReadOnlyList<string> HelpOptions = ["--help", "-help", "/help", "-h", "/h", "-?", "/?",];
 
     public static (IReadOnlyList<string> Targets, Options Options, IReadOnlyList<string> UnknownOptions, bool showHelp)
         Parse(IReadOnlyCollection<string> args)
     {
-        var nonHelpArgs = args.Where(arg => !helpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase)).ToList();
+        var nonHelpArgs = args.Where(arg => !HelpOptions.Contains(arg, StringComparer.OrdinalIgnoreCase)).ToList();
 
         var readResult = OptionsReader.Read(nonHelpArgs.Where(IsNotTarget));
         var options = new Options

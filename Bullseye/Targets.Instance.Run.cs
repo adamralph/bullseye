@@ -8,8 +8,8 @@ namespace Bullseye;
 /// </summary>
 public partial class Targets
 {
-    private static readonly List<string> defaultList = [];
-    private static readonly Func<Exception, bool> defaultMessageOnly = _ => false;
+    private static readonly List<string> DefaultList = [];
+    private static readonly Func<Exception, bool> DefaultMessageOnly = _ => false;
 
     /// <summary>
     /// Runs the targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -34,9 +34,9 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        await this.targetCollection.RunAsync(
+        await _targetCollection.RunAsync(
             [.. args,],
-            messageOnly ?? defaultMessageOnly,
+            messageOnly ?? DefaultMessageOnly,
             getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,
@@ -71,12 +71,12 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        await this.targetCollection.RunAsync(
+        await _targetCollection.RunAsync(
             [.. targets,],
             options,
-            unknownOptions?.ToList() ?? defaultList,
+            unknownOptions?.ToList() ?? DefaultList,
             showHelp,
-            messageOnly ?? defaultMessageOnly,
+            messageOnly ?? DefaultMessageOnly,
             getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,
@@ -106,9 +106,9 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        await this.targetCollection.RunAsync(
+        await _targetCollection.RunAsync(
             [.. args,],
-            messageOnly ?? defaultMessageOnly,
+            messageOnly ?? DefaultMessageOnly,
             getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,
@@ -144,12 +144,12 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        await this.targetCollection.RunAsync(
+        await _targetCollection.RunAsync(
             [.. targets,],
             options,
-            unknownOptions?.ToList() ?? defaultList,
+            unknownOptions?.ToList() ?? DefaultList,
             showHelp,
-            messageOnly ?? defaultMessageOnly,
+            messageOnly ?? DefaultMessageOnly,
             getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,

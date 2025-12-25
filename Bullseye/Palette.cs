@@ -7,7 +7,7 @@ namespace Bullseye;
 /// </summary>
 public class Palette
 {
-    private static readonly int[] numbers = [0, 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97,];
+    private static readonly int[] Numbers = [0, 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97,];
 
     /// <summary>
     /// Constructs an instance of <see cref="Palette"/>.
@@ -56,77 +56,77 @@ public class Palette
         brightCyan = Console.BackgroundColor == ConsoleColor.Cyan ? cyan : brightCyan;
         ////brightWhite = Console.BackgroundColor == ConsoleColor.White ? white : brightWhite;
 
-        this.Invocation = brightYellow;
-        this.Text = white;
-        this.Failure = brightRed;
-        this.Input = brightCyan;
-        this.Option = brightMagenta;
-        this.Prefix = brightBlack;
-        this.Default = reset;
-        this.Success = green;
-        this.Target = cyan;
-        this.Timing = magenta;
-        this.Verbose = brightBlack;
-        this.Warning = brightYellow;
+        Invocation = brightYellow;
+        Text = white;
+        Failure = brightRed;
+        Input = brightCyan;
+        Option = brightMagenta;
+        Prefix = brightBlack;
+        Default = reset;
+        Success = green;
+        Target = cyan;
+        Timing = magenta;
+        Verbose = brightBlack;
+        Warning = brightYellow;
 
-        this.TreeCorner = $"{green}└─{reset}";
-        this.TreeFork = $"{green}├─{reset}";
-        this.TreeLine = $"{green}│{reset} ";
-        this.Horizontal = '─';
+        TreeCorner = $"{green}└─{reset}";
+        TreeFork = $"{green}├─{reset}";
+        TreeLine = $"{green}│{reset} ";
+        Horizontal = '─';
 
 #pragma warning disable IDE0010 // Add missing cases to switch statement
         switch (host)
         {
             case Host.AppVeyor when osPlatform == OSPlatform.Windows:
-                this.Text = brightBlack;
-                this.Target = blue;
-                this.TreeCorner = "  ";
-                this.TreeFork = "  ";
-                this.TreeLine = "  ";
-                this.Horizontal = '-';
+                Text = brightBlack;
+                Target = blue;
+                TreeCorner = "  ";
+                TreeFork = "  ";
+                TreeLine = "  ";
+                Horizontal = '-';
                 break;
             case Host.AppVeyor when osPlatform == OSPlatform.Linux:
-                this.Text = brightBlack;
-                this.Target = blue;
-                this.Timing = brightMagenta;
+                Text = brightBlack;
+                Target = blue;
+                Timing = brightMagenta;
                 break;
             case Host.GitHubActions:
-                this.Invocation = yellow;
-                this.Failure = red;
-                this.Target = blue;
+                Invocation = yellow;
+                Failure = red;
+                Target = blue;
                 break;
             case Host.GitLabCI:
-                this.Target = blue;
+                Target = blue;
                 break;
             case Host.TeamCity:
-                this.Text = brightBlack;
-                this.Target = brightBlue;
-                this.TreeCorner = "  ";
-                this.TreeFork = "  ";
-                this.TreeLine = "  ";
-                this.Horizontal = '-';
+                Text = brightBlack;
+                Target = brightBlue;
+                TreeCorner = "  ";
+                TreeFork = "  ";
+                TreeLine = "  ";
+                Horizontal = '-';
                 break;
             case Host.Travis:
-                this.Invocation = yellow;
-                this.Text = brightBlack;
-                this.Failure = red;
-                this.Input = cyan;
-                this.Option = magenta;
-                this.Target = blue;
-                this.Warning = yellow;
+                Invocation = yellow;
+                Text = brightBlack;
+                Failure = red;
+                Input = cyan;
+                Option = magenta;
+                Target = blue;
+                Warning = yellow;
                 break;
             case Host.VisualStudioCode:
-                this.Target = blue;
+                Target = blue;
                 break;
         }
 #pragma warning restore IDE0010 // Add missing cases to switch statement
 
         if (noExtendedChars)
         {
-            this.TreeCorner = "  ";
-            this.TreeFork = "  ";
-            this.TreeLine = "  ";
-            this.Horizontal = '-';
+            TreeCorner = "  ";
+            TreeFork = "  ";
+            TreeLine = "  ";
+            Horizontal = '-';
         }
     }
 
@@ -222,7 +222,7 @@ public class Palette
             return text;
         }
 
-        foreach (var number in numbers)
+        foreach (var number in Numbers)
         {
             text = text.Replace($"\x1b[{number}m", "", StringComparison.Ordinal);
         }

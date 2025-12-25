@@ -6,7 +6,7 @@ internal static class NativeMethodsWrapper
 {
     public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandle(TextWriter diagnostics, Func<string> getMessagePrefix)
     {
-        var (handle, error) = (NativeMethods.GetStdHandle(NativeMethods.StdHandle.STD_OUTPUT_HANDLE), Marshal.GetLastWin32Error());
+        var (handle, error) = (NativeMethods.GetStdHandle(NativeMethods.StdHandle.StdOutputHandle), Marshal.GetLastWin32Error());
 
         if (error != 0)
         {

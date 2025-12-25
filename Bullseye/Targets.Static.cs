@@ -5,5 +5,5 @@ namespace Bullseye;
 /// </summary>
 public partial class Targets
 {
-    private static readonly Targets instance = new();
+    private static readonly Targets Instance = new();
 }
