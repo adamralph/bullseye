@@ -5,8 +5,6 @@ namespace Bullseye.Internal;
 public class ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
         : Target(name, description, dependencies)
 {
-    private readonly Func<Task> action = action;
-
     public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output,
         Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
@@ -15,7 +13,7 @@ public class ActionTarget(string name, string description, IEnumerable<string> d
             await parallelTargets.WaitAsync().Tax();
             try
             {
-                await this.RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
+                await RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
             }
             finally
             {
@@ -24,7 +22,7 @@ public class ActionTarget(string name, string description, IEnumerable<string> d
         }
         else
         {
-            await this.RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
+            await RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
         }
     }
 
@@ -40,7 +38,7 @@ public class ActionTarget(string name, string description, IEnumerable<string> d
 
             if (!dryRun)
             {
-                await this.RunAsync(output, messageOnly, dependencyPath, stopWatch).Tax();
+                await RunAsync(output, messageOnly, dependencyPath, stopWatch).Tax();
             }
 
             await output.Succeeded(this, dependencyPath, stopWatch.Elapsed).Tax();
@@ -57,7 +55,7 @@ public class ActionTarget(string name, string description, IEnumerable<string> d
 
         try
         {
-            await this.action().Tax();
+            await action().Tax();
         }
         catch (Exception ex)
         {
@@ -70,7 +68,7 @@ public class ActionTarget(string name, string description, IEnumerable<string> d
 
             await output.Failed(this, ex, duration, dependencyPath).Tax();
 
-            throw new TargetFailedException($"Target '{this.Name}' failed.", ex);
+            throw new TargetFailedException($"Target '{Name}' failed.", ex);
         }
     }
 }

@@ -5,14 +5,11 @@ namespace Bullseye.Internal;
 public class ActionTarget<TInput>(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
     : Target(name, description, dependencies), IHaveInputs
 {
-    private readonly IEnumerable<TInput> inputs = inputs;
-    private readonly Func<TInput, Task> action = action;
-
-    public IEnumerable<object?> Inputs => this.inputs.Cast<object?>();
+    public IEnumerable<object?> Inputs => inputs.Cast<object?>();
 
     public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
-        var inputsList = this.inputs.ToList();
+        var inputsList = inputs.ToList();
 
         if (inputsList.Count == 0)
         {
@@ -27,7 +24,7 @@ public class ActionTarget<TInput>(string name, string description, IEnumerable<s
                 await parallelTargets.WaitAsync().Tax();
                 try
                 {
-                    await this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
+                    await RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
                 }
                 finally
                 {
@@ -41,7 +38,7 @@ public class ActionTarget<TInput>(string name, string description, IEnumerable<s
         {
             foreach (var input in inputsList)
             {
-                await this.RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
+                await RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
             }
         }
     }
@@ -58,7 +55,7 @@ public class ActionTarget<TInput>(string name, string description, IEnumerable<s
 
             if (!dryRun)
             {
-                await this.RunAsync(input, id, output, messageOnly, dependencyPath, stopWatch).Tax();
+                await RunAsync(input, id, output, messageOnly, dependencyPath, stopWatch).Tax();
             }
 
             await output.Succeeded(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
@@ -75,7 +72,7 @@ public class ActionTarget<TInput>(string name, string description, IEnumerable<s
 
         try
         {
-            await this.action(input).Tax();
+            await action(input).Tax();
         }
         catch (Exception ex)
         {
@@ -88,7 +85,7 @@ public class ActionTarget<TInput>(string name, string description, IEnumerable<s
 
             await output.Failed(this, input, id, ex, duration, dependencyPath).Tax();
 
-            throw new TargetFailedException($"Target '{this.Name}' failed with input '{input}'.", ex);
+            throw new TargetFailedException($"Target '{Name}' failed with input '{input}'.", ex);
         }
     }
 }

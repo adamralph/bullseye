@@ -28,7 +28,7 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        instance.RunAndExitAsync(args, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
+        Instance.RunAndExitAsync(args, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
 
     /// <summary>
     /// Runs the previously specified targets and then calls <see cref="Environment.Exit(int)"/>.
@@ -59,7 +59,7 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        instance.RunAndExitAsync(targets, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
+        Instance.RunAndExitAsync(targets, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
 
     /// <summary>
     /// Runs the previously specified targets.
@@ -85,7 +85,7 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        instance.RunWithoutExitingAsync(args, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
+        Instance.RunWithoutExitingAsync(args, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
 
     /// <summary>
     /// Runs the previously specified targets.
@@ -117,5 +117,5 @@ public partial class Targets
         Func<string>? getMessagePrefix = null,
         TextWriter? outputWriter = null,
         TextWriter? diagnosticsWriter = null) =>
-        instance.RunWithoutExitingAsync(targets, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
+        Instance.RunWithoutExitingAsync(targets, options, unknownOptions, showHelp, messageOnly, getMessagePrefix, outputWriter, diagnosticsWriter);
 }

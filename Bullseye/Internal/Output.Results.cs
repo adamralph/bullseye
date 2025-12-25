@@ -7,17 +7,17 @@ namespace Bullseye.Internal;
 
 public partial class Output
 {
-    private readonly ConcurrentDictionary<Target, TargetResult> results = new();
+    private readonly ConcurrentDictionary<Target, TargetResult> _results = new();
 
-    private int resultOrdinal;
-    private TimeSpan totalDuration;
+    private int _resultOrdinal;
+    private TimeSpan _totalDuration;
 
-    private TargetResult InternResult(Target target) => this.results.GetOrAdd(target, _ => new TargetResult(Interlocked.Increment(ref this.resultOrdinal)));
+    private TargetResult InternResult(Target target) => _results.GetOrAdd(target, _ => new TargetResult(Interlocked.Increment(ref _resultOrdinal)));
 
     private (TargetResult, TargetInputResult) Intern(Target target, Guid inputId)
     {
-        var targetResult = this.InternResult(target);
-        var targetInputResult = targetResult.InputResults.GetOrAdd(inputId, _ => new TargetInputResult(Interlocked.Increment(ref this.resultOrdinal)));
+        var targetResult = InternResult(target);
+        var targetInputResult = targetResult.InputResults.GetOrAdd(inputId, _ => new TargetInputResult(Interlocked.Increment(ref _resultOrdinal)));
 
         return (targetResult, targetInputResult);
     }

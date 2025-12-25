@@ -7,12 +7,14 @@ internal static partial class NativeMethods
     [Flags]
     public enum ConsoleOutputModes : uint
     {
-        ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004,
+        // ENABLE_VIRTUAL_TERMINAL_PROCESSING
+        EnableVirtualTerminalProcessing = 0x0004,
     }
 
     public enum StdHandle
     {
-        STD_OUTPUT_HANDLE = -11,
+        // STD_OUTPUT_HANDLE
+        StdOutputHandle = -11,
     }
 
     [LibraryImport("kernel32.dll", SetLastError = true)]

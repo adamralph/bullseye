@@ -10,5 +10,5 @@ public class Target(string name, string description, IEnumerable<string> depende
 
     public virtual Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath) => output.Succeeded(this, dependencyPath, TimeSpan.Zero);
 
-    public override string ToString() => this.Name;
+    public override string ToString() => Name;
 }

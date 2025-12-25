@@ -5,7 +5,7 @@ namespace Bullseye.Internal;
 
 public class TargetCollection() : KeyedCollection<string, Target>(StringComparer.OrdinalIgnoreCase)
 {
-    private static readonly ImmutableQueue<Target> rootDependencyPath = [];
+    private static readonly ImmutableQueue<Target> RootDependencyPath = [];
 
     protected override string GetKeyForItem(Target item) => item.Name;
 
@@ -19,17 +19,17 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
     {
         if (!skipDependencies)
         {
-            this.CheckForMissingDependencies();
+            CheckForMissingDependencies();
         }
 
-        this.CheckForCircularDependencies();
+        CheckForCircularDependencies();
 
         var targets = new List<Target>();
         var notFound = new List<string>();
 
         foreach (var name in names)
         {
-            if (this.TryGetValue(name, out var target))
+            if (TryGetValue(name, out var target))
             {
                 targets.Add(target);
             }
@@ -44,7 +44,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
             throw new InvalidUsageException($"Target{(notFound.Count > 1 ? "s" : "")} not found: {notFound.Spaced()}.");
         }
 
-        await this.RunAsync(targets, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
+        await RunAsync(targets, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
     }
 
     private async Task RunAsync(
@@ -67,7 +67,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
             if (parallel)
             {
 #pragma warning disable CA2025 // Do not pass 'IDisposable' instances into unawaited tasks
-                var tasks = targets.Select(target => this.RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, rootDependencyPath));
+                var tasks = targets.Select(target => RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, RootDependencyPath));
 #pragma warning restore CA2025
                 await Task.WhenAll(tasks).Tax();
             }
@@ -75,7 +75,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
             {
                 foreach (var target in targets)
                 {
-                    await this.RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, rootDependencyPath).Tax();
+                    await RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, RootDependencyPath).Tax();
                 }
             }
         }
@@ -151,13 +151,13 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
         async Task RunDependencyAsync(string dependency)
         {
-            if (!this.Contains(dependency))
+            if (!Contains(dependency))
             {
                 await output.IgnoringNonExistentDependency(target, dependency, [.. dependencyPath,]).Tax();
             }
             else
             {
-                await this.RunAsync(this[dependency], explicitTargets, dryRun, parallel, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, dependencyPath).Tax();
+                await RunAsync(this[dependency], explicitTargets, dryRun, parallel, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, dependencyPath).Tax();
             }
         }
 
@@ -197,7 +197,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
         foreach (var target in this)
         {
-            foreach (var dependency in target.Dependencies.Where(dependency => !this.Contains(dependency)))
+            foreach (var dependency in target.Dependencies.Where(dependency => !Contains(dependency)))
             {
                 _ = (missingDependencies.TryGetValue(dependency, out var set)
                         ? set
@@ -234,7 +234,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
             dependents.Push(target.Name);
 
-            foreach (var dependency in target.Dependencies.Where(this.Contains))
+            foreach (var dependency in target.Dependencies.Where(Contains))
             {
                 Check(this[dependency]);
             }
