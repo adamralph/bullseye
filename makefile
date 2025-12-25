@@ -1,4 +1,4 @@
-default: format test smoke-test
+default: format test smoke-test pack
 
 .PHONY: format build
 
@@ -47,6 +47,11 @@ smoke-test: build
 	dotnet run -c Release --no-build --project BullseyeSmokeTester.Parallel
 
 	env NO_COLOR=1 dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose
+	$(call end_group)
+
+pack: build
+	$(call begin_group,$@)
+	dotnet pack --configuration Release --no-build
 	$(call end_group)
 
 # macros

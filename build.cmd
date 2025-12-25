@@ -51,6 +51,12 @@ dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose |
 @echo Off
 call :end_group
 
+call :begin_group pack
+@echo On
+dotnet pack --configuration Release --no-build || goto :error
+@echo Off
+call :end_group
+
 goto :EOF
 
 :begin_group
