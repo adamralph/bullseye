@@ -19,20 +19,23 @@ public static class OutputTests
         var ordinal = 1;
 
         // act
-        foreach (var @bool in new[] { true, false, })
+        foreach (var dryRun in new[] { true, false, })
         {
-            await writer.WriteSampleOutput(
-                noColor: true,
-                noExtendedChars: !@bool,
-                host: default,
-                hostForced: @bool,
-                OSPlatform.Create("Unknown"),
-                skipDependencies: @bool,
-                dryRun: @bool,
-                parallel: @bool,
-                verbose: true,
-                ["arg1", "arg2",],
-                ordinal++);
+            foreach (var @bool in new[] { true, false, })
+            {
+                await writer.WriteSampleOutput(
+                    noColor: true,
+                    noExtendedChars: !@bool,
+                    host: default,
+                    hostForced: @bool,
+                    OSPlatform.Create("Unknown"),
+                    skipDependencies: @bool,
+                    dryRun: dryRun,
+                    parallel: @bool,
+                    verbose: true,
+                    ["arg1", "arg2",],
+                    ordinal++);
+            }
         }
 
         // assert
