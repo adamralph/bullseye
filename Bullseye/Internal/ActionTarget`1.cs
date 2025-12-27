@@ -9,18 +9,13 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
 
     public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
-        var inputsList = inputs.ToList();
-
-        if (inputsList.Count == 0)
-        {
-            await output.NoInputs(this, dependencyPath).Tax();
-            return;
-        }
+        var hasInputs = false;
 
         if (parallel)
         {
-            var tasks = inputsList.Select(async input =>
+            var tasks = inputs.Select(async input =>
             {
+                hasInputs = true;
                 await parallelTargets.WaitAsync().Tax();
                 try
                 {
@@ -36,10 +31,16 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
         }
         else
         {
-            foreach (var input in inputsList)
+            foreach (var input in inputs)
             {
+                hasInputs = true;
                 await RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
             }
+        }
+
+        if (!hasInputs)
+        {
+            await output.NoInputs(this, dependencyPath).Tax();
         }
     }
 

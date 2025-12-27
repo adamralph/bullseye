@@ -1,4 +1,7 @@
 using Bullseye.Internal;
+using Xunit;
+
+[assembly: CaptureConsole]
 
 namespace BullseyeTests.Infra;
 
