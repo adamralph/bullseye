@@ -8,7 +8,7 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- workaround for https://github.com/dotnet/roslyn/issues/41640 -->
-    <NoWarn>EnableGenerateDocumentationFile</NoWarn>
+    <NoWarn>$(NoWarn);EnableGenerateDocumentationFile</NoWarn>
     <Nullable>enable</Nullable>
     <RestoreLockedMode Condition="'$(CI)' != ''">true</RestoreLockedMode>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
