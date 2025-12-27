@@ -10,7 +10,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
     protected override string GetKeyForItem(Target item) => item.Name;
 
     public async Task RunAsync(
-        IEnumerable<string> names,
+        IReadOnlyCollection<string> names,
         bool dryRun,
         bool parallel,
         bool skipDependencies,

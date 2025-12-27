@@ -204,11 +204,11 @@ public static class TargetCollectionExtensions
             return;
         }
 
-        names = [.. targets.Expand(names),];
+        names = targets.Expand(names);
 
         if (listTree || listDependencies || listInputs || listTargets)
         {
-            var rootTargets = names.Count > 0 ? names : (IEnumerable<string>)targets.Select(target => target.Name).OrderBy(name => name);
+            IEnumerable<string> rootTargets = names.Count > 0 ? names : targets.Select(target => target.Name).OrderBy(name => name);
             var maxDepth = listTree ? int.MaxValue : listDependencies ? 1 : 0;
             var maxDepthToShowInputs = listTree ? int.MaxValue : 0;
 
@@ -221,8 +221,9 @@ public static class TargetCollectionExtensions
         await targets.RunAsync(names, dryRun, parallel, skipDependencies, messageOnly, output).Tax();
     }
 
-    private static IEnumerable<string> Expand(this TargetCollection targets, IEnumerable<string> names)
+    private static List<string> Expand(this TargetCollection targets, IReadOnlyCollection<string> names)
     {
+        var expandedNames = new List<string>();
         var ambiguousNames = new List<string>();
 
         foreach (var name in names)
@@ -230,7 +231,7 @@ public static class TargetCollectionExtensions
             var match = targets.SingleOrDefault(target => target.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (match != null)
             {
-                yield return name;
+                expandedNames.Add(name);
                 continue;
             }
 
@@ -242,12 +243,11 @@ public static class TargetCollectionExtensions
                 continue;
             }
 
-            yield return matches.Count != 0 ? matches[0].Name : name;
+            expandedNames.Add(matches.Count != 0 ? matches[0].Name : name);
         }
 
-        if (ambiguousNames.Count != 0)
-        {
-            throw new InvalidUsageException($"Ambiguous target{(ambiguousNames.Count > 1 ? "s" : "")}: {ambiguousNames.Spaced()}");
-        }
+        return ambiguousNames.Count == 0
+            ? expandedNames
+            : throw new InvalidUsageException($"Ambiguous target{(ambiguousNames.Count > 1 ? "s" : "")}: {ambiguousNames.Spaced()}");
     }
 }

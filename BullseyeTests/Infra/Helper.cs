@@ -6,10 +6,10 @@ internal static class Helper
 {
     public static Target CreateTarget(string name, Action action) => CreateTarget(name, [], action);
 
-    public static Target CreateTarget(string name, IEnumerable<string> dependencies, Action action) =>
+    public static Target CreateTarget(string name, IReadOnlyCollection<string> dependencies, Action action) =>
         new ActionTarget(name, "", dependencies, action.ToAsync());
 
-    public static Target CreateTarget(string name, IEnumerable<string> dependencies) =>
+    public static Target CreateTarget(string name, IReadOnlyCollection<string> dependencies) =>
         new(name, "", dependencies);
 
     public static Target CreateTarget<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
