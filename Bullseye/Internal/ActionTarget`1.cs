@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace Bullseye.Internal;
 
-public class ActionTarget<TInput>(string name, string description, IEnumerable<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
+public class ActionTarget<TInput>(string name, string description, IReadOnlyCollection<string> dependencies, IEnumerable<TInput> inputs, Func<TInput, Task> action)
     : Target(name, description, dependencies), IHaveInputs
 {
     public IEnumerable<object?> Inputs => inputs.Cast<object?>();

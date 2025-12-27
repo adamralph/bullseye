@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace Bullseye.Internal;
 
-public class ActionTarget(string name, string description, IEnumerable<string> dependencies, Func<Task> action)
+public class ActionTarget(string name, string description, IReadOnlyCollection<string> dependencies, Func<Task> action)
         : Target(name, description, dependencies)
 {
     public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output,
