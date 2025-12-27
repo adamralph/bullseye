@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v6.0.1
         with:
           persist-credentials: false
-      - run: dotnet build --configuration Release --no-logo
+      - run: dotnet build --configuration Release --nologo
       - uses: NuGet/login@d22cc5f58ff5b88bf9bd452535b4335137e24544 # v1
         id: nuget-login
         with:
