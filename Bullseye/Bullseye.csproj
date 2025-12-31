@@ -5,6 +5,8 @@
     <Description>Runs a target dependency graph.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
+    <NoWarn>$(NoWarn);RS0016</NoWarn>    <!-- Add public types and members to the declared API -->
+    <NoWarn>$(NoWarn);RS0037</NoWarn>    <!-- Enable tracking of nullability of reference types in the declared API -->
     <PackageIcon>bullseye.png</PackageIcon>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>

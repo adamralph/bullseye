@@ -1,0 +1,274 @@
+﻿namespace Bullseye
+{
+    public static class CommandLine
+    {
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "Targets",
+                "Options",
+                "UnknownOptions",
+                "ShowHelp"})]
+        public static System.ValueTuple<System.Collections.Generic.IReadOnlyList<string>, Bullseye.Options, System.Collections.Generic.IReadOnlyList<string>, bool> Parse(System.Collections.Generic.IEnumerable<string> args) { }
+    }
+    public enum Host
+    {
+        AppVeyor = 0,
+        Console = 1,
+        GitHubActions = 2,
+        GitLabCI = 3,
+        TeamCity = 4,
+        Travis = 5,
+        VisualStudioCode = 6,
+    }
+    public static class HostExtensions
+    {
+        public static Bullseye.Host DetectIfNull(this Bullseye.Host? host) { }
+    }
+    public interface IOptions
+    {
+        bool Clear { get; }
+        bool DryRun { get; }
+        Bullseye.Host? Host { get; }
+        bool ListDependencies { get; }
+        bool ListInputs { get; }
+        bool ListTargets { get; }
+        bool ListTree { get; }
+        bool NoColor { get; }
+        bool NoExtendedChars { get; }
+        bool Parallel { get; }
+        bool SkipDependencies { get; }
+        bool Verbose { get; }
+    }
+    public class InvalidUsageException : System.Exception
+    {
+        public InvalidUsageException() { }
+        public InvalidUsageException(string message) { }
+        public InvalidUsageException(string message, System.Exception innerException) { }
+    }
+    public class Options : Bullseye.IOptions
+    {
+        public Options() { }
+        public Options([System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "Name",
+                "Value"})] System.Collections.Generic.IEnumerable<System.ValueTuple<string, bool>> values) { }
+        public bool Clear { get; set; }
+        public bool DryRun { get; set; }
+        public Bullseye.Host? Host { get; set; }
+        public bool ListDependencies { get; set; }
+        public bool ListInputs { get; set; }
+        public bool ListTargets { get; set; }
+        public bool ListTree { get; set; }
+        public bool NoColor { get; set; }
+        public bool NoExtendedChars { get; set; }
+        public bool Parallel { get; set; }
+        public bool SkipDependencies { get; set; }
+        public bool Verbose { get; set; }
+        [System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "Aliases",
+                "Description"})]
+        public static System.Collections.Generic.IReadOnlyList<System.ValueTuple<System.Collections.Generic.IReadOnlyList<string>, string>> Definitions { get; }
+    }
+    public class Palette
+    {
+        public Palette(bool noColor, bool noExtendedChars, Bullseye.Host host, System.Runtime.InteropServices.OSPlatform osPlatform) { }
+        public string Default { get; }
+        public string Failure { get; }
+        public char Horizontal { get; }
+        public string Input { get; }
+        public string Invocation { get; }
+        public string Option { get; }
+        public string Prefix { get; }
+        public string Success { get; }
+        public string Target { get; }
+        public string Text { get; }
+        public string Timing { get; }
+        public string TreeCorner { get; }
+        public string TreeFork { get; }
+        public string TreeLine { get; }
+        public string Verbose { get; }
+        public string Warning { get; }
+        public static string StripColors(string text) { }
+    }
+    public class TargetFailedException : System.Exception
+    {
+        public TargetFailedException() { }
+        public TargetFailedException(string message) { }
+        public TargetFailedException(string message, System.Exception innerException) { }
+    }
+    public class Targets
+    {
+        public Targets() { }
+        public void Add(string name, System.Action action) { }
+        public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        public void Add(string name, System.Func<System.Threading.Tasks.Task> action) { }
+        public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        public void Add(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public void Add(string name, string description, System.Action action) { }
+        public void Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        public void Add(string name, string description, System.Func<System.Threading.Tasks.Task> action) { }
+        public void Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        public void Add(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public void Add<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public void Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public void Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public void Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public void Add<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public System.Threading.Tasks.Task RunAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public System.Threading.Tasks.Task RunAndExitAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public System.Threading.Tasks.Task RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public System.Threading.Tasks.Task RunWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public static System.Threading.Tasks.Task RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public static System.Threading.Tasks.Task RunTargetsAndExitAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> args, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public static System.Threading.Tasks.Task RunTargetsWithoutExitingAsync(System.Collections.Generic.IEnumerable<string> targets, Bullseye.IOptions options, System.Collections.Generic.IEnumerable<string>? unknownOptions = null, bool showHelp = false, System.Func<System.Exception, bool>? messageOnly = null, System.Func<string>? getMessagePrefix = null, System.IO.TextWriter? outputWriter = null, System.IO.TextWriter? diagnosticsWriter = null) { }
+        public static void Target(string name, System.Action action) { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        public static void Target(string name, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        public static void Target(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Target(string name, string description, System.Action action) { }
+        public static void Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn) { }
+        public static void Target(string name, string description, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Action action) { }
+        public static void Target(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Func<System.Threading.Tasks.Task> action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static void Target<TInput>(string name, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static void Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public static void Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Action<TInput> action) { }
+        public static void Target<TInput>(string name, string description, System.Collections.Generic.IEnumerable<string> dependsOn, System.Collections.Generic.IEnumerable<TInput> forEach, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+    }
+}
+namespace Bullseye.Internal
+{
+    public static class ActionExtensions
+    {
+        public static System.Func<System.Threading.Tasks.Task> ToAsync(this System.Action action) { }
+        public static System.Func<T, System.Threading.Tasks.Task> ToAsync<T>(this System.Action<T> action) { }
+    }
+    public class ActionTarget : Bullseye.Internal.Target
+    {
+        public ActionTarget(string name, string description, System.Collections.Generic.IReadOnlyCollection<string> dependencies, System.Func<System.Threading.Tasks.Task> action) { }
+        public override System.Threading.Tasks.Task RunAsync(bool dryRun, bool parallel, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+    }
+    public class ActionTarget<TInput> : Bullseye.Internal.Target, Bullseye.Internal.IHaveInputs
+    {
+        public ActionTarget(string name, string description, System.Collections.Generic.IReadOnlyCollection<string> dependencies, System.Collections.Generic.IEnumerable<TInput> inputs, System.Func<TInput, System.Threading.Tasks.Task> action) { }
+        public System.Collections.Generic.IEnumerable<object?> Inputs { get; }
+        public override System.Threading.Tasks.Task RunAsync(bool dryRun, bool parallel, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+    }
+    public static class ArgsParser
+    {
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "Targets",
+                "Options",
+                "UnknownOptions",
+                "showHelp"})]
+        public static System.ValueTuple<System.Collections.Generic.IReadOnlyList<string>, Bullseye.Options, System.Collections.Generic.IReadOnlyList<string>, bool> Parse(System.Collections.Generic.IReadOnlyCollection<string> args) { }
+    }
+    public static class AssemblyExtensions
+    {
+        public static string GetVersion(this System.Reflection.Assembly assembly) { }
+    }
+    public interface IAsyncDisposable
+    {
+        System.Threading.Tasks.Task DisposeAsync();
+    }
+    public interface IHaveInputs
+    {
+        System.Collections.Generic.IEnumerable<object?> Inputs { get; }
+    }
+    public static class OSPlatformExtensions
+    {
+        public static string Humanize(this System.Runtime.InteropServices.OSPlatform osPlatform) { }
+    }
+    public static class OptionsReader
+    {
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "Clear",
+                "DryRun",
+                "ListDependencies",
+                "ListInputs",
+                "ListTargets",
+                "ListTree",
+                "NoColor",
+                "NoExtendedChars",
+                "Parallel",
+                "SkipDependencies",
+                "Verbose",
+                "Host",
+                "UnknownOptions",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null})]
+        public static System.ValueTuple<bool, bool, bool, bool, bool, bool, bool, System.ValueTuple<bool, bool, bool, bool, Bullseye.Host?, System.Collections.Generic.IReadOnlyList<string>>> Read(System.Collections.Generic.IEnumerable<string> options) { }
+    }
+    public class Output
+    {
+        public Output(System.IO.TextWriter writer, System.IO.TextWriter diagnosticsWriter, System.Collections.Generic.IReadOnlyCollection<string> args, bool dryRun, Bullseye.Host host, bool hostForced, bool noColor, bool noExtendedChars, System.Runtime.InteropServices.OSPlatform osPlatform, bool parallel, System.Func<string> getPrefix, bool skipDependencies, bool verbose) { }
+        public bool Verbose { get; }
+        public System.Threading.Tasks.Task Awaiting(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task BeginGroup(Bullseye.Internal.Target target) { }
+        public System.Threading.Tasks.Task BeginGroup<TInput>(Bullseye.Internal.Target target, TInput input) { }
+        public System.Threading.Tasks.Task EndGroup() { }
+        public System.Threading.Tasks.Task Error(Bullseye.Internal.Target target, System.Exception ex) { }
+        public System.Threading.Tasks.Task Error<TInput>(Bullseye.Internal.Target target, TInput input, System.Exception ex) { }
+        public System.Threading.Tasks.Task Failed(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
+        public System.Threading.Tasks.Task Failed(Bullseye.Internal.Target target, System.Exception ex, System.TimeSpan duration, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task Failed<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Exception ex, System.TimeSpan duration, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task Header(System.Func<string> getVersion) { }
+        public System.Threading.Tasks.Task IgnoringNonExistentDependency(Bullseye.Internal.Target target, string dependency, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task<Bullseye.Internal.IAsyncDisposable> Initialize() { }
+        public System.Threading.Tasks.Task List(Bullseye.Internal.TargetCollection targets, System.Collections.Generic.IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) { }
+        public System.Threading.Tasks.Task NoInputs(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task Starting(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
+        public System.Threading.Tasks.Task Starting(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task Starting<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task Succeeded(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
+        public System.Threading.Tasks.Task Succeeded(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath, System.TimeSpan duration) { }
+        public System.Threading.Tasks.Task Succeeded<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath, System.TimeSpan duration) { }
+        public System.Threading.Tasks.Task Usage(Bullseye.Internal.TargetCollection targets) { }
+        public System.Threading.Tasks.Task WalkingDependencies(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+    }
+    public static class StringExtensions
+    {
+        public static string Spaced(this System.Collections.Generic.IEnumerable<string> strings) { }
+    }
+    public class Target
+    {
+        public Target(string name, string description, System.Collections.Generic.IReadOnlyCollection<string> dependencies) { }
+        public System.Collections.Generic.IReadOnlyCollection<string> Dependencies { get; }
+        public string Description { get; }
+        public string Name { get; }
+        public virtual System.Threading.Tasks.Task RunAsync(bool dryRun, bool parallel, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public override string ToString() { }
+    }
+    public class TargetCollection : System.Collections.ObjectModel.KeyedCollection<string, Bullseye.Internal.Target>
+    {
+        public TargetCollection() { }
+        protected override string GetKeyForItem(Bullseye.Internal.Target item) { }
+        public System.Threading.Tasks.Task RunAsync(System.Collections.Generic.IReadOnlyCollection<string> names, bool dryRun, bool parallel, bool skipDependencies, System.Func<System.Exception, bool> messageOnly, Bullseye.Internal.Output output) { }
+    }
+    public static class TargetCollectionExtensions
+    {
+        public static System.Threading.Tasks.Task RunAsync(this Bullseye.Internal.TargetCollection targets, System.Collections.Generic.IReadOnlyCollection<string> args, System.Func<System.Exception, bool> messageOnly, System.Func<string> getMessagePrefix, System.IO.TextWriter outputWriter, System.IO.TextWriter diagnosticsWriter, bool exit) { }
+        public static System.Threading.Tasks.Task RunAsync(this Bullseye.Internal.TargetCollection targets, System.Collections.Generic.IReadOnlyCollection<string> names, Bullseye.IOptions options, System.Collections.Generic.IReadOnlyCollection<string> unknownOptions, bool showHelp, System.Func<System.Exception, bool> messageOnly, System.Func<string> getMessagePrefix, System.IO.TextWriter outputWriter, System.IO.TextWriter diagnosticsWriter, bool exit) { }
+    }
+    public static class TaskExtensions
+    {
+        public static bool IsAwaitable(this System.Threading.Tasks.Task task) { }
+        public static System.Runtime.CompilerServices.ConfiguredTaskAwaitable Tax(this System.Threading.Tasks.Task task) { }
+        public static System.Runtime.CompilerServices.ConfiguredTaskAwaitable<TResult> Tax<TResult>(this System.Threading.Tasks.Task<TResult> task) { }
+    }
+    public static class TimeSpanExtensions
+    {
+        public static string Humanize(this System.TimeSpan duration) { }
+    }
+}
