@@ -6,6 +6,7 @@ namespace Bullseye;
 /// <summary>
 /// Provides methods for defining and running targets.
 /// </summary>
+#pragma warning disable RS0026 // Do not add multiple overloads with optional parameters
 public partial class Targets
 {
     private static readonly List<string> DefaultList = [];
