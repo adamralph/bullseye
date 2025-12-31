@@ -7,8 +7,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!-- workaround for https://github.com/dotnet/roslyn/issues/41640 -->
-    <NoWarn>$(NoWarn);EnableGenerateDocumentationFile</NoWarn>
+    <NoWarn>$(NoWarn);EnableGenerateDocumentationFile</NoWarn>    <!-- workaround for https://github.com/dotnet/roslyn/issues/41640 -->
     <Nullable>enable</Nullable>
     <RestoreLockedMode Condition="'$(CI)' != ''">true</RestoreLockedMode>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
