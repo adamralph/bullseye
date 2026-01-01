@@ -53,7 +53,7 @@ call :end_group
 
 call :begin_group pack
 @echo On
-dotnet pack --configuration Release --no-build || goto :error
+dotnet pack --configuration Release --output artifacts --no-build || goto :error
 @echo Off
 call :end_group
 
