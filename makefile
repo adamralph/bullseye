@@ -9,7 +9,7 @@ format:
 
 build:
 	$(call begin_group,$@)
-	dotnet build --configuration Release --nologo
+	dotnet build --configuration Release
 	$(call end_group)
 
 test: build

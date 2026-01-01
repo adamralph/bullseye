@@ -8,7 +8,7 @@ call :end_group
 
 call :begin_group build
 @echo On
-dotnet build --configuration Release --nologo || goto :error
+dotnet build --configuration Release || goto :error
 @echo Off
 call :end_group
 
