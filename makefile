@@ -51,7 +51,7 @@ smoke-test: build
 
 pack: build
 	$(call begin_group,$@)
-	dotnet pack --configuration Release --no-build
+	dotnet pack --configuration Release --output artifacts --no-build
 	$(call end_group)
 
 # macros
