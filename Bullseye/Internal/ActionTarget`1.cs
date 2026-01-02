@@ -7,7 +7,7 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
 {
     public IEnumerable<object?> Inputs => inputs.Cast<object?>();
 
-    public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
+    public override async Task RunAsync(bool dryRun, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
         var inputsList = inputs.ToList();
 
@@ -17,30 +17,20 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
             return;
         }
 
-        if (parallel)
+        var tasks = inputsList.Select(async input =>
         {
-            var tasks = inputsList.Select(async input =>
-            {
-                await parallelTargets.WaitAsync().Tax();
-                try
-                {
-                    await RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
-                }
-                finally
-                {
-                    _ = parallelTargets.Release();
-                }
-            }).ToList();
-
-            await Task.WhenAll(tasks).Tax();
-        }
-        else
-        {
-            foreach (var input in inputsList)
+            await parallelTargets.WaitAsync().Tax();
+            try
             {
                 await RunAsync(input, Guid.NewGuid(), dryRun, output, messageOnly, dependencyPath).Tax();
             }
-        }
+            finally
+            {
+                _ = parallelTargets.Release();
+            }
+        }).ToList();
+
+        await Task.WhenAll(tasks).Tax();
     }
 
     private async Task RunAsync(TInput input, Guid id, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
