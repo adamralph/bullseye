@@ -1,35 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net10.0": {
-      "Microsoft.CodeAnalysis.PublicApiAnalyzers": {
-        "type": "Direct",
-        "requested": "[3.3.4, )",
-        "resolved": "3.3.4",
-        "contentHash": "kNLTfXtXUWDHVt5iaPkkiPuyHYlMgLI6SOFT4w88bfeI2vqSeGgHunFkdvlaCM8RDfcY0t2+jnesQtidRJJ/DA=="
-      },
-      "MinVer": {
-        "type": "Direct",
-        "requested": "[7.0.0-alpha.2, )",
-        "resolved": "7.0.0-alpha.2",
-        "contentHash": "4Jh/uGKT/qme6Kcky8XzdiX1+H/b1FlOSB5h9UlRLju4QCUm7qB3f4f9smdq4zrvDIiyqtu5yXKC5GndFZAzqw=="
-      }
-    },
     "net8.0": {
-      "Microsoft.CodeAnalysis.PublicApiAnalyzers": {
-        "type": "Direct",
-        "requested": "[3.3.4, )",
-        "resolved": "3.3.4",
-        "contentHash": "kNLTfXtXUWDHVt5iaPkkiPuyHYlMgLI6SOFT4w88bfeI2vqSeGgHunFkdvlaCM8RDfcY0t2+jnesQtidRJJ/DA=="
-      },
-      "MinVer": {
-        "type": "Direct",
-        "requested": "[7.0.0-alpha.2, )",
-        "resolved": "7.0.0-alpha.2",
-        "contentHash": "4Jh/uGKT/qme6Kcky8XzdiX1+H/b1FlOSB5h9UlRLju4QCUm7qB3f4f9smdq4zrvDIiyqtu5yXKC5GndFZAzqw=="
-      }
-    },
-    "net9.0": {
       "Microsoft.CodeAnalysis.PublicApiAnalyzers": {
         "type": "Direct",
         "requested": "[3.3.4, )",
