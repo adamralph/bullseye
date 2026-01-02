@@ -12,7 +12,7 @@ _[![Spell check](https://github.com/adamralph/bullseye/actions/workflows/spell-c
 
 Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
 
-Bullseye is primarily designed as a build tool for .NET projects, and is usually used together with [SimpleExec](https://github.com/adamralph/simple-exec), but Bullseye targets can do anything. They are not restricted to building .NET projects.
+Bullseye is typically used as a build tool for .NET projects, and is usually used together with [SimpleExec](https://github.com/adamralph/simple-exec), but Bullseye targets can do anything. They are not restricted to building .NET projects. Bullseye is useful for any program which performs a series of operations.
 
 Platform support: [.NET 8.0 and later](https://dot.net).
 
@@ -28,48 +28,46 @@ Platform support: [.NET 8.0 and later](https://dot.net).
 
 ## Quick start
 
-- Next to an existing .NET solution (`.sln`/`.slnx` file), add a .NET console app named `targets` — `dotnet new console --name targets`
-- Change to the new directory — `cd targets`
+- Next to an existing .NET solution (`.sln`/`.slnx` file), add a .NET console app named `Targets` — `dotnet new console --name Targets`<sup>1</sup>
+- Change to the new directory — `cd Targets`
 - Add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye) — `dotnet add package Bullseye`
 - Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExec) — `dotnet add package SimpleExec`
-- Replace the contents of `targets/Program.cs` with:
-
+- Replace the contents of `Targets/Program.cs` with:
   ```c#
   using static Bullseye.Targets;
   using static SimpleExec.Command;
 
-  Target("build", () => RunAsync("dotnet", "build --configuration Release --nologo --verbosity quiet"));
-  Target("test", dependsOn: ["build"], () => RunAsync("dotnet", "test --configuration Release --no-build --nologo --verbosity quiet"));
+  Target("build", () => RunAsync("dotnet", "build --configuration Release"));
+  Target("test", dependsOn: ["build"], () => RunAsync("dotnet", "test --configuration Release --no-build"));
   Target("default", dependsOn: ["test"]);
 
   await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException);
   ```
-
 - Change to the solution directory — `cd ..`
-- Run the targets project — `dotnet run --project targets`.
+- Run the `Targets` project — `dotnet run --project Targets`.
 
-Voilà! You've just written and run your first Bullseye build program. You will see output similar to:
+Voilà! You just wrote and ran your first Bullseye build program.
 
-<img src="https://github.com/adamralph/bullseye/assets/677704/2f598c2f-89ab-43dc-929a-59f4504dfa28" width="1088px" alt="Bullseye quick start output"/>
+For help, run `dotnet run --project Targets -- --help`.
 
-For help, run `dotnet run --project targets --help`.
+<sup>1. You could use a [file-based C# program](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/tutorials/file-based-programs) instead, but, at the time of writing, IDE support for file-based C# programs is not complete, so if you want full debugging, Intellisense, etc., it's a better to use a .NET console app.</sup>
 
 ## Sample wrapper scripts
 
-- `build` (Linux and macOS)
+### `build` (Linux and macOS)
 
-  ```shell
-  #!/usr/bin/env bash
-  set -euo pipefail
-  dotnet run --project targets -- "$@"
-  ```
+```shell
+#!/usr/bin/env bash
+set -euo pipefail
+dotnet run --project Targets -- "$@"
+```
 
-- `build.cmd` (Windows)
+### `build.cmd` (Windows)
 
-  ```batchfile
-  @echo Off
-  dotnet run --project targets -- %*
-  ```
+```batchfile
+@echo Off
+dotnet run --project Targets -- %*
+```
 
 ## Enumerable inputs
 
@@ -80,21 +78,19 @@ Target(
     "test",
     dependsOn: ["build"],
     forEach: ["./FooTests.Acceptance", "./FooTests.Performance"],
-    project => RunAsync($"dotnet", $"test {project} --configuration Release --no-build --nologo --verbosity quiet"));
+    project => RunAsync($"dotnet", $"test {project} --configuration Release --no-build"));
 ```
 
 ```shell
-dotnet run -- test
+dotnet run --project Targets -- test
 ```
-
-<img src="https://github.com/adamralph/bullseye/assets/677704/c25901c6-f30b-4632-8b62-fa3a755729fc" width="1085px" alt="Bullseye enumerable inputs output"/>
 
 ## Command-line arguments
 
-Generally, all the command-line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExitAsync(args);`). This is because Bullseye effectively provides a command-line interface, with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command-line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
+Generally, all the command-line arguments passed to `Program.cs` should be passed along to Bullseye, as shown in the quick start above (`RunTargetsAndExitAsync(args);`). This is because Bullseye effectively provides a command-line interface (CLI), with options for displaying a list of targets, performing dry runs, suppressing colour, and more. For full details of the command-line options, run your targets project supplying the `--help` (`-h`/`-?`) option:
 
 ```shell
-dotnet run --project targets -- --help
+dotnet run --project Targets -- --help
 ```
 
 ```shell
