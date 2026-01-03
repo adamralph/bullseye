@@ -153,13 +153,13 @@ namespace Bullseye.Internal
     public class ActionTarget : Bullseye.Internal.Target
     {
         public ActionTarget(string name, string description, System.Collections.Generic.IReadOnlyCollection<string> dependencies, System.Func<System.Threading.Tasks.Task> action) { }
-        public override System.Threading.Tasks.Task RunAsync(bool dryRun, bool parallel, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public override System.Threading.Tasks.Task RunAsync(bool dryRun, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
     }
     public class ActionTarget<TInput> : Bullseye.Internal.Target, Bullseye.Internal.IHaveInputs
     {
         public ActionTarget(string name, string description, System.Collections.Generic.IReadOnlyCollection<string> dependencies, System.Collections.Generic.IEnumerable<TInput> inputs, System.Func<TInput, System.Threading.Tasks.Task> action) { }
         public System.Collections.Generic.IEnumerable<object?> Inputs { get; }
-        public override System.Threading.Tasks.Task RunAsync(bool dryRun, bool parallel, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public override System.Threading.Tasks.Task RunAsync(bool dryRun, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
     }
     public static class ArgsParser
     {
@@ -247,7 +247,7 @@ namespace Bullseye.Internal
         public System.Collections.Generic.IReadOnlyCollection<string> Dependencies { get; }
         public string Description { get; }
         public string Name { get; }
-        public virtual System.Threading.Tasks.Task RunAsync(bool dryRun, bool parallel, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public virtual System.Threading.Tasks.Task RunAsync(bool dryRun, System.Threading.SemaphoreSlim parallelTargets, Bullseye.Internal.Output output, System.Func<System.Exception, bool> messageOnly, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
         public override string ToString() { }
     }
     public class TargetCollection : System.Collections.ObjectModel.KeyedCollection<string, Bullseye.Internal.Target>

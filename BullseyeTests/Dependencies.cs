@@ -149,19 +149,16 @@ public static partial class Dependencies
         // assert
         var output = outputWriter.ToString();
 
+        TestContext.Current.TestOutputHelper?.Write(output);
         Assert.Equal(3, ran.Count);
         Assert.Equal("first", ran[0]);
         Assert.Equal("second", ran[1]);
         Assert.Equal("third", ran[2]);
         _ = Assert.Single(FirstWalkingDependencies().Matches(output));
-        _ = Assert.Single(FirstAwaiting().Matches(output));
     }
 
     [GeneratedRegex("first: Walking dependencies...")]
     private static partial Regex FirstWalkingDependencies();
-
-    [GeneratedRegex("first: Awaiting...")]
-    private static partial Regex FirstAwaiting();
 
     [Fact]
     public static async Task NotExistentDependencies()
