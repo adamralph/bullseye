@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0
+
+### Enhancements
+
+- [#1131: Include SBOM in package](https://github.com/adamralph/bullseye/pull/1131)
+
 ## 6.1.0
 
 ### Enhancements
