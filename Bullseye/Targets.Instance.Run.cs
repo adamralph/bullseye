@@ -158,15 +158,11 @@ public partial class Targets
 
     private static async Task<Func<string>> GetDefaultGetMessagePrefix(TextWriter diagnosticsWriter)
     {
-        var messagePrefix = "Bullseye";
+        var messagePrefix = Assembly.GetEntryAssembly().GetNameOrDefault(out var isDefault);
 
-        if (Assembly.GetEntryAssembly() is { } entryAssembly)
+        if (isDefault)
         {
-            messagePrefix = entryAssembly.GetName().Name ?? messagePrefix;
-        }
-        else
-        {
-            await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: Failed to get the entry assembly. Using default message prefix \"{messagePrefix}\".").Tax();
+            await diagnosticsWriter.WriteLineAsync($"{messagePrefix}: Failed to get the entry assembly name. Using default message prefix \"{messagePrefix}\".").Tax();
         }
 
         return () => messagePrefix;

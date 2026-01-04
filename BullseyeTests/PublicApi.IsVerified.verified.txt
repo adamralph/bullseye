@@ -172,6 +172,7 @@ namespace Bullseye.Internal
     }
     public static class AssemblyExtensions
     {
+        public static string GetNameOrDefault(this System.Reflection.Assembly? assembly, out bool isDefault) { }
         public static string GetVersion(this System.Reflection.Assembly assembly) { }
     }
     public interface IAsyncDisposable

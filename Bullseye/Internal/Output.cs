@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -24,6 +25,7 @@ public partial class Output(
     private const string SucceededMessage = "Succeeded";
 
     private readonly Palette _palette = new(noColor, noExtendedChars, host, osPlatform);
+    private readonly Palette _mdPalette = new(noColor: true, noExtendedChars, host, osPlatform);
     private readonly string _scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
 
     public bool Verbose { get; } = verbose;
@@ -65,6 +67,14 @@ public partial class Output(
             + Format(getPrefix(), targets, $"{_palette.Failure}{FailedMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
 
         await writer.WriteLineAsync(message).Tax();
+
+        if (host == Host.GitHubActions && Environment.GetEnvironmentVariable("GITHUB_STEP_SUMMARY") is { } path)
+        {
+            var stepSummary = GetResultLines(_results, _totalDuration, getPrefix, _mdPalette)
+                              + Format(getPrefix(), targets, $"{_mdPalette.Success}{SucceededMessage}{_mdPalette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _mdPalette);
+
+            await WriteGitHubStepSummary("🔴", $"<pre>{stepSummary}</pre>", path).Tax();
+        }
     }
 
     public async Task Succeeded(IEnumerable<Target> targets)
@@ -73,6 +83,27 @@ public partial class Output(
             + Format(getPrefix(), targets, $"{_palette.Success}{SucceededMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
 
         await writer.WriteLineAsync(message).Tax();
+
+        if (host == Host.GitHubActions && Environment.GetEnvironmentVariable("GITHUB_STEP_SUMMARY") is { } path)
+        {
+            var stepSummary = GetResultLines(_results, _totalDuration, getPrefix, _mdPalette)
+                          + Format(getPrefix(), targets, $"{_mdPalette.Success}{SucceededMessage}{_mdPalette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _mdPalette);
+
+            await WriteGitHubStepSummary("🟢", $"<pre>{stepSummary}</pre>", path).Tax();
+        }
+    }
+
+    private async Task WriteGitHubStepSummary(string titleSymbol, string summaryMarkdown, string path)
+    {
+        var titleText = Assembly.GetEntryAssembly().GetNameOrDefault(out var isDefault);
+
+        if (isDefault)
+        {
+            await diagnosticsWriter.WriteLineAsync($"{titleText}: Failed to get the entry assembly name. Using default step summary title \"{titleText}\".").Tax();
+        }
+
+        var markdown = $"<details><summary><b>{titleSymbol} {titleText}</b></summary><p>{summaryMarkdown}</p></details>";
+        await File.AppendAllLinesAsync(path, [markdown]).Tax();
     }
 
     public async Task Awaiting(Target target, IReadOnlyCollection<Target> dependencyPath)
