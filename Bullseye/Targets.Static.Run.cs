@@ -13,7 +13,7 @@ public partial class Targets
     /// <param name="args">The command line arguments.</param>
     /// <param name="messageOnly">
     /// A predicate which is called when an exception is thrown.
-    /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
+    /// Return <c>true</c> to display only the exception message instead of the full exception details.
     /// </param>
     /// <param name="getMessagePrefix">
     /// A function which is called for each output or diagnostic message and returns the prefix to use.
@@ -41,7 +41,7 @@ public partial class Targets
     /// <param name="showHelp">A value indicating whether to show help.</param>
     /// <param name="messageOnly">
     /// A predicate which is called when an exception is thrown.
-    /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
+    /// Return <c>true</c> to display only the exception message instead of the full exception details.
     /// </param>
     /// <param name="getMessagePrefix">
     /// A function which is called for each output or diagnostic message and returns the prefix to use.
@@ -70,7 +70,7 @@ public partial class Targets
     /// <param name="args">The command line arguments.</param>
     /// <param name="messageOnly">
     /// A predicate which is called when an exception is thrown.
-    /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
+    /// Return <c>true</c> to display only the exception message instead of the full exception details.
     /// </param>
     /// <param name="getMessagePrefix">
     /// A function which is called for each output or diagnostic message and returns the prefix to use.
@@ -99,7 +99,7 @@ public partial class Targets
     /// <param name="showHelp">A value indicating whether to show help.</param>
     /// <param name="messageOnly">
     /// A predicate which is called when an exception is thrown.
-    /// Return <c>true</c> to display only the exception message instead instead of the full exception details.
+    /// Return <c>true</c> to display only the exception message instead of the full exception details.
     /// </param>
     /// <param name="getMessagePrefix">
     /// A function which is called for each output or diagnostic message and returns the prefix to use.
