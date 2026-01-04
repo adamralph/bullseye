@@ -39,9 +39,7 @@ public static class OutputTests
         }
 
         // assert
-        var settings = new VerifySettings();
-        settings.UniqueForTargetFrameworkAndVersion();
-        _ = await Verify(writer.ToString(), settings);
+        _ = await Verify(writer.ToString());
     }
 
     [Theory]
@@ -79,7 +77,6 @@ public static class OutputTests
 
         // assert
         var settings = new VerifySettings();
-        settings.UniqueForTargetFrameworkAndVersion();
         settings.UseParameters(host);
         _ = await Verify(writer.ToString(), settings);
     }
