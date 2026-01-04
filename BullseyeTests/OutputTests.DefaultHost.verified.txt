@@ -1,85 +1,3 @@
-﻿
-noColor: True
-noExtendedChars: False
-host: AppVeyor
-hostForced: True
-osPlatform: Unknown
-skipDependencies: True
-dryRun: True
-parallel: True
-verbose: True
-args: arg1 arg2
-
-prefix1: Bullseye version: version
-prefix1: Host: AppVeyor (forced)
-prefix1: OS: Unknown
-prefix1: Args: arg1 arg2
-prefix1: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: ─────────────────────────
-prefix1: Target  Outcome  Duration
-prefix1: ──────  ───────  ────────
-prefix1: ─────────────────────────
-prefix1: Succeeded () (dry run) (parallel) (skip dependencies) (0 ms)
-prefix1: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: ─────────────────────────────────
-prefix1: Target        Outcome    Duration
-prefix1: ────────────  ─────────  ────────
-prefix1: looseTarget   Succeeded  0 ms    
-prefix1:   looseInput  Succeeded  └─0 ms  
-prefix1: ─────────────────────────────────
-prefix1: Succeeded (looseTarget) (dry run) (parallel) (skip dependencies) (0 ms)
-prefix1: Starting... (target1 target2 target3) (dry run) (parallel) (skip dependencies)
-prefix1: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: badTarget: System.InvalidOperationException: badTargetEx
-prefix1: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
-prefix1: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix1: ──────────────────────────────────────
-prefix1: Target            Outcome     Duration
-prefix1: ────────────────  ──────────  ────────
-prefix1: looseTarget       Succeeded   0 ms    
-prefix1:   looseInput      Succeeded   └─0 ms  
-prefix1: noInputsTarget    No inputs!  0 ms    
-prefix1: goodTarget1       Succeeded   0 ms    
-prefix1: goodTarget2       Succeeded   0 ms    
-prefix1: badTarget         FAILED!     0 ms    
-prefix1: goodInputsTarget  Succeeded   0 ms    
-prefix1:   goodInput1      Succeeded   ├─0 ms  
-prefix1:   goodInput2      Succeeded   └─0 ms  
-prefix1: badInputsTarget   FAILED!     0 ms    
-prefix1:   goodInput1      Succeeded   ├─0 ms  
-prefix1:   badInput        FAILED!     └─0 ms  
-prefix1: ──────────────────────────────────────
-prefix1: Succeeded (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
-prefix1: ──────────────────────────────────────
-prefix1: Target            Outcome     Duration
-prefix1: ────────────────  ──────────  ────────
-prefix1: looseTarget       Succeeded   0 ms    
-prefix1:   looseInput      Succeeded   └─0 ms  
-prefix1: noInputsTarget    No inputs!  0 ms    
-prefix1: goodTarget1       Succeeded   0 ms    
-prefix1: goodTarget2       Succeeded   0 ms    
-prefix1: badTarget         FAILED!     0 ms    
-prefix1: goodInputsTarget  Succeeded   0 ms    
-prefix1:   goodInput1      Succeeded   ├─0 ms  
-prefix1:   goodInput2      Succeeded   └─0 ms  
-prefix1: badInputsTarget   FAILED!     0 ms    
-prefix1:   goodInput1      Succeeded   ├─0 ms  
-prefix1:   badInput        FAILED!     └─0 ms  
-prefix1: ──────────────────────────────────────
-prefix1: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
 
 noColor: True
 noExtendedChars: True
@@ -87,7 +5,89 @@ host: AppVeyor
 hostForced: False
 osPlatform: Unknown
 skipDependencies: False
-dryRun: True
+dryRun: False
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix1: Bullseye version: version
+prefix1: Host: AppVeyor (detected)
+prefix1: OS: Unknown
+prefix1: Args: arg1 arg2
+prefix1: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: -------------------------
+prefix1: Target  Outcome  Duration
+prefix1: ------  -------  --------
+prefix1: -------------------------
+prefix1: Succeeded () (0 ms)
+prefix1: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: ---------------------------------
+prefix1: Target        Outcome    Duration
+prefix1: ------------  ---------  --------
+prefix1: looseTarget   Succeeded  0 ms    
+prefix1:   looseInput  Succeeded    0 ms  
+prefix1: ---------------------------------
+prefix1: Succeeded (looseTarget) (0 ms)
+prefix1: Starting... (target1 target2 target3)
+prefix1: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: badTarget: System.InvalidOperationException: badTargetEx
+prefix1: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix1: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix1: ----------------------------------------------
+prefix1: Target            Outcome     Duration        
+prefix1: ----------------  ----------  ----------------
+prefix1: looseTarget       Succeeded   0 ms      0.0%  
+prefix1:   looseInput      Succeeded     0 ms      0.0%
+prefix1: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix1: goodTarget1       Succeeded   0 ms      0.0%  
+prefix1: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix1: badTarget         FAILED!     3 ms      0.0%  
+prefix1: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix1:   goodInput1      Succeeded     1.23 s    1.6%
+prefix1:   goodInput2      Succeeded     2.35 s    3.0%
+prefix1: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix1:   goodInput1      Succeeded     1.23 s    1.6%
+prefix1:   badInput        FAILED!       1 ms      0.0%
+prefix1: ----------------------------------------------
+prefix1: Succeeded (target1 target2 target3) (1 m 19 s)
+prefix1: ----------------------------------------------
+prefix1: Target            Outcome     Duration        
+prefix1: ----------------  ----------  ----------------
+prefix1: looseTarget       Succeeded   0 ms      0.0%  
+prefix1:   looseInput      Succeeded     0 ms      0.0%
+prefix1: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix1: goodTarget1       Succeeded   0 ms      0.0%  
+prefix1: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix1: badTarget         FAILED!     3 ms      0.0%  
+prefix1: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix1:   goodInput1      Succeeded     1.23 s    1.6%
+prefix1:   goodInput2      Succeeded     2.35 s    3.0%
+prefix1: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix1:   goodInput1      Succeeded     1.23 s    1.6%
+prefix1:   badInput        FAILED!       1 ms      0.0%
+prefix1: ----------------------------------------------
+prefix1: FAILED! (target1 target2 target3) (1 m 19 s)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: False
+dryRun: False
 parallel: False
 verbose: True
 args: arg1 arg2
@@ -98,79 +98,79 @@ prefix2: OS: Unknown
 prefix2: Args: arg1 arg2
 prefix2: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix2: -------------------------
+prefix2: ─────────────────────────
 prefix2: Target  Outcome  Duration
-prefix2: ------  -------  --------
-prefix2: -------------------------
-prefix2: Succeeded () (dry run) (0 ms)
+prefix2: ──────  ───────  ────────
+prefix2: ─────────────────────────
+prefix2: Succeeded () (0 ms)
 prefix2: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix2: ---------------------------------
+prefix2: ─────────────────────────────────
 prefix2: Target        Outcome    Duration
-prefix2: ------------  ---------  --------
+prefix2: ────────────  ─────────  ────────
 prefix2: looseTarget   Succeeded  0 ms    
-prefix2:   looseInput  Succeeded    0 ms  
-prefix2: ---------------------------------
-prefix2: Succeeded (looseTarget) (dry run) (0 ms)
-prefix2: Starting... (target1 target2 target3) (dry run)
+prefix2:   looseInput  Succeeded  └─0 ms  
+prefix2: ─────────────────────────────────
+prefix2: Succeeded (looseTarget) (0 ms)
+prefix2: Starting... (target1 target2 target3)
 prefix2: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix2: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix2: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: badTarget: System.InvalidOperationException: badTargetEx
-prefix2: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix2: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix2: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix2: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix2: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix2: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix2: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix2: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix2: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
-prefix2: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix2: --------------------------------------
-prefix2: Target            Outcome     Duration
-prefix2: ----------------  ----------  --------
-prefix2: looseTarget       Succeeded   0 ms    
-prefix2:   looseInput      Succeeded     0 ms  
-prefix2: noInputsTarget    No inputs!  0 ms    
-prefix2: goodTarget1       Succeeded   0 ms    
-prefix2: goodTarget2       Succeeded   0 ms    
-prefix2: badTarget         FAILED!     0 ms    
-prefix2: goodInputsTarget  Succeeded   0 ms    
-prefix2:   goodInput1      Succeeded     0 ms  
-prefix2:   goodInput2      Succeeded     0 ms  
-prefix2: badInputsTarget   FAILED!     0 ms    
-prefix2:   goodInput1      Succeeded     0 ms  
-prefix2:   badInput        FAILED!       0 ms  
-prefix2: --------------------------------------
-prefix2: Succeeded (target1 target2 target3) (dry run) (0 ms)
-prefix2: --------------------------------------
-prefix2: Target            Outcome     Duration
-prefix2: ----------------  ----------  --------
-prefix2: looseTarget       Succeeded   0 ms    
-prefix2:   looseInput      Succeeded     0 ms  
-prefix2: noInputsTarget    No inputs!  0 ms    
-prefix2: goodTarget1       Succeeded   0 ms    
-prefix2: goodTarget2       Succeeded   0 ms    
-prefix2: badTarget         FAILED!     0 ms    
-prefix2: goodInputsTarget  Succeeded   0 ms    
-prefix2:   goodInput1      Succeeded     0 ms  
-prefix2:   goodInput2      Succeeded     0 ms  
-prefix2: badInputsTarget   FAILED!     0 ms    
-prefix2:   goodInput1      Succeeded     0 ms  
-prefix2:   badInput        FAILED!       0 ms  
-prefix2: --------------------------------------
-prefix2: FAILED! (target1 target2 target3) (dry run) (0 ms)
+prefix2: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix2: ──────────────────────────────────────────────
+prefix2: Target            Outcome     Duration        
+prefix2: ────────────────  ──────────  ────────────────
+prefix2: looseTarget       Succeeded   0 ms      0.0%  
+prefix2:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix2: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix2: goodTarget1       Succeeded   0 ms      0.0%  
+prefix2: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix2: badTarget         FAILED!     3 ms      0.0%  
+prefix2: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix2:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix2:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix2: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix2:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix2:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix2: ──────────────────────────────────────────────
+prefix2: Succeeded (target1 target2 target3) (1 m 19 s)
+prefix2: ──────────────────────────────────────────────
+prefix2: Target            Outcome     Duration        
+prefix2: ────────────────  ──────────  ────────────────
+prefix2: looseTarget       Succeeded   0 ms      0.0%  
+prefix2:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix2: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix2: goodTarget1       Succeeded   0 ms      0.0%  
+prefix2: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix2: badTarget         FAILED!     3 ms      0.0%  
+prefix2: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix2:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix2:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix2: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix2:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix2:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix2: ──────────────────────────────────────────────
+prefix2: FAILED! (target1 target2 target3) (1 m 19 s)
 
 noColor: True
-noExtendedChars: False
+noExtendedChars: True
 host: AppVeyor
 hostForced: True
 osPlatform: Unknown
-skipDependencies: True
+skipDependencies: False
 dryRun: False
-parallel: True
+parallel: False
 verbose: True
 args: arg1 arg2
 
@@ -180,20 +180,20 @@ prefix3: OS: Unknown
 prefix3: Args: arg1 arg2
 prefix3: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix3: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix3: ─────────────────────────
+prefix3: -------------------------
 prefix3: Target  Outcome  Duration
-prefix3: ──────  ───────  ────────
-prefix3: ─────────────────────────
-prefix3: Succeeded () (parallel) (skip dependencies) (0 ms)
+prefix3: ------  -------  --------
+prefix3: -------------------------
+prefix3: Succeeded () (0 ms)
 prefix3: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix3: ─────────────────────────────────
+prefix3: ---------------------------------
 prefix3: Target        Outcome    Duration
-prefix3: ────────────  ─────────  ────────
+prefix3: ------------  ---------  --------
 prefix3: looseTarget   Succeeded  0 ms    
-prefix3:   looseInput  Succeeded  └─0 ms  
-prefix3: ─────────────────────────────────
-prefix3: Succeeded (looseTarget) (parallel) (skip dependencies) (0 ms)
-prefix3: Starting... (target1 target2 target3) (parallel) (skip dependencies)
+prefix3:   looseInput  Succeeded    0 ms  
+prefix3: ---------------------------------
+prefix3: Succeeded (looseTarget) (0 ms)
+prefix3: Starting... (target1 target2 target3)
 prefix3: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix3: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix3: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -210,45 +210,45 @@ prefix3: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verbose
 prefix3: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix3: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 prefix3: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix3: ──────────────────────────────────────────────
+prefix3: ----------------------------------------------
 prefix3: Target            Outcome     Duration        
-prefix3: ────────────────  ──────────  ────────────────
+prefix3: ----------------  ----------  ----------------
 prefix3: looseTarget       Succeeded   0 ms      0.0%  
-prefix3:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix3:   looseInput      Succeeded     0 ms      0.0%
 prefix3: noInputsTarget    No inputs!  0 ms      0.0%  
 prefix3: goodTarget1       Succeeded   0 ms      0.0%  
 prefix3: goodTarget2       Succeeded   1 m 14 s  93.9% 
 prefix3: badTarget         FAILED!     3 ms      0.0%  
 prefix3: goodInputsTarget  Succeeded   3.58 s    4.5%  
-prefix3:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
-prefix3:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix3:   goodInput1      Succeeded     1.23 s    1.6%
+prefix3:   goodInput2      Succeeded     2.35 s    3.0%
 prefix3: badInputsTarget   FAILED!     1.24 s    1.6%  
-prefix3:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
-prefix3:   badInput        FAILED!     └─1 ms    └─0.0%
-prefix3: ──────────────────────────────────────────────
-prefix3: Succeeded (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
-prefix3: ──────────────────────────────────────────────
+prefix3:   goodInput1      Succeeded     1.23 s    1.6%
+prefix3:   badInput        FAILED!       1 ms      0.0%
+prefix3: ----------------------------------------------
+prefix3: Succeeded (target1 target2 target3) (1 m 19 s)
+prefix3: ----------------------------------------------
 prefix3: Target            Outcome     Duration        
-prefix3: ────────────────  ──────────  ────────────────
+prefix3: ----------------  ----------  ----------------
 prefix3: looseTarget       Succeeded   0 ms      0.0%  
-prefix3:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix3:   looseInput      Succeeded     0 ms      0.0%
 prefix3: noInputsTarget    No inputs!  0 ms      0.0%  
 prefix3: goodTarget1       Succeeded   0 ms      0.0%  
 prefix3: goodTarget2       Succeeded   1 m 14 s  93.9% 
 prefix3: badTarget         FAILED!     3 ms      0.0%  
 prefix3: goodInputsTarget  Succeeded   3.58 s    4.5%  
-prefix3:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
-prefix3:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix3:   goodInput1      Succeeded     1.23 s    1.6%
+prefix3:   goodInput2      Succeeded     2.35 s    3.0%
 prefix3: badInputsTarget   FAILED!     1.24 s    1.6%  
-prefix3:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
-prefix3:   badInput        FAILED!     └─1 ms    └─0.0%
-prefix3: ──────────────────────────────────────────────
-prefix3: FAILED! (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+prefix3:   goodInput1      Succeeded     1.23 s    1.6%
+prefix3:   badInput        FAILED!       1 ms      0.0%
+prefix3: ----------------------------------------------
+prefix3: FAILED! (target1 target2 target3) (1 m 19 s)
 
 noColor: True
-noExtendedChars: True
+noExtendedChars: False
 host: AppVeyor
-hostForced: False
+hostForced: True
 osPlatform: Unknown
 skipDependencies: False
 dryRun: False
@@ -257,23 +257,23 @@ verbose: True
 args: arg1 arg2
 
 prefix4: Bullseye version: version
-prefix4: Host: AppVeyor (detected)
+prefix4: Host: AppVeyor (forced)
 prefix4: OS: Unknown
 prefix4: Args: arg1 arg2
 prefix4: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix4: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix4: -------------------------
+prefix4: ─────────────────────────
 prefix4: Target  Outcome  Duration
-prefix4: ------  -------  --------
-prefix4: -------------------------
+prefix4: ──────  ───────  ────────
+prefix4: ─────────────────────────
 prefix4: Succeeded () (0 ms)
 prefix4: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix4: ---------------------------------
+prefix4: ─────────────────────────────────
 prefix4: Target        Outcome    Duration
-prefix4: ------------  ---------  --------
+prefix4: ────────────  ─────────  ────────
 prefix4: looseTarget   Succeeded  0 ms    
-prefix4:   looseInput  Succeeded    0 ms  
-prefix4: ---------------------------------
+prefix4:   looseInput  Succeeded  └─0 ms  
+prefix4: ─────────────────────────────────
 prefix4: Succeeded (looseTarget) (0 ms)
 prefix4: Starting... (target1 target2 target3)
 prefix4: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -292,37 +292,2333 @@ prefix4: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verbose
 prefix4: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix4: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
 prefix4: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
-prefix4: ----------------------------------------------
+prefix4: ──────────────────────────────────────────────
 prefix4: Target            Outcome     Duration        
-prefix4: ----------------  ----------  ----------------
+prefix4: ────────────────  ──────────  ────────────────
 prefix4: looseTarget       Succeeded   0 ms      0.0%  
-prefix4:   looseInput      Succeeded     0 ms      0.0%
+prefix4:   looseInput      Succeeded   └─0 ms    └─0.0%
 prefix4: noInputsTarget    No inputs!  0 ms      0.0%  
 prefix4: goodTarget1       Succeeded   0 ms      0.0%  
 prefix4: goodTarget2       Succeeded   1 m 14 s  93.9% 
 prefix4: badTarget         FAILED!     3 ms      0.0%  
 prefix4: goodInputsTarget  Succeeded   3.58 s    4.5%  
-prefix4:   goodInput1      Succeeded     1.23 s    1.6%
-prefix4:   goodInput2      Succeeded     2.35 s    3.0%
+prefix4:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix4:   goodInput2      Succeeded   └─2.35 s  └─3.0%
 prefix4: badInputsTarget   FAILED!     1.24 s    1.6%  
-prefix4:   goodInput1      Succeeded     1.23 s    1.6%
-prefix4:   badInput        FAILED!       1 ms      0.0%
-prefix4: ----------------------------------------------
+prefix4:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix4:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix4: ──────────────────────────────────────────────
 prefix4: Succeeded (target1 target2 target3) (1 m 19 s)
-prefix4: ----------------------------------------------
+prefix4: ──────────────────────────────────────────────
 prefix4: Target            Outcome     Duration        
-prefix4: ----------------  ----------  ----------------
+prefix4: ────────────────  ──────────  ────────────────
 prefix4: looseTarget       Succeeded   0 ms      0.0%  
-prefix4:   looseInput      Succeeded     0 ms      0.0%
+prefix4:   looseInput      Succeeded   └─0 ms    └─0.0%
 prefix4: noInputsTarget    No inputs!  0 ms      0.0%  
 prefix4: goodTarget1       Succeeded   0 ms      0.0%  
 prefix4: goodTarget2       Succeeded   1 m 14 s  93.9% 
 prefix4: badTarget         FAILED!     3 ms      0.0%  
 prefix4: goodInputsTarget  Succeeded   3.58 s    4.5%  
-prefix4:   goodInput1      Succeeded     1.23 s    1.6%
-prefix4:   goodInput2      Succeeded     2.35 s    3.0%
+prefix4:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix4:   goodInput2      Succeeded   └─2.35 s  └─3.0%
 prefix4: badInputsTarget   FAILED!     1.24 s    1.6%  
-prefix4:   goodInput1      Succeeded     1.23 s    1.6%
-prefix4:   badInput        FAILED!       1 ms      0.0%
-prefix4: ----------------------------------------------
+prefix4:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix4:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix4: ──────────────────────────────────────────────
 prefix4: FAILED! (target1 target2 target3) (1 m 19 s)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix5: Bullseye version: version
+prefix5: Host: AppVeyor (detected)
+prefix5: OS: Unknown
+prefix5: Args: arg1 arg2
+prefix5: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: -------------------------
+prefix5: Target  Outcome  Duration
+prefix5: ------  -------  --------
+prefix5: -------------------------
+prefix5: Succeeded () (skip dependencies) (0 ms)
+prefix5: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: ---------------------------------
+prefix5: Target        Outcome    Duration
+prefix5: ------------  ---------  --------
+prefix5: looseTarget   Succeeded  0 ms    
+prefix5:   looseInput  Succeeded    0 ms  
+prefix5: ---------------------------------
+prefix5: Succeeded (looseTarget) (skip dependencies) (0 ms)
+prefix5: Starting... (target1 target2 target3) (skip dependencies)
+prefix5: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: badTarget: System.InvalidOperationException: badTargetEx
+prefix5: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix5: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix5: ----------------------------------------------
+prefix5: Target            Outcome     Duration        
+prefix5: ----------------  ----------  ----------------
+prefix5: looseTarget       Succeeded   0 ms      0.0%  
+prefix5:   looseInput      Succeeded     0 ms      0.0%
+prefix5: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix5: goodTarget1       Succeeded   0 ms      0.0%  
+prefix5: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix5: badTarget         FAILED!     3 ms      0.0%  
+prefix5: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix5:   goodInput1      Succeeded     1.23 s    1.6%
+prefix5:   goodInput2      Succeeded     2.35 s    3.0%
+prefix5: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix5:   goodInput1      Succeeded     1.23 s    1.6%
+prefix5:   badInput        FAILED!       1 ms      0.0%
+prefix5: ----------------------------------------------
+prefix5: Succeeded (target1 target2 target3) (skip dependencies) (1 m 19 s)
+prefix5: ----------------------------------------------
+prefix5: Target            Outcome     Duration        
+prefix5: ----------------  ----------  ----------------
+prefix5: looseTarget       Succeeded   0 ms      0.0%  
+prefix5:   looseInput      Succeeded     0 ms      0.0%
+prefix5: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix5: goodTarget1       Succeeded   0 ms      0.0%  
+prefix5: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix5: badTarget         FAILED!     3 ms      0.0%  
+prefix5: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix5:   goodInput1      Succeeded     1.23 s    1.6%
+prefix5:   goodInput2      Succeeded     2.35 s    3.0%
+prefix5: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix5:   goodInput1      Succeeded     1.23 s    1.6%
+prefix5:   badInput        FAILED!       1 ms      0.0%
+prefix5: ----------------------------------------------
+prefix5: FAILED! (target1 target2 target3) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix6: Bullseye version: version
+prefix6: Host: AppVeyor (detected)
+prefix6: OS: Unknown
+prefix6: Args: arg1 arg2
+prefix6: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: ─────────────────────────
+prefix6: Target  Outcome  Duration
+prefix6: ──────  ───────  ────────
+prefix6: ─────────────────────────
+prefix6: Succeeded () (skip dependencies) (0 ms)
+prefix6: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: ─────────────────────────────────
+prefix6: Target        Outcome    Duration
+prefix6: ────────────  ─────────  ────────
+prefix6: looseTarget   Succeeded  0 ms    
+prefix6:   looseInput  Succeeded  └─0 ms  
+prefix6: ─────────────────────────────────
+prefix6: Succeeded (looseTarget) (skip dependencies) (0 ms)
+prefix6: Starting... (target1 target2 target3) (skip dependencies)
+prefix6: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: badTarget: System.InvalidOperationException: badTargetEx
+prefix6: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix6: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix6: ──────────────────────────────────────────────
+prefix6: Target            Outcome     Duration        
+prefix6: ────────────────  ──────────  ────────────────
+prefix6: looseTarget       Succeeded   0 ms      0.0%  
+prefix6:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix6: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix6: goodTarget1       Succeeded   0 ms      0.0%  
+prefix6: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix6: badTarget         FAILED!     3 ms      0.0%  
+prefix6: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix6:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix6:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix6: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix6:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix6:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix6: ──────────────────────────────────────────────
+prefix6: Succeeded (target1 target2 target3) (skip dependencies) (1 m 19 s)
+prefix6: ──────────────────────────────────────────────
+prefix6: Target            Outcome     Duration        
+prefix6: ────────────────  ──────────  ────────────────
+prefix6: looseTarget       Succeeded   0 ms      0.0%  
+prefix6:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix6: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix6: goodTarget1       Succeeded   0 ms      0.0%  
+prefix6: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix6: badTarget         FAILED!     3 ms      0.0%  
+prefix6: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix6:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix6:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix6: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix6:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix6:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix6: ──────────────────────────────────────────────
+prefix6: FAILED! (target1 target2 target3) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix7: Bullseye version: version
+prefix7: Host: AppVeyor (forced)
+prefix7: OS: Unknown
+prefix7: Args: arg1 arg2
+prefix7: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: -------------------------
+prefix7: Target  Outcome  Duration
+prefix7: ------  -------  --------
+prefix7: -------------------------
+prefix7: Succeeded () (skip dependencies) (0 ms)
+prefix7: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: ---------------------------------
+prefix7: Target        Outcome    Duration
+prefix7: ------------  ---------  --------
+prefix7: looseTarget   Succeeded  0 ms    
+prefix7:   looseInput  Succeeded    0 ms  
+prefix7: ---------------------------------
+prefix7: Succeeded (looseTarget) (skip dependencies) (0 ms)
+prefix7: Starting... (target1 target2 target3) (skip dependencies)
+prefix7: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: badTarget: System.InvalidOperationException: badTargetEx
+prefix7: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix7: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix7: ----------------------------------------------
+prefix7: Target            Outcome     Duration        
+prefix7: ----------------  ----------  ----------------
+prefix7: looseTarget       Succeeded   0 ms      0.0%  
+prefix7:   looseInput      Succeeded     0 ms      0.0%
+prefix7: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix7: goodTarget1       Succeeded   0 ms      0.0%  
+prefix7: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix7: badTarget         FAILED!     3 ms      0.0%  
+prefix7: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix7:   goodInput1      Succeeded     1.23 s    1.6%
+prefix7:   goodInput2      Succeeded     2.35 s    3.0%
+prefix7: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix7:   goodInput1      Succeeded     1.23 s    1.6%
+prefix7:   badInput        FAILED!       1 ms      0.0%
+prefix7: ----------------------------------------------
+prefix7: Succeeded (target1 target2 target3) (skip dependencies) (1 m 19 s)
+prefix7: ----------------------------------------------
+prefix7: Target            Outcome     Duration        
+prefix7: ----------------  ----------  ----------------
+prefix7: looseTarget       Succeeded   0 ms      0.0%  
+prefix7:   looseInput      Succeeded     0 ms      0.0%
+prefix7: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix7: goodTarget1       Succeeded   0 ms      0.0%  
+prefix7: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix7: badTarget         FAILED!     3 ms      0.0%  
+prefix7: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix7:   goodInput1      Succeeded     1.23 s    1.6%
+prefix7:   goodInput2      Succeeded     2.35 s    3.0%
+prefix7: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix7:   goodInput1      Succeeded     1.23 s    1.6%
+prefix7:   badInput        FAILED!       1 ms      0.0%
+prefix7: ----------------------------------------------
+prefix7: FAILED! (target1 target2 target3) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix8: Bullseye version: version
+prefix8: Host: AppVeyor (forced)
+prefix8: OS: Unknown
+prefix8: Args: arg1 arg2
+prefix8: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: ─────────────────────────
+prefix8: Target  Outcome  Duration
+prefix8: ──────  ───────  ────────
+prefix8: ─────────────────────────
+prefix8: Succeeded () (skip dependencies) (0 ms)
+prefix8: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: ─────────────────────────────────
+prefix8: Target        Outcome    Duration
+prefix8: ────────────  ─────────  ────────
+prefix8: looseTarget   Succeeded  0 ms    
+prefix8:   looseInput  Succeeded  └─0 ms  
+prefix8: ─────────────────────────────────
+prefix8: Succeeded (looseTarget) (skip dependencies) (0 ms)
+prefix8: Starting... (target1 target2 target3) (skip dependencies)
+prefix8: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: badTarget: System.InvalidOperationException: badTargetEx
+prefix8: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix8: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix8: ──────────────────────────────────────────────
+prefix8: Target            Outcome     Duration        
+prefix8: ────────────────  ──────────  ────────────────
+prefix8: looseTarget       Succeeded   0 ms      0.0%  
+prefix8:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix8: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix8: goodTarget1       Succeeded   0 ms      0.0%  
+prefix8: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix8: badTarget         FAILED!     3 ms      0.0%  
+prefix8: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix8:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix8:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix8: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix8:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix8:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix8: ──────────────────────────────────────────────
+prefix8: Succeeded (target1 target2 target3) (skip dependencies) (1 m 19 s)
+prefix8: ──────────────────────────────────────────────
+prefix8: Target            Outcome     Duration        
+prefix8: ────────────────  ──────────  ────────────────
+prefix8: looseTarget       Succeeded   0 ms      0.0%  
+prefix8:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix8: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix8: goodTarget1       Succeeded   0 ms      0.0%  
+prefix8: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix8: badTarget         FAILED!     3 ms      0.0%  
+prefix8: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix8:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix8:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix8: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix8:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix8:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix8: ──────────────────────────────────────────────
+prefix8: FAILED! (target1 target2 target3) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix9: Bullseye version: version
+prefix9: Host: AppVeyor (detected)
+prefix9: OS: Unknown
+prefix9: Args: arg1 arg2
+prefix9: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: -------------------------
+prefix9: Target  Outcome  Duration
+prefix9: ------  -------  --------
+prefix9: -------------------------
+prefix9: Succeeded () (dry run) (0 ms)
+prefix9: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: ---------------------------------
+prefix9: Target        Outcome    Duration
+prefix9: ------------  ---------  --------
+prefix9: looseTarget   Succeeded  0 ms    
+prefix9:   looseInput  Succeeded    0 ms  
+prefix9: ---------------------------------
+prefix9: Succeeded (looseTarget) (dry run) (0 ms)
+prefix9: Starting... (target1 target2 target3) (dry run)
+prefix9: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: badTarget: System.InvalidOperationException: badTargetEx
+prefix9: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix9: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix9: --------------------------------------
+prefix9: Target            Outcome     Duration
+prefix9: ----------------  ----------  --------
+prefix9: looseTarget       Succeeded   0 ms    
+prefix9:   looseInput      Succeeded     0 ms  
+prefix9: noInputsTarget    No inputs!  0 ms    
+prefix9: goodTarget1       Succeeded   0 ms    
+prefix9: goodTarget2       Succeeded   0 ms    
+prefix9: badTarget         FAILED!     0 ms    
+prefix9: goodInputsTarget  Succeeded   0 ms    
+prefix9:   goodInput1      Succeeded     0 ms  
+prefix9:   goodInput2      Succeeded     0 ms  
+prefix9: badInputsTarget   FAILED!     0 ms    
+prefix9:   goodInput1      Succeeded     0 ms  
+prefix9:   badInput        FAILED!       0 ms  
+prefix9: --------------------------------------
+prefix9: Succeeded (target1 target2 target3) (dry run) (0 ms)
+prefix9: --------------------------------------
+prefix9: Target            Outcome     Duration
+prefix9: ----------------  ----------  --------
+prefix9: looseTarget       Succeeded   0 ms    
+prefix9:   looseInput      Succeeded     0 ms  
+prefix9: noInputsTarget    No inputs!  0 ms    
+prefix9: goodTarget1       Succeeded   0 ms    
+prefix9: goodTarget2       Succeeded   0 ms    
+prefix9: badTarget         FAILED!     0 ms    
+prefix9: goodInputsTarget  Succeeded   0 ms    
+prefix9:   goodInput1      Succeeded     0 ms  
+prefix9:   goodInput2      Succeeded     0 ms  
+prefix9: badInputsTarget   FAILED!     0 ms    
+prefix9:   goodInput1      Succeeded     0 ms  
+prefix9:   badInput        FAILED!       0 ms  
+prefix9: --------------------------------------
+prefix9: FAILED! (target1 target2 target3) (dry run) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix10: Bullseye version: version
+prefix10: Host: AppVeyor (detected)
+prefix10: OS: Unknown
+prefix10: Args: arg1 arg2
+prefix10: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: ─────────────────────────
+prefix10: Target  Outcome  Duration
+prefix10: ──────  ───────  ────────
+prefix10: ─────────────────────────
+prefix10: Succeeded () (dry run) (0 ms)
+prefix10: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: ─────────────────────────────────
+prefix10: Target        Outcome    Duration
+prefix10: ────────────  ─────────  ────────
+prefix10: looseTarget   Succeeded  0 ms    
+prefix10:   looseInput  Succeeded  └─0 ms  
+prefix10: ─────────────────────────────────
+prefix10: Succeeded (looseTarget) (dry run) (0 ms)
+prefix10: Starting... (target1 target2 target3) (dry run)
+prefix10: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: badTarget: System.InvalidOperationException: badTargetEx
+prefix10: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix10: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix10: ──────────────────────────────────────
+prefix10: Target            Outcome     Duration
+prefix10: ────────────────  ──────────  ────────
+prefix10: looseTarget       Succeeded   0 ms    
+prefix10:   looseInput      Succeeded   └─0 ms  
+prefix10: noInputsTarget    No inputs!  0 ms    
+prefix10: goodTarget1       Succeeded   0 ms    
+prefix10: goodTarget2       Succeeded   0 ms    
+prefix10: badTarget         FAILED!     0 ms    
+prefix10: goodInputsTarget  Succeeded   0 ms    
+prefix10:   goodInput1      Succeeded   ├─0 ms  
+prefix10:   goodInput2      Succeeded   └─0 ms  
+prefix10: badInputsTarget   FAILED!     0 ms    
+prefix10:   goodInput1      Succeeded   ├─0 ms  
+prefix10:   badInput        FAILED!     └─0 ms  
+prefix10: ──────────────────────────────────────
+prefix10: Succeeded (target1 target2 target3) (dry run) (0 ms)
+prefix10: ──────────────────────────────────────
+prefix10: Target            Outcome     Duration
+prefix10: ────────────────  ──────────  ────────
+prefix10: looseTarget       Succeeded   0 ms    
+prefix10:   looseInput      Succeeded   └─0 ms  
+prefix10: noInputsTarget    No inputs!  0 ms    
+prefix10: goodTarget1       Succeeded   0 ms    
+prefix10: goodTarget2       Succeeded   0 ms    
+prefix10: badTarget         FAILED!     0 ms    
+prefix10: goodInputsTarget  Succeeded   0 ms    
+prefix10:   goodInput1      Succeeded   ├─0 ms  
+prefix10:   goodInput2      Succeeded   └─0 ms  
+prefix10: badInputsTarget   FAILED!     0 ms    
+prefix10:   goodInput1      Succeeded   ├─0 ms  
+prefix10:   badInput        FAILED!     └─0 ms  
+prefix10: ──────────────────────────────────────
+prefix10: FAILED! (target1 target2 target3) (dry run) (0 ms)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix11: Bullseye version: version
+prefix11: Host: AppVeyor (forced)
+prefix11: OS: Unknown
+prefix11: Args: arg1 arg2
+prefix11: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: -------------------------
+prefix11: Target  Outcome  Duration
+prefix11: ------  -------  --------
+prefix11: -------------------------
+prefix11: Succeeded () (dry run) (0 ms)
+prefix11: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: ---------------------------------
+prefix11: Target        Outcome    Duration
+prefix11: ------------  ---------  --------
+prefix11: looseTarget   Succeeded  0 ms    
+prefix11:   looseInput  Succeeded    0 ms  
+prefix11: ---------------------------------
+prefix11: Succeeded (looseTarget) (dry run) (0 ms)
+prefix11: Starting... (target1 target2 target3) (dry run)
+prefix11: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: badTarget: System.InvalidOperationException: badTargetEx
+prefix11: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix11: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix11: --------------------------------------
+prefix11: Target            Outcome     Duration
+prefix11: ----------------  ----------  --------
+prefix11: looseTarget       Succeeded   0 ms    
+prefix11:   looseInput      Succeeded     0 ms  
+prefix11: noInputsTarget    No inputs!  0 ms    
+prefix11: goodTarget1       Succeeded   0 ms    
+prefix11: goodTarget2       Succeeded   0 ms    
+prefix11: badTarget         FAILED!     0 ms    
+prefix11: goodInputsTarget  Succeeded   0 ms    
+prefix11:   goodInput1      Succeeded     0 ms  
+prefix11:   goodInput2      Succeeded     0 ms  
+prefix11: badInputsTarget   FAILED!     0 ms    
+prefix11:   goodInput1      Succeeded     0 ms  
+prefix11:   badInput        FAILED!       0 ms  
+prefix11: --------------------------------------
+prefix11: Succeeded (target1 target2 target3) (dry run) (0 ms)
+prefix11: --------------------------------------
+prefix11: Target            Outcome     Duration
+prefix11: ----------------  ----------  --------
+prefix11: looseTarget       Succeeded   0 ms    
+prefix11:   looseInput      Succeeded     0 ms  
+prefix11: noInputsTarget    No inputs!  0 ms    
+prefix11: goodTarget1       Succeeded   0 ms    
+prefix11: goodTarget2       Succeeded   0 ms    
+prefix11: badTarget         FAILED!     0 ms    
+prefix11: goodInputsTarget  Succeeded   0 ms    
+prefix11:   goodInput1      Succeeded     0 ms  
+prefix11:   goodInput2      Succeeded     0 ms  
+prefix11: badInputsTarget   FAILED!     0 ms    
+prefix11:   goodInput1      Succeeded     0 ms  
+prefix11:   badInput        FAILED!       0 ms  
+prefix11: --------------------------------------
+prefix11: FAILED! (target1 target2 target3) (dry run) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix12: Bullseye version: version
+prefix12: Host: AppVeyor (forced)
+prefix12: OS: Unknown
+prefix12: Args: arg1 arg2
+prefix12: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: ─────────────────────────
+prefix12: Target  Outcome  Duration
+prefix12: ──────  ───────  ────────
+prefix12: ─────────────────────────
+prefix12: Succeeded () (dry run) (0 ms)
+prefix12: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: ─────────────────────────────────
+prefix12: Target        Outcome    Duration
+prefix12: ────────────  ─────────  ────────
+prefix12: looseTarget   Succeeded  0 ms    
+prefix12:   looseInput  Succeeded  └─0 ms  
+prefix12: ─────────────────────────────────
+prefix12: Succeeded (looseTarget) (dry run) (0 ms)
+prefix12: Starting... (target1 target2 target3) (dry run)
+prefix12: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: badTarget: System.InvalidOperationException: badTargetEx
+prefix12: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix12: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix12: ──────────────────────────────────────
+prefix12: Target            Outcome     Duration
+prefix12: ────────────────  ──────────  ────────
+prefix12: looseTarget       Succeeded   0 ms    
+prefix12:   looseInput      Succeeded   └─0 ms  
+prefix12: noInputsTarget    No inputs!  0 ms    
+prefix12: goodTarget1       Succeeded   0 ms    
+prefix12: goodTarget2       Succeeded   0 ms    
+prefix12: badTarget         FAILED!     0 ms    
+prefix12: goodInputsTarget  Succeeded   0 ms    
+prefix12:   goodInput1      Succeeded   ├─0 ms  
+prefix12:   goodInput2      Succeeded   └─0 ms  
+prefix12: badInputsTarget   FAILED!     0 ms    
+prefix12:   goodInput1      Succeeded   ├─0 ms  
+prefix12:   badInput        FAILED!     └─0 ms  
+prefix12: ──────────────────────────────────────
+prefix12: Succeeded (target1 target2 target3) (dry run) (0 ms)
+prefix12: ──────────────────────────────────────
+prefix12: Target            Outcome     Duration
+prefix12: ────────────────  ──────────  ────────
+prefix12: looseTarget       Succeeded   0 ms    
+prefix12:   looseInput      Succeeded   └─0 ms  
+prefix12: noInputsTarget    No inputs!  0 ms    
+prefix12: goodTarget1       Succeeded   0 ms    
+prefix12: goodTarget2       Succeeded   0 ms    
+prefix12: badTarget         FAILED!     0 ms    
+prefix12: goodInputsTarget  Succeeded   0 ms    
+prefix12:   goodInput1      Succeeded   ├─0 ms  
+prefix12:   goodInput2      Succeeded   └─0 ms  
+prefix12: badInputsTarget   FAILED!     0 ms    
+prefix12:   goodInput1      Succeeded   ├─0 ms  
+prefix12:   badInput        FAILED!     └─0 ms  
+prefix12: ──────────────────────────────────────
+prefix12: FAILED! (target1 target2 target3) (dry run) (0 ms)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix13: Bullseye version: version
+prefix13: Host: AppVeyor (detected)
+prefix13: OS: Unknown
+prefix13: Args: arg1 arg2
+prefix13: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: -------------------------
+prefix13: Target  Outcome  Duration
+prefix13: ------  -------  --------
+prefix13: -------------------------
+prefix13: Succeeded () (dry run) (skip dependencies) (0 ms)
+prefix13: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: ---------------------------------
+prefix13: Target        Outcome    Duration
+prefix13: ------------  ---------  --------
+prefix13: looseTarget   Succeeded  0 ms    
+prefix13:   looseInput  Succeeded    0 ms  
+prefix13: ---------------------------------
+prefix13: Succeeded (looseTarget) (dry run) (skip dependencies) (0 ms)
+prefix13: Starting... (target1 target2 target3) (dry run) (skip dependencies)
+prefix13: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: badTarget: System.InvalidOperationException: badTargetEx
+prefix13: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix13: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix13: --------------------------------------
+prefix13: Target            Outcome     Duration
+prefix13: ----------------  ----------  --------
+prefix13: looseTarget       Succeeded   0 ms    
+prefix13:   looseInput      Succeeded     0 ms  
+prefix13: noInputsTarget    No inputs!  0 ms    
+prefix13: goodTarget1       Succeeded   0 ms    
+prefix13: goodTarget2       Succeeded   0 ms    
+prefix13: badTarget         FAILED!     0 ms    
+prefix13: goodInputsTarget  Succeeded   0 ms    
+prefix13:   goodInput1      Succeeded     0 ms  
+prefix13:   goodInput2      Succeeded     0 ms  
+prefix13: badInputsTarget   FAILED!     0 ms    
+prefix13:   goodInput1      Succeeded     0 ms  
+prefix13:   badInput        FAILED!       0 ms  
+prefix13: --------------------------------------
+prefix13: Succeeded (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+prefix13: --------------------------------------
+prefix13: Target            Outcome     Duration
+prefix13: ----------------  ----------  --------
+prefix13: looseTarget       Succeeded   0 ms    
+prefix13:   looseInput      Succeeded     0 ms  
+prefix13: noInputsTarget    No inputs!  0 ms    
+prefix13: goodTarget1       Succeeded   0 ms    
+prefix13: goodTarget2       Succeeded   0 ms    
+prefix13: badTarget         FAILED!     0 ms    
+prefix13: goodInputsTarget  Succeeded   0 ms    
+prefix13:   goodInput1      Succeeded     0 ms  
+prefix13:   goodInput2      Succeeded     0 ms  
+prefix13: badInputsTarget   FAILED!     0 ms    
+prefix13:   goodInput1      Succeeded     0 ms  
+prefix13:   badInput        FAILED!       0 ms  
+prefix13: --------------------------------------
+prefix13: FAILED! (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix14: Bullseye version: version
+prefix14: Host: AppVeyor (detected)
+prefix14: OS: Unknown
+prefix14: Args: arg1 arg2
+prefix14: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: ─────────────────────────
+prefix14: Target  Outcome  Duration
+prefix14: ──────  ───────  ────────
+prefix14: ─────────────────────────
+prefix14: Succeeded () (dry run) (skip dependencies) (0 ms)
+prefix14: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: ─────────────────────────────────
+prefix14: Target        Outcome    Duration
+prefix14: ────────────  ─────────  ────────
+prefix14: looseTarget   Succeeded  0 ms    
+prefix14:   looseInput  Succeeded  └─0 ms  
+prefix14: ─────────────────────────────────
+prefix14: Succeeded (looseTarget) (dry run) (skip dependencies) (0 ms)
+prefix14: Starting... (target1 target2 target3) (dry run) (skip dependencies)
+prefix14: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: badTarget: System.InvalidOperationException: badTargetEx
+prefix14: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix14: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix14: ──────────────────────────────────────
+prefix14: Target            Outcome     Duration
+prefix14: ────────────────  ──────────  ────────
+prefix14: looseTarget       Succeeded   0 ms    
+prefix14:   looseInput      Succeeded   └─0 ms  
+prefix14: noInputsTarget    No inputs!  0 ms    
+prefix14: goodTarget1       Succeeded   0 ms    
+prefix14: goodTarget2       Succeeded   0 ms    
+prefix14: badTarget         FAILED!     0 ms    
+prefix14: goodInputsTarget  Succeeded   0 ms    
+prefix14:   goodInput1      Succeeded   ├─0 ms  
+prefix14:   goodInput2      Succeeded   └─0 ms  
+prefix14: badInputsTarget   FAILED!     0 ms    
+prefix14:   goodInput1      Succeeded   ├─0 ms  
+prefix14:   badInput        FAILED!     └─0 ms  
+prefix14: ──────────────────────────────────────
+prefix14: Succeeded (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+prefix14: ──────────────────────────────────────
+prefix14: Target            Outcome     Duration
+prefix14: ────────────────  ──────────  ────────
+prefix14: looseTarget       Succeeded   0 ms    
+prefix14:   looseInput      Succeeded   └─0 ms  
+prefix14: noInputsTarget    No inputs!  0 ms    
+prefix14: goodTarget1       Succeeded   0 ms    
+prefix14: goodTarget2       Succeeded   0 ms    
+prefix14: badTarget         FAILED!     0 ms    
+prefix14: goodInputsTarget  Succeeded   0 ms    
+prefix14:   goodInput1      Succeeded   ├─0 ms  
+prefix14:   goodInput2      Succeeded   └─0 ms  
+prefix14: badInputsTarget   FAILED!     0 ms    
+prefix14:   goodInput1      Succeeded   ├─0 ms  
+prefix14:   badInput        FAILED!     └─0 ms  
+prefix14: ──────────────────────────────────────
+prefix14: FAILED! (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix15: Bullseye version: version
+prefix15: Host: AppVeyor (forced)
+prefix15: OS: Unknown
+prefix15: Args: arg1 arg2
+prefix15: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: -------------------------
+prefix15: Target  Outcome  Duration
+prefix15: ------  -------  --------
+prefix15: -------------------------
+prefix15: Succeeded () (dry run) (skip dependencies) (0 ms)
+prefix15: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: ---------------------------------
+prefix15: Target        Outcome    Duration
+prefix15: ------------  ---------  --------
+prefix15: looseTarget   Succeeded  0 ms    
+prefix15:   looseInput  Succeeded    0 ms  
+prefix15: ---------------------------------
+prefix15: Succeeded (looseTarget) (dry run) (skip dependencies) (0 ms)
+prefix15: Starting... (target1 target2 target3) (dry run) (skip dependencies)
+prefix15: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: badTarget: System.InvalidOperationException: badTargetEx
+prefix15: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix15: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix15: --------------------------------------
+prefix15: Target            Outcome     Duration
+prefix15: ----------------  ----------  --------
+prefix15: looseTarget       Succeeded   0 ms    
+prefix15:   looseInput      Succeeded     0 ms  
+prefix15: noInputsTarget    No inputs!  0 ms    
+prefix15: goodTarget1       Succeeded   0 ms    
+prefix15: goodTarget2       Succeeded   0 ms    
+prefix15: badTarget         FAILED!     0 ms    
+prefix15: goodInputsTarget  Succeeded   0 ms    
+prefix15:   goodInput1      Succeeded     0 ms  
+prefix15:   goodInput2      Succeeded     0 ms  
+prefix15: badInputsTarget   FAILED!     0 ms    
+prefix15:   goodInput1      Succeeded     0 ms  
+prefix15:   badInput        FAILED!       0 ms  
+prefix15: --------------------------------------
+prefix15: Succeeded (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+prefix15: --------------------------------------
+prefix15: Target            Outcome     Duration
+prefix15: ----------------  ----------  --------
+prefix15: looseTarget       Succeeded   0 ms    
+prefix15:   looseInput      Succeeded     0 ms  
+prefix15: noInputsTarget    No inputs!  0 ms    
+prefix15: goodTarget1       Succeeded   0 ms    
+prefix15: goodTarget2       Succeeded   0 ms    
+prefix15: badTarget         FAILED!     0 ms    
+prefix15: goodInputsTarget  Succeeded   0 ms    
+prefix15:   goodInput1      Succeeded     0 ms  
+prefix15:   goodInput2      Succeeded     0 ms  
+prefix15: badInputsTarget   FAILED!     0 ms    
+prefix15:   goodInput1      Succeeded     0 ms  
+prefix15:   badInput        FAILED!       0 ms  
+prefix15: --------------------------------------
+prefix15: FAILED! (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: False
+verbose: True
+args: arg1 arg2
+
+prefix16: Bullseye version: version
+prefix16: Host: AppVeyor (forced)
+prefix16: OS: Unknown
+prefix16: Args: arg1 arg2
+prefix16: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: ─────────────────────────
+prefix16: Target  Outcome  Duration
+prefix16: ──────  ───────  ────────
+prefix16: ─────────────────────────
+prefix16: Succeeded () (dry run) (skip dependencies) (0 ms)
+prefix16: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: ─────────────────────────────────
+prefix16: Target        Outcome    Duration
+prefix16: ────────────  ─────────  ────────
+prefix16: looseTarget   Succeeded  0 ms    
+prefix16:   looseInput  Succeeded  └─0 ms  
+prefix16: ─────────────────────────────────
+prefix16: Succeeded (looseTarget) (dry run) (skip dependencies) (0 ms)
+prefix16: Starting... (target1 target2 target3) (dry run) (skip dependencies)
+prefix16: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: badTarget: System.InvalidOperationException: badTargetEx
+prefix16: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix16: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix16: ──────────────────────────────────────
+prefix16: Target            Outcome     Duration
+prefix16: ────────────────  ──────────  ────────
+prefix16: looseTarget       Succeeded   0 ms    
+prefix16:   looseInput      Succeeded   └─0 ms  
+prefix16: noInputsTarget    No inputs!  0 ms    
+prefix16: goodTarget1       Succeeded   0 ms    
+prefix16: goodTarget2       Succeeded   0 ms    
+prefix16: badTarget         FAILED!     0 ms    
+prefix16: goodInputsTarget  Succeeded   0 ms    
+prefix16:   goodInput1      Succeeded   ├─0 ms  
+prefix16:   goodInput2      Succeeded   └─0 ms  
+prefix16: badInputsTarget   FAILED!     0 ms    
+prefix16:   goodInput1      Succeeded   ├─0 ms  
+prefix16:   badInput        FAILED!     └─0 ms  
+prefix16: ──────────────────────────────────────
+prefix16: Succeeded (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+prefix16: ──────────────────────────────────────
+prefix16: Target            Outcome     Duration
+prefix16: ────────────────  ──────────  ────────
+prefix16: looseTarget       Succeeded   0 ms    
+prefix16:   looseInput      Succeeded   └─0 ms  
+prefix16: noInputsTarget    No inputs!  0 ms    
+prefix16: goodTarget1       Succeeded   0 ms    
+prefix16: goodTarget2       Succeeded   0 ms    
+prefix16: badTarget         FAILED!     0 ms    
+prefix16: goodInputsTarget  Succeeded   0 ms    
+prefix16:   goodInput1      Succeeded   ├─0 ms  
+prefix16:   goodInput2      Succeeded   └─0 ms  
+prefix16: badInputsTarget   FAILED!     0 ms    
+prefix16:   goodInput1      Succeeded   ├─0 ms  
+prefix16:   badInput        FAILED!     └─0 ms  
+prefix16: ──────────────────────────────────────
+prefix16: FAILED! (target1 target2 target3) (dry run) (skip dependencies) (0 ms)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: False
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix17: Bullseye version: version
+prefix17: Host: AppVeyor (detected)
+prefix17: OS: Unknown
+prefix17: Args: arg1 arg2
+prefix17: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: -------------------------
+prefix17: Target  Outcome  Duration
+prefix17: ------  -------  --------
+prefix17: -------------------------
+prefix17: Succeeded () (parallel) (0 ms)
+prefix17: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: ---------------------------------
+prefix17: Target        Outcome    Duration
+prefix17: ------------  ---------  --------
+prefix17: looseTarget   Succeeded  0 ms    
+prefix17:   looseInput  Succeeded    0 ms  
+prefix17: ---------------------------------
+prefix17: Succeeded (looseTarget) (parallel) (0 ms)
+prefix17: Starting... (target1 target2 target3) (parallel)
+prefix17: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: badTarget: System.InvalidOperationException: badTargetEx
+prefix17: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix17: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix17: ----------------------------------------------
+prefix17: Target            Outcome     Duration        
+prefix17: ----------------  ----------  ----------------
+prefix17: looseTarget       Succeeded   0 ms      0.0%  
+prefix17:   looseInput      Succeeded     0 ms      0.0%
+prefix17: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix17: goodTarget1       Succeeded   0 ms      0.0%  
+prefix17: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix17: badTarget         FAILED!     3 ms      0.0%  
+prefix17: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix17:   goodInput1      Succeeded     1.23 s    1.6%
+prefix17:   goodInput2      Succeeded     2.35 s    3.0%
+prefix17: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix17:   goodInput1      Succeeded     1.23 s    1.6%
+prefix17:   badInput        FAILED!       1 ms      0.0%
+prefix17: ----------------------------------------------
+prefix17: Succeeded (target1 target2 target3) (parallel) (1 m 19 s)
+prefix17: ----------------------------------------------
+prefix17: Target            Outcome     Duration        
+prefix17: ----------------  ----------  ----------------
+prefix17: looseTarget       Succeeded   0 ms      0.0%  
+prefix17:   looseInput      Succeeded     0 ms      0.0%
+prefix17: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix17: goodTarget1       Succeeded   0 ms      0.0%  
+prefix17: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix17: badTarget         FAILED!     3 ms      0.0%  
+prefix17: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix17:   goodInput1      Succeeded     1.23 s    1.6%
+prefix17:   goodInput2      Succeeded     2.35 s    3.0%
+prefix17: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix17:   goodInput1      Succeeded     1.23 s    1.6%
+prefix17:   badInput        FAILED!       1 ms      0.0%
+prefix17: ----------------------------------------------
+prefix17: FAILED! (target1 target2 target3) (parallel) (1 m 19 s)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: False
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix18: Bullseye version: version
+prefix18: Host: AppVeyor (detected)
+prefix18: OS: Unknown
+prefix18: Args: arg1 arg2
+prefix18: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: ─────────────────────────
+prefix18: Target  Outcome  Duration
+prefix18: ──────  ───────  ────────
+prefix18: ─────────────────────────
+prefix18: Succeeded () (parallel) (0 ms)
+prefix18: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: ─────────────────────────────────
+prefix18: Target        Outcome    Duration
+prefix18: ────────────  ─────────  ────────
+prefix18: looseTarget   Succeeded  0 ms    
+prefix18:   looseInput  Succeeded  └─0 ms  
+prefix18: ─────────────────────────────────
+prefix18: Succeeded (looseTarget) (parallel) (0 ms)
+prefix18: Starting... (target1 target2 target3) (parallel)
+prefix18: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: badTarget: System.InvalidOperationException: badTargetEx
+prefix18: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix18: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix18: ──────────────────────────────────────────────
+prefix18: Target            Outcome     Duration        
+prefix18: ────────────────  ──────────  ────────────────
+prefix18: looseTarget       Succeeded   0 ms      0.0%  
+prefix18:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix18: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix18: goodTarget1       Succeeded   0 ms      0.0%  
+prefix18: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix18: badTarget         FAILED!     3 ms      0.0%  
+prefix18: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix18:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix18:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix18: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix18:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix18:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix18: ──────────────────────────────────────────────
+prefix18: Succeeded (target1 target2 target3) (parallel) (1 m 19 s)
+prefix18: ──────────────────────────────────────────────
+prefix18: Target            Outcome     Duration        
+prefix18: ────────────────  ──────────  ────────────────
+prefix18: looseTarget       Succeeded   0 ms      0.0%  
+prefix18:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix18: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix18: goodTarget1       Succeeded   0 ms      0.0%  
+prefix18: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix18: badTarget         FAILED!     3 ms      0.0%  
+prefix18: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix18:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix18:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix18: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix18:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix18:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix18: ──────────────────────────────────────────────
+prefix18: FAILED! (target1 target2 target3) (parallel) (1 m 19 s)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: False
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix19: Bullseye version: version
+prefix19: Host: AppVeyor (forced)
+prefix19: OS: Unknown
+prefix19: Args: arg1 arg2
+prefix19: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: -------------------------
+prefix19: Target  Outcome  Duration
+prefix19: ------  -------  --------
+prefix19: -------------------------
+prefix19: Succeeded () (parallel) (0 ms)
+prefix19: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: ---------------------------------
+prefix19: Target        Outcome    Duration
+prefix19: ------------  ---------  --------
+prefix19: looseTarget   Succeeded  0 ms    
+prefix19:   looseInput  Succeeded    0 ms  
+prefix19: ---------------------------------
+prefix19: Succeeded (looseTarget) (parallel) (0 ms)
+prefix19: Starting... (target1 target2 target3) (parallel)
+prefix19: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: badTarget: System.InvalidOperationException: badTargetEx
+prefix19: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix19: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix19: ----------------------------------------------
+prefix19: Target            Outcome     Duration        
+prefix19: ----------------  ----------  ----------------
+prefix19: looseTarget       Succeeded   0 ms      0.0%  
+prefix19:   looseInput      Succeeded     0 ms      0.0%
+prefix19: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix19: goodTarget1       Succeeded   0 ms      0.0%  
+prefix19: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix19: badTarget         FAILED!     3 ms      0.0%  
+prefix19: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix19:   goodInput1      Succeeded     1.23 s    1.6%
+prefix19:   goodInput2      Succeeded     2.35 s    3.0%
+prefix19: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix19:   goodInput1      Succeeded     1.23 s    1.6%
+prefix19:   badInput        FAILED!       1 ms      0.0%
+prefix19: ----------------------------------------------
+prefix19: Succeeded (target1 target2 target3) (parallel) (1 m 19 s)
+prefix19: ----------------------------------------------
+prefix19: Target            Outcome     Duration        
+prefix19: ----------------  ----------  ----------------
+prefix19: looseTarget       Succeeded   0 ms      0.0%  
+prefix19:   looseInput      Succeeded     0 ms      0.0%
+prefix19: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix19: goodTarget1       Succeeded   0 ms      0.0%  
+prefix19: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix19: badTarget         FAILED!     3 ms      0.0%  
+prefix19: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix19:   goodInput1      Succeeded     1.23 s    1.6%
+prefix19:   goodInput2      Succeeded     2.35 s    3.0%
+prefix19: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix19:   goodInput1      Succeeded     1.23 s    1.6%
+prefix19:   badInput        FAILED!       1 ms      0.0%
+prefix19: ----------------------------------------------
+prefix19: FAILED! (target1 target2 target3) (parallel) (1 m 19 s)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: False
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix20: Bullseye version: version
+prefix20: Host: AppVeyor (forced)
+prefix20: OS: Unknown
+prefix20: Args: arg1 arg2
+prefix20: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: ─────────────────────────
+prefix20: Target  Outcome  Duration
+prefix20: ──────  ───────  ────────
+prefix20: ─────────────────────────
+prefix20: Succeeded () (parallel) (0 ms)
+prefix20: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: ─────────────────────────────────
+prefix20: Target        Outcome    Duration
+prefix20: ────────────  ─────────  ────────
+prefix20: looseTarget   Succeeded  0 ms    
+prefix20:   looseInput  Succeeded  └─0 ms  
+prefix20: ─────────────────────────────────
+prefix20: Succeeded (looseTarget) (parallel) (0 ms)
+prefix20: Starting... (target1 target2 target3) (parallel)
+prefix20: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: badTarget: System.InvalidOperationException: badTargetEx
+prefix20: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix20: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix20: ──────────────────────────────────────────────
+prefix20: Target            Outcome     Duration        
+prefix20: ────────────────  ──────────  ────────────────
+prefix20: looseTarget       Succeeded   0 ms      0.0%  
+prefix20:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix20: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix20: goodTarget1       Succeeded   0 ms      0.0%  
+prefix20: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix20: badTarget         FAILED!     3 ms      0.0%  
+prefix20: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix20:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix20:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix20: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix20:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix20:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix20: ──────────────────────────────────────────────
+prefix20: Succeeded (target1 target2 target3) (parallel) (1 m 19 s)
+prefix20: ──────────────────────────────────────────────
+prefix20: Target            Outcome     Duration        
+prefix20: ────────────────  ──────────  ────────────────
+prefix20: looseTarget       Succeeded   0 ms      0.0%  
+prefix20:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix20: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix20: goodTarget1       Succeeded   0 ms      0.0%  
+prefix20: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix20: badTarget         FAILED!     3 ms      0.0%  
+prefix20: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix20:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix20:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix20: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix20:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix20:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix20: ──────────────────────────────────────────────
+prefix20: FAILED! (target1 target2 target3) (parallel) (1 m 19 s)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix21: Bullseye version: version
+prefix21: Host: AppVeyor (detected)
+prefix21: OS: Unknown
+prefix21: Args: arg1 arg2
+prefix21: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: -------------------------
+prefix21: Target  Outcome  Duration
+prefix21: ------  -------  --------
+prefix21: -------------------------
+prefix21: Succeeded () (parallel) (skip dependencies) (0 ms)
+prefix21: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: ---------------------------------
+prefix21: Target        Outcome    Duration
+prefix21: ------------  ---------  --------
+prefix21: looseTarget   Succeeded  0 ms    
+prefix21:   looseInput  Succeeded    0 ms  
+prefix21: ---------------------------------
+prefix21: Succeeded (looseTarget) (parallel) (skip dependencies) (0 ms)
+prefix21: Starting... (target1 target2 target3) (parallel) (skip dependencies)
+prefix21: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: badTarget: System.InvalidOperationException: badTargetEx
+prefix21: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix21: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix21: ----------------------------------------------
+prefix21: Target            Outcome     Duration        
+prefix21: ----------------  ----------  ----------------
+prefix21: looseTarget       Succeeded   0 ms      0.0%  
+prefix21:   looseInput      Succeeded     0 ms      0.0%
+prefix21: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix21: goodTarget1       Succeeded   0 ms      0.0%  
+prefix21: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix21: badTarget         FAILED!     3 ms      0.0%  
+prefix21: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix21:   goodInput1      Succeeded     1.23 s    1.6%
+prefix21:   goodInput2      Succeeded     2.35 s    3.0%
+prefix21: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix21:   goodInput1      Succeeded     1.23 s    1.6%
+prefix21:   badInput        FAILED!       1 ms      0.0%
+prefix21: ----------------------------------------------
+prefix21: Succeeded (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+prefix21: ----------------------------------------------
+prefix21: Target            Outcome     Duration        
+prefix21: ----------------  ----------  ----------------
+prefix21: looseTarget       Succeeded   0 ms      0.0%  
+prefix21:   looseInput      Succeeded     0 ms      0.0%
+prefix21: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix21: goodTarget1       Succeeded   0 ms      0.0%  
+prefix21: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix21: badTarget         FAILED!     3 ms      0.0%  
+prefix21: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix21:   goodInput1      Succeeded     1.23 s    1.6%
+prefix21:   goodInput2      Succeeded     2.35 s    3.0%
+prefix21: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix21:   goodInput1      Succeeded     1.23 s    1.6%
+prefix21:   badInput        FAILED!       1 ms      0.0%
+prefix21: ----------------------------------------------
+prefix21: FAILED! (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix22: Bullseye version: version
+prefix22: Host: AppVeyor (detected)
+prefix22: OS: Unknown
+prefix22: Args: arg1 arg2
+prefix22: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: ─────────────────────────
+prefix22: Target  Outcome  Duration
+prefix22: ──────  ───────  ────────
+prefix22: ─────────────────────────
+prefix22: Succeeded () (parallel) (skip dependencies) (0 ms)
+prefix22: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: ─────────────────────────────────
+prefix22: Target        Outcome    Duration
+prefix22: ────────────  ─────────  ────────
+prefix22: looseTarget   Succeeded  0 ms    
+prefix22:   looseInput  Succeeded  └─0 ms  
+prefix22: ─────────────────────────────────
+prefix22: Succeeded (looseTarget) (parallel) (skip dependencies) (0 ms)
+prefix22: Starting... (target1 target2 target3) (parallel) (skip dependencies)
+prefix22: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: badTarget: System.InvalidOperationException: badTargetEx
+prefix22: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix22: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix22: ──────────────────────────────────────────────
+prefix22: Target            Outcome     Duration        
+prefix22: ────────────────  ──────────  ────────────────
+prefix22: looseTarget       Succeeded   0 ms      0.0%  
+prefix22:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix22: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix22: goodTarget1       Succeeded   0 ms      0.0%  
+prefix22: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix22: badTarget         FAILED!     3 ms      0.0%  
+prefix22: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix22:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix22:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix22: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix22:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix22:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix22: ──────────────────────────────────────────────
+prefix22: Succeeded (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+prefix22: ──────────────────────────────────────────────
+prefix22: Target            Outcome     Duration        
+prefix22: ────────────────  ──────────  ────────────────
+prefix22: looseTarget       Succeeded   0 ms      0.0%  
+prefix22:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix22: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix22: goodTarget1       Succeeded   0 ms      0.0%  
+prefix22: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix22: badTarget         FAILED!     3 ms      0.0%  
+prefix22: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix22:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix22:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix22: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix22:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix22:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix22: ──────────────────────────────────────────────
+prefix22: FAILED! (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix23: Bullseye version: version
+prefix23: Host: AppVeyor (forced)
+prefix23: OS: Unknown
+prefix23: Args: arg1 arg2
+prefix23: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: -------------------------
+prefix23: Target  Outcome  Duration
+prefix23: ------  -------  --------
+prefix23: -------------------------
+prefix23: Succeeded () (parallel) (skip dependencies) (0 ms)
+prefix23: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: ---------------------------------
+prefix23: Target        Outcome    Duration
+prefix23: ------------  ---------  --------
+prefix23: looseTarget   Succeeded  0 ms    
+prefix23:   looseInput  Succeeded    0 ms  
+prefix23: ---------------------------------
+prefix23: Succeeded (looseTarget) (parallel) (skip dependencies) (0 ms)
+prefix23: Starting... (target1 target2 target3) (parallel) (skip dependencies)
+prefix23: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: badTarget: System.InvalidOperationException: badTargetEx
+prefix23: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix23: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix23: ----------------------------------------------
+prefix23: Target            Outcome     Duration        
+prefix23: ----------------  ----------  ----------------
+prefix23: looseTarget       Succeeded   0 ms      0.0%  
+prefix23:   looseInput      Succeeded     0 ms      0.0%
+prefix23: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix23: goodTarget1       Succeeded   0 ms      0.0%  
+prefix23: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix23: badTarget         FAILED!     3 ms      0.0%  
+prefix23: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix23:   goodInput1      Succeeded     1.23 s    1.6%
+prefix23:   goodInput2      Succeeded     2.35 s    3.0%
+prefix23: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix23:   goodInput1      Succeeded     1.23 s    1.6%
+prefix23:   badInput        FAILED!       1 ms      0.0%
+prefix23: ----------------------------------------------
+prefix23: Succeeded (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+prefix23: ----------------------------------------------
+prefix23: Target            Outcome     Duration        
+prefix23: ----------------  ----------  ----------------
+prefix23: looseTarget       Succeeded   0 ms      0.0%  
+prefix23:   looseInput      Succeeded     0 ms      0.0%
+prefix23: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix23: goodTarget1       Succeeded   0 ms      0.0%  
+prefix23: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix23: badTarget         FAILED!     3 ms      0.0%  
+prefix23: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix23:   goodInput1      Succeeded     1.23 s    1.6%
+prefix23:   goodInput2      Succeeded     2.35 s    3.0%
+prefix23: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix23:   goodInput1      Succeeded     1.23 s    1.6%
+prefix23:   badInput        FAILED!       1 ms      0.0%
+prefix23: ----------------------------------------------
+prefix23: FAILED! (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: False
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix24: Bullseye version: version
+prefix24: Host: AppVeyor (forced)
+prefix24: OS: Unknown
+prefix24: Args: arg1 arg2
+prefix24: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: ─────────────────────────
+prefix24: Target  Outcome  Duration
+prefix24: ──────  ───────  ────────
+prefix24: ─────────────────────────
+prefix24: Succeeded () (parallel) (skip dependencies) (0 ms)
+prefix24: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: ─────────────────────────────────
+prefix24: Target        Outcome    Duration
+prefix24: ────────────  ─────────  ────────
+prefix24: looseTarget   Succeeded  0 ms    
+prefix24:   looseInput  Succeeded  └─0 ms  
+prefix24: ─────────────────────────────────
+prefix24: Succeeded (looseTarget) (parallel) (skip dependencies) (0 ms)
+prefix24: Starting... (target1 target2 target3) (parallel) (skip dependencies)
+prefix24: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: goodTarget2: Succeeded (1 m 14 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: badTarget: System.InvalidOperationException: badTargetEx
+prefix24: badTarget: FAILED! badTargetEx (3 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: goodInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: goodInputsTarget/goodInput2: Succeeded (2.35 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: badInputsTarget/goodInput1: Succeeded (1.23 s) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix24: badInputsTarget/badInput: FAILED! badInputEx (1 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix24: ──────────────────────────────────────────────
+prefix24: Target            Outcome     Duration        
+prefix24: ────────────────  ──────────  ────────────────
+prefix24: looseTarget       Succeeded   0 ms      0.0%  
+prefix24:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix24: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix24: goodTarget1       Succeeded   0 ms      0.0%  
+prefix24: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix24: badTarget         FAILED!     3 ms      0.0%  
+prefix24: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix24:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix24:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix24: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix24:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix24:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix24: ──────────────────────────────────────────────
+prefix24: Succeeded (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+prefix24: ──────────────────────────────────────────────
+prefix24: Target            Outcome     Duration        
+prefix24: ────────────────  ──────────  ────────────────
+prefix24: looseTarget       Succeeded   0 ms      0.0%  
+prefix24:   looseInput      Succeeded   └─0 ms    └─0.0%
+prefix24: noInputsTarget    No inputs!  0 ms      0.0%  
+prefix24: goodTarget1       Succeeded   0 ms      0.0%  
+prefix24: goodTarget2       Succeeded   1 m 14 s  93.9% 
+prefix24: badTarget         FAILED!     3 ms      0.0%  
+prefix24: goodInputsTarget  Succeeded   3.58 s    4.5%  
+prefix24:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix24:   goodInput2      Succeeded   └─2.35 s  └─3.0%
+prefix24: badInputsTarget   FAILED!     1.24 s    1.6%  
+prefix24:   goodInput1      Succeeded   ├─1.23 s  ├─1.6%
+prefix24:   badInput        FAILED!     └─1 ms    └─0.0%
+prefix24: ──────────────────────────────────────────────
+prefix24: FAILED! (target1 target2 target3) (parallel) (skip dependencies) (1 m 19 s)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix25: Bullseye version: version
+prefix25: Host: AppVeyor (detected)
+prefix25: OS: Unknown
+prefix25: Args: arg1 arg2
+prefix25: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: -------------------------
+prefix25: Target  Outcome  Duration
+prefix25: ------  -------  --------
+prefix25: -------------------------
+prefix25: Succeeded () (dry run) (parallel) (0 ms)
+prefix25: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: ---------------------------------
+prefix25: Target        Outcome    Duration
+prefix25: ------------  ---------  --------
+prefix25: looseTarget   Succeeded  0 ms    
+prefix25:   looseInput  Succeeded    0 ms  
+prefix25: ---------------------------------
+prefix25: Succeeded (looseTarget) (dry run) (parallel) (0 ms)
+prefix25: Starting... (target1 target2 target3) (dry run) (parallel)
+prefix25: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: badTarget: System.InvalidOperationException: badTargetEx
+prefix25: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix25: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix25: --------------------------------------
+prefix25: Target            Outcome     Duration
+prefix25: ----------------  ----------  --------
+prefix25: looseTarget       Succeeded   0 ms    
+prefix25:   looseInput      Succeeded     0 ms  
+prefix25: noInputsTarget    No inputs!  0 ms    
+prefix25: goodTarget1       Succeeded   0 ms    
+prefix25: goodTarget2       Succeeded   0 ms    
+prefix25: badTarget         FAILED!     0 ms    
+prefix25: goodInputsTarget  Succeeded   0 ms    
+prefix25:   goodInput1      Succeeded     0 ms  
+prefix25:   goodInput2      Succeeded     0 ms  
+prefix25: badInputsTarget   FAILED!     0 ms    
+prefix25:   goodInput1      Succeeded     0 ms  
+prefix25:   badInput        FAILED!       0 ms  
+prefix25: --------------------------------------
+prefix25: Succeeded (target1 target2 target3) (dry run) (parallel) (0 ms)
+prefix25: --------------------------------------
+prefix25: Target            Outcome     Duration
+prefix25: ----------------  ----------  --------
+prefix25: looseTarget       Succeeded   0 ms    
+prefix25:   looseInput      Succeeded     0 ms  
+prefix25: noInputsTarget    No inputs!  0 ms    
+prefix25: goodTarget1       Succeeded   0 ms    
+prefix25: goodTarget2       Succeeded   0 ms    
+prefix25: badTarget         FAILED!     0 ms    
+prefix25: goodInputsTarget  Succeeded   0 ms    
+prefix25:   goodInput1      Succeeded     0 ms  
+prefix25:   goodInput2      Succeeded     0 ms  
+prefix25: badInputsTarget   FAILED!     0 ms    
+prefix25:   goodInput1      Succeeded     0 ms  
+prefix25:   badInput        FAILED!       0 ms  
+prefix25: --------------------------------------
+prefix25: FAILED! (target1 target2 target3) (dry run) (parallel) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix26: Bullseye version: version
+prefix26: Host: AppVeyor (detected)
+prefix26: OS: Unknown
+prefix26: Args: arg1 arg2
+prefix26: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: ─────────────────────────
+prefix26: Target  Outcome  Duration
+prefix26: ──────  ───────  ────────
+prefix26: ─────────────────────────
+prefix26: Succeeded () (dry run) (parallel) (0 ms)
+prefix26: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: ─────────────────────────────────
+prefix26: Target        Outcome    Duration
+prefix26: ────────────  ─────────  ────────
+prefix26: looseTarget   Succeeded  0 ms    
+prefix26:   looseInput  Succeeded  └─0 ms  
+prefix26: ─────────────────────────────────
+prefix26: Succeeded (looseTarget) (dry run) (parallel) (0 ms)
+prefix26: Starting... (target1 target2 target3) (dry run) (parallel)
+prefix26: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: badTarget: System.InvalidOperationException: badTargetEx
+prefix26: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix26: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix26: ──────────────────────────────────────
+prefix26: Target            Outcome     Duration
+prefix26: ────────────────  ──────────  ────────
+prefix26: looseTarget       Succeeded   0 ms    
+prefix26:   looseInput      Succeeded   └─0 ms  
+prefix26: noInputsTarget    No inputs!  0 ms    
+prefix26: goodTarget1       Succeeded   0 ms    
+prefix26: goodTarget2       Succeeded   0 ms    
+prefix26: badTarget         FAILED!     0 ms    
+prefix26: goodInputsTarget  Succeeded   0 ms    
+prefix26:   goodInput1      Succeeded   ├─0 ms  
+prefix26:   goodInput2      Succeeded   └─0 ms  
+prefix26: badInputsTarget   FAILED!     0 ms    
+prefix26:   goodInput1      Succeeded   ├─0 ms  
+prefix26:   badInput        FAILED!     └─0 ms  
+prefix26: ──────────────────────────────────────
+prefix26: Succeeded (target1 target2 target3) (dry run) (parallel) (0 ms)
+prefix26: ──────────────────────────────────────
+prefix26: Target            Outcome     Duration
+prefix26: ────────────────  ──────────  ────────
+prefix26: looseTarget       Succeeded   0 ms    
+prefix26:   looseInput      Succeeded   └─0 ms  
+prefix26: noInputsTarget    No inputs!  0 ms    
+prefix26: goodTarget1       Succeeded   0 ms    
+prefix26: goodTarget2       Succeeded   0 ms    
+prefix26: badTarget         FAILED!     0 ms    
+prefix26: goodInputsTarget  Succeeded   0 ms    
+prefix26:   goodInput1      Succeeded   ├─0 ms  
+prefix26:   goodInput2      Succeeded   └─0 ms  
+prefix26: badInputsTarget   FAILED!     0 ms    
+prefix26:   goodInput1      Succeeded   ├─0 ms  
+prefix26:   badInput        FAILED!     └─0 ms  
+prefix26: ──────────────────────────────────────
+prefix26: FAILED! (target1 target2 target3) (dry run) (parallel) (0 ms)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix27: Bullseye version: version
+prefix27: Host: AppVeyor (forced)
+prefix27: OS: Unknown
+prefix27: Args: arg1 arg2
+prefix27: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: -------------------------
+prefix27: Target  Outcome  Duration
+prefix27: ------  -------  --------
+prefix27: -------------------------
+prefix27: Succeeded () (dry run) (parallel) (0 ms)
+prefix27: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: ---------------------------------
+prefix27: Target        Outcome    Duration
+prefix27: ------------  ---------  --------
+prefix27: looseTarget   Succeeded  0 ms    
+prefix27:   looseInput  Succeeded    0 ms  
+prefix27: ---------------------------------
+prefix27: Succeeded (looseTarget) (dry run) (parallel) (0 ms)
+prefix27: Starting... (target1 target2 target3) (dry run) (parallel)
+prefix27: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: badTarget: System.InvalidOperationException: badTargetEx
+prefix27: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix27: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix27: --------------------------------------
+prefix27: Target            Outcome     Duration
+prefix27: ----------------  ----------  --------
+prefix27: looseTarget       Succeeded   0 ms    
+prefix27:   looseInput      Succeeded     0 ms  
+prefix27: noInputsTarget    No inputs!  0 ms    
+prefix27: goodTarget1       Succeeded   0 ms    
+prefix27: goodTarget2       Succeeded   0 ms    
+prefix27: badTarget         FAILED!     0 ms    
+prefix27: goodInputsTarget  Succeeded   0 ms    
+prefix27:   goodInput1      Succeeded     0 ms  
+prefix27:   goodInput2      Succeeded     0 ms  
+prefix27: badInputsTarget   FAILED!     0 ms    
+prefix27:   goodInput1      Succeeded     0 ms  
+prefix27:   badInput        FAILED!       0 ms  
+prefix27: --------------------------------------
+prefix27: Succeeded (target1 target2 target3) (dry run) (parallel) (0 ms)
+prefix27: --------------------------------------
+prefix27: Target            Outcome     Duration
+prefix27: ----------------  ----------  --------
+prefix27: looseTarget       Succeeded   0 ms    
+prefix27:   looseInput      Succeeded     0 ms  
+prefix27: noInputsTarget    No inputs!  0 ms    
+prefix27: goodTarget1       Succeeded   0 ms    
+prefix27: goodTarget2       Succeeded   0 ms    
+prefix27: badTarget         FAILED!     0 ms    
+prefix27: goodInputsTarget  Succeeded   0 ms    
+prefix27:   goodInput1      Succeeded     0 ms  
+prefix27:   goodInput2      Succeeded     0 ms  
+prefix27: badInputsTarget   FAILED!     0 ms    
+prefix27:   goodInput1      Succeeded     0 ms  
+prefix27:   badInput        FAILED!       0 ms  
+prefix27: --------------------------------------
+prefix27: FAILED! (target1 target2 target3) (dry run) (parallel) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: False
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix28: Bullseye version: version
+prefix28: Host: AppVeyor (forced)
+prefix28: OS: Unknown
+prefix28: Args: arg1 arg2
+prefix28: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: ─────────────────────────
+prefix28: Target  Outcome  Duration
+prefix28: ──────  ───────  ────────
+prefix28: ─────────────────────────
+prefix28: Succeeded () (dry run) (parallel) (0 ms)
+prefix28: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: ─────────────────────────────────
+prefix28: Target        Outcome    Duration
+prefix28: ────────────  ─────────  ────────
+prefix28: looseTarget   Succeeded  0 ms    
+prefix28:   looseInput  Succeeded  └─0 ms  
+prefix28: ─────────────────────────────────
+prefix28: Succeeded (looseTarget) (dry run) (parallel) (0 ms)
+prefix28: Starting... (target1 target2 target3) (dry run) (parallel)
+prefix28: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: badTarget: System.InvalidOperationException: badTargetEx
+prefix28: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix28: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix28: ──────────────────────────────────────
+prefix28: Target            Outcome     Duration
+prefix28: ────────────────  ──────────  ────────
+prefix28: looseTarget       Succeeded   0 ms    
+prefix28:   looseInput      Succeeded   └─0 ms  
+prefix28: noInputsTarget    No inputs!  0 ms    
+prefix28: goodTarget1       Succeeded   0 ms    
+prefix28: goodTarget2       Succeeded   0 ms    
+prefix28: badTarget         FAILED!     0 ms    
+prefix28: goodInputsTarget  Succeeded   0 ms    
+prefix28:   goodInput1      Succeeded   ├─0 ms  
+prefix28:   goodInput2      Succeeded   └─0 ms  
+prefix28: badInputsTarget   FAILED!     0 ms    
+prefix28:   goodInput1      Succeeded   ├─0 ms  
+prefix28:   badInput        FAILED!     └─0 ms  
+prefix28: ──────────────────────────────────────
+prefix28: Succeeded (target1 target2 target3) (dry run) (parallel) (0 ms)
+prefix28: ──────────────────────────────────────
+prefix28: Target            Outcome     Duration
+prefix28: ────────────────  ──────────  ────────
+prefix28: looseTarget       Succeeded   0 ms    
+prefix28:   looseInput      Succeeded   └─0 ms  
+prefix28: noInputsTarget    No inputs!  0 ms    
+prefix28: goodTarget1       Succeeded   0 ms    
+prefix28: goodTarget2       Succeeded   0 ms    
+prefix28: badTarget         FAILED!     0 ms    
+prefix28: goodInputsTarget  Succeeded   0 ms    
+prefix28:   goodInput1      Succeeded   ├─0 ms  
+prefix28:   goodInput2      Succeeded   └─0 ms  
+prefix28: badInputsTarget   FAILED!     0 ms    
+prefix28:   goodInput1      Succeeded   ├─0 ms  
+prefix28:   badInput        FAILED!     └─0 ms  
+prefix28: ──────────────────────────────────────
+prefix28: FAILED! (target1 target2 target3) (dry run) (parallel) (0 ms)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix29: Bullseye version: version
+prefix29: Host: AppVeyor (detected)
+prefix29: OS: Unknown
+prefix29: Args: arg1 arg2
+prefix29: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: -------------------------
+prefix29: Target  Outcome  Duration
+prefix29: ------  -------  --------
+prefix29: -------------------------
+prefix29: Succeeded () (dry run) (parallel) (skip dependencies) (0 ms)
+prefix29: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: ---------------------------------
+prefix29: Target        Outcome    Duration
+prefix29: ------------  ---------  --------
+prefix29: looseTarget   Succeeded  0 ms    
+prefix29:   looseInput  Succeeded    0 ms  
+prefix29: ---------------------------------
+prefix29: Succeeded (looseTarget) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix29: Starting... (target1 target2 target3) (dry run) (parallel) (skip dependencies)
+prefix29: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: badTarget: System.InvalidOperationException: badTargetEx
+prefix29: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix29: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix29: --------------------------------------
+prefix29: Target            Outcome     Duration
+prefix29: ----------------  ----------  --------
+prefix29: looseTarget       Succeeded   0 ms    
+prefix29:   looseInput      Succeeded     0 ms  
+prefix29: noInputsTarget    No inputs!  0 ms    
+prefix29: goodTarget1       Succeeded   0 ms    
+prefix29: goodTarget2       Succeeded   0 ms    
+prefix29: badTarget         FAILED!     0 ms    
+prefix29: goodInputsTarget  Succeeded   0 ms    
+prefix29:   goodInput1      Succeeded     0 ms  
+prefix29:   goodInput2      Succeeded     0 ms  
+prefix29: badInputsTarget   FAILED!     0 ms    
+prefix29:   goodInput1      Succeeded     0 ms  
+prefix29:   badInput        FAILED!       0 ms  
+prefix29: --------------------------------------
+prefix29: Succeeded (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix29: --------------------------------------
+prefix29: Target            Outcome     Duration
+prefix29: ----------------  ----------  --------
+prefix29: looseTarget       Succeeded   0 ms    
+prefix29:   looseInput      Succeeded     0 ms  
+prefix29: noInputsTarget    No inputs!  0 ms    
+prefix29: goodTarget1       Succeeded   0 ms    
+prefix29: goodTarget2       Succeeded   0 ms    
+prefix29: badTarget         FAILED!     0 ms    
+prefix29: goodInputsTarget  Succeeded   0 ms    
+prefix29:   goodInput1      Succeeded     0 ms  
+prefix29:   goodInput2      Succeeded     0 ms  
+prefix29: badInputsTarget   FAILED!     0 ms    
+prefix29:   goodInput1      Succeeded     0 ms  
+prefix29:   badInput        FAILED!       0 ms  
+prefix29: --------------------------------------
+prefix29: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: False
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix30: Bullseye version: version
+prefix30: Host: AppVeyor (detected)
+prefix30: OS: Unknown
+prefix30: Args: arg1 arg2
+prefix30: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: ─────────────────────────
+prefix30: Target  Outcome  Duration
+prefix30: ──────  ───────  ────────
+prefix30: ─────────────────────────
+prefix30: Succeeded () (dry run) (parallel) (skip dependencies) (0 ms)
+prefix30: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: ─────────────────────────────────
+prefix30: Target        Outcome    Duration
+prefix30: ────────────  ─────────  ────────
+prefix30: looseTarget   Succeeded  0 ms    
+prefix30:   looseInput  Succeeded  └─0 ms  
+prefix30: ─────────────────────────────────
+prefix30: Succeeded (looseTarget) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix30: Starting... (target1 target2 target3) (dry run) (parallel) (skip dependencies)
+prefix30: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: badTarget: System.InvalidOperationException: badTargetEx
+prefix30: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix30: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix30: ──────────────────────────────────────
+prefix30: Target            Outcome     Duration
+prefix30: ────────────────  ──────────  ────────
+prefix30: looseTarget       Succeeded   0 ms    
+prefix30:   looseInput      Succeeded   └─0 ms  
+prefix30: noInputsTarget    No inputs!  0 ms    
+prefix30: goodTarget1       Succeeded   0 ms    
+prefix30: goodTarget2       Succeeded   0 ms    
+prefix30: badTarget         FAILED!     0 ms    
+prefix30: goodInputsTarget  Succeeded   0 ms    
+prefix30:   goodInput1      Succeeded   ├─0 ms  
+prefix30:   goodInput2      Succeeded   └─0 ms  
+prefix30: badInputsTarget   FAILED!     0 ms    
+prefix30:   goodInput1      Succeeded   ├─0 ms  
+prefix30:   badInput        FAILED!     └─0 ms  
+prefix30: ──────────────────────────────────────
+prefix30: Succeeded (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix30: ──────────────────────────────────────
+prefix30: Target            Outcome     Duration
+prefix30: ────────────────  ──────────  ────────
+prefix30: looseTarget       Succeeded   0 ms    
+prefix30:   looseInput      Succeeded   └─0 ms  
+prefix30: noInputsTarget    No inputs!  0 ms    
+prefix30: goodTarget1       Succeeded   0 ms    
+prefix30: goodTarget2       Succeeded   0 ms    
+prefix30: badTarget         FAILED!     0 ms    
+prefix30: goodInputsTarget  Succeeded   0 ms    
+prefix30:   goodInput1      Succeeded   ├─0 ms  
+prefix30:   goodInput2      Succeeded   └─0 ms  
+prefix30: badInputsTarget   FAILED!     0 ms    
+prefix30:   goodInput1      Succeeded   ├─0 ms  
+prefix30:   badInput        FAILED!     └─0 ms  
+prefix30: ──────────────────────────────────────
+prefix30: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
+
+noColor: True
+noExtendedChars: True
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix31: Bullseye version: version
+prefix31: Host: AppVeyor (forced)
+prefix31: OS: Unknown
+prefix31: Args: arg1 arg2
+prefix31: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: -------------------------
+prefix31: Target  Outcome  Duration
+prefix31: ------  -------  --------
+prefix31: -------------------------
+prefix31: Succeeded () (dry run) (parallel) (skip dependencies) (0 ms)
+prefix31: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: ---------------------------------
+prefix31: Target        Outcome    Duration
+prefix31: ------------  ---------  --------
+prefix31: looseTarget   Succeeded  0 ms    
+prefix31:   looseInput  Succeeded    0 ms  
+prefix31: ---------------------------------
+prefix31: Succeeded (looseTarget) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix31: Starting... (target1 target2 target3) (dry run) (parallel) (skip dependencies)
+prefix31: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: badTarget: System.InvalidOperationException: badTargetEx
+prefix31: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix31: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix31: --------------------------------------
+prefix31: Target            Outcome     Duration
+prefix31: ----------------  ----------  --------
+prefix31: looseTarget       Succeeded   0 ms    
+prefix31:   looseInput      Succeeded     0 ms  
+prefix31: noInputsTarget    No inputs!  0 ms    
+prefix31: goodTarget1       Succeeded   0 ms    
+prefix31: goodTarget2       Succeeded   0 ms    
+prefix31: badTarget         FAILED!     0 ms    
+prefix31: goodInputsTarget  Succeeded   0 ms    
+prefix31:   goodInput1      Succeeded     0 ms  
+prefix31:   goodInput2      Succeeded     0 ms  
+prefix31: badInputsTarget   FAILED!     0 ms    
+prefix31:   goodInput1      Succeeded     0 ms  
+prefix31:   badInput        FAILED!       0 ms  
+prefix31: --------------------------------------
+prefix31: Succeeded (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix31: --------------------------------------
+prefix31: Target            Outcome     Duration
+prefix31: ----------------  ----------  --------
+prefix31: looseTarget       Succeeded   0 ms    
+prefix31:   looseInput      Succeeded     0 ms  
+prefix31: noInputsTarget    No inputs!  0 ms    
+prefix31: goodTarget1       Succeeded   0 ms    
+prefix31: goodTarget2       Succeeded   0 ms    
+prefix31: badTarget         FAILED!     0 ms    
+prefix31: goodInputsTarget  Succeeded   0 ms    
+prefix31:   goodInput1      Succeeded     0 ms  
+prefix31:   goodInput2      Succeeded     0 ms  
+prefix31: badInputsTarget   FAILED!     0 ms    
+prefix31:   goodInput1      Succeeded     0 ms  
+prefix31:   badInput        FAILED!       0 ms  
+prefix31: --------------------------------------
+prefix31: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
+
+noColor: True
+noExtendedChars: False
+host: AppVeyor
+hostForced: True
+osPlatform: Unknown
+skipDependencies: True
+dryRun: True
+parallel: True
+verbose: True
+args: arg1 arg2
+
+prefix32: Bullseye version: version
+prefix32: Host: AppVeyor (forced)
+prefix32: OS: Unknown
+prefix32: Args: arg1 arg2
+prefix32: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: ─────────────────────────
+prefix32: Target  Outcome  Duration
+prefix32: ──────  ───────  ────────
+prefix32: ─────────────────────────
+prefix32: Succeeded () (dry run) (parallel) (skip dependencies) (0 ms)
+prefix32: looseTarget/looseInput: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: ─────────────────────────────────
+prefix32: Target        Outcome    Duration
+prefix32: ────────────  ─────────  ────────
+prefix32: looseTarget   Succeeded  0 ms    
+prefix32:   looseInput  Succeeded  └─0 ms  
+prefix32: ─────────────────────────────────
+prefix32: Succeeded (looseTarget) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix32: Starting... (target1 target2 target3) (dry run) (parallel) (skip dependencies)
+prefix32: noInputsTarget: No inputs! (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: goodTarget1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: goodTarget2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: goodTarget2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: badTarget: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: badTarget: System.InvalidOperationException: badTargetEx
+prefix32: badTarget: FAILED! badTargetEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: goodInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: goodInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: goodInputsTarget/goodInput2: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: goodInputsTarget/goodInput2: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: badInputsTarget/goodInput1: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: badInputsTarget/goodInput1: Succeeded (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: badInputsTarget/badInput: Starting... (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: badInputsTarget/badInput: System.InvalidOperationException: badInputEx
+prefix32: badInputsTarget/badInput: FAILED! badInputEx (0 ms) (/verboseTarget1/verboseTarget2/verboseTarget3)
+prefix32: ──────────────────────────────────────
+prefix32: Target            Outcome     Duration
+prefix32: ────────────────  ──────────  ────────
+prefix32: looseTarget       Succeeded   0 ms    
+prefix32:   looseInput      Succeeded   └─0 ms  
+prefix32: noInputsTarget    No inputs!  0 ms    
+prefix32: goodTarget1       Succeeded   0 ms    
+prefix32: goodTarget2       Succeeded   0 ms    
+prefix32: badTarget         FAILED!     0 ms    
+prefix32: goodInputsTarget  Succeeded   0 ms    
+prefix32:   goodInput1      Succeeded   ├─0 ms  
+prefix32:   goodInput2      Succeeded   └─0 ms  
+prefix32: badInputsTarget   FAILED!     0 ms    
+prefix32:   goodInput1      Succeeded   ├─0 ms  
+prefix32:   badInput        FAILED!     └─0 ms  
+prefix32: ──────────────────────────────────────
+prefix32: Succeeded (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)
+prefix32: ──────────────────────────────────────
+prefix32: Target            Outcome     Duration
+prefix32: ────────────────  ──────────  ────────
+prefix32: looseTarget       Succeeded   0 ms    
+prefix32:   looseInput      Succeeded   └─0 ms  
+prefix32: noInputsTarget    No inputs!  0 ms    
+prefix32: goodTarget1       Succeeded   0 ms    
+prefix32: goodTarget2       Succeeded   0 ms    
+prefix32: badTarget         FAILED!     0 ms    
+prefix32: goodInputsTarget  Succeeded   0 ms    
+prefix32:   goodInput1      Succeeded   ├─0 ms  
+prefix32:   goodInput2      Succeeded   └─0 ms  
+prefix32: badInputsTarget   FAILED!     0 ms    
+prefix32:   goodInput1      Succeeded   ├─0 ms  
+prefix32:   badInput        FAILED!     └─0 ms  
+prefix32: ──────────────────────────────────────
+prefix32: FAILED! (target1 target2 target3) (dry run) (parallel) (skip dependencies) (0 ms)

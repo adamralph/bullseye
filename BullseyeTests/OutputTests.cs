@@ -19,23 +19,20 @@ public static class OutputTests
         var ordinal = 1;
 
         // act
-        foreach (var dryRun in new[] { true, false, })
+        foreach (var boolArray in GetAllPermutations(5))
         {
-            foreach (var @bool in new[] { true, false, })
-            {
-                await writer.WriteSampleOutput(
-                    noColor: true,
-                    noExtendedChars: !@bool,
-                    host: default,
-                    hostForced: @bool,
-                    OSPlatform.Create("Unknown"),
-                    skipDependencies: @bool,
-                    dryRun: dryRun,
-                    parallel: @bool,
-                    verbose: true,
-                    ["arg1", "arg2",],
-                    ordinal++);
-            }
+            await writer.WriteSampleOutput(
+                noColor: true,
+                noExtendedChars: !boolArray[0],
+                host: default,
+                hostForced: boolArray[1],
+                OSPlatform.Create("Unknown"),
+                skipDependencies: boolArray[2],
+                dryRun: boolArray[3],
+                parallel: boolArray[4],
+                verbose: true,
+                ["arg1", "arg2",],
+                ordinal++);
         }
 
         // assert
@@ -223,5 +220,19 @@ public static class OutputTests
         }
         await output.Succeeded(targets);
         await output.Failed(targets);
+    }
+
+    private static IEnumerable<bool[]> GetAllPermutations(int size)
+    {
+        for (var i = 0; i < 1 << size; ++i)
+        {
+            var value = new bool[size];
+            for (var j = 0; j < size; j++)
+            {
+                value[j] = (i & (1 << j)) != 0;
+            }
+
+            yield return value;
+        }
     }
 }
