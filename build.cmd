@@ -1,14 +1,20 @@
 @echo Off
 
+call :begin_group restore
+@echo On
+dotnet restore || goto :error
+@echo Off
+call :end_group
+
 call :begin_group format
 @echo On
-dotnet format --verify-no-changes || goto :error
+dotnet format --verify-no-changes --no-restore || goto :error
 @echo Off
 call :end_group
 
 call :begin_group build
 @echo On
-dotnet build --configuration Release || goto :error
+dotnet build --configuration Release --no-restore || goto :error
 @echo Off
 call :end_group
 

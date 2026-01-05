@@ -2,14 +2,19 @@ default: format test smoke-test pack
 
 .PHONY: format build
 
-format:
+restore:
 	$(call begin_group,$@)
-	dotnet format --verify-no-changes
+	dotnet restore
 	$(call end_group)
 
-build:
+format: restore
 	$(call begin_group,$@)
-	dotnet build --configuration Release
+	dotnet format --verify-no-changes --no-restore
+	$(call end_group)
+
+build: restore
+	$(call begin_group,$@)
+	dotnet build --configuration Release --no-restore
 	$(call end_group)
 
 test: build
