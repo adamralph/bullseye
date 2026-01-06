@@ -25,7 +25,7 @@
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.39" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.4" PrivateAssets="All" />
-    <PackageReference Include="MinVer" Version="7.0.0-rc.1" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Version="8.0.0-alpha.1" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

@@ -22,9 +22,9 @@
       },
       "MinVer": {
         "type": "Direct",
-        "requested": "[7.0.0-rc.1, )",
-        "resolved": "7.0.0-rc.1",
-        "contentHash": "6JRr5xmAlpoqWtMZBX5tpDlaPsCCuHVBIPbHw6a7aVoUG3Z+X1tpWhXFo5NGg4BFY7+XlB/Z8OYrTgp8Il2Iyw=="
+        "requested": "[8.0.0-alpha.1, )",
+        "resolved": "8.0.0-alpha.1",
+        "contentHash": "vBZRXrNmHbDRl/rAwkn22c6L26qQjZoG0WEPFoKPLDXBuB4hLyXnb1aFHJLHfcKrGZygOHpxDTTpGi0DL5cMaQ=="
       }
     },
     "net8.0": {
@@ -48,9 +48,9 @@
       },
       "MinVer": {
         "type": "Direct",
-        "requested": "[7.0.0-rc.1, )",
-        "resolved": "7.0.0-rc.1",
-        "contentHash": "6JRr5xmAlpoqWtMZBX5tpDlaPsCCuHVBIPbHw6a7aVoUG3Z+X1tpWhXFo5NGg4BFY7+XlB/Z8OYrTgp8Il2Iyw=="
+        "requested": "[8.0.0-alpha.1, )",
+        "resolved": "8.0.0-alpha.1",
+        "contentHash": "vBZRXrNmHbDRl/rAwkn22c6L26qQjZoG0WEPFoKPLDXBuB4hLyXnb1aFHJLHfcKrGZygOHpxDTTpGi0DL5cMaQ=="
       }
     },
     "net9.0": {
@@ -74,9 +74,9 @@
       },
       "MinVer": {
         "type": "Direct",
-        "requested": "[7.0.0-rc.1, )",
-        "resolved": "7.0.0-rc.1",
-        "contentHash": "6JRr5xmAlpoqWtMZBX5tpDlaPsCCuHVBIPbHw6a7aVoUG3Z+X1tpWhXFo5NGg4BFY7+XlB/Z8OYrTgp8Il2Iyw=="
+        "requested": "[8.0.0-alpha.1, )",
+        "resolved": "8.0.0-alpha.1",
+        "contentHash": "vBZRXrNmHbDRl/rAwkn22c6L26qQjZoG0WEPFoKPLDXBuB4hLyXnb1aFHJLHfcKrGZygOHpxDTTpGi0DL5cMaQ=="
       }
     }
   }
