@@ -102,8 +102,10 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
         // cannot use WaitAsync() as it is not reentrant
 #pragma warning disable CA1849 // Call async methods when in an async method
+#pragma warning disable VSTHRD103 // Wait synchronously blocks. Await WaitAsync instead.
         checkRunningTargets.Wait();
-#pragma warning restore CA1849 // Call async methods when in an async method
+#pragma warning restore VSTHRD103
+#pragma warning restore CA1849
 
         try
         {
@@ -146,8 +148,10 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             // cannot use WaitAsync() as it is not reentrant
 #pragma warning disable CA1849 // Call async methods when in an async method
+#pragma warning disable VSTHRD103 // Wait synchronously blocks. Await WaitAsync instead.
             checkRunningTargets.Wait();
-#pragma warning restore CA1849 // Call async methods when in an async method
+#pragma warning restore VSTHRD103
+#pragma warning restore CA1849
 
             try
             {

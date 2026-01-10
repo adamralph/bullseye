@@ -2,3 +2,9 @@
 
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
+
+# VSTHRD111: Add .ConfigureAwait(bool) to your await expression
+dotnet_diagnostic.VSTHRD111.severity = none
+
+# VSTHRD200: Use "Async" suffix in names of methods that return an awaitable type
+dotnet_diagnostic.VSTHRD200.severity = none

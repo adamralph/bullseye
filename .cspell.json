@@ -56,6 +56,7 @@
     "unawaited",
     "uninstantiated",
     "Unmanaged",
+    "VSTHRD",
     "Walkies",
     "xunit"
   ]
