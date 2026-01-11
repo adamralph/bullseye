@@ -38,7 +38,7 @@ public partial class Targets
         await _targetCollection.RunAsync(
             [.. args,],
             messageOnly ?? DefaultMessageOnly,
-            getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
+            getMessagePrefix ?? await GetDefaultGetMessagePrefixAsync(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,
             true).Tax();
@@ -78,7 +78,7 @@ public partial class Targets
             unknownOptions?.ToList() ?? DefaultList,
             showHelp,
             messageOnly ?? DefaultMessageOnly,
-            getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
+            getMessagePrefix ?? await GetDefaultGetMessagePrefixAsync(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,
             true).Tax();
@@ -110,7 +110,7 @@ public partial class Targets
         await _targetCollection.RunAsync(
             [.. args,],
             messageOnly ?? DefaultMessageOnly,
-            getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
+            getMessagePrefix ?? await GetDefaultGetMessagePrefixAsync(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,
             false).Tax();
@@ -151,12 +151,12 @@ public partial class Targets
             unknownOptions?.ToList() ?? DefaultList,
             showHelp,
             messageOnly ?? DefaultMessageOnly,
-            getMessagePrefix ?? await GetDefaultGetMessagePrefix(diagnosticsWriter ?? Console.Error).Tax(),
+            getMessagePrefix ?? await GetDefaultGetMessagePrefixAsync(diagnosticsWriter ?? Console.Error).Tax(),
             outputWriter ?? Console.Out,
             diagnosticsWriter ?? Console.Error,
             false).Tax();
 
-    private static async Task<Func<string>> GetDefaultGetMessagePrefix(TextWriter diagnosticsWriter)
+    private static async Task<Func<string>> GetDefaultGetMessagePrefixAsync(TextWriter diagnosticsWriter)
     {
         var messagePrefix = "Bullseye";
 
