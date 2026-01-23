@@ -10,7 +10,7 @@ _[![InferSharp](https://github.com/adamralph/bullseye/actions/workflows/infer-sh
 _[![Lint](https://github.com/adamralph/bullseye/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/adamralph/bullseye/actions/workflows/lint.yml?query=branch%3Amain)_
 _[![Spell check](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml/badge.svg?branch=main)](https://github.com/adamralph/bullseye/actions/workflows/spell-check.yml?query=branch%3Amain)_
 
-Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) that runs a target dependency graph.
+Bullseye is a [.NET library](https://www.nuget.org/packages/Bullseye) for running a target dependency graph.
 
 Bullseye is typically used as a build tool for .NET projects, and is usually used together with [SimpleExec](https://github.com/adamralph/simple-exec), but Bullseye targets can do anything. They are not restricted to building .NET projects. Bullseye is useful for any program which performs a series of operations.
 

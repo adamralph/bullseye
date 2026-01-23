@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Description>Runs a target dependency graph.</Description>
+    <Description>A .NET library for running a target dependency graph.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <NoWarn>$(NoWarn);RS0016</NoWarn>    <!-- Add public types and members to the declared API -->
