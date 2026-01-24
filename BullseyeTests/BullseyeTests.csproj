@@ -1,11 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <NoWarn>$(NoWarn);CA1515</NoWarn>    <!-- Consider making public types internal - https://github.com/dotnet/roslyn-analyzers/issues/7192 -->
     <OutputType>Exe</OutputType>
     <RollForward>major</RollForward>
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CA1002</NoWarn>    <!-- Do not expose generic lists -->
+    <NoWarn>$(NoWarn);CA1515</NoWarn>    <!-- Consider making public types internal - https://github.com/dotnet/roslyn-analyzers/issues/7192 -->
+    <NoWarn>$(NoWarn);CA1861</NoWarn>    <!-- Avoid constant arrays as arguments -->
+    <NoWarn>$(NoWarn);CA2007</NoWarn>    <!-- Do not directly await a Task -->
+    <NoWarn>$(NoWarn);VSTHRD111</NoWarn>    <!-- Add .ConfigureAwait(bool) to your await expression -->
+    <NoWarn>$(NoWarn);VSTHRD200</NoWarn>    <!-- Use "Async" suffix in names of methods that return an awaitable type -->
   </PropertyGroup>
 
   <ItemGroup>
