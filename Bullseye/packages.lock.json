@@ -1,76 +1,12 @@
 {
   "version": 1,
   "dependencies": {
-    "net10.0": {
-      "DotNet.ReproducibleBuilds": {
-        "type": "Direct",
-        "requested": "[1.2.39, )",
-        "resolved": "1.2.39",
-        "contentHash": "fcFN01tDTIQqDuTwr1jUQK/geofiwjG5DycJQOnC72i1SsLAk1ELe+apBOuZ11UMQG8YKFZG1FgvjZPbqHyatg=="
-      },
-      "Microsoft.CodeAnalysis.PublicApiAnalyzers": {
-        "type": "Direct",
-        "requested": "[3.3.4, )",
-        "resolved": "3.3.4",
-        "contentHash": "kNLTfXtXUWDHVt5iaPkkiPuyHYlMgLI6SOFT4w88bfeI2vqSeGgHunFkdvlaCM8RDfcY0t2+jnesQtidRJJ/DA=="
-      },
-      "Microsoft.Sbom.Targets": {
-        "type": "Direct",
-        "requested": "[4.1.5, )",
-        "resolved": "4.1.5",
-        "contentHash": "i5z+cNu/cOcdO0AgFB8aXk8w6In2H+haaDfSgd9ImvQIK+rSHavHZIogVoAZLL8jLwYx4bAcs5b7EyuMMG4mQQ=="
-      },
-      "Microsoft.VisualStudio.Threading.Analyzers": {
-        "type": "Direct",
-        "requested": "[17.14.15, )",
-        "resolved": "17.14.15",
-        "contentHash": "mXQPJsbuUD2ydq4/ffd8h8tSOFCXec+2xJOVNCvXjuMOq/+5EKHq3D2m2MC2+nUaXeFMSt66VS/J4HdKBixgcw=="
-      },
-      "MinVer": {
-        "type": "Direct",
-        "requested": "[8.0.0-alpha.1, )",
-        "resolved": "8.0.0-alpha.1",
-        "contentHash": "vBZRXrNmHbDRl/rAwkn22c6L26qQjZoG0WEPFoKPLDXBuB4hLyXnb1aFHJLHfcKrGZygOHpxDTTpGi0DL5cMaQ=="
-      }
-    },
     "net8.0": {
       "DotNet.ReproducibleBuilds": {
         "type": "Direct",
-        "requested": "[1.2.39, )",
-        "resolved": "1.2.39",
-        "contentHash": "fcFN01tDTIQqDuTwr1jUQK/geofiwjG5DycJQOnC72i1SsLAk1ELe+apBOuZ11UMQG8YKFZG1FgvjZPbqHyatg=="
-      },
-      "Microsoft.CodeAnalysis.PublicApiAnalyzers": {
-        "type": "Direct",
-        "requested": "[3.3.4, )",
-        "resolved": "3.3.4",
-        "contentHash": "kNLTfXtXUWDHVt5iaPkkiPuyHYlMgLI6SOFT4w88bfeI2vqSeGgHunFkdvlaCM8RDfcY0t2+jnesQtidRJJ/DA=="
-      },
-      "Microsoft.Sbom.Targets": {
-        "type": "Direct",
-        "requested": "[4.1.5, )",
-        "resolved": "4.1.5",
-        "contentHash": "i5z+cNu/cOcdO0AgFB8aXk8w6In2H+haaDfSgd9ImvQIK+rSHavHZIogVoAZLL8jLwYx4bAcs5b7EyuMMG4mQQ=="
-      },
-      "Microsoft.VisualStudio.Threading.Analyzers": {
-        "type": "Direct",
-        "requested": "[17.14.15, )",
-        "resolved": "17.14.15",
-        "contentHash": "mXQPJsbuUD2ydq4/ffd8h8tSOFCXec+2xJOVNCvXjuMOq/+5EKHq3D2m2MC2+nUaXeFMSt66VS/J4HdKBixgcw=="
-      },
-      "MinVer": {
-        "type": "Direct",
-        "requested": "[8.0.0-alpha.1, )",
-        "resolved": "8.0.0-alpha.1",
-        "contentHash": "vBZRXrNmHbDRl/rAwkn22c6L26qQjZoG0WEPFoKPLDXBuB4hLyXnb1aFHJLHfcKrGZygOHpxDTTpGi0DL5cMaQ=="
-      }
-    },
-    "net9.0": {
-      "DotNet.ReproducibleBuilds": {
-        "type": "Direct",
-        "requested": "[1.2.39, )",
-        "resolved": "1.2.39",
-        "contentHash": "fcFN01tDTIQqDuTwr1jUQK/geofiwjG5DycJQOnC72i1SsLAk1ELe+apBOuZ11UMQG8YKFZG1FgvjZPbqHyatg=="
+        "requested": "[2.0.1, )",
+        "resolved": "2.0.1",
+        "contentHash": "8rbExxnDIsdpJ16tmX7jwXZYA864OXQhAvQRPX+LLaxDPI1eCTWg6AZP85dJrOLv1Ib9fp0KGKY+zHgnSBSamQ=="
       },
       "Microsoft.CodeAnalysis.PublicApiAnalyzers": {
         "type": "Direct",
