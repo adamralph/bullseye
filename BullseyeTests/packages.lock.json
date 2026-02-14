@@ -10,9 +10,9 @@
       },
       "Microsoft.Testing.Platform": {
         "type": "Direct",
-        "requested": "[2.0.2, )",
-        "resolved": "2.0.2",
-        "contentHash": "43NCOTEENtdc9fmlzX9KHQR14AZEYek5r4jOJlWPhTyV1+aYAQYl4x773nYXU5TKxV6+rMuniJ7wcj9C9qrP1A=="
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "aHkjNTGIA+Zbdw6RJgSFrbDrCjO0CgqpElqYcvkRSeUhBv2bKarnvU3ep786U7UqrPlArT/B7VmImRibJD0Zrg=="
       },
       "Microsoft.VisualStudio.Threading.Analyzers": {
         "type": "Direct",
@@ -208,9 +208,9 @@
       },
       "Microsoft.Testing.Platform": {
         "type": "Direct",
-        "requested": "[2.0.2, )",
-        "resolved": "2.0.2",
-        "contentHash": "43NCOTEENtdc9fmlzX9KHQR14AZEYek5r4jOJlWPhTyV1+aYAQYl4x773nYXU5TKxV6+rMuniJ7wcj9C9qrP1A=="
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "aHkjNTGIA+Zbdw6RJgSFrbDrCjO0CgqpElqYcvkRSeUhBv2bKarnvU3ep786U7UqrPlArT/B7VmImRibJD0Zrg=="
       },
       "Microsoft.VisualStudio.Threading.Analyzers": {
         "type": "Direct",
@@ -406,9 +406,9 @@
       },
       "Microsoft.Testing.Platform": {
         "type": "Direct",
-        "requested": "[2.0.2, )",
-        "resolved": "2.0.2",
-        "contentHash": "43NCOTEENtdc9fmlzX9KHQR14AZEYek5r4jOJlWPhTyV1+aYAQYl4x773nYXU5TKxV6+rMuniJ7wcj9C9qrP1A=="
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "aHkjNTGIA+Zbdw6RJgSFrbDrCjO0CgqpElqYcvkRSeUhBv2bKarnvU3ep786U7UqrPlArT/B7VmImRibJD0Zrg=="
       },
       "Microsoft.VisualStudio.Threading.Analyzers": {
         "type": "Direct",
