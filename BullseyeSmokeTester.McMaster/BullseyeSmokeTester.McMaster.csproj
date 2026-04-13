@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="5.0.1" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
