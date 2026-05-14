@@ -119,7 +119,7 @@ if (targetNames.Contains("large-graph"))
 
 if (!showHelp)
 {
-    await targets.RunWithoutExitingAsync(targetNames, options, unknownOptions);
+    //await targets.RunWithoutExitingAsync(targetNames, options, unknownOptions);
 }
 
 var line = 0;

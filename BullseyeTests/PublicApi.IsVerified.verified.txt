@@ -35,6 +35,7 @@
         bool NoColor { get; }
         bool NoExtendedChars { get; }
         bool Parallel { get; }
+        bool Quiet { get; }
         bool SkipDependencies { get; }
         bool Verbose { get; }
     }
@@ -60,6 +61,7 @@
         public bool NoColor { get; set; }
         public bool NoExtendedChars { get; set; }
         public bool Parallel { get; set; }
+        public bool Quiet { get; set; }
         public bool SkipDependencies { get; set; }
         public bool Verbose { get; set; }
         [System.Runtime.CompilerServices.TupleElementNames(new string[] {
@@ -199,6 +201,7 @@ namespace Bullseye.Internal
                 "NoExtendedChars",
                 "Parallel",
                 "SkipDependencies",
+                "Quiet",
                 "Verbose",
                 "Host",
                 "UnknownOptions",
@@ -207,12 +210,13 @@ namespace Bullseye.Internal
                 null,
                 null,
                 null,
+                null,
                 null})]
-        public static System.ValueTuple<bool, bool, bool, bool, bool, bool, bool, System.ValueTuple<bool, bool, bool, bool, Bullseye.Host?, System.Collections.Generic.IReadOnlyList<string>>> Read(System.Collections.Generic.IEnumerable<string> options) { }
+        public static System.ValueTuple<bool, bool, bool, bool, bool, bool, bool, System.ValueTuple<bool, bool, bool, bool, bool, Bullseye.Host?, System.Collections.Generic.IReadOnlyList<string>>> Read(System.Collections.Generic.IEnumerable<string> options) { }
     }
     public class Output
     {
-        public Output(System.IO.TextWriter writer, System.IO.TextWriter diagnosticsWriter, System.Collections.Generic.IReadOnlyCollection<string> args, bool dryRun, Bullseye.Host host, bool hostForced, bool noColor, bool noExtendedChars, System.Runtime.InteropServices.OSPlatform osPlatform, bool parallel, System.Func<string> getPrefix, bool skipDependencies, bool verbose) { }
+        public Output(Bullseye.Internal.Writer writer, Bullseye.Internal.Writer diagnosticsWriter, System.Collections.Generic.IReadOnlyCollection<string> args, bool dryRun, Bullseye.Host host, bool hostForced, bool noColor, bool noExtendedChars, System.Runtime.InteropServices.OSPlatform osPlatform, bool parallel, System.Func<string> getPrefix, bool skipDependencies) { }
         public bool Verbose { get; }
         public System.Threading.Tasks.Task Awaiting(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
         public System.Threading.Tasks.Task BeginGroup(Bullseye.Internal.Target target) { }
@@ -270,5 +274,20 @@ namespace Bullseye.Internal
     public static class TimeSpanExtensions
     {
         public static string Humanize(this System.TimeSpan duration) { }
+    }
+    public sealed class Writer
+    {
+        public Writer(System.IO.TextWriter textWriter, Bullseye.Internal.WriterLevel level) { }
+        public Bullseye.Internal.WriterLevel Level { get; }
+        public System.Threading.Tasks.Task ErrorAsync(string message) { }
+        public System.Threading.Tasks.Task InfoAsync(System.Func<string> message) { }
+        public System.Threading.Tasks.Task SystemAsync(string message) { }
+        public System.Threading.Tasks.Task VerboseAsync(System.Func<string> message) { }
+    }
+    public enum WriterLevel
+    {
+        Normal = 0,
+        Quiet = 1,
+        Verbose = 2,
     }
 }

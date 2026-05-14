@@ -22,7 +22,7 @@ public partial class Output
         return (targetResult, targetInputResult);
     }
 
-    private static string GetResultLines(IEnumerable<KeyValuePair<Target, TargetResult>> results, TimeSpan totalDuration, Func<string> getPrefix, Palette p)
+    private static string GetResultLines(IEnumerable<KeyValuePair<Target, TargetResult>> results, TimeSpan totalDuration, string prefix, Palette p)
     {
         // whitespace (e.g. can change to '·' for debugging)
         var ws = ' ';
@@ -88,22 +88,22 @@ public partial class Output
         var builder = new StringBuilder();
 
         // summary start separator
-        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
+        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{prefix}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
 
         // header
-        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {Prp(rows[0].TargetOrInput, tarW, ws)}{ws}{ws}{Prp(rows[0].Outcome, outW, ws)}{ws}{ws}{Prp(rows[0].Duration, timW, ws)}");
+        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{prefix}:{p.Default} {Prp(rows[0].TargetOrInput, tarW, ws)}{ws}{ws}{Prp(rows[0].Outcome, outW, ws)}{ws}{ws}{Prp(rows[0].Duration, timW, ws)}");
 
         // header separator
-        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", outW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", timW, p.Horizontal)}{p.Default}");
+        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{prefix}:{p.Default} {p.Text}{Prp("", tarW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", outW, p.Horizontal)}{p.Default}{ws}{ws}{p.Text}{Prp("", timW, p.Horizontal)}{p.Default}");
 
         // targets
         foreach (var row in rows.Skip(1))
         {
-            _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {Prp(row.TargetOrInput, tarW, ws)}{p.Default}{ws}{ws}{Prp(row.Outcome, outW, ws)}{p.Default}{ws}{ws}{Prp(row.Duration, durW, ws)}{p.Default}{ws}{ws}{Prp(row.Percentage, perW, ws)}{p.Default}");
+            _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{prefix}:{p.Default} {Prp(row.TargetOrInput, tarW, ws)}{p.Default}{ws}{ws}{Prp(row.Outcome, outW, ws)}{p.Default}{ws}{ws}{Prp(row.Duration, durW, ws)}{p.Default}{ws}{ws}{Prp(row.Percentage, perW, ws)}{p.Default}");
         }
 
         // summary end separator
-        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{getPrefix()}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
+        _ = builder.AppendLine(CultureInfo.InvariantCulture, $"{p.Prefix}{prefix}:{p.Default} {p.Text}{Prp("", tarW + 2 + outW + 2 + timW, p.Horizontal)}{p.Default}");
 
         return builder.ToString();
 

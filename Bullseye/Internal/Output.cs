@@ -4,8 +4,8 @@ using System.Text;
 namespace Bullseye.Internal;
 
 public partial class Output(
-    TextWriter writer,
-    TextWriter diagnosticsWriter,
+    Writer writer,
+    Writer diagnosticsWriter,
     IReadOnlyCollection<string> args,
     bool dryRun,
     Host host,
@@ -15,8 +15,7 @@ public partial class Output(
     OSPlatform osPlatform,
     bool parallel,
     Func<string> getPrefix,
-    bool skipDependencies,
-    bool verbose)
+    bool skipDependencies)
 {
     private const string NoInputsMessage = "No inputs!";
     private const string StartingMessage = "Starting...";
@@ -26,84 +25,51 @@ public partial class Output(
     private readonly Palette _palette = new(noColor, noExtendedChars, host, osPlatform);
     private readonly string _scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
 
-    public bool Verbose { get; } = verbose;
-    public async Task Header(Func<string> getVersion)
-    {
-        if (!Verbose)
+    public bool Verbose { get; } = writer.Level == WriterLevel.Verbose;
+
+    public async Task Header(Func<string> getVersion) =>
+        await writer.VerboseAsync(() =>
         {
-            return;
-        }
+            var prefix = getPrefix();
+            return new StringBuilder()
+                .AppendLine(Format(prefix, "Bullseye version", $"{_palette.Verbose}{getVersion()}{_palette.Default}", _palette))
+                .AppendLine(Format(prefix, "Host", $"{_palette.Verbose}{host} ({(hostForced ? "forced" : "detected")}){_palette.Default}", _palette))
+                .AppendLine(Format(prefix, "OS", $"{_palette.Verbose}{osPlatform.Humanize()}{_palette.Default}", _palette))
+                .Append(Format(prefix, "Args", $"{_palette.Verbose}{string.Join(" ", args)}{_palette.Default}", _palette)).ToString();
+        }).Tax();
 
-        var version = getVersion();
-
-        var builder = new StringBuilder()
-            .AppendLine(Format(getPrefix(), "Bullseye version", $"{_palette.Verbose}{version}{_palette.Default}", _palette))
-            .AppendLine(Format(getPrefix(), "Host", $"{_palette.Verbose}{host} ({(hostForced ? "forced" : "detected")}){_palette.Default}", _palette))
-            .AppendLine(Format(getPrefix(), "OS", $"{_palette.Verbose}{osPlatform.Humanize()}{_palette.Default}", _palette))
-            .AppendLine(Format(getPrefix(), "Args", $"{_palette.Verbose}{string.Join(" ", args)}{_palette.Default}", _palette));
-
-        await writer.WriteAsync(builder.ToString()).Tax();
-    }
-
-    public async Task Usage(TargetCollection targets)
-    {
-        var usage = GetUsageLines(_palette, _scriptExtension)
-                    + GetListLines(targets, targets.Select(target => target.Name), 0, 0, false, "  ", _palette);
-
-        await writer.WriteAsync(usage).Tax();
-    }
+    public async Task Usage(TargetCollection targets) => await writer.InfoAsync(() =>
+        GetUsageLines(_palette, _scriptExtension) +
+        GetListLines(targets, targets.Select(target => target.Name), 0, 0, false, "  ", _palette)).Tax();
 
     public Task List(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
-        writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, "", _palette));
+        writer.InfoAsync(() => GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, "", _palette));
 
     public Task Starting(IEnumerable<Target> targets) =>
-        writer.WriteLineAsync(Format(getPrefix(), targets, $"{_palette.Text}{StartingMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _palette));
+        writer.InfoAsync(() => Format(getPrefix(), targets, $"{_palette.Text}{StartingMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _palette));
 
-    public async Task Failed(IEnumerable<Target> targets)
-    {
-        var message = GetResultLines(_results, _totalDuration, getPrefix, _palette)
-            + Format(getPrefix(), targets, $"{_palette.Failure}{FailedMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
+    public async Task Failed(IEnumerable<Target> targets) => await writer.InfoAsync(() =>
+        GetResultLines(_results, _totalDuration, getPrefix(), _palette) +
+        Format(getPrefix(), targets, $"{_palette.Failure}{FailedMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette)).Tax();
 
-        await writer.WriteLineAsync(message).Tax();
-    }
+    public async Task Succeeded(IEnumerable<Target> targets) => await writer.InfoAsync(() =>
+        GetResultLines(_results, _totalDuration, getPrefix(), _palette) +
+        Format(getPrefix(), targets, $"{_palette.Success}{SucceededMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette)).Tax();
 
-    public async Task Succeeded(IEnumerable<Target> targets)
-    {
-        var message = GetResultLines(_results, _totalDuration, getPrefix, _palette)
-            + Format(getPrefix(), targets, $"{_palette.Success}{SucceededMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
+    public async Task Awaiting(Target target, IReadOnlyCollection<Target> dependencyPath) =>
+        await writer.VerboseAsync(() => Format(getPrefix(), target, $"{_palette.Verbose}Awaiting{_palette.Default}", dependencyPath, _palette)).Tax();
 
-        await writer.WriteLineAsync(message).Tax();
-    }
+    public async Task WalkingDependencies(Target target, IReadOnlyCollection<Target> dependencyPath) =>
+        await writer.VerboseAsync(() => Format(getPrefix(), target, $"{_palette.Verbose}Walking dependencies{_palette.Default}", dependencyPath, _palette)).Tax();
 
-    public async Task Awaiting(Target target, IReadOnlyCollection<Target> dependencyPath)
-    {
-        if (Verbose)
-        {
-            await writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Verbose}Awaiting{_palette.Default}", dependencyPath, _palette)).Tax();
-        }
-    }
-
-    public async Task WalkingDependencies(Target target, IReadOnlyCollection<Target> dependencyPath)
-    {
-        if (Verbose)
-        {
-            await writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Verbose}Walking dependencies{_palette.Default}", dependencyPath, _palette)).Tax();
-        }
-    }
-
-    public async Task IgnoringNonExistentDependency(Target target, string dependency, IReadOnlyCollection<Target> dependencyPath)
-    {
-        if (Verbose)
-        {
-            await writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Verbose}Ignoring non-existent dependency:{_palette.Default} {_palette.Target}{dependency}{_palette.Default}", dependencyPath, _palette)).Tax();
-        }
-    }
+    public async Task IgnoringNonExistentDependency(Target target, string dependency, IReadOnlyCollection<Target> dependencyPath) =>
+        await writer.VerboseAsync(() => Format(getPrefix(), target, $"{_palette.Verbose}Ignoring non-existent dependency:{_palette.Default} {_palette.Target}{dependency}{_palette.Default}", dependencyPath, _palette)).Tax();
 
     public async Task BeginGroup(Target target)
     {
         if (!parallel && host == Host.GitHubActions)
         {
-            await writer.WriteLineAsync($"::group::{_palette.Prefix}{getPrefix()}:{_palette.Default} {_palette.Target}{target}{_palette.Default}").Tax();
+            await writer.SystemAsync($"::group::{_palette.Prefix}{getPrefix()}:{_palette.Default} {_palette.Target}{target}{_palette.Default}").Tax();
         }
     }
 
@@ -111,7 +77,7 @@ public partial class Output(
     {
         if (!parallel && host == Host.GitHubActions)
         {
-            await writer.WriteLineAsync($"::group::{_palette.Prefix}{getPrefix()}:{_palette.Default} {_palette.Target}{target}{_palette.Text}/{_palette.Input}{input}{_palette.Default}").Tax();
+            await writer.SystemAsync($"::group::{_palette.Prefix}{getPrefix()}:{_palette.Default} {_palette.Target}{target}{_palette.Text}/{_palette.Input}{input}{_palette.Default}").Tax();
         }
     }
 
@@ -119,7 +85,7 @@ public partial class Output(
     {
         if (!parallel && host == Host.GitHubActions)
         {
-            await writer.WriteLineAsync("::endgroup::").Tax();
+            await writer.SystemAsync("::endgroup::").Tax();
         }
     }
 
@@ -127,11 +93,11 @@ public partial class Output(
     {
         _ = InternResult(target);
 
-        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Text}{StartingMessage}{_palette.Default}", dependencyPath, _palette));
+        return writer.InfoAsync(() => Format(getPrefix(), target, $"{_palette.Text}{StartingMessage}{_palette.Default}", dependencyPath, _palette));
     }
 
     public Task Error(Target target, Exception ex) =>
-        writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
+        writer.ErrorAsync(Format(getPrefix(), target, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
 
     public Task Failed(Target target, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
     {
@@ -141,7 +107,7 @@ public partial class Output(
 
         _totalDuration = _totalDuration.Add(duration);
 
-        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", result.Duration, dependencyPath, _palette));
+        return writer.ErrorAsync(Format(getPrefix(), target, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
     public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
@@ -152,7 +118,7 @@ public partial class Output(
 
         _totalDuration = _totalDuration.Add(duration);
 
-        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Success}{SucceededMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
+        return writer.InfoAsync(() => Format(getPrefix(), target, $"{_palette.Success}{SucceededMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
     public Task NoInputs(Target target, IReadOnlyCollection<Target> dependencyPath)
@@ -160,7 +126,7 @@ public partial class Output(
         var result = InternResult(target);
         result.Outcome = TargetOutcome.NoInputs;
 
-        return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Warning}{NoInputsMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
+        return writer.InfoAsync(() => Format(getPrefix(), target, $"{_palette.Warning}{NoInputsMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
     public Task Starting<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
@@ -168,11 +134,11 @@ public partial class Output(
         var (_, targetInputResult) = Intern(target, inputId);
         targetInputResult.Input = input;
 
-        return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, StartingMessage, dependencyPath, _palette));
+        return writer.InfoAsync(() => Format(getPrefix(), target, targetInputResult.Input, StartingMessage, dependencyPath, _palette));
     }
 
     public Task Error<TInput>(Target target, TInput input, Exception ex) =>
-        writer.WriteLineAsync(Format(getPrefix(), target, input, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
+        writer.InfoAsync(() => Format(getPrefix(), target, input, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
 
     public Task Failed<TInput>(Target target, TInput input, Guid inputId, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
     {
@@ -187,7 +153,7 @@ public partial class Output(
 
         _totalDuration = _totalDuration.Add(duration);
 
-        return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", targetInputResult.Duration, dependencyPath, _palette));
+        return writer.ErrorAsync(Format(getPrefix(), target, targetInputResult.Input, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", targetInputResult.Duration, dependencyPath, _palette));
     }
 
     public Task Succeeded<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
@@ -202,7 +168,7 @@ public partial class Output(
 
         _totalDuration = _totalDuration.Add(duration);
 
-        return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, $"{_palette.Success}{SucceededMessage}{_palette.Default}", targetInputResult.Duration, dependencyPath, _palette));
+        return writer.InfoAsync(() => Format(getPrefix(), target, targetInputResult.Input, $"{_palette.Success}{SucceededMessage}{_palette.Default}", targetInputResult.Duration, dependencyPath, _palette));
     }
 
     // editorconfig-checker-disable
@@ -224,6 +190,7 @@ public partial class Output(
   {p.Option}-E{p.Text},{p.Default} {p.Option}--no-extended-chars{p.Default}    {p.Text}Disable extended characters{p.Default}
   {p.Option}-p{p.Text},{p.Default} {p.Option}--parallel{p.Default}             {p.Text}Run targets in parallel{p.Default}
   {p.Option}-s{p.Text},{p.Default} {p.Option}--skip-dependencies{p.Default}    {p.Text}Do not run targets' dependencies{p.Default}
+  {p.Option}-q{p.Text},{p.Default} {p.Option}--quiet{p.Default}                {p.Text}Enable quiet output{p.Default}
   {p.Option}-v{p.Text},{p.Default} {p.Option}--verbose{p.Default}              {p.Text}Enable verbose output{p.Default}
   {p.Option}--appveyor{p.Default}                 {p.Text}Force AppVeyor mode (normally auto-detected){p.Default}
   {p.Option}--console{p.Default}                  {p.Text}Force console mode (normally auto-detected){p.Default}

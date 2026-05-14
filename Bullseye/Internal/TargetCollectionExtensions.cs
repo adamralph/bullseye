@@ -23,8 +23,8 @@ public static class TargetCollectionExtensions
             showHelp,
             messageOnly,
             getMessagePrefix,
-            outputWriter,
-            diagnosticsWriter,
+            new Writer(outputWriter, options.GetWriterLevel()),
+            new Writer(diagnosticsWriter, options.GetWriterLevel()),
             exit).Tax();
     }
 
@@ -47,8 +47,8 @@ public static class TargetCollectionExtensions
             showHelp,
             messageOnly,
             getMessagePrefix,
-            outputWriter,
-            diagnosticsWriter,
+            new Writer(outputWriter, options.GetWriterLevel()),
+            new Writer(diagnosticsWriter, options.GetWriterLevel()),
             exit).Tax();
 
     private static async Task RunAsync(
@@ -60,8 +60,8 @@ public static class TargetCollectionExtensions
         bool showHelp,
         Func<Exception, bool> messageOnly,
         Func<string> getMessagePrefix,
-        TextWriter outputWriter,
-        TextWriter diagnosticsWriter,
+        Writer outputWriter,
+        Writer diagnosticsWriter,
         bool exit)
     {
         if (exit)
@@ -72,7 +72,7 @@ public static class TargetCollectionExtensions
             }
             catch (InvalidUsageException ex)
             {
-                await diagnosticsWriter.WriteLineAsync(ex.Message).Tax();
+                await diagnosticsWriter.ErrorAsync(ex.Message).Tax();
                 Environment.Exit(2);
             }
             catch (TargetFailedException)
@@ -97,8 +97,8 @@ public static class TargetCollectionExtensions
         bool showHelp,
         Func<Exception, bool> messageOnly,
         Func<string> getMessagePrefix,
-        TextWriter outputWriter,
-        TextWriter diagnosticsWriter)
+        Writer outputWriter,
+        Writer diagnosticsWriter)
     {
         if (options.Clear)
         {
@@ -110,7 +110,7 @@ public static class TargetCollectionExtensions
             catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                await diagnosticsWriter.WriteLineAsync($"{getMessagePrefix()}: Failed to clear the console: {ex}").Tax();
+                await diagnosticsWriter.InfoAsync(() => $"{getMessagePrefix()}: Failed to clear the console: {ex}").Tax();
             }
         }
 
@@ -118,11 +118,7 @@ public static class TargetCollectionExtensions
 
         if (Environment.GetEnvironmentVariable("NO_COLOR") != null)
         {
-            if (options.Verbose)
-            {
-                await diagnosticsWriter.WriteLineAsync($"{getMessagePrefix()}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
-            }
-
+            await diagnosticsWriter.VerboseAsync(() => $"{getMessagePrefix()}: NO_COLOR environment variable is set. Colored output is disabled.").Tax();
             noColor = true;
         }
 
@@ -149,8 +145,7 @@ public static class TargetCollectionExtensions
             osPlatform,
             options.Parallel,
             getMessagePrefix,
-            options.SkipDependencies,
-            options.Verbose);
+            options.SkipDependencies);
 
         var outputState = await output.Initialize().Tax();
 
@@ -250,4 +245,11 @@ public static class TargetCollectionExtensions
             ? expandedNames
             : throw new InvalidUsageException($"Ambiguous target{(ambiguousNames.Count > 1 ? "s" : "")}: {ambiguousNames.Spaced()}");
     }
+
+    private static WriterLevel GetWriterLevel(this IOptions options) =>
+        options.Quiet
+            ? WriterLevel.Quiet
+            : options.Verbose
+                ? WriterLevel.Verbose
+                : WriterLevel.Normal;
 }

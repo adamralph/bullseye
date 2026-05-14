@@ -13,6 +13,7 @@ public static class OptionsReader
         bool NoExtendedChars,
         bool Parallel,
         bool SkipDependencies,
+        bool Quiet,
         bool Verbose,
         Host? Host,
         IReadOnlyList<string> UnknownOptions)
@@ -28,6 +29,7 @@ public static class OptionsReader
         var noExtendedChars = false;
         var parallel = false;
         var skipDependencies = false;
+        var quiet = false;
         var verbose = false;
         Host? host = null;
         var unknownOptions = new List<string>();
@@ -76,6 +78,10 @@ public static class OptionsReader
                 case "--skip-dependencies":
                     skipDependencies = true;
                     break;
+                case "-q":
+                case "--quiet":
+                    quiet = true;
+                    break;
                 case "-v":
                 case "--verbose":
                     verbose = true;
@@ -115,6 +121,7 @@ public static class OptionsReader
             noExtendedChars,
             parallel,
             skipDependencies,
+            quiet,
             verbose,
             host,
             unknownOptions);

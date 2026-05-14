@@ -38,6 +38,7 @@ public partial class Options : IOptions
         NoExtendedChars = result.NoExtendedChars;
         Parallel = result.Parallel;
         SkipDependencies = result.SkipDependencies;
+        Quiet = result.Quiet;
         Verbose = result.Verbose;
     }
 }

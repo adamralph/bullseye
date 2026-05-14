@@ -56,6 +56,11 @@ public interface IOptions
     bool SkipDependencies { get; }
 
     /// <summary>
+    /// Gets a value indicating whether to enable quiet output.
+    /// </summary>
+    bool Quiet { get; }
+
+    /// <summary>
     /// Gets a value indicating whether to enable verbose output.
     /// </summary>
     bool Verbose { get; }

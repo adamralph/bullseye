@@ -23,6 +23,7 @@ public static class ArgsParser
             NoExtendedChars = readResult.NoExtendedChars,
             Parallel = readResult.Parallel,
             SkipDependencies = readResult.SkipDependencies,
+            Quiet =  readResult.Quiet,
             Verbose = readResult.Verbose,
         };
 

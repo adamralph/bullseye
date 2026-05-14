@@ -106,8 +106,8 @@ public static class OutputTests
         await writer.WriteLineAsync();
 
         var output = new Output(
-            writer,
-            TextWriter.Null,
+            new Writer(writer, verbose ? WriterLevel.Verbose : WriterLevel.Normal),
+            new Writer(TextWriter.Null, default),
             args,
             dryRun,
             host,
@@ -117,8 +117,7 @@ public static class OutputTests
             osPlatform,
             parallel,
             () => $"prefix{ordinal}",
-            skipDependencies,
-            verbose);
+            skipDependencies);
 
         await output.WriteSample(dryRun);
     }

@@ -20,6 +20,7 @@ public partial class Options
         (new List<string>{ "-E", "--no-extended-chars", }, "Disable extended characters"),
         (new List<string>{ "-p", "--parallel",          }, "Run targets in parallel"),
         (new List<string>{ "-s", "--skip-dependencies", }, "Do not run targets' dependencies"),
+        (new List<string>{ "-q", "--quiet",             }, "Enable quiet output"),
         (new List<string>{ "-v", "--verbose",           }, "Enable verbose output"),
         (new List<string>{       "--appveyor",          }, "Force AppVeyor mode (normally auto-detected)"),
         (new List<string>{       "--console",           }, "Force console mode (normally auto-detected)"),

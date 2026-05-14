@@ -56,6 +56,11 @@ public partial class Options
     public bool SkipDependencies { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether to enable quiet output.
+    /// </summary>
+    public bool Quiet { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether to enable verbose output.
     /// </summary>
     public bool Verbose { get; set; }
