@@ -37,9 +37,14 @@
     <None Update="OutputTests.*.verified.txt">
       <DependentUpon>OutputTests.cs</DependentUpon>
     </None>
-    <None Update="PublicApi.*.verified.txt">
+    <None Update="PublicApi.*.received.cs">
       <DependentUpon>PublicApi.cs</DependentUpon>
     </None>
+    <Compile Remove="PublicApi.*.received.cs" />
+    <None Update="PublicApi.*.verified.cs">
+      <DependentUpon>PublicApi.cs</DependentUpon>
+    </None>
+    <Compile Remove="PublicApi.*.verified.cs" />
   </ItemGroup>
 
 </Project>
