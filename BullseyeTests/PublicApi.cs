@@ -1,4 +1,5 @@
 using Bullseye;
+using BullseyeTests.Infra;
 using PublicApiGenerator;
 using Xunit;
 
@@ -11,8 +12,8 @@ public static class PublicApi
     {
         var options = new ApiGeneratorOptions { IncludeAssemblyAttributes = false };
 
-        var publicApi = typeof(Targets).Assembly.GeneratePublicApi(options);
+        var received = typeof(Targets).Assembly.GeneratePublicApi(options);
 
-        _ = await Verify(publicApi);
+        await Helper.Verify(received);
     }
 }

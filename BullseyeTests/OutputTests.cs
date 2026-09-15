@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using Bullseye;
 using Bullseye.Internal;
-using VerifyTests;
+using BullseyeTests.Infra;
 using Xunit;
 using Target = Bullseye.Internal.Target;
 
@@ -36,7 +36,7 @@ public static class OutputTests
         }
 
         // assert
-        _ = await Verify(writer.ToString());
+        await Helper.Verify(writer.ToString());
     }
 
     [Theory]
@@ -73,9 +73,7 @@ public static class OutputTests
         }
 
         // assert
-        var settings = new VerifySettings();
-        settings.UseParameters(host);
-        _ = await Verify(writer.ToString(), settings);
+        await Helper.Verify(writer.ToString(), $"_host={host}");
     }
 
     private static async Task WriteSampleOutput(
