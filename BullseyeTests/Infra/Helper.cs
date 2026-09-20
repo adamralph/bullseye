@@ -42,7 +42,7 @@ internal static class Helper
         var receivedPath = Path.Combine(
             _projectRoot.Value, $"{inferredClassName}.{callerMemberName}{suffix}.received.txt");
 
-        var verified = await File.ReadAllTextAsync(verifiedPath);
+        var verified = File.Exists(verifiedPath) ? await File.ReadAllTextAsync(verifiedPath) : "";
 
         var receivedNormalized = received.ReplaceLineEndings().Trim();
         var verifiedNormalized = verified.ReplaceLineEndings().Trim();
