@@ -6,7 +6,7 @@ namespace BullseyeTests.Infra;
 
 internal static class Helper
 {
-    private static readonly Lazy<string> _projectRoot = new(() =>
+    private static readonly Lazy<string> ProjectRoot = new(() =>
     {
         var candidate = new DirectoryInfo(AppContext.BaseDirectory);
         while (candidate is not null && candidate.GetFiles("*.csproj").Length == 0)
@@ -29,18 +29,18 @@ internal static class Helper
         new ActionTarget<TInput>(name, "", [], forEach, action.ToAsync());
 
     public static async Task Verify(
-        string received,
+        this string received,
         string suffix = "",
         [CallerMemberName] string callerMemberName = "",
         [CallerFilePath] string callerFilePath = "")
     {
         var inferredClassName = Path.GetFileNameWithoutExtension(callerFilePath);
 
-        var verifiedPath = Path.Combine(
-            _projectRoot.Value, $"{inferredClassName}.{callerMemberName}{suffix}.verified.txt");
-
         var receivedPath = Path.Combine(
-            _projectRoot.Value, $"{inferredClassName}.{callerMemberName}{suffix}.received.txt");
+            ProjectRoot.Value, $"{inferredClassName}.{callerMemberName}{suffix}.received.txt");
+
+        var verifiedPath = Path.Combine(
+            ProjectRoot.Value, $"{inferredClassName}.{callerMemberName}{suffix}.verified.txt");
 
         var verified = File.Exists(verifiedPath) ? await File.ReadAllTextAsync(verifiedPath) : "";
 
