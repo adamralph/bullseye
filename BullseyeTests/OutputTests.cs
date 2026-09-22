@@ -36,7 +36,7 @@ public static class OutputTests
         }
 
         // assert
-        await Helper.Verify(writer.ToString());
+        await writer.ToString().Verify();
     }
 
     [Theory]
@@ -73,7 +73,7 @@ public static class OutputTests
         }
 
         // assert
-        await Helper.Verify(writer.ToString(), $"_host={host}");
+        await writer.ToString().Verify($"_host={host}");
     }
 
     private static async Task WriteSampleOutput(

@@ -12,8 +12,8 @@ public static class PublicApi
     {
         var options = new ApiGeneratorOptions { IncludeAssemblyAttributes = false };
 
-        var received = typeof(Targets).Assembly.GeneratePublicApi(options);
+        var publicApi = typeof(Targets).Assembly.GeneratePublicApi(options);
 
-        await Helper.Verify(received);
+        await publicApi.Verify();
     }
 }
