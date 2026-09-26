@@ -5,17 +5,24 @@ namespace Bullseye.Internal;
 public class ActionTarget(string name, string description, IReadOnlyCollection<string> dependencies, Func<Task> action)
         : Target(name, description, dependencies)
 {
-    public override async Task RunAsync(bool dryRun, SemaphoreSlim parallelTargets, Output output,
+    public override async Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output,
         Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
-        await parallelTargets.WaitAsync().Tax();
-        try
+        if (parallel)
+        {
+            await parallelTargets.WaitAsync().Tax();
+            try
+            {
+                await RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
+            }
+            finally
+            {
+                _ = parallelTargets.Release();
+            }
+        }
+        else
         {
             await RunAsync(dryRun, output, messageOnly, dependencyPath).Tax();
-        }
-        finally
-        {
-            _ = parallelTargets.Release();
         }
     }
 

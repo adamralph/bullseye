@@ -62,14 +62,22 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
             var runningTargets = new Dictionary<Target, Task>();
 
             using var checkRunningTargets = new SemaphoreSlim(1, 1);
-            using var parallelTargets = parallel
-                ? new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount)
-                : new SemaphoreSlim(1, 1);
+            using var parallelTargets = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
 
+            if (parallel)
+            {
 #pragma warning disable CA2025 // Do not pass 'IDisposable' instances into unawaited tasks
-            var tasks = targets.Select(target => RunAsync(target, targets, dryRun, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, RootDependencyPath));
+                var tasks = targets.Select(target => RunAsync(target, targets, dryRun, true, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, RootDependencyPath));
 #pragma warning restore CA2025
-            await Task.WhenAll(tasks).Tax();
+                await Task.WhenAll(tasks).Tax();
+            }
+            else
+            {
+                foreach (var target in targets)
+                {
+                    await RunAsync(target, targets, dryRun, false, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, RootDependencyPath).Tax();
+                }
+            }
         }
         catch (Exception)
         {
@@ -84,6 +92,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         Target target,
         ICollection<Target> explicitTargets,
         bool dryRun,
+        bool parallel,
         bool skipDependencies,
         Func<Exception, bool> messageOnly,
         Output output,
@@ -129,8 +138,18 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
         await output.WalkingDependencies(target, [.. dependencyPath,]).Tax();
 
-        var tasks = target.Dependencies.Select(RunDependencyAsync);
-        await Task.WhenAll(tasks).Tax();
+        if (parallel)
+        {
+            var tasks = target.Dependencies.Select(RunDependencyAsync);
+            await Task.WhenAll(tasks).Tax();
+        }
+        else
+        {
+            foreach (var dependency in target.Dependencies)
+            {
+                await RunDependencyAsync(dependency).Tax();
+            }
+        }
 
         async Task RunDependencyAsync(string dependency)
         {
@@ -140,7 +159,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
             }
             else
             {
-                await RunAsync(this[dependency], explicitTargets, dryRun, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, dependencyPath).Tax();
+                await RunAsync(this[dependency], explicitTargets, dryRun, parallel, skipDependencies, messageOnly, output, runningTargets, checkRunningTargets, parallelTargets, dependencyPath).Tax();
             }
         }
 
@@ -159,7 +178,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
                 if (!targetWasAlreadyStarted)
                 {
-                    runningTarget = target.RunAsync(dryRun, parallelTargets, output, messageOnly, [.. dependencyPath,]);
+                    runningTarget = target.RunAsync(dryRun, parallel, parallelTargets, output, messageOnly, [.. dependencyPath,]);
                     runningTargets.Add(target, runningTarget);
                 }
             }
