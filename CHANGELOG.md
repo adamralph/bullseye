@@ -1,5 +1,15 @@
 # Changelog
 
+## 6.3.0
+
+### Enhancements
+
+- [#1244: Declared order execution of dependencies and inputs](https://github.com/adamralph/bullseye/issues/1244)
+
+### Fixed bugs
+
+- [#1239: Explicitly run targets are not executed in order](https://github.com/adamralph/bullseye/issues/1239)
+
 ## 6.2.0
 
 ### Enhancements
