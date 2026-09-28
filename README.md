@@ -56,9 +56,8 @@ For help, run `dotnet run --project Targets -- --help`.
 ### `build` (Linux and macOS)
 
 ```shell
-#!/usr/bin/env bash
-set -euo pipefail
-dotnet run --project Targets -- "$@"
+#!/bin/sh
+exec dotnet run --project Targets -- "$@"
 ```
 
 ### `build.cmd` (Windows)
