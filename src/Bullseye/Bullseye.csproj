@@ -7,7 +7,7 @@
     <Description>A .NET library, developed by humans, for running a target dependency graph.</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
-    <PackageIcon>bullseye.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/adamralph/bullseye</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -32,8 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../assets/bullseye.png" Pack="true" PackagePath="/" />
-    <None Include="../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../assets/icon.png" Pack="true" PackagePath="/" />
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
 </Project>

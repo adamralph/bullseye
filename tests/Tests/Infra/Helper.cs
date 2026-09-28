@@ -1,6 +1,6 @@
 using Bullseye.Internal;
 
-namespace BullseyeTests.Infra;
+namespace Tests.Infra;
 
 internal static class Helper
 {

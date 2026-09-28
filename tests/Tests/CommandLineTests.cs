@@ -1,7 +1,7 @@
 using Bullseye;
 using Xunit;
 
-namespace BullseyeTests;
+namespace Tests;
 
 public static class CommandLineTests
 {

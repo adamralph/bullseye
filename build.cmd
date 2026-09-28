@@ -26,33 +26,33 @@ call :end_group
 
 call :begin_group smoke-test
 @echo On
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --help || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-targets || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-dependencies || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-inputs || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-dependencies --list-inputs || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-tree --list-inputs || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --parallel || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --dry-run || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --skip-dependencies || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --dry-run --skip-dependencies || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- --verbose || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose --no-color || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --help || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --list-targets || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --list-dependencies || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --list-inputs || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --list-dependencies --list-inputs || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --list-tree --list-inputs || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --parallel || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --dry-run || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --skip-dependencies || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --dry-run --skip-dependencies || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- --verbose || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- -h --verbose || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- -h --verbose --no-color || goto :error
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- large-graph --verbose --parallel || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- large-graph --verbose --parallel || goto :error
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --help || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --foo bar --verbose build || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests.CommandLine -- --help || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests.CommandLine -- --foo bar --verbose build || goto :error
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --help || goto :error
-dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --foo bar --verbose build || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests.McMaster -- --help || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests.McMaster -- --foo bar --verbose build || goto :error
 
-dotnet run -c Release --no-build --project BullseyeSmokeTester.Parallel || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests.Parallel || goto :error
 
 set NO_COLOR=1
-dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose || goto :error
+dotnet run -c Release --no-build --project smoke-tests\SmokeTests -- -h --verbose || goto :error
 
 @echo Off
 call :end_group

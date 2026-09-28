@@ -1,7 +1,7 @@
 using Bullseye;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace BullseyeSmokeTester.McMaster;
+namespace SmokeTests.McMaster;
 
 internal static class Extensions
 {

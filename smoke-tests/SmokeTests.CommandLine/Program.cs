@@ -1,5 +1,5 @@
 using System.CommandLine;
-using BullseyeSmokeTester.CommandLine;
+using SmokeTests.CommandLine;
 using static Bullseye.Targets;
 
 var foo = new Option<string>("--foo", "-f") { Description = "A value used for something.", };

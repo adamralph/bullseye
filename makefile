@@ -26,32 +26,32 @@ smoke-test: build
 	$(call begin_group,$@)
 	trap '$(set +x)' EXIT
 	set -x
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --help
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-targets
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-dependencies
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-inputs
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-dependencies --list-inputs
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --list-tree --list-inputs
-	dotnet run -c Release --no-build --project BullseyeSmokeTester --
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --parallel
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --dry-run
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --skip-dependencies
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --dry-run --skip-dependencies
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- --verbose
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose --no-color
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --help
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --list-targets
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --list-dependencies
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --list-inputs
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --list-dependencies --list-inputs
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --list-tree --list-inputs
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests --
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --parallel
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --dry-run
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --skip-dependencies
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --dry-run --skip-dependencies
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --verbose
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- -h --verbose
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- -h --verbose --no-color
 
-	dotnet run -c Release --no-build --project BullseyeSmokeTester -- large-graph --verbose --parallel
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- large-graph --verbose --parallel
 
-	dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --help
-	dotnet run -c Release --no-build --project BullseyeSmokeTester.CommandLine -- --foo bar --verbose build
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests.CommandLine -- --help
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests.CommandLine -- --foo bar --verbose build
 
-	dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --help
-	dotnet run -c Release --no-build --project BullseyeSmokeTester.McMaster -- --foo bar --verbose build
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests.McMaster -- --help
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests.McMaster -- --foo bar --verbose build
 
-	dotnet run -c Release --no-build --project BullseyeSmokeTester.Parallel
+	dotnet run -c Release --no-build --project smoke-tests/SmokeTests.Parallel
 
-	env NO_COLOR=1 dotnet run -c Release --no-build --project BullseyeSmokeTester -- -h --verbose
+	env NO_COLOR=1 dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- -h --verbose
 	$(call end_group)
 
 pack: build

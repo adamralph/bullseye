@@ -1,7 +1,7 @@
 using System.CommandLine;
 using Bullseye;
 
-namespace BullseyeSmokeTester.CommandLine;
+namespace SmokeTests.CommandLine;
 
 internal static class Extensions
 {

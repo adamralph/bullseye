@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
 using Bullseye.Internal;
 using Xunit;
-using static BullseyeTests.Infra.Helper;
+using static Tests.Infra.Helper;
 
-namespace BullseyeTests;
+namespace Tests;
 
 public static partial class Dependencies
 {

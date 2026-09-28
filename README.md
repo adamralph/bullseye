@@ -1,6 +1,6 @@
 # Bullseye
 
-![Bullseye](https://raw.githubusercontent.com/adamralph/bullseye/958af18a096239e9a040ff22c5d8bf08f0fc2466/assets/bullseye.svg)
+![Bullseye](assets/icon.svg)
 
 _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](https://www.nuget.org/packages/Bullseye)_
 
@@ -102,8 +102,8 @@ dotnet run --project Targets -- --help
 
 You can also handle custom arguments in `Program.cs`, but you should ensure that only valid arguments are passed along to Bullseye and that the help text contains both your custom arguments and the arguments supported by Bullseye. A good way to do this is to use a command-line parsing package to define your custom arguments, and to provide translation between the package and Bullseye. For example, see the test projects for:
 
-- [`System.CommandLine`](BullseyeSmokeTester.CommandLine/Program.cs)
-- [`McMaster.Extensions.CommandLineUtils`](BullseyeSmokeTester.McMaster/Program.cs)
+- [`System.CommandLine`](smoke-tests/SmokeTests.CommandLine/Program.cs)
+- [`McMaster.Extensions.CommandLineUtils`](smoke-tests/SmokeTests.McMaster/Program.cs)
 
 ## Non-static API
 
