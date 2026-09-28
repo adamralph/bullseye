@@ -27,23 +27,24 @@ Platform support: [.NET 8.0 and later](https://dot.net).
 
 ## Quick start
 
+```c#
+using static Bullseye.Targets;
+using static SimpleExec.Command;
+
+Target("build", () => RunAsync("dotnet", "build --configuration Release"));
+Target("test", dependsOn: ["build"], () => RunAsync("dotnet", "test --configuration Release --no-build"));
+Target("default", dependsOn: ["test"]);
+
+await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException);
+```
+
 - Next to an existing .NET solution (`.sln`/`.slnx` file), add a .NET console app named `Targets` — `dotnet new console --name Targets`<sup>1</sup>
 - Change to the new directory — `cd Targets`
 - Add a reference to [Bullseye](https://www.nuget.org/packages/Bullseye) — `dotnet add package Bullseye`
 - Add a reference to [SimpleExec](https://www.nuget.org/packages/SimpleExec) — `dotnet add package SimpleExec`
-- Replace the contents of `Targets/Program.cs` with:
-  ```c#
-  using static Bullseye.Targets;
-  using static SimpleExec.Command;
-
-  Target("build", () => RunAsync("dotnet", "build --configuration Release"));
-  Target("test", dependsOn: ["build"], () => RunAsync("dotnet", "test --configuration Release --no-build"));
-  Target("default", dependsOn: ["test"]);
-
-  await RunTargetsAndExitAsync(args, ex => ex is SimpleExec.ExitCodeException);
-  ```
+- Replace the contents of `Targets/Program.cs` with the code snippet above
 - Change to the solution directory — `cd ..`
-- Run the `Targets` project — `dotnet run --project Targets`.
+- Run the `Targets` project — `dotnet run --project Targets`
 
 Voilà! You just wrote and ran your first Bullseye build program.
 
@@ -162,4 +163,4 @@ Feel free to send a pull request to add your repository or organisation to this 
 
 ---
 
-<sub>[Target](https://thenounproject.com/term/target/345443) by [Franck Juncker](https://thenounproject.com/franckjuncker/) from [the Noun Project](https://thenounproject.com/).</sub>
+<sup>[Target](https://thenounproject.com/term/target/345443) by [Franck Juncker](https://thenounproject.com/franckjuncker/) from [the Noun Project](https://thenounproject.com/).</sup>
