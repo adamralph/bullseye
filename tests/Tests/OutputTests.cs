@@ -1,11 +1,11 @@
 using System.Runtime.InteropServices;
 using Bullseye;
 using Bullseye.Internal;
-using BullseyeTests.Infra;
+using Tests.Infra;
 using Xunit;
 using Target = Bullseye.Internal.Target;
 
-namespace BullseyeTests;
+namespace Tests;
 
 public static class OutputTests
 {

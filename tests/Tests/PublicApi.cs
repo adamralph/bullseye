@@ -1,9 +1,9 @@
 using Bullseye;
-using BullseyeTests.Infra;
 using PublicApiGenerator;
+using Tests.Infra;
 using Xunit;
 
-namespace BullseyeTests;
+namespace Tests;
 
 public static class PublicApi
 {

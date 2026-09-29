@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Xunit;
 
-namespace BullseyeTests.Infra;
+namespace Tests.Infra;
 
 internal static class Extensions
 {

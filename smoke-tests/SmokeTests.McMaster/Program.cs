@@ -1,5 +1,5 @@
-using BullseyeSmokeTester.McMaster;
 using McMaster.Extensions.CommandLineUtils;
+using SmokeTests.McMaster;
 using static Bullseye.Targets;
 
 using var app = new CommandLineApplication();

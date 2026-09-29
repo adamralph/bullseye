@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bullseye\Bullseye.csproj" />
+    <ProjectReference Include="../../src/Bullseye/Bullseye.csproj" />
   </ItemGroup>
 
   <ItemGroup>

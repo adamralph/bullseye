@@ -1,8 +1,14 @@
 <Solution>
-  <Project Path="Bullseye/Bullseye.csproj" />
-  <Project Path="BullseyeSmokeTester.CommandLine/BullseyeSmokeTester.CommandLine.csproj" />
-  <Project Path="BullseyeSmokeTester.McMaster/BullseyeSmokeTester.McMaster.csproj" />
-  <Project Path="BullseyeSmokeTester.Parallel/BullseyeSmokeTester.Parallel.csproj" />
-  <Project Path="BullseyeSmokeTester/BullseyeSmokeTester.csproj" />
-  <Project Path="BullseyeTests/BullseyeTests.csproj" />
+  <Folder Name="/smoke-tests/">
+    <Project Path="smoke-tests/SmokeTests.CommandLine/SmokeTests.CommandLine.csproj" />
+    <Project Path="smoke-tests/SmokeTests.McMaster/SmokeTests.McMaster.csproj" />
+    <Project Path="smoke-tests/SmokeTests.Parallel/SmokeTests.Parallel.csproj" />
+    <Project Path="smoke-tests/SmokeTests/SmokeTests.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Bullseye/Bullseye.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Tests/Tests.csproj" />
+  </Folder>
 </Solution>
