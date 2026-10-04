@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using Bullseye;
 using Bullseye.Internal;
-using Tests.Infra;
+using Fixtures.Xunit;
 using Xunit;
 using Target = Bullseye.Internal.Target;
 

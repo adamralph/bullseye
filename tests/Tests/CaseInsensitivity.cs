@@ -1,6 +1,6 @@
 using Bullseye.Internal;
+using Tests.Fixtures;
 using Xunit;
-using static Tests.Infra.Helper;
 
 namespace Tests;
 
@@ -14,8 +14,8 @@ public static class CaseInsensitivity
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => first = true),
-            CreateTarget("second", ["FIRST",], () => second = true),
+            Target.Create("first", () => first = true),
+            Target.Create("second", ["FIRST",], () => second = true),
         };
 
         // act

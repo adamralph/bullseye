@@ -1,9 +1,9 @@
 using System.Runtime.CompilerServices;
 using Xunit;
 
-namespace Tests.Infra;
+namespace Fixtures.Xunit;
 
-internal static class Extensions
+public static class Extensions
 {
     private static readonly Lazy<string> ProjectRoot = new(() =>
     {
@@ -16,7 +16,7 @@ internal static class Extensions
         return candidate?.FullName ?? throw new InvalidOperationException("Project root not found.");
     });
 
-    internal static async Task Verify(
+    public static async Task Verify(
         this string received,
         string suffix = "",
         [CallerMemberName] string callerMemberName = "",

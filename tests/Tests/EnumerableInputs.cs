@@ -1,6 +1,6 @@
 using Bullseye.Internal;
+using Tests.Fixtures;
 using Xunit;
-using static Tests.Infra.Helper;
 
 namespace Tests;
 
@@ -14,7 +14,7 @@ public static class EnumerableInputs
 
         var targets = new TargetCollection
         {
-            CreateTarget("default", [1, 2,], inputsReceived.Add),
+            Target.Create("default", [1, 2,], inputsReceived.Add),
         };
 
         // act
@@ -34,7 +34,7 @@ public static class EnumerableInputs
 
         var targets = new TargetCollection
         {
-            CreateTarget("default", Enumerable.Empty<object>(), _ => ran = true),
+            Target.Create("default", Enumerable.Empty<object>(), _ => ran = true),
         };
 
         // act
