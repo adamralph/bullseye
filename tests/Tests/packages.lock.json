@@ -100,11 +100,6 @@
         "resolved": "2.1.0",
         "contentHash": "X7QXEcZQGz0G/HL4HUyK+aAvNa/IMGbOCnFIq4jD/Evktq12xANKwzOUr7b08vCmC1LXu/47qHWOdjm3KfaJ0A=="
       },
-      "xunit.v3.assert": {
-        "type": "Transitive",
-        "resolved": "4.0.1",
-        "contentHash": "nC7d3cY06Oo7hkdwWPZkBR0Ud75xNhgx0P7i0GmMMZC3puCGlc4szFiT30biH03IN/eDnr8h+nv3A1UD17bk/A=="
-      },
       "xunit.v3.common": {
         "type": "Transitive",
         "resolved": "4.0.1",
@@ -155,6 +150,18 @@
       },
       "bullseye": {
         "type": "Project"
+      },
+      "fixtures.xunit": {
+        "type": "Project",
+        "dependencies": {
+          "xunit.v3.assert": "[4.0.1, )"
+        }
+      },
+      "xunit.v3.assert": {
+        "type": "CentralTransitive",
+        "requested": "[4.0.1, )",
+        "resolved": "4.0.1",
+        "contentHash": "nC7d3cY06Oo7hkdwWPZkBR0Ud75xNhgx0P7i0GmMMZC3puCGlc4szFiT30biH03IN/eDnr8h+nv3A1UD17bk/A=="
       }
     },
     "net8.0": {
@@ -256,11 +263,6 @@
         "resolved": "2.1.0",
         "contentHash": "X7QXEcZQGz0G/HL4HUyK+aAvNa/IMGbOCnFIq4jD/Evktq12xANKwzOUr7b08vCmC1LXu/47qHWOdjm3KfaJ0A=="
       },
-      "xunit.v3.assert": {
-        "type": "Transitive",
-        "resolved": "4.0.1",
-        "contentHash": "nC7d3cY06Oo7hkdwWPZkBR0Ud75xNhgx0P7i0GmMMZC3puCGlc4szFiT30biH03IN/eDnr8h+nv3A1UD17bk/A=="
-      },
       "xunit.v3.common": {
         "type": "Transitive",
         "resolved": "4.0.1",
@@ -311,6 +313,18 @@
       },
       "bullseye": {
         "type": "Project"
+      },
+      "fixtures.xunit": {
+        "type": "Project",
+        "dependencies": {
+          "xunit.v3.assert": "[4.0.1, )"
+        }
+      },
+      "xunit.v3.assert": {
+        "type": "CentralTransitive",
+        "requested": "[4.0.1, )",
+        "resolved": "4.0.1",
+        "contentHash": "nC7d3cY06Oo7hkdwWPZkBR0Ud75xNhgx0P7i0GmMMZC3puCGlc4szFiT30biH03IN/eDnr8h+nv3A1UD17bk/A=="
       }
     },
     "net9.0": {
@@ -412,11 +426,6 @@
         "resolved": "2.1.0",
         "contentHash": "X7QXEcZQGz0G/HL4HUyK+aAvNa/IMGbOCnFIq4jD/Evktq12xANKwzOUr7b08vCmC1LXu/47qHWOdjm3KfaJ0A=="
       },
-      "xunit.v3.assert": {
-        "type": "Transitive",
-        "resolved": "4.0.1",
-        "contentHash": "nC7d3cY06Oo7hkdwWPZkBR0Ud75xNhgx0P7i0GmMMZC3puCGlc4szFiT30biH03IN/eDnr8h+nv3A1UD17bk/A=="
-      },
       "xunit.v3.common": {
         "type": "Transitive",
         "resolved": "4.0.1",
@@ -467,6 +476,18 @@
       },
       "bullseye": {
         "type": "Project"
+      },
+      "fixtures.xunit": {
+        "type": "Project",
+        "dependencies": {
+          "xunit.v3.assert": "[4.0.1, )"
+        }
+      },
+      "xunit.v3.assert": {
+        "type": "CentralTransitive",
+        "requested": "[4.0.1, )",
+        "resolved": "4.0.1",
+        "contentHash": "nC7d3cY06Oo7hkdwWPZkBR0Ud75xNhgx0P7i0GmMMZC3puCGlc4szFiT30biH03IN/eDnr8h+nv3A1UD17bk/A=="
       }
     }
   }

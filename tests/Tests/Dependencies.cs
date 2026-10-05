@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Bullseye.Internal;
+using Tests.Fixtures;
 using Xunit;
-using static Tests.Infra.Helper;
 
 namespace Tests;
 
@@ -15,9 +15,9 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", () => ran.Add("second")),
-            CreateTarget("third", ["first", "second",], () => ran.Add("third")),
+            Target.Create("first", () => ran.Add("first")),
+            Target.Create("second", () => ran.Add("second")),
+            Target.Create("third", ["first", "second",], () => ran.Add("third")),
         };
 
         // act
@@ -38,9 +38,9 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", ["first",], () => ran.Add("second")),
-            CreateTarget("third", ["second",], () => ran.Add("third")),
+            Target.Create("first", () => ran.Add("first")),
+            Target.Create("second", ["first",], () => ran.Add("second")),
+            Target.Create("third", ["second",], () => ran.Add("third")),
         };
 
         // act
@@ -61,8 +61,8 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", ["first", "first",], () => ran.Add("second")),
+            Target.Create("first", () => ran.Add("first")),
+            Target.Create("second", ["first", "first",], () => ran.Add("second")),
         };
 
         // act
@@ -80,7 +80,7 @@ public static partial class Dependencies
         // arrange
         var targets = new TargetCollection
         {
-            CreateTarget("first", ["first",]),
+            Target.Create("first", ["first",]),
         };
 
         // act
@@ -97,8 +97,8 @@ public static partial class Dependencies
         // arrange
         var targets = new TargetCollection
         {
-            CreateTarget("first", ["second",]),
-            CreateTarget("second", ["first",]),
+            Target.Create("first", ["second",]),
+            Target.Create("second", ["first",]),
         };
 
         // act
@@ -115,9 +115,9 @@ public static partial class Dependencies
         // arrange
         var targets = new TargetCollection
         {
-            CreateTarget("first", ["third",]),
-            CreateTarget("second", ["first",]),
-            CreateTarget("third", ["second",]),
+            Target.Create("first", ["third",]),
+            Target.Create("second", ["first",]),
+            Target.Create("third", ["second",]),
         };
 
         // act
@@ -138,9 +138,9 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", ["first",], () => ran.Add("second")),
-            CreateTarget("third", ["first", "second",], () => ran.Add("third")),
+            Target.Create("first", () => ran.Add("first")),
+            Target.Create("second", ["first",], () => ran.Add("second")),
+            Target.Create("third", ["first", "second",], () => ran.Add("third")),
         };
 
         // act
@@ -171,9 +171,9 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => anyRan = true),
-            CreateTarget("second", ["first", "non-existing",], () => anyRan = true),
-            CreateTarget("third", ["second", "also-non-existing",], () => anyRan = true),
+            Target.Create("first", () => anyRan = true),
+            Target.Create("second", ["first", "non-existing",], () => anyRan = true),
+            Target.Create("third", ["second", "also-non-existing",], () => anyRan = true),
         };
 
         // act
@@ -194,8 +194,8 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", ["first", "non-existent",], () => ran.Add("second")),
+            Target.Create("first", () => ran.Add("first")),
+            Target.Create("second", ["first", "non-existent",], () => ran.Add("second")),
         };
 
         // act
@@ -214,8 +214,8 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget("first", () => ran.Add("first")),
-            CreateTarget("second", ["first",], () => ran.Add("second")),
+            Target.Create("first", () => ran.Add("first")),
+            Target.Create("second", ["first",], () => ran.Add("second")),
         };
 
         // act
@@ -236,15 +236,15 @@ public static partial class Dependencies
 
         var targets = new TargetCollection
         {
-            CreateTarget(
+            Target.Create(
                 "build",
                 () =>
                 {
                     Thread.Sleep(TimeSpan.FromSeconds(1)); // a weak way to encourage the tests to run first
                     buildStartTime = Interlocked.Increment(ref clock);
                 }),
-            CreateTarget("test1", ["build",], () => test1StartTime = Interlocked.Increment(ref clock)),
-            CreateTarget("test2", ["build",], () => test2StartTime = Interlocked.Increment(ref clock)),
+            Target.Create("test1", ["build",], () => test1StartTime = Interlocked.Increment(ref clock)),
+            Target.Create("test2", ["build",], () => test2StartTime = Interlocked.Increment(ref clock)),
         };
 
         // act

@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/fixtures/">
+    <Project Path="fixtures/Fixtures.Xunit/Fixtures.Xunit.csproj" />
+  </Folder>
   <Folder Name="/smoke-tests/">
     <Project Path="smoke-tests/SmokeTests.CommandLine/SmokeTests.CommandLine.csproj" />
     <Project Path="smoke-tests/SmokeTests.McMaster/SmokeTests.McMaster.csproj" />

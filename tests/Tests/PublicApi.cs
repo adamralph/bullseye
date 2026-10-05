@@ -1,6 +1,6 @@
 using Bullseye;
+using Fixtures.Xunit;
 using PublicApiGenerator;
-using Tests.Infra;
 using Xunit;
 
 namespace Tests;

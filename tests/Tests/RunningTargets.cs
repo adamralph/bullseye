@@ -1,6 +1,6 @@
 using Bullseye.Internal;
+using Tests.Fixtures;
 using Xunit;
-using static Tests.Infra.Helper;
 
 namespace Tests;
 
@@ -14,8 +14,8 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget("default", () => @default = true),
-            CreateTarget(nameof(other), () => other = true),
+            Target.Create("default", () => @default = true),
+            Target.Create(nameof(other), () => other = true),
         };
 
         // act
@@ -34,9 +34,9 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget(nameof(first), () => first = true),
-            CreateTarget(nameof(second), () => second = true),
-            CreateTarget(nameof(third), () => third = true),
+            Target.Create(nameof(first), () => first = true),
+            Target.Create(nameof(second), () => second = true),
+            Target.Create(nameof(third), () => third = true),
         };
 
         // act
@@ -56,8 +56,8 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget(nameof(foo), () => foo = true),
-            CreateTarget(nameof(bar), () => bar = true),
+            Target.Create(nameof(foo), () => foo = true),
+            Target.Create(nameof(bar), () => bar = true),
         };
 
         // act
@@ -76,8 +76,8 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget(nameof(foo), () => foo = true),
-            CreateTarget(nameof(foo1), () => foo1 = true),
+            Target.Create(nameof(foo), () => foo = true),
+            Target.Create(nameof(foo1), () => foo1 = true),
         };
 
         // act
@@ -94,8 +94,8 @@ public static class RunningTargets
         // arrange
         var targets = new TargetCollection
         {
-            CreateTarget("foo1", () => { }),
-            CreateTarget("foo2", () => { }),
+            Target.Create("foo1", () => { }),
+            Target.Create("foo2", () => { }),
         };
 
         // act
@@ -114,7 +114,7 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget(nameof(existing), () => existing = true),
+            Target.Create(nameof(existing), () => existing = true),
         };
 
         // act
@@ -134,7 +134,7 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget(nameof(existing), () => existing = true),
+            Target.Create(nameof(existing), () => existing = true),
         };
 
         // act
@@ -156,7 +156,7 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget("target", () => ran = true),
+            Target.Create("target", () => ran = true),
         };
 
         // act
@@ -174,7 +174,7 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget("target", () => ran = true),
+            Target.Create("target", () => ran = true),
         };
 
         // act
@@ -195,7 +195,7 @@ public static class RunningTargets
 
         var targets = new TargetCollection
         {
-            CreateTarget("target", () => ran = true),
+            Target.Create("target", () => ran = true),
         };
 
         // act
@@ -215,7 +215,7 @@ public static class RunningTargets
         var count = 0;
         var targets = new TargetCollection
         {
-            CreateTarget("default", () => ++count),
+            Target.Create("default", () => ++count),
         };
 
         // act

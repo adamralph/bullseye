@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="../../fixtures/Fixtures.Xunit/Fixtures.Xunit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="PublicApiGenerator" />
   </ItemGroup>
 
