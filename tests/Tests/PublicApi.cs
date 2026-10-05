@@ -8,12 +8,12 @@ namespace Tests;
 public static class PublicApi
 {
     [Fact]
-    public static async Task IsVerified()
+    public static async Task Surface()
     {
         var options = new ApiGeneratorOptions { IncludeAssemblyAttributes = false };
 
         var publicApi = typeof(Targets).Assembly.GeneratePublicApi(options);
 
-        await publicApi.Verify();
+        await Assert.Expected(publicApi);
     }
 }
