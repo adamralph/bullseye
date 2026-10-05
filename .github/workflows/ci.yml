@@ -8,6 +8,7 @@ permissions: read-all
 env:
   DOTNET_NOLOGO: true
   MINVERBUILDMETADATA: build.${{ github.run_id }}.${{ github.run_attempt}}
+  PSAKE_OUTPUT_FORMAT: GitHubActions
 jobs:
   ci:
     strategy:
@@ -34,7 +35,10 @@ jobs:
       - if: matrix.job.name != 'windows'
         run: ./build
       - if: matrix.job.name == 'windows'
-        run: ./ci
+        shell: pwsh
+        run: Install-Module -Name psake -RequiredVersion 5.0.4 -Scope CurrentUser -Force
+      - if: matrix.job.name == 'windows'
+        run: ./build test
       - if: matrix.job.name == 'ubuntu'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:

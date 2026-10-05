@@ -3,7 +3,7 @@
   "language": "en-GB",
   "overrides": [
     {
-      "filename": "{*.cmd,*.cs,*.csproj,*.props,*.yml,build,makefile}",
+      "filename": "{*.cmd,*.cs,*.csproj,*.props,*.ps1,*.yml,build,makefile}",
       "language": "en-US"
     },
     {
@@ -44,6 +44,9 @@
     "nupkg",
     "paramref",
     "pipefail",
+    "psake",
+    "psakefile",
+    "pwsh",
     "refs",
     "SHFMT",
     "slnx",
