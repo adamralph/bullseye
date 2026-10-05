@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public static class ActionExtensions
+internal static class ActionExtensions
 {
     public static Func<Task> ToFunc(this Action action) => () => Task.Run(action.Invoke);
 

@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public interface IHaveInputs
+internal interface IHaveInputs
 {
     IEnumerable<object?> Inputs { get; }
 }

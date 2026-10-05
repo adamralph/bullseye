@@ -5,7 +5,7 @@ using static System.Math;
 
 namespace Bullseye.Internal;
 
-public partial class Output
+internal partial class Output
 {
     private readonly ConcurrentDictionary<Target, TargetResult> _results = new();
 

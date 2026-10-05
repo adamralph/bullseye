@@ -5,7 +5,7 @@ using Fixtures.Xunit;
 using Xunit;
 using Target = Bullseye.Internal.Target;
 
-namespace Tests;
+namespace Tests.Internal;
 
 public static class OutputTests
 {

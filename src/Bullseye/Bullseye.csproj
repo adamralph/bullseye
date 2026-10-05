@@ -5,4 +5,8 @@
     <Description>A .NET library, developed by humans, for running a target dependency graph.</Description>
   </PropertyGroup>
 
+    <ItemGroup>
+    <InternalsVisibleTo Include="Tests.Internal" />
+  </ItemGroup>
+
 </Project>

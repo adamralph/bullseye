@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace Bullseye.Internal;
 
-public partial class Output
+internal partial class Output
 {
     public async Task<IAsyncDisposable> InitializeAsync()
     {

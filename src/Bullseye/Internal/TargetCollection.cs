@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Bullseye.Internal;
 
-public class TargetCollection() : KeyedCollection<string, Target>(StringComparer.OrdinalIgnoreCase)
+internal sealed class TargetCollection() : KeyedCollection<string, Target>(StringComparer.OrdinalIgnoreCase)
 {
     private static readonly ImmutableQueue<Target> RootDependencyPath = [];
 

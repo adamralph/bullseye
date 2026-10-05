@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Bullseye.Internal;
 
-public partial class Output(
+internal sealed partial class Output(
     TextWriter writer,
     TextWriter diagnosticsWriter,
     IReadOnlyCollection<string> args,

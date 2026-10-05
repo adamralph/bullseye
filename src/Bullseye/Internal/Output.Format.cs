@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public partial class Output
+internal partial class Output
 {
     private static string Format(
         string prefix,

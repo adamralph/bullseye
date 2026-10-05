@@ -1,5 +1,4 @@
-using Bullseye.Internal;
-using Tests.Fixtures;
+using Bullseye;
 using Xunit;
 
 namespace Tests;
@@ -12,13 +11,11 @@ public static class EnumerableInputs
         // arrange
         var inputsReceived = new List<int>();
 
-        var targets = new TargetCollection
-        {
-            Target.Create("default", [1, 2,], inputsReceived.Add),
-        };
+        var targets = new Targets();
+        targets.Add("default", [1, 2,], inputsReceived.Add);
 
         // act
-        await targets.RunAsync([], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync([]);
 
         // assert
         Assert.Equal(2, inputsReceived.Count);
@@ -32,13 +29,11 @@ public static class EnumerableInputs
         // arrange
         var ran = false;
 
-        var targets = new TargetCollection
-        {
-            Target.Create("default", Enumerable.Empty<object>(), _ => ran = true),
-        };
+        var targets = new Targets();
+        targets.Add("default", Enumerable.Empty<object>(), _ => ran = true);
 
         // act
-        await targets.RunAsync([], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync([]);
 
         // assert
         Assert.False(ran);

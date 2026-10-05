@@ -12,6 +12,7 @@
     <Project Path="src/Bullseye/Bullseye.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Tests.Internal/Tests.Internal.csproj" />
     <Project Path="tests/Tests/Tests.csproj" />
   </Folder>
 </Solution>

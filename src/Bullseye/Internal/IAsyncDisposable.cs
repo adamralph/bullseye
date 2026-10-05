@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public interface IAsyncDisposable
+internal interface IAsyncDisposable
 {
     Task DisposeAsync();
 }

@@ -3,7 +3,7 @@ using static System.Math;
 
 namespace Bullseye.Internal;
 
-public static class TimeSpanExtensions
+internal static class TimeSpanExtensions
 {
     private static readonly IFormatProvider Provider = CultureInfo.InvariantCulture;
 

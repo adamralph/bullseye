@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public static class StringExtensions
+internal static class StringExtensions
 {
     public static string Spaced(this IEnumerable<string> strings) => string.Join(" ", strings);
 }

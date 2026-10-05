@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace Bullseye.Internal;
 
-public static class TargetCollectionExtensions
+internal static class TargetCollectionExtensions
 {
     public static async Task RunAsync(
         this TargetCollection targets,

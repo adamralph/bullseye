@@ -1,7 +1,7 @@
 using Bullseye.Internal;
 using Xunit;
 
-namespace Tests;
+namespace Tests.Internal;
 
 public static class TimeSpanExtensionsTests
 {

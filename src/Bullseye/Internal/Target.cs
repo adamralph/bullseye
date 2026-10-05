@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public class Target(string name, string description, IReadOnlyCollection<string> dependencies)
+internal class Target(string name, string description, IReadOnlyCollection<string> dependencies)
 {
     public string Name { get; } = name;
 
