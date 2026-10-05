@@ -1,6 +1,6 @@
 default: format test smoke-test pack
 
-.PHONY: format build
+.PHONY: build
 
 restore:
 	$(call begin_group,$@)
@@ -24,8 +24,6 @@ test: build
 
 smoke-test: build
 	$(call begin_group,$@)
-	trap '$(set +x)' EXIT
-	set -x
 	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --help
 	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --list-targets
 	dotnet run -c Release --no-build --project smoke-tests/SmokeTests -- --list-dependencies
@@ -59,7 +57,6 @@ pack: build
 	dotnet pack --configuration Release --output artifacts --no-build
 	$(call end_group)
 
-# macros
 define begin_group
 	@if [ "$$GITHUB_ACTIONS" = "true" ]; then echo "::group::$(1)"; fi
 endef
