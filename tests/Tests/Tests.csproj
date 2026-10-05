@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../fixtures/Fixtures.Xunit/Fixtures.Xunit.csproj" />
+    <ProjectReference Include="../../src/Bullseye/Bullseye.csproj" />
   </ItemGroup>
 
   <ItemGroup>

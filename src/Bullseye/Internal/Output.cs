@@ -27,7 +27,7 @@ public partial class Output(
     private readonly string _scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
 
     public bool Verbose { get; } = verbose;
-    public async Task Header(Func<string> getVersion)
+    public async Task HeaderAsync(Func<string> getVersion)
     {
         if (!Verbose)
         {
@@ -45,7 +45,7 @@ public partial class Output(
         await writer.WriteAsync(builder.ToString()).Tax();
     }
 
-    public async Task Usage(TargetCollection targets)
+    public async Task UsageAsync(TargetCollection targets)
     {
         var usage = GetUsageLines(_palette, _scriptExtension)
                     + GetListLines(targets, targets.Select(target => target.Name), 0, 0, false, "  ", _palette);
@@ -53,13 +53,13 @@ public partial class Output(
         await writer.WriteAsync(usage).Tax();
     }
 
-    public Task List(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
+    public Task ListAsync(TargetCollection targets, IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) =>
         writer.WriteAsync(GetListLines(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs, "", _palette));
 
-    public Task Starting(IEnumerable<Target> targets) =>
+    public Task StartingAsync(IEnumerable<Target> targets) =>
         writer.WriteLineAsync(Format(getPrefix(), targets, $"{_palette.Text}{StartingMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _palette));
 
-    public async Task Failed(IEnumerable<Target> targets)
+    public async Task FailedAsync(IEnumerable<Target> targets)
     {
         var message = GetResultLines(_results, _totalDuration, getPrefix, _palette)
             + Format(getPrefix(), targets, $"{_palette.Failure}{FailedMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
@@ -67,7 +67,7 @@ public partial class Output(
         await writer.WriteLineAsync(message).Tax();
     }
 
-    public async Task Succeeded(IEnumerable<Target> targets)
+    public async Task SucceededAsync(IEnumerable<Target> targets)
     {
         var message = GetResultLines(_results, _totalDuration, getPrefix, _palette)
             + Format(getPrefix(), targets, $"{_palette.Success}{SucceededMessage}{_palette.Default}", dryRun, parallel, skipDependencies, _totalDuration, _palette);
@@ -75,7 +75,7 @@ public partial class Output(
         await writer.WriteLineAsync(message).Tax();
     }
 
-    public async Task Awaiting(Target target, IReadOnlyCollection<Target> dependencyPath)
+    public async Task AwaitingAsync(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
         if (Verbose)
         {
@@ -83,7 +83,7 @@ public partial class Output(
         }
     }
 
-    public async Task WalkingDependencies(Target target, IReadOnlyCollection<Target> dependencyPath)
+    public async Task WalkingDependenciesAsync(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
         if (Verbose)
         {
@@ -91,7 +91,7 @@ public partial class Output(
         }
     }
 
-    public async Task IgnoringNonExistentDependency(Target target, string dependency, IReadOnlyCollection<Target> dependencyPath)
+    public async Task IgnoringNonExistentDependencyAsync(Target target, string dependency, IReadOnlyCollection<Target> dependencyPath)
     {
         if (Verbose)
         {
@@ -99,7 +99,7 @@ public partial class Output(
         }
     }
 
-    public async Task BeginGroup(Target target)
+    public async Task BeginGroupAsync(Target target)
     {
         if (!parallel && host == Host.GitHubActions)
         {
@@ -107,7 +107,7 @@ public partial class Output(
         }
     }
 
-    public async Task BeginGroup<TInput>(Target target, TInput input)
+    public async Task BeginGroupAsync<TInput>(Target target, TInput input)
     {
         if (!parallel && host == Host.GitHubActions)
         {
@@ -115,7 +115,7 @@ public partial class Output(
         }
     }
 
-    public async Task EndGroup()
+    public async Task EndGroupAsync()
     {
         if (!parallel && host == Host.GitHubActions)
         {
@@ -123,17 +123,17 @@ public partial class Output(
         }
     }
 
-    public Task Starting(Target target, IReadOnlyCollection<Target> dependencyPath)
+    public Task StartingAsync(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
         _ = InternResult(target);
 
         return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Text}{StartingMessage}{_palette.Default}", dependencyPath, _palette));
     }
 
-    public Task Error(Target target, Exception ex) =>
+    public Task ErrorAsync(Target target, Exception ex) =>
         writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
 
-    public Task Failed(Target target, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
+    public Task FailedAsync(Target target, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
     {
         var result = InternResult(target);
         result.Outcome = TargetOutcome.Failed;
@@ -144,7 +144,7 @@ public partial class Output(
         return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
-    public Task Succeeded(Target target, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
+    public Task SucceededAsync(Target target, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
     {
         var result = InternResult(target);
         result.Outcome = TargetOutcome.Succeeded;
@@ -155,7 +155,7 @@ public partial class Output(
         return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Success}{SucceededMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
-    public Task NoInputs(Target target, IReadOnlyCollection<Target> dependencyPath)
+    public Task NoInputsAsync(Target target, IReadOnlyCollection<Target> dependencyPath)
     {
         var result = InternResult(target);
         result.Outcome = TargetOutcome.NoInputs;
@@ -163,7 +163,7 @@ public partial class Output(
         return writer.WriteLineAsync(Format(getPrefix(), target, $"{_palette.Warning}{NoInputsMessage}{_palette.Default}", result.Duration, dependencyPath, _palette));
     }
 
-    public Task Starting<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
+    public Task StartingAsync<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath)
     {
         var (_, targetInputResult) = Intern(target, inputId);
         targetInputResult.Input = input;
@@ -171,10 +171,10 @@ public partial class Output(
         return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, StartingMessage, dependencyPath, _palette));
     }
 
-    public Task Error<TInput>(Target target, TInput input, Exception ex) =>
+    public Task ErrorAsync<TInput>(Target target, TInput input, Exception ex) =>
         writer.WriteLineAsync(Format(getPrefix(), target, input, $"{_palette.Failure}{ex}{_palette.Default}", _palette));
 
-    public Task Failed<TInput>(Target target, TInput input, Guid inputId, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
+    public Task FailedAsync<TInput>(Target target, TInput input, Guid inputId, Exception ex, TimeSpan duration, IReadOnlyCollection<Target> dependencyPath)
     {
         var (targetResult, targetInputResult) = Intern(target, inputId);
 
@@ -190,7 +190,7 @@ public partial class Output(
         return writer.WriteLineAsync(Format(getPrefix(), target, targetInputResult.Input, $"{_palette.Failure}{FailedMessage}{_palette.Default} {_palette.Failure}{ex.Message}{_palette.Default}", targetInputResult.Duration, dependencyPath, _palette));
     }
 
-    public Task Succeeded<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
+    public Task SucceededAsync<TInput>(Target target, TInput input, Guid inputId, IReadOnlyCollection<Target> dependencyPath, TimeSpan duration)
     {
         var (targetResult, targetInputResult) = Intern(target, inputId);
 

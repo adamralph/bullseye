@@ -36,7 +36,7 @@ public static class OutputTests
         }
 
         // assert
-        await Assert.Expected(writer.ToString());
+        await Assert.ExpectedAsync(writer.ToString());
     }
 
     [Theory]
@@ -73,7 +73,7 @@ public static class OutputTests
         }
 
         // assert
-        await Assert.Expected(writer.ToString(), [host]);
+        await Assert.ExpectedAsync(writer.ToString(), [host]);
     }
 
     private static async Task WriteSampleOutput(
@@ -176,48 +176,48 @@ public static class OutputTests
 
         var version = "version";
 
-        await output.Header(() => version);
+        await output.HeaderAsync(() => version);
 
-        await output.Awaiting(verboseTargets.Last(), verboseTargets);
-        await output.WalkingDependencies(verboseTargets.Last(), verboseTargets);
+        await output.AwaitingAsync(verboseTargets.Last(), verboseTargets);
+        await output.WalkingDependenciesAsync(verboseTargets.Last(), verboseTargets);
 
-        await output.Succeeded(emptyTargets);
+        await output.SucceededAsync(emptyTargets);
 
-        await output.Succeeded(looseTarget, looseInput, looseInputId, verboseTargets, looseInputDuration);
-        await output.Succeeded(looseTargets);
+        await output.SucceededAsync(looseTarget, looseInput, looseInputId, verboseTargets, looseInputDuration);
+        await output.SucceededAsync(looseTargets);
 
-        await output.Starting(targets);
+        await output.StartingAsync(targets);
         {
-            await output.NoInputs(noInputsTarget, verboseTargets);
+            await output.NoInputsAsync(noInputsTarget, verboseTargets);
 
-            await output.Succeeded(goodTarget1, verboseTargets, goodTargetDuration1);
+            await output.SucceededAsync(goodTarget1, verboseTargets, goodTargetDuration1);
 
-            await output.Starting(goodTarget2, verboseTargets);
-            await output.Succeeded(goodTarget2, verboseTargets, goodTargetDuration2);
+            await output.StartingAsync(goodTarget2, verboseTargets);
+            await output.SucceededAsync(goodTarget2, verboseTargets, goodTargetDuration2);
 
-            await output.Starting(badTarget, verboseTargets);
+            await output.StartingAsync(badTarget, verboseTargets);
             {
-                await output.Error(badTarget, badTargetEx);
+                await output.ErrorAsync(badTarget, badTargetEx);
             }
-            await output.Failed(badTarget, badTargetEx, badTargetDuration, verboseTargets);
+            await output.FailedAsync(badTarget, badTargetEx, badTargetDuration, verboseTargets);
 
-            await output.Starting(goodInputsTarget, goodInput1, goodInputId1, verboseTargets);
-            await output.Succeeded(goodInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
+            await output.StartingAsync(goodInputsTarget, goodInput1, goodInputId1, verboseTargets);
+            await output.SucceededAsync(goodInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
 
-            await output.Starting(goodInputsTarget, goodInput2, goodInputId2, verboseTargets);
-            await output.Succeeded(goodInputsTarget, goodInput2, goodInputId2, verboseTargets, goodInputDuration2);
+            await output.StartingAsync(goodInputsTarget, goodInput2, goodInputId2, verboseTargets);
+            await output.SucceededAsync(goodInputsTarget, goodInput2, goodInputId2, verboseTargets, goodInputDuration2);
 
-            await output.Starting(badInputsTarget, goodInput1, goodInputId1, verboseTargets);
-            await output.Succeeded(badInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
+            await output.StartingAsync(badInputsTarget, goodInput1, goodInputId1, verboseTargets);
+            await output.SucceededAsync(badInputsTarget, goodInput1, goodInputId1, verboseTargets, goodInputDuration1);
 
-            await output.Starting(badInputsTarget, badInput, badInputId, verboseTargets);
+            await output.StartingAsync(badInputsTarget, badInput, badInputId, verboseTargets);
             {
-                await output.Error(badInputsTarget, badInput, badInputEx);
+                await output.ErrorAsync(badInputsTarget, badInput, badInputEx);
             }
-            await output.Failed(badInputsTarget, badInput, badInputId, badInputEx, badInputDuration, verboseTargets);
+            await output.FailedAsync(badInputsTarget, badInput, badInputId, badInputEx, badInputDuration, verboseTargets);
         }
-        await output.Succeeded(targets);
-        await output.Failed(targets);
+        await output.SucceededAsync(targets);
+        await output.FailedAsync(targets);
     }
 
     private static IEnumerable<bool[]> GetAllPermutations(int size)

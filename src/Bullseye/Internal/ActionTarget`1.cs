@@ -13,7 +13,7 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
 
         if (inputsList.Count == 0)
         {
-            await output.NoInputs(this, dependencyPath).Tax();
+            await output.NoInputsAsync(this, dependencyPath).Tax();
             return;
         }
 
@@ -45,11 +45,11 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
 
     private async Task RunAsync(TInput input, Guid id, bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
-        await output.BeginGroup(this, input).Tax();
+        await output.BeginGroupAsync(this, input).Tax();
 
         try
         {
-            await output.Starting(this, input, id, dependencyPath).Tax();
+            await output.StartingAsync(this, input, id, dependencyPath).Tax();
 
             var stopWatch = new Stopwatch();
 
@@ -58,11 +58,11 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
                 await RunAsync(input, id, output, messageOnly, dependencyPath, stopWatch).Tax();
             }
 
-            await output.Succeeded(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
+            await output.SucceededAsync(this, input, id, dependencyPath, stopWatch.Elapsed).Tax();
         }
         finally
         {
-            await output.EndGroup().Tax();
+            await output.EndGroupAsync().Tax();
         }
     }
 
@@ -80,10 +80,10 @@ public class ActionTarget<TInput>(string name, string description, IReadOnlyColl
 
             if (!messageOnly(ex))
             {
-                await output.Error(this, input, ex).Tax();
+                await output.ErrorAsync(this, input, ex).Tax();
             }
 
-            await output.Failed(this, input, id, ex, duration, dependencyPath).Tax();
+            await output.FailedAsync(this, input, id, ex, duration, dependencyPath).Tax();
 
             throw new TargetFailedException($"Target '{Name}' failed with input '{input}'.", ex);
         }

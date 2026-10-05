@@ -14,7 +14,7 @@ public partial class Targets
     /// <param name="description">The description of the target.</param>
     /// <param name="action">The action performed by the target.</param>
     public void Add(string name, string description, Action action) =>
-        _targetCollection.Add(new ActionTarget(name, description, [], action.ToAsync()));
+        _targetCollection.Add(new ActionTarget(name, description, [], action.ToFunc()));
 
     /// <summary>
     /// Adds a target which depends on other targets.
@@ -33,7 +33,7 @@ public partial class Targets
     /// <param name="dependsOn">The names of the targets on which the target depends.</param>
     /// <param name="action">The action performed by the target.</param>
     public void Add(string name, string description, IEnumerable<string> dependsOn, Action action) =>
-        _targetCollection.Add(new ActionTarget(name, description, [.. dependsOn,], action.ToAsync()));
+        _targetCollection.Add(new ActionTarget(name, description, [.. dependsOn,], action.ToFunc()));
 
     /// <summary>
     /// Adds a target which depends on other targets and performs an action.
@@ -60,7 +60,7 @@ public partial class Targets
     /// <param name="name">The name of the target.</param>
     /// <param name="action">The action performed by the target.</param>
     public void Add(string name, Action action) =>
-        _targetCollection.Add(new ActionTarget(name, "", [], action.ToAsync()));
+        _targetCollection.Add(new ActionTarget(name, "", [], action.ToFunc()));
 
     /// <summary>
     /// Adds a target which depends on other targets.
@@ -77,7 +77,7 @@ public partial class Targets
     /// <param name="dependsOn">The names of the targets on which the target depends.</param>
     /// <param name="action">The action performed by the target.</param>
     public void Add(string name, IEnumerable<string> dependsOn, Action action) =>
-        _targetCollection.Add(new ActionTarget(name, "", [.. dependsOn,], action.ToAsync()));
+        _targetCollection.Add(new ActionTarget(name, "", [.. dependsOn,], action.ToFunc()));
 
     /// <summary>
     /// Adds a target which depends on other targets and performs an action.
@@ -106,7 +106,7 @@ public partial class Targets
     /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
     /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
     public void Add<TInput>(string name, string description, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
-        _targetCollection.Add(new ActionTarget<TInput>(name, description, [.. dependsOn,], forEach, action.ToAsync()));
+        _targetCollection.Add(new ActionTarget<TInput>(name, description, [.. dependsOn,], forEach, action.ToFunc()));
 
     /// <summary>
     /// Adds a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -129,7 +129,7 @@ public partial class Targets
     /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
     /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
     public void Add<TInput>(string name, string description, IEnumerable<TInput> forEach, Action<TInput> action) =>
-        _targetCollection.Add(new ActionTarget<TInput>(name, description, [], forEach, action.ToAsync()));
+        _targetCollection.Add(new ActionTarget<TInput>(name, description, [], forEach, action.ToFunc()));
 
     /// <summary>
     /// Adds a target which performs an action for each item in a list of inputs.
@@ -151,7 +151,7 @@ public partial class Targets
     /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
     /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
     public void Add<TInput>(string name, IEnumerable<string> dependsOn, IEnumerable<TInput> forEach, Action<TInput> action) =>
-        _targetCollection.Add(new ActionTarget<TInput>(name, "", [.. dependsOn,], forEach, action.ToAsync()));
+        _targetCollection.Add(new ActionTarget<TInput>(name, "", [.. dependsOn,], forEach, action.ToFunc()));
 
     /// <summary>
     /// Adds a target which depends on other targets and performs an action for each item in a list of inputs.
@@ -172,7 +172,7 @@ public partial class Targets
     /// <param name="forEach">The list of inputs to pass to <paramref name="action"/>.</param>
     /// <param name="action">The action performed by the target for each input in <paramref name="forEach"/>.</param>
     public void Add<TInput>(string name, IEnumerable<TInput> forEach, Action<TInput> action) =>
-        _targetCollection.Add(new ActionTarget<TInput>(name, "", [], forEach, action.ToAsync()));
+        _targetCollection.Add(new ActionTarget<TInput>(name, "", [], forEach, action.ToFunc()));
 
     /// <summary>
     /// Adds a target which performs an action for each item in a list of inputs.

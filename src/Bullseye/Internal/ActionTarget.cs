@@ -28,11 +28,11 @@ public class ActionTarget(string name, string description, IReadOnlyCollection<s
 
     private async Task RunAsync(bool dryRun, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath)
     {
-        await output.BeginGroup(this).Tax();
+        await output.BeginGroupAsync(this).Tax();
 
         try
         {
-            await output.Starting(this, dependencyPath).Tax();
+            await output.StartingAsync(this, dependencyPath).Tax();
 
             var stopWatch = new Stopwatch();
 
@@ -41,11 +41,11 @@ public class ActionTarget(string name, string description, IReadOnlyCollection<s
                 await RunAsync(output, messageOnly, dependencyPath, stopWatch).Tax();
             }
 
-            await output.Succeeded(this, dependencyPath, stopWatch.Elapsed).Tax();
+            await output.SucceededAsync(this, dependencyPath, stopWatch.Elapsed).Tax();
         }
         finally
         {
-            await output.EndGroup().Tax();
+            await output.EndGroupAsync().Tax();
         }
     }
 
@@ -63,10 +63,10 @@ public class ActionTarget(string name, string description, IReadOnlyCollection<s
 
             if (!messageOnly(ex))
             {
-                await output.Error(this, ex).Tax();
+                await output.ErrorAsync(this, ex).Tax();
             }
 
-            await output.Failed(this, ex, duration, dependencyPath).Tax();
+            await output.FailedAsync(this, ex, duration, dependencyPath).Tax();
 
             throw new TargetFailedException($"Target '{Name}' failed.", ex);
         }

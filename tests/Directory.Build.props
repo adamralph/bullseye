@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/Bullseye/Bullseye.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" />
     <PackageReference Include="xunit.v3.mtp-v2" />
   </ItemGroup>
