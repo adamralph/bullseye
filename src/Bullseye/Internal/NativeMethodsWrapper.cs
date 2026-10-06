@@ -4,7 +4,7 @@ namespace Bullseye.Internal;
 
 internal static class NativeMethodsWrapper
 {
-    public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandle(TextWriter diagnostics, Func<string> getMessagePrefix)
+    public static async Task<(IntPtr handle, bool succeeded)> TryGetStandardOutputHandleAsync(TextWriter diagnostics, Func<string> getMessagePrefix)
     {
         var (handle, error) = (NativeMethods.GetStdHandle(NativeMethods.StdHandle.StdOutputHandle), Marshal.GetLastWin32Error());
 
@@ -18,7 +18,7 @@ internal static class NativeMethodsWrapper
         return (handle, true);
     }
 
-    public static async Task<(NativeMethods.ConsoleOutputModes mode, bool succeeded)> TryGetConsoleScreenBufferOutputMode(IntPtr standardOutputHandle, TextWriter diagnostics, Func<string> getMessagePrefix)
+    public static async Task<(NativeMethods.ConsoleOutputModes mode, bool succeeded)> TryGetConsoleScreenBufferOutputModeAsync(IntPtr standardOutputHandle, TextWriter diagnostics, Func<string> getMessagePrefix)
     {
         if (!NativeMethods.GetConsoleMode(standardOutputHandle, out var mode))
         {
@@ -30,7 +30,7 @@ internal static class NativeMethodsWrapper
         return (mode, true);
     }
 
-    public static async Task TrySetConsoleScreenBufferOutputMode(IntPtr standardOutputHandle, NativeMethods.ConsoleOutputModes mode, TextWriter diagnostics, Func<string> getMessagePrefix)
+    public static async Task TrySetConsoleScreenBufferOutputModeAsync(IntPtr standardOutputHandle, NativeMethods.ConsoleOutputModes mode, TextWriter diagnostics, Func<string> getMessagePrefix)
     {
         if (!NativeMethods.SetConsoleMode(standardOutputHandle, mode))
         {

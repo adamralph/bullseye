@@ -55,7 +55,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         Func<Exception, bool> messageOnly,
         Output output)
     {
-        await output.Starting(targets).Tax();
+        await output.StartingAsync(targets).Tax();
 
         try
         {
@@ -81,11 +81,11 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         }
         catch (Exception)
         {
-            await output.Failed(targets).Tax();
+            await output.FailedAsync(targets).Tax();
             throw;
         }
 
-        await output.Succeeded(targets).Tax();
+        await output.SucceededAsync(targets).Tax();
     }
 
     private async Task RunAsync(
@@ -129,14 +129,14 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             if (runningTarget!.IsAwaitable())
             {
-                await output.Awaiting(target, [.. dependencyPath,]).Tax();
+                await output.AwaitingAsync(target, [.. dependencyPath,]).Tax();
                 await runningTarget!.Tax();
             }
 
             return;
         }
 
-        await output.WalkingDependencies(target, [.. dependencyPath,]).Tax();
+        await output.WalkingDependenciesAsync(target, [.. dependencyPath,]).Tax();
 
         if (parallel)
         {
@@ -155,7 +155,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
         {
             if (!Contains(dependency))
             {
-                await output.IgnoringNonExistentDependency(target, dependency, [.. dependencyPath,]).Tax();
+                await output.IgnoringNonExistentDependencyAsync(target, dependency, [.. dependencyPath,]).Tax();
             }
             else
             {
@@ -189,7 +189,7 @@ public class TargetCollection() : KeyedCollection<string, Target>(StringComparer
 
             if (!targetWasAlreadyStarted || runningTarget!.IsAwaitable())
             {
-                await output.Awaiting(target, [.. dependencyPath,]).Tax();
+                await output.AwaitingAsync(target, [.. dependencyPath,]).Tax();
                 await runningTarget!.Tax();
             }
         }

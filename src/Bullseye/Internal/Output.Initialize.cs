@@ -4,7 +4,7 @@ namespace Bullseye.Internal;
 
 public partial class Output
 {
-    public async Task<IAsyncDisposable> Initialize()
+    public async Task<IAsyncDisposable> InitializeAsync()
     {
         if (noColor || osPlatform != OSPlatform.Windows)
         {
@@ -14,13 +14,13 @@ public partial class Output
         var diagnostics = Verbose ? diagnosticsWriter : TextWriter.Null;
         var prefix = Verbose ? getPrefix : () => "";
 
-        var (handle, gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandle(diagnostics, prefix).Tax();
+        var (handle, gotHandle) = await NativeMethodsWrapper.TryGetStandardOutputHandleAsync(diagnostics, prefix).Tax();
         if (!gotHandle)
         {
             return new NullAsyncDisposable();
         }
 
-        var (oldMode, gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputMode(handle, diagnostics, prefix).Tax();
+        var (oldMode, gotMode) = await NativeMethodsWrapper.TryGetConsoleScreenBufferOutputModeAsync(handle, diagnostics, prefix).Tax();
         if (!gotMode)
         {
             return new NullAsyncDisposable();
@@ -28,7 +28,7 @@ public partial class Output
 
         var newMode = oldMode | NativeMethods.ConsoleOutputModes.EnableVirtualTerminalProcessing;
 
-        await NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, newMode, diagnostics, prefix).Tax();
+        await NativeMethodsWrapper.TrySetConsoleScreenBufferOutputModeAsync(handle, newMode, diagnostics, prefix).Tax();
 
         return new State(handle, oldMode, diagnostics, prefix);
     }
@@ -41,7 +41,7 @@ public partial class Output
         : IAsyncDisposable
     {
         public Task DisposeAsync() =>
-            NativeMethodsWrapper.TrySetConsoleScreenBufferOutputMode(handle, oldMode, diagnostics, getMessagePrefix);
+            NativeMethodsWrapper.TrySetConsoleScreenBufferOutputModeAsync(handle, oldMode, diagnostics, getMessagePrefix);
     }
 
     private sealed class NullAsyncDisposable : IAsyncDisposable

@@ -152,11 +152,11 @@ public static class TargetCollectionExtensions
             options.SkipDependencies,
             options.Verbose);
 
-        var outputState = await output.Initialize().Tax();
+        var outputState = await output.InitializeAsync().Tax();
 
         try
         {
-            await output.Header(() => typeof(TargetCollection).Assembly.GetVersion()).Tax();
+            await output.HeaderAsync(() => typeof(TargetCollection).Assembly.GetVersion()).Tax();
 
             await targets.RunAsync(
                 names,
@@ -200,7 +200,7 @@ public static class TargetCollectionExtensions
 
         if (showHelp)
         {
-            await output.Usage(targets).Tax();
+            await output.UsageAsync(targets).Tax();
             return;
         }
 
@@ -212,7 +212,7 @@ public static class TargetCollectionExtensions
             var maxDepth = listTree ? int.MaxValue : listDependencies ? 1 : 0;
             var maxDepthToShowInputs = listTree ? int.MaxValue : 0;
 
-            await output.List(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs).Tax();
+            await output.ListAsync(targets, rootTargets, maxDepth, maxDepthToShowInputs, listInputs).Tax();
             return;
         }
 

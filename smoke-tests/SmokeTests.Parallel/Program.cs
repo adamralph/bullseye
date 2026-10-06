@@ -10,8 +10,8 @@ foreach (var targetName in targetNames)
     var dep1Name = $"{targetName}-dep-1";
     var dep2Name = $"{targetName}-dep-2";
 
-    Target(dep1Name, RunTarget);
-    Target(dep2Name, RunTarget);
+    Target(dep1Name, RunTargetAsync);
+    Target(dep2Name, RunTargetAsync);
     Target(targetName, [dep1Name, dep2Name,], () => { });
 }
 
@@ -21,7 +21,7 @@ await RunTargetsAndExitAsync([.. targetNames, "--parallel",]);
 
 return;
 
-async Task RunTarget()
+async Task RunTargetAsync()
 {
     _ = Interlocked.Increment(ref runningTargetsCount);
     await Console.Out.WriteLineAsync($"Starting target {runningTargetsCount} at {DateTime.UtcNow}...");

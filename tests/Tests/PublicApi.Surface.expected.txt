@@ -1,4 +1,4 @@
-﻿namespace Bullseye
+namespace Bullseye
 {
     public static class CommandLine
     {
@@ -147,8 +147,8 @@ namespace Bullseye.Internal
 {
     public static class ActionExtensions
     {
-        public static System.Func<System.Threading.Tasks.Task> ToAsync(this System.Action action) { }
-        public static System.Func<T, System.Threading.Tasks.Task> ToAsync<T>(this System.Action<T> action) { }
+        public static System.Func<System.Threading.Tasks.Task> ToFunc(this System.Action action) { }
+        public static System.Func<T, System.Threading.Tasks.Task> ToFunc<T>(this System.Action<T> action) { }
     }
     public class ActionTarget : Bullseye.Internal.Target
     {
@@ -214,28 +214,28 @@ namespace Bullseye.Internal
     {
         public Output(System.IO.TextWriter writer, System.IO.TextWriter diagnosticsWriter, System.Collections.Generic.IReadOnlyCollection<string> args, bool dryRun, Bullseye.Host host, bool hostForced, bool noColor, bool noExtendedChars, System.Runtime.InteropServices.OSPlatform osPlatform, bool parallel, System.Func<string> getPrefix, bool skipDependencies, bool verbose) { }
         public bool Verbose { get; }
-        public System.Threading.Tasks.Task Awaiting(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
-        public System.Threading.Tasks.Task BeginGroup(Bullseye.Internal.Target target) { }
-        public System.Threading.Tasks.Task BeginGroup<TInput>(Bullseye.Internal.Target target, TInput input) { }
-        public System.Threading.Tasks.Task EndGroup() { }
-        public System.Threading.Tasks.Task Error(Bullseye.Internal.Target target, System.Exception ex) { }
-        public System.Threading.Tasks.Task Error<TInput>(Bullseye.Internal.Target target, TInput input, System.Exception ex) { }
-        public System.Threading.Tasks.Task Failed(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
-        public System.Threading.Tasks.Task Failed(Bullseye.Internal.Target target, System.Exception ex, System.TimeSpan duration, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
-        public System.Threading.Tasks.Task Failed<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Exception ex, System.TimeSpan duration, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
-        public System.Threading.Tasks.Task Header(System.Func<string> getVersion) { }
-        public System.Threading.Tasks.Task IgnoringNonExistentDependency(Bullseye.Internal.Target target, string dependency, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
-        public System.Threading.Tasks.Task<Bullseye.Internal.IAsyncDisposable> Initialize() { }
-        public System.Threading.Tasks.Task List(Bullseye.Internal.TargetCollection targets, System.Collections.Generic.IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) { }
-        public System.Threading.Tasks.Task NoInputs(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
-        public System.Threading.Tasks.Task Starting(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
-        public System.Threading.Tasks.Task Starting(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
-        public System.Threading.Tasks.Task Starting<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
-        public System.Threading.Tasks.Task Succeeded(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
-        public System.Threading.Tasks.Task Succeeded(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath, System.TimeSpan duration) { }
-        public System.Threading.Tasks.Task Succeeded<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath, System.TimeSpan duration) { }
-        public System.Threading.Tasks.Task Usage(Bullseye.Internal.TargetCollection targets) { }
-        public System.Threading.Tasks.Task WalkingDependencies(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task AwaitingAsync(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task BeginGroupAsync(Bullseye.Internal.Target target) { }
+        public System.Threading.Tasks.Task BeginGroupAsync<TInput>(Bullseye.Internal.Target target, TInput input) { }
+        public System.Threading.Tasks.Task EndGroupAsync() { }
+        public System.Threading.Tasks.Task ErrorAsync(Bullseye.Internal.Target target, System.Exception ex) { }
+        public System.Threading.Tasks.Task ErrorAsync<TInput>(Bullseye.Internal.Target target, TInput input, System.Exception ex) { }
+        public System.Threading.Tasks.Task FailedAsync(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
+        public System.Threading.Tasks.Task FailedAsync(Bullseye.Internal.Target target, System.Exception ex, System.TimeSpan duration, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task FailedAsync<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Exception ex, System.TimeSpan duration, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task HeaderAsync(System.Func<string> getVersion) { }
+        public System.Threading.Tasks.Task IgnoringNonExistentDependencyAsync(Bullseye.Internal.Target target, string dependency, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task<Bullseye.Internal.IAsyncDisposable> InitializeAsync() { }
+        public System.Threading.Tasks.Task ListAsync(Bullseye.Internal.TargetCollection targets, System.Collections.Generic.IEnumerable<string> rootTargets, int maxDepth, int maxDepthToShowInputs, bool listInputs) { }
+        public System.Threading.Tasks.Task NoInputsAsync(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task StartingAsync(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
+        public System.Threading.Tasks.Task StartingAsync(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task StartingAsync<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
+        public System.Threading.Tasks.Task SucceededAsync(System.Collections.Generic.IEnumerable<Bullseye.Internal.Target> targets) { }
+        public System.Threading.Tasks.Task SucceededAsync(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath, System.TimeSpan duration) { }
+        public System.Threading.Tasks.Task SucceededAsync<TInput>(Bullseye.Internal.Target target, TInput input, System.Guid inputId, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath, System.TimeSpan duration) { }
+        public System.Threading.Tasks.Task UsageAsync(Bullseye.Internal.TargetCollection targets) { }
+        public System.Threading.Tasks.Task WalkingDependenciesAsync(Bullseye.Internal.Target target, System.Collections.Generic.IReadOnlyCollection<Bullseye.Internal.Target> dependencyPath) { }
     }
     public static class StringExtensions
     {

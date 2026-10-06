@@ -5,6 +5,3 @@ dotnet_diagnostic.CA1062.severity = none
 
 # CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
 dotnet_diagnostic.CS1591.severity = none
-
-# VSTHRD200: Use "Async" suffix in names of methods that return an awaitable type
-dotnet_diagnostic.VSTHRD200.severity = none
