@@ -1,6 +1,6 @@
 using Bullseye.Internal;
 
-namespace Tests.Fixtures;
+namespace Tests.Internal.Fixtures;
 
 internal static class Extensions
 {

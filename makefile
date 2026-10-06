@@ -17,9 +17,14 @@ build: restore
 	dotnet build --configuration Release --no-restore
 	$(call end_group)
 
+test-internal: build
+	$(call begin_group,$@)
+	dotnet test --project ./tests/Tests.Internal --configuration Release --no-build
+	$(call end_group)
+
 test: build
 	$(call begin_group,$@)
-	dotnet test --configuration Release --no-build
+	dotnet test --project ./tests/Tests --configuration Release --no-build
 	$(call end_group)
 
 smoke-test: build

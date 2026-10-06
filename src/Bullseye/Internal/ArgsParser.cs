@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public static class ArgsParser
+internal static class ArgsParser
 {
     private static readonly IReadOnlyList<string> HelpOptions = ["--help", "-help", "/help", "-h", "/h", "-?", "/?",];
 

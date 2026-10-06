@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-public static class OptionsReader
+internal static class OptionsReader
 {
     public static (
         bool Clear,

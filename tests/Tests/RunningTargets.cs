@@ -1,5 +1,4 @@
-using Bullseye.Internal;
-using Tests.Fixtures;
+using Bullseye;
 using Xunit;
 
 namespace Tests;
@@ -12,14 +11,12 @@ public static class RunningTargets
         // arrange
         var (@default, other) = (false, false);
 
-        var targets = new TargetCollection
-        {
-            Target.Create("default", () => @default = true),
-            Target.Create(nameof(other), () => other = true),
-        };
+        var targets = new Targets();
+        targets.Add("default", () => @default = true);
+        targets.Add(nameof(other), () => other = true);
 
         // act
-        await targets.RunAsync([], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync([]);
 
         // assert
         Assert.True(@default);
@@ -32,15 +29,13 @@ public static class RunningTargets
         // arrange
         var (first, second, third) = (false, false, false);
 
-        var targets = new TargetCollection
-        {
-            Target.Create(nameof(first), () => first = true),
-            Target.Create(nameof(second), () => second = true),
-            Target.Create(nameof(third), () => third = true),
-        };
+        var targets = new Targets();
+        targets.Add(nameof(first), () => first = true);
+        targets.Add(nameof(second), () => second = true);
+        targets.Add(nameof(third), () => third = true);
 
         // act
-        await targets.RunAsync([nameof(first), nameof(second),], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync([nameof(first), nameof(second),]);
 
         // assert
         Assert.True(first);
@@ -54,14 +49,12 @@ public static class RunningTargets
         // arrange
         var (foo, bar) = (false, false);
 
-        var targets = new TargetCollection
-        {
-            Target.Create(nameof(foo), () => foo = true),
-            Target.Create(nameof(bar), () => bar = true),
-        };
+        var targets = new Targets();
+        targets.Add(nameof(foo), () => foo = true);
+        targets.Add(nameof(bar), () => bar = true);
 
         // act
-        await targets.RunAsync([nameof(foo)[..1],], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync([nameof(foo)[..1],]);
 
         // assert
         Assert.True(foo);
@@ -74,14 +67,12 @@ public static class RunningTargets
         // arrange
         var (foo, foo1) = (false, false);
 
-        var targets = new TargetCollection
-        {
-            Target.Create(nameof(foo), () => foo = true),
-            Target.Create(nameof(foo1), () => foo1 = true),
-        };
+        var targets = new Targets();
+        targets.Add(nameof(foo), () => foo = true);
+        targets.Add(nameof(foo1), () => foo1 = true);
 
         // act
-        await targets.RunAsync([nameof(foo),], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync([nameof(foo),]);
 
         // assert
         Assert.True(foo);
@@ -92,14 +83,12 @@ public static class RunningTargets
     public static async Task AmbiguousTargetNameAbbreviation()
     {
         // arrange
-        var targets = new TargetCollection
-        {
-            Target.Create("foo1", () => { }),
-            Target.Create("foo2", () => { }),
-        };
+        var targets = new Targets();
+        targets.Add("foo1", () => { });
+        targets.Add("foo2", () => { });
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["f",], _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunWithoutExitingAsync(["f",]));
 
         // assert
         Assert.NotNull(exception);
@@ -112,13 +101,11 @@ public static class RunningTargets
         // arrange
         var existing = false;
 
-        var targets = new TargetCollection
-        {
-            Target.Create(nameof(existing), () => existing = true),
-        };
+        var targets = new Targets();
+        targets.Add(nameof(existing), () => existing = true);
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync([nameof(existing), "non-existing",], _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunWithoutExitingAsync([nameof(existing), "non-existing",]));
 
         // assert
         Assert.NotNull(exception);
@@ -132,14 +119,12 @@ public static class RunningTargets
         // arrange
         var existing = false;
 
-        var targets = new TargetCollection
-        {
-            Target.Create(nameof(existing), () => existing = true),
-        };
+        var targets = new Targets();
+        targets.Add(nameof(existing), () => existing = true);
 
         // act
         var exception = await Record.ExceptionAsync(
-            () => targets.RunAsync([nameof(existing), "non-existing", "also-non-existing",], _ => false, () => "", Console.Out, Console.Error, false));
+            () => targets.RunWithoutExitingAsync([nameof(existing), "non-existing", "also-non-existing",]));
 
         // assert
         Assert.NotNull(exception);
@@ -154,13 +139,11 @@ public static class RunningTargets
         // arrange
         var ran = false;
 
-        var targets = new TargetCollection
-        {
-            Target.Create("target", () => ran = true),
-        };
+        var targets = new Targets();
+        targets.Add("target", () => ran = true);
 
         // act
-        await targets.RunAsync(["target", "-n",], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync(["target", "-n",]);
 
         // assert
         Assert.False(ran);
@@ -172,13 +155,11 @@ public static class RunningTargets
         // arrange
         var ran = false;
 
-        var targets = new TargetCollection
-        {
-            Target.Create("target", () => ran = true),
-        };
+        var targets = new Targets();
+        targets.Add("target", () => ran = true);
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["target", "-b",], _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunWithoutExitingAsync(["target", "-b",]));
 
         // assert
         Assert.NotNull(exception);
@@ -193,13 +174,11 @@ public static class RunningTargets
         // arrange
         var ran = false;
 
-        var targets = new TargetCollection
-        {
-            Target.Create("target", () => ran = true),
-        };
+        var targets = new Targets();
+        targets.Add("target", () => ran = true);
 
         // act
-        var exception = await Record.ExceptionAsync(() => targets.RunAsync(["target", "-b", "-z",], _ => false, () => "", Console.Out, Console.Error, false));
+        var exception = await Record.ExceptionAsync(() => targets.RunWithoutExitingAsync(["target", "-b", "-z",]));
 
         // assert
         Assert.NotNull(exception);
@@ -213,14 +192,12 @@ public static class RunningTargets
     {
         // arrange
         var count = 0;
-        var targets = new TargetCollection
-        {
-            Target.Create("default", () => ++count),
-        };
+        var targets = new Targets();
+        targets.Add("default", () => ++count);
 
         // act
-        await targets.RunAsync(["default",], _ => false, () => "", Console.Out, Console.Error, false);
-        await targets.RunAsync(["default",], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync(["default",]);
+        await targets.RunWithoutExitingAsync(["default",]);
 
         // assert
         Assert.Equal(2, count);

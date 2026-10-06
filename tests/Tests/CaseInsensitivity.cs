@@ -1,5 +1,4 @@
-using Bullseye.Internal;
-using Tests.Fixtures;
+using Bullseye;
 using Xunit;
 
 namespace Tests;
@@ -12,14 +11,12 @@ public static class CaseInsensitivity
         // arrange
         var (first, second) = (false, false);
 
-        var targets = new TargetCollection
-        {
-            Target.Create("first", () => first = true),
-            Target.Create("second", ["FIRST",], () => second = true),
-        };
+        var targets = new Targets();
+        targets.Add("first", () => first = true);
+        targets.Add("second", ["FIRST",], () => second = true);
 
         // act
-        await targets.RunAsync(["SECOND",], _ => false, () => "", Console.Out, Console.Error, false);
+        await targets.RunWithoutExitingAsync(["SECOND"]);
 
         // assert
         Assert.True(first);
