@@ -163,4 +163,4 @@ Feel free to send a pull request to add your repository or organisation to this 
 
 ---
 
-<sup>[Target](https://thenounproject.com/term/target/345443) by [Franck Juncker](https://thenounproject.com/franckjuncker/) from [the Noun Project](https://thenounproject.com/).</sup>
+<sup>[Target](https://thenounproject.com/icon/target-345443/) by [Fjopus7 Grafik Research Lab](https://thenounproject.com/creator/fjopus7grafikresearchlab/) from [the Noun Project](https://thenounproject.com/).</sup>
