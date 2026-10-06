@@ -9,13 +9,4 @@
     <PackageReference Include="PublicApiGenerator" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="OutputTests.*.expected.txt">
-      <DependentUpon>OutputTests.cs</DependentUpon>
-    </None>
-    <None Update="PublicApi.*.expected.txt">
-      <DependentUpon>PublicApi.cs</DependentUpon>
-    </None>
-  </ItemGroup>
-
 </Project>
