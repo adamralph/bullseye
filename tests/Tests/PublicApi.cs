@@ -1,4 +1,3 @@
-using Bullseye;
 using Fixtures.Xunit;
 using PublicApiGenerator;
 using Xunit;
@@ -12,7 +11,7 @@ public static class PublicApi
     {
         var options = new ApiGeneratorOptions { IncludeAssemblyAttributes = false };
 
-        var publicApi = typeof(Targets).Assembly.GeneratePublicApi(options);
+        var publicApi = typeof(Bullseye.Targets).Assembly.GeneratePublicApi(options);
 
         await Assert.ExpectedAsync(publicApi);
     }
