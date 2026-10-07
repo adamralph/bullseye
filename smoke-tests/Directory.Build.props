@@ -13,8 +13,4 @@
     <NoWarn>$(NoWarn);VSTHRD111</NoWarn>    <!-- Add .ConfigureAwait(bool) to your await expression -->
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../../src/Bullseye/Bullseye.csproj" />
-  </ItemGroup>
-
 </Project>
