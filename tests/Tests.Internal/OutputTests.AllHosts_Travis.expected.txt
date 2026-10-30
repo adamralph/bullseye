@@ -1,9 +1,8 @@
-﻿
 noColor: True
 noExtendedChars: False
 host: Travis
 hostForced: True
-osPlatform: Unknown
+osPlatform: Unknown (RID: osx-arm64)
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -12,7 +11,7 @@ args:
 
 prefix1: Bullseye version: version
 prefix1: Host: Travis (forced)
-prefix1: OS: Unknown
+prefix1: OS: Unknown (RID: osx-arm64)
 prefix1: Args: 
 prefix1: verboseTarget3: Awaiting (/verboseTarget1/verboseTarget2/verboseTarget3)
 prefix1: verboseTarget3: Walking dependencies (/verboseTarget1/verboseTarget2/verboseTarget3)
@@ -331,7 +330,7 @@ noColor: False
 noExtendedChars: False
 host: Travis
 hostForced: True
-osPlatform: Unknown
+osPlatform: Unknown (RID: osx-arm64)
 skipDependencies: True
 dryRun: True
 parallel: True
@@ -340,7 +339,7 @@ args:
 
 [90mprefix5:[0m [90mBullseye version:[0m [90mversion[0m
 [90mprefix5:[0m [90mHost:[0m [90mTravis (forced)[0m
-[90mprefix5:[0m [90mOS:[0m [90mUnknown[0m
+[90mprefix5:[0m [90mOS:[0m [90mUnknown (RID: osx-arm64)[0m
 [90mprefix5:[0m [90mArgs:[0m [90m[0m
 [90mprefix5:[0m [34mverboseTarget3[90m:[0m [90mAwaiting[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m
 [90mprefix5:[0m [34mverboseTarget3[90m:[0m [90mWalking dependencies[0m [90m(/verboseTarget1/verboseTarget2/verboseTarget3)[0m

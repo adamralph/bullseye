@@ -129,13 +129,15 @@ internal static class TargetCollectionExtensions
         var host = options.Host.DetectIfNull();
 
         var osPlatform =
-            RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                ? OSPlatform.Windows
+            RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD)
+                ? OSPlatform.FreeBSD
                 : RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
                     ? OSPlatform.Linux
                     : RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
                         ? OSPlatform.OSX
-                        : OSPlatform.Create("Unknown");
+                        : RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                            ? OSPlatform.Windows
+                            : OSPlatform.Create($"Unknown (RID: {RuntimeInformation.RuntimeIdentifier})");
 
         var output = new Output(
             outputWriter,
@@ -156,7 +158,7 @@ internal static class TargetCollectionExtensions
 
         try
         {
-            await output.HeaderAsync(() => typeof(TargetCollection).Assembly.GetVersion()).Tax();
+            await output.HeaderAsync(() => typeof(TargetCollection).Assembly.GetInformationalVersion()).Tax();
 
             await targets.RunAsync(
                 names,

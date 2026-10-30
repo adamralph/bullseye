@@ -51,7 +51,7 @@ public static class OutputTests
         {
             foreach (var osPlatform in new List<OSPlatform>
             {
-                OSPlatform.Create("Unknown"),
+                OSPlatform.Create($"Unknown (RID: {RuntimeInformation.RuntimeIdentifier})"),
                 OSPlatform.Windows,
                 OSPlatform.Linux,
                 OSPlatform.OSX,
