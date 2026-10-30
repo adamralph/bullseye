@@ -27,14 +27,14 @@ internal sealed partial class Output(
     private readonly string _scriptExtension = osPlatform == OSPlatform.Windows ? "cmd" : "sh";
 
     public bool Verbose { get; } = verbose;
-    public async Task HeaderAsync(Func<string> getVersion)
+    public async Task HeaderAsync(Func<string?> getVersion)
     {
         if (!Verbose)
         {
             return;
         }
 
-        var version = getVersion();
+        var version = getVersion() ?? "Unknown";
 
         var builder = new StringBuilder()
             .AppendLine(Format(getPrefix(), "Bullseye version", $"{_palette.Verbose}{version}{_palette.Default}", _palette))
