@@ -5,7 +5,7 @@
     <Description>A .NET library, developed by humans, for running a target dependency graph.</Description>
   </PropertyGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <InternalsVisibleTo Include="Tests.Internal" />
   </ItemGroup>
 
