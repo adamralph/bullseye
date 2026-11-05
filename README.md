@@ -1,6 +1,6 @@
 # Bullseye
 
-![Bullseye](assets/icon.svg)
+![Bullseye](https://raw.githubusercontent.com/adamralph/bullseye/main/assets/icon.svg)
 
 _[![NuGet version](https://img.shields.io/nuget/v/Bullseye.svg?style=flat)](https://www.nuget.org/packages/Bullseye)_
 
