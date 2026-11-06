@@ -6,7 +6,7 @@ namespace Bullseye;
 /// The options to use when running or listing targets.
 /// </summary>
 #pragma warning disable CA1724 // Type names should not match namespaces
-public partial class Options : IOptions
+public sealed partial class Options : IOptions
 #pragma warning restore CA1724
 {
     /// <summary>

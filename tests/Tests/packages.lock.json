@@ -24,6 +24,12 @@
           "System.CodeDom": "6.0.0"
         }
       },
+      "Sealant": {
+        "type": "Direct",
+        "requested": "[1.0.0-alpha.1, )",
+        "resolved": "1.0.0-alpha.1",
+        "contentHash": "oSalFpOPozrev7Oka7DwQu/A0uX7yDfnXcn6pkQq1jVc+/XOauHZ3ukNiqmm+hjyGlTDarYrh5gbuDzUQYp/SA=="
+      },
       "xunit.v3.mtp-v2": {
         "type": "Direct",
         "requested": "[4.0.1, )",
@@ -186,6 +192,12 @@
           "Mono.Cecil": "0.11.6",
           "System.CodeDom": "6.0.0"
         }
+      },
+      "Sealant": {
+        "type": "Direct",
+        "requested": "[1.0.0-alpha.1, )",
+        "resolved": "1.0.0-alpha.1",
+        "contentHash": "oSalFpOPozrev7Oka7DwQu/A0uX7yDfnXcn6pkQq1jVc+/XOauHZ3ukNiqmm+hjyGlTDarYrh5gbuDzUQYp/SA=="
       },
       "xunit.v3.mtp-v2": {
         "type": "Direct",

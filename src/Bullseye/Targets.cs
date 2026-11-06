@@ -5,7 +5,7 @@ namespace Bullseye;
 /// <summary>
 /// Provides methods for defining and running targets.
 /// </summary>
-public partial class Targets
+public sealed partial class Targets
 {
     private readonly TargetCollection _targetCollection = [];
 }

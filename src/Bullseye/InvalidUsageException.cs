@@ -3,7 +3,7 @@ namespace Bullseye;
 /// <summary>
 /// Thrown when invalid arguments are passed when running or listing targets.
 /// </summary>
-public class InvalidUsageException : Exception
+public sealed class InvalidUsageException : Exception
 {
     /// <inheritdoc/>
     public InvalidUsageException()
