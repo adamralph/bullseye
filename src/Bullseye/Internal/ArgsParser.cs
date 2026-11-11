@@ -33,7 +33,11 @@ internal static class ArgsParser
             showHelp: nonHelpArgs.Count != args.Count);
     }
 
+#if NET10_0
     private static bool IsTarget(string arg) => !arg.StartsWith('-');
+#else
+    private static bool IsTarget(string arg) => !arg.StartsWith('-', StringComparison.Ordinal);
+#endif
 
     private static bool IsNotTarget(string arg) => !IsTarget(arg);
 }
