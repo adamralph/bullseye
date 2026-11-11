@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.0.0
+
+### Enhancements
+
+- [#1285: **[BREAKING]** Target .NET 11 and remove .NET 8 and .NET 9 targets](https://github.com/adamralph/bullseye/pull/1285)
+
 ## 6.3.0
 
 ### Enhancements
