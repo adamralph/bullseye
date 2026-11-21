@@ -3,7 +3,6 @@ using Bullseye;
 using Bullseye.Internal;
 using Fixtures.Xunit;
 using Xunit;
-using Target = Bullseye.Internal.Target;
 
 namespace Tests.Internal;
 
@@ -123,55 +122,55 @@ public static class OutputTests
 
     private static async Task WriteSample(this Output output, bool dryRun)
     {
-        var badInput = new Target("badInput", "", []);
+        var badInput = new NoActionTarget("badInput", "", []);
         var badInputDuration = dryRun ? TimeSpan.Zero : TimeSpan.FromMilliseconds(1.234);
         var badInputEx = new InvalidOperationException("badInputEx");
         var badInputId = Guid.ParseExact("AA123".PadRight(32, '0'), "N");
 
-        var badInputsTarget = new Target("badInputsTarget", "", []);
+        var badInputsTarget = new NoActionTarget("badInputsTarget", "", []);
 
-        var badTarget = new Target("badTarget", "", []);
+        var badTarget = new NoActionTarget("badTarget", "", []);
         var badTargetDuration = dryRun ? TimeSpan.Zero : TimeSpan.FromMilliseconds(3.456);
         var badTargetEx = new InvalidOperationException("badTargetEx");
 
         var emptyTargets = Enumerable.Empty<Target>();
 
-        var goodInput1 = new Target("goodInput1", "", []);
-        var goodInput2 = new Target("goodInput2", "", []);
+        var goodInput1 = new NoActionTarget("goodInput1", "", []);
+        var goodInput2 = new NoActionTarget("goodInput2", "", []);
         var goodInputDuration1 = dryRun ? TimeSpan.Zero : TimeSpan.FromSeconds(1.234);
         var goodInputDuration2 = dryRun ? TimeSpan.Zero : TimeSpan.FromSeconds(2.345);
         var goodInputId1 = Guid.ParseExact("BB123".PadRight(32, '0'), "N");
         var goodInputId2 = Guid.ParseExact("BB234".PadRight(32, '0'), "N");
 
-        var goodInputsTarget = new Target("goodInputsTarget", "", []);
+        var goodInputsTarget = new NoActionTarget("goodInputsTarget", "", []);
 
-        var goodTarget1 = new Target("goodTarget1", "", []);
-        var goodTarget2 = new Target("goodTarget2", "", []);
+        var goodTarget1 = new NoActionTarget("goodTarget1", "", []);
+        var goodTarget2 = new NoActionTarget("goodTarget2", "", []);
         var goodTargetDuration1 = TimeSpan.Zero;
         var goodTargetDuration2 = dryRun ? TimeSpan.Zero : TimeSpan.FromMinutes(1.234);
 
-        var looseInput = new Target("looseInput", "", []);
+        var looseInput = new NoActionTarget("looseInput", "", []);
         var looseInputDuration = TimeSpan.Zero;
         var looseInputId = Guid.ParseExact("CC123".PadRight(32, '0'), "N");
 
-        var looseTarget = new Target("looseTarget", "", []);
+        var looseTarget = new NoActionTarget("looseTarget", "", []);
 
-        var looseTargets = new List<Target> { new("looseTarget", "", []), };
+        var looseTargets = new List<Target> { new NoActionTarget("looseTarget", "", []), };
 
-        var noInputsTarget = new Target("noInputsTarget", "", []);
+        var noInputsTarget = new NoActionTarget("noInputsTarget", "", []);
 
         var targets = new List<Target>
         {
-            new("target1", "", []),
-            new("target2", "", []),
-            new("target3", "", []),
+            new NoActionTarget("target1", "", []),
+            new NoActionTarget("target2", "", []),
+            new NoActionTarget("target3", "", []),
         };
 
         var verboseTargets = new Queue<Target>(
             [
-                new Target("verboseTarget1", "", []),
-                new Target("verboseTarget2", "", []),
-                new Target("verboseTarget3", "", []),
+                new NoActionTarget("verboseTarget1", "", []),
+                new NoActionTarget("verboseTarget2", "", []),
+                new NoActionTarget("verboseTarget3", "", []),
             ]);
 
         var version = "version";

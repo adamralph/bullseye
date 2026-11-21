@@ -1,6 +1,6 @@
 namespace Bullseye.Internal;
 
-internal class Target(string name, string description, IReadOnlyCollection<string> dependencies)
+internal abstract class Target(string name, string description, IReadOnlyCollection<string> dependencies)
 {
     public string Name { get; } = name;
 
@@ -8,7 +8,7 @@ internal class Target(string name, string description, IReadOnlyCollection<strin
 
     public IReadOnlyCollection<string> Dependencies { get; } = dependencies;
 
-    public virtual Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath) => output.SucceededAsync(this, dependencyPath, TimeSpan.Zero);
+    public abstract Task RunAsync(bool dryRun, bool parallel, SemaphoreSlim parallelTargets, Output output, Func<Exception, bool> messageOnly, IReadOnlyCollection<Target> dependencyPath);
 
     public override string ToString() => Name;
 }

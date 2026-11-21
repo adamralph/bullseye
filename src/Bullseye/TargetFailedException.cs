@@ -3,7 +3,7 @@ namespace Bullseye;
 /// <summary>
 /// Thrown when a target fails.
 /// </summary>
-public class TargetFailedException : Exception
+public sealed class TargetFailedException : Exception
 {
     /// <inheritdoc/>
     public TargetFailedException()

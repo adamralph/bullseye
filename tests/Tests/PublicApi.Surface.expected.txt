@@ -38,13 +38,13 @@ namespace Bullseye
         bool SkipDependencies { get; }
         bool Verbose { get; }
     }
-    public class InvalidUsageException : System.Exception
+    public sealed class InvalidUsageException : System.Exception
     {
         public InvalidUsageException() { }
         public InvalidUsageException(string message) { }
         public InvalidUsageException(string message, System.Exception innerException) { }
     }
-    public class Options : Bullseye.IOptions
+    public sealed class Options : Bullseye.IOptions
     {
         public Options() { }
         public Options([System.Runtime.CompilerServices.TupleElementNames(new string[] {
@@ -67,7 +67,7 @@ namespace Bullseye
                 "Description"})]
         public static System.Collections.Generic.IReadOnlyList<System.ValueTuple<System.Collections.Generic.IReadOnlyList<string>, string>> Definitions { get; }
     }
-    public class Palette
+    public sealed class Palette
     {
         public Palette(bool noColor, bool noExtendedChars, Bullseye.Host host, System.Runtime.InteropServices.OSPlatform osPlatform) { }
         public string Default { get; }
@@ -88,13 +88,13 @@ namespace Bullseye
         public string Warning { get; }
         public static string StripColors(string text) { }
     }
-    public class TargetFailedException : System.Exception
+    public sealed class TargetFailedException : System.Exception
     {
         public TargetFailedException() { }
         public TargetFailedException(string message) { }
         public TargetFailedException(string message, System.Exception innerException) { }
     }
-    public class Targets
+    public sealed class Targets
     {
         public Targets() { }
         public void Add(string name, System.Action action) { }

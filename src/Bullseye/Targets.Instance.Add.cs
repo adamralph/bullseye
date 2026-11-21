@@ -23,7 +23,7 @@ public partial class Targets
     /// <param name="description">The description of the target.</param>
     /// <param name="dependsOn">The names of the targets on which the target depends.</param>
     public void Add(string name, string description, IEnumerable<string> dependsOn) =>
-        _targetCollection.Add(new Target(name, description, [.. dependsOn,]));
+        _targetCollection.Add(new NoActionTarget(name, description, [.. dependsOn,]));
 
     /// <summary>
     /// Adds a target which depends on other targets and performs an action.
@@ -68,7 +68,7 @@ public partial class Targets
     /// <param name="name">The name of the target.</param>
     /// <param name="dependsOn">The names of the targets on which the target depends.</param>
     public void Add(string name, IEnumerable<string> dependsOn) =>
-        _targetCollection.Add(new Target(name, "", [.. dependsOn,]));
+        _targetCollection.Add(new NoActionTarget(name, "", [.. dependsOn,]));
 
     /// <summary>
     /// Adds a target which depends on other targets and performs an action.
